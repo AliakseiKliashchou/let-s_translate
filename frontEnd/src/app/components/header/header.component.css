@@ -1,0 +1,16 @@
+.wrapper{
+    border-bottom: 2px solid white;
+    width: 100%;
+    height: 110px;
+    background-color: rgba(71, 71, 71, 0.774);
+}
+.logo{
+    width: 550px;
+    height: 100px; 
+    background-image: url('../../../assets/logo.png');
+    background-size: 100% 100%;
+    margin: 10px 0px;   
+}
+.logo:hover{
+    cursor: pointer;
+}

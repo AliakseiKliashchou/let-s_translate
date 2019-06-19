@@ -1,0 +1,44 @@
+
+.wrapper{
+    margin: 0px 0px;
+    background-image: url('../../../assets/background.jpg');
+    background-size: 100% 100%;
+    width: 100%;
+    min-height: 1000px;    
+}
+
+.view{
+    width: 90% !important;
+    margin: 20px auto !important;
+    height: 400px !important;   
+}
+
+.inside_text{
+    font-size: 30px !important;
+}
+
+h3{
+    font-size: 40px !important;
+}
+
+img{
+    opacity: .8 !important;
+}
+
+.tarrif_plan{
+    width: 90%;
+    margin: 30px auto;
+    border: 2px solid rgb(185, 183, 183);
+    border-radius: 5px;
+    min-height: 50px;
+}
+
+.tariff{
+    float: left;
+    width: 30%;
+    min-height: 40px;
+    border: 2px solid rgb(185, 183, 183);
+    border-radius: 5px;
+    margin: 1.6%;
+    background-color: rgba(255, 255, 255, 0.205);
+}
