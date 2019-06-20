@@ -9,6 +9,9 @@ import { HomeComponent } from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatDividerModule} from '@angular/material/divider';
+import { FooterComponent } from './components/footer/footer.component';
+
 
 const appRoutes: Routes = [
   {path:'',component: HomeComponent},  
@@ -19,7 +22,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatButtonModule, 
     MatCheckboxModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -42,3 +42,20 @@ img{
     margin: 1.6%;
     background-color: rgba(255, 255, 255, 0.205);
 }
+.tariff_h{
+    color: white;
+    text-align: center;  
+}
+ul{
+    color: white;
+}
+span{
+    font-weight: bold;
+    color: yellow;
+}
+
+button{
+    margin: 15px auto;
+    background-color: rgba(255, 255, 255, 0.603);
+    display: block;
+}
