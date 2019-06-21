@@ -17,14 +17,12 @@ import { MyTranslationsComponent } from './components/my-translations/my-transla
 import { MessagesComponent } from './components/messages/messages.component';
 
 
-
-
 const appRoutes: Routes = [
-  {path:'',component: HomeComponent}, 
-  {path:'dashboard',component: DashboardComponent}, 
-  {path:'new_texts',component: NewTextsComponent}, 
-  {path:'my_translations',component: MyTranslationsComponent}, 
-  {path:'messages',component: MessagesComponent}, 
+  {path:'',component: HomeComponent, data: {state: ''}}, 
+  {path:'dashboard',component: DashboardComponent, data: {state: 'dashboard'}}, 
+  {path:'new_texts',component: NewTextsComponent, data: {state: 'new_texts'}}, 
+  {path:'my_translations',component: MyTranslationsComponent, data: {state: 'my_translations'}}, 
+  {path:'messages',component: MessagesComponent, data: {state: 'messages'}}, 
 
 
 ];

@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<main [@routerAnimations]="getState(routerOutlet)">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
+</main>
+
