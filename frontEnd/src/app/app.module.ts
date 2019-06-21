@@ -11,10 +11,21 @@ import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
 import { FooterComponent } from './components/footer/footer.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NewTextsComponent } from './components/new-texts/new-texts.component';
+import { MyTranslationsComponent } from './components/my-translations/my-translations.component';
+import { MessagesComponent } from './components/messages/messages.component';
+
+
 
 
 const appRoutes: Routes = [
-  {path:'',component: HomeComponent},  
+  {path:'',component: HomeComponent}, 
+  {path:'dashboard',component: DashboardComponent}, 
+  {path:'new_texts',component: NewTextsComponent}, 
+  {path:'my_translations',component: MyTranslationsComponent}, 
+  {path:'messages',component: MessagesComponent}, 
+
 
 ];
 
@@ -23,7 +34,12 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    DashboardComponent,
+    NewTextsComponent,
+    MyTranslationsComponent,
+    MessagesComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -34,7 +50,8 @@ const appRoutes: Routes = [
     MatButtonModule, 
     MatCheckboxModule,
     MatGridListModule,
-    MatDividerModule
+    MatDividerModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

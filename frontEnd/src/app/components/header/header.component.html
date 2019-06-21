@@ -1,5 +1,15 @@
 <div class="wrapper">
-  <div class="logo"></div>
+  <div class="logo" (click)="navigate_home()"></div>
+  <button class="menu_btn" mat-button (click)="navigate_dashboard()">Dashboard</button> 
+  <button class="menu_btn" mat-button (click)="navigate_newTexts()">New Texts</button> 
+  <button class="menu_btn" mat-button (click)="navigate_myTranslations()">My translations</button> 
+  <button class="menu_btn" mat-button (click)="navigate_messages()">Mesasges</button> 
+
   <button class="login_btn" mat-button>Login</button> 
   <div style="clear: both"></div>
+  
+
+
+
+
 </div>
