@@ -1,17 +1,30 @@
-.wrapper{
-    margin: 0px 0px;
-    background-image: url('../../../assets/background.jpg');
-    background-size: 100% 100%;
-    width: 100%;
-    min-height: 1000px;    
-}
-.title{    
-    color: white;
-    border: 2px solid  rgb(187, 178, 178);
+.block{
+    width: 90%;
+    margin: 15px auto;
+    border: 2px solid white;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.192);
-    margin: 20px auto;
-    padding: 5px 20px;
-    width: min-content;
-    font-size: 30px;
+    min-height: 50px;
+    background-color: rgba(255, 255, 255, 0.178);
+}
+h3{
+    color: white;
+    text-align: center;
+}
+.assignToMe{
+    margin: 30px;
+    width: 45%;
+    min-height: 50px;
+    border: 2px solid white;
+    border-radius: 5px;
+    float: left;
+    background-color: rgba(0, 0, 0, 0.404);
+}
+.activityStream{
+    margin: 30px;
+    width: 45%;
+    min-height: 50px;
+    border: 2px solid white;
+    border-radius: 5px;
+    float: right;
+    background-color: rgba(0, 0, 0, 0.404);
 }

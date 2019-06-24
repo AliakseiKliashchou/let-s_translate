@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-new-texts',
   templateUrl: './new-texts.component.html',
-  styleUrls: ['./new-texts.component.css']
+  styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
 
