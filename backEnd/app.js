@@ -8,25 +8,35 @@ const cors = require('cors');
 app.use(cors());
 app.use(urlencodedParser);
 app.use(bodyParser.json());
+//***************************************************************** */
 
-const mysql = require("mysql2");
-  
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "translate",
-  password: "1"
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("test1", "postgres", "491956", {
+  dialect: "postgres"
 });
-connection.connect(function(err){
-    if (err) {
-      return console.error("Ошибка: " + err.message);
-    }
-    else{
-      console.log("Подключение к серверу MySQL успешно установлено");
-    }
- });
 
+const User = sequelize.define("user", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true, 
+    primaryKey: true,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  age: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
+});
+sequelize.sync().then(result=>{
+  console.log(result);
+})
+.catch(err=> console.log(err));
 
+//********************************************************************* */
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
