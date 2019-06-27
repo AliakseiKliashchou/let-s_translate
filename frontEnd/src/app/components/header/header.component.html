@@ -5,11 +5,67 @@
   <button class="menu_btn" mat-button (click)="navigate_myTranslations()">My translations</button> 
   <button class="menu_btn" mat-button (click)="navigate_messages()">Mesasges</button> 
 
-  <button class="login_btn" mat-button>Login</button> 
+  <!-------------------LOGIN---------------------------->
+  <button class="login_btn" 
+    mat-button 
+    data-toggle="modal" 
+    data-target="#basicExample"
+    (click)="frame.show()" 
+    mdbWavesEffect>
+    Login
+  </button> 
+
+  <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <mat-tab-group>
+            <mat-tab label="Customer"> 
+              <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>                
+                <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
+                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
+              </div>            
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
+                <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>
+              </div>
+            </mat-tab>
+            <mat-tab label="Translator"> 
+              <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
+                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
+              </div>
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
+                <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>
+              </div>
+            </mat-tab>              
+          </mat-tab-group>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------------------------------------------------->
   <div style="clear: both"></div>
-  
-
-
-
-
 </div>

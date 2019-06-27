@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 //***************************************************************** */
 
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("test1", "postgres", "491956", {
+const sequelize = new Sequelize("test1", "postgres", "1", {
   dialect: "postgres"
 });
 

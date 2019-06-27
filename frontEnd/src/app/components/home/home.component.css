@@ -51,3 +51,10 @@ button{
     background-color: rgba(255, 255, 255, 0.603);
     display: block;
 }
+.customer_reg{
+    width: 90%;
+    min-height: 50px;
+    border: 2px solid white;
+    border-radius: 5px;
+    margin: 15px auto;
+}
