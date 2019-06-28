@@ -9,11 +9,52 @@
     border: 2px solid white;
     border-radius: 5px;
     margin: 20px auto;
-    background-color: rgba(255, 255, 255, 0.76);
+    background-color: rgba(255, 255, 255, 0.856);
 }
 mat-icon{
   float: right;
   position: relative;
   top: -67px;
 }
-
+#card_number{
+  width: 35%; 
+  float: left;
+}
+#card_cvc{
+  width: 10%; 
+  float: left; 
+  margin-left: 20px;
+}
+#card_year{
+  width: 10%; 
+  float: left; 
+  margin-left: 20px;
+}
+.password{
+  float: left;
+  width: 40%;
+  margin-right: 20px;
+}
+#licence_check{
+  display: block;
+  margin-top: 15px;
+}
+#licence:hover{
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+#submit_btn{
+  text-align: center;
+  display: inherit;
+  margin: 10px auto;
+} 
+.tariff_icon{  
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+.select_tariff{
+  float: left;
+}

@@ -1,48 +1,136 @@
 <div class="wrapper">
   <app-header></app-header>
-  
+  <div class="title anim">Customer registration</div>
   <div class="inputs_wrapper anim">
     <div class="inputs">
+        <!-----------------------------------EMAIL-------------------------------------->
         <div class="md-form mb-5">
-            <i class="fas fa-envelope prefix grey-text"></i>
+            <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
             <input type="email" id="email_reg" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="email_reg" >Your email</label>                
             <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)" >{{getErrorMessageEmail()}}</mdb-error>
             <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
         </div>
+        <mat-divider></mat-divider>
+        <!-----------------------------------NAME-------------------------------------->
         <div class="md-form mb-5">
-            <i class="fas fa-user prefix grey-text"></i>
+            <i class="fas fa-user prefix" [ngClass]="userInput.name.valid ? 'green-text' : 'red-text'"></i>
             <input type="text" id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="name_reg" >Your name</label>                
             <mdb-error *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)" >{{getErrorMessageName()}}</mdb-error>
             <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
         </div>
-        <div class="md-form mb-5" style="width: 35%; float: left;">
-            <i class="fas fa-credit-card prefix grey-text"></i>
+        <mat-divider></mat-divider>
+        <!-----------------------------------CREDIT CARD-------------------------------------->
+        <div class="md-form mb-5" id="card_number">
+            <i class="fas fa-credit-card prefix" [ngClass]="userInput.cardNumber.valid && userInput.cardCVC.valid && userInput.cardYear.valid ? 'green-text' : 'red-text'"></i>
             <input type="text" id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>                
             <mdb-error *ngIf="userInput.cardNumber.invalid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)" >{{getErrorCardNumber()}}</mdb-error>
             <mdb-success *ngIf="userInput.cardNumber.valid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)">Ok!</mdb-success>           
             
         </div>
-        <div class="md-form mb-5" style="width: 10%; float: left; margin-left: 20px;">
+        <div class="md-form mb-5" id="card_cvc">
             <input type="text" id="cardCVC_reg" [formControl]="userInput.cardCVC" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="cardCVC_reg">CVC</label>                
             <mdb-error *ngIf="userInput.cardCVC.invalid && (userInput.cardCVC.dirty || userInput.cardCVC.touched)" >{{getErrorCardCVC()}}</mdb-error>
             <mdb-success *ngIf="userInput.cardCVC.valid && (userInput.cardCVC.dirty || userInput.cardCVC.touched)">Ok!</mdb-success>
         </div>
-        <div style="clear: both"></div>
-        <div class="md-form mb-5">
-            <i class="fas fa-lock prefix grey-text"></i>
-            <input [type]="hide ? 'password' : 'text'" id="password_reg" [formControl]="userInput.password" class="form-control validate"  mdbInput mdbValidate >
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>       
-            <label data-error="wrong" data-success="right" for="password_reg" >Your password</label>                
-            <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)" >{{getErrorMessagePassword()}}</mdb-error>
-            <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>
+        <div class="md-form mb-5" id="card_year" >
+            <input type="text" id="cardYear_reg" [formControl]="userInput.cardYear" class="form-control validate" mdbInput mdbValidate >
+            <label data-error="wrong" data-success="right" for="cardYear_reg">Year</label>                
+            <mdb-error *ngIf="userInput.cardYear.invalid && (userInput.cardYear.dirty || userInput.cardYear.touched)" >{{getErrorCardCVC()}}</mdb-error>
+            <mdb-success *ngIf="userInput.cardYear.valid && (userInput.cardYear.dirty || userInput.cardYear.touched)">Ok!</mdb-success>
         </div>
+        <div style="clear: both"></div>
+        <mat-divider></mat-divider>
+        <!-----------------------------------PASSWORD-------------------------------------->
+        <div class="md-form mb-5 password" >
+            <i class="fas fa-lock prefix" [ngClass]="userInput.password_1.valid && userInput.password_2.valid && (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'"></i>
+            <input [type]="hide_1 ? 'password' : 'text'" id="password1_reg" #password1_reg [formControl]="userInput.password_1" class="form-control validate"  mdbInput mdbValidate>
+            <mat-icon matSuffix (click)="hide_1 = !hide_1">{{hide_1 ? 'visibility_off' : 'visibility'}}</mat-icon>       
+            <label data-error="wrong" data-success="right" for="password1_reg" >Your password</label>                
+            <mdb-error *ngIf="(password1_reg.value == password2_reg.value) && userInput.password_1.invalid && (userInput.password_1.dirty || userInput.password_1.touched)" >{{getErrorMessagePassword_1()}}</mdb-error>
+            <mdb-error *ngIf="password1_reg.value !== password2_reg.value && (userInput.password_1.dirty || userInput.password_1.touched)">Password not equals</mdb-error>
+            <mdb-success *ngIf="(password1_reg.value == password2_reg.value) && userInput.password_1.valid && (userInput.password_1.dirty || userInput.password_1.touched)">Ok!</mdb-success>
+        </div>
+        <div class="md-form mb-5 password">            
+            <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg [formControl]="userInput.password_2" class="form-control validate"  mdbInput mdbValidate >
+            <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>       
+            <label data-error="wrong" data-success="right" for="password2_reg" >Repeat your password</label>                
+            <mdb-error *ngIf="userInput.password_2.invalid && (userInput.password_2.dirty || userInput.password_2.touched)" >{{getErrorMessagePassword_2()}}</mdb-error>
+            <mdb-success *ngIf="userInput.password_2.valid && (userInput.password_2.dirty || userInput.password_2.touched)">Ok!</mdb-success>
+        </div>
+        <div style="clear: both"></div>
+        <mat-divider></mat-divider>
+        <!-----------------------------------TARIFF-------------------------------------->
+        <div class="md-form mb-5" >
+            <div class="tariff_icon">
+                <i class="fas fa-dollar-sign prefix" [ngClass]="userInput.tariff.valid ? 'green-text' : 'red-text'"></i>
+            </div>
+            <div class="select_tariff">
+                <mat-form-field>
+                    <mat-label>Tariff plans</mat-label>
+                    <mat-select [formControl]="userInput.tariff"> 
+                        <mat-option value="Silver">Silver</mat-option>
+                        <mat-option value="Gold">Gold</mat-option>
+                        <mat-option value="Platinum">Platinum</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div style="clear: both"></div>
+            <mdb-error *ngIf="userInput.tariff.invalid && (userInput.tariff.dirty || userInput.tariff.touched)" >{{getErrorMessageTariff()}}</mdb-error>
+            <mdb-success *ngIf="userInput.tariff.valid && (userInput.tariff.dirty || userInput.tariff.touched)">Ok!</mdb-success>
+        </div>
+        <mat-divider></mat-divider>
+        <!-----------------------------------LICENCE-------------------------------------->
+        <mat-checkbox id="licence_check" #licenceCheck>I have already read a licence agreement</mat-checkbox>
+        <p id="licence" (click)="basicModal.show()">Licence agreement</p>
+        <div style="overflow-y: auto" mdbModal #basicModal="mdbModal" class="modal fade bottom" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title w-100" id="myModalLabel">Licence agreement</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
     </div>
-  </div>
-  
-
+    <button 
+        id="submit_btn" 
+        type="button" 
+        mdbBtn color="success" 
+        mdbWavesEffect
+        [disabled]="
+        userInput.email.valid && 
+        userInput.name.valid && 
+        userInput.cardNumber.valid && 
+        userInput.cardCVC.valid && 
+        userInput.cardYear.valid && 
+        userInput.password_1.valid && 
+        userInput.password_2.valid && 
+        (password1_reg.value == password2_reg.value) && 
+        licenceCheck.checked &&
+        userInput.tariff.valid ? false : true"
+    >Register</button>
+  </div>  
   <app-footer></app-footer>
 </div>

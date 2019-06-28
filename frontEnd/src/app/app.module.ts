@@ -14,6 +14,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { InputsModule, InputUtilitiesModule, WavesModule } from 'angular-bootstrap-md';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { HeaderComponent, 
   HomeComponent, 
   FooterComponent, 
@@ -58,7 +59,8 @@ import { HeaderComponent,
     WavesModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule   
+    MatIconModule,
+    MatSelectModule    
   ],
   providers: [],
   bootstrap: [AppComponent],
