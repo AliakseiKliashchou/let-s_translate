@@ -1,7 +1,7 @@
 <div class="wrapper">
   <app-header></app-header>
   
-  <div class="inputs_wrapper">
+  <div class="inputs_wrapper anim">
     <div class="inputs">
         <div class="md-form mb-5">
             <i class="fas fa-envelope prefix grey-text"></i>
@@ -12,17 +12,30 @@
         </div>
         <div class="md-form mb-5">
             <i class="fas fa-user prefix grey-text"></i>
-            <input type="email" id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
+            <input type="text" id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="name_reg" >Your name</label>                
             <mdb-error *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)" >{{getErrorMessageName()}}</mdb-error>
             <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
         </div>
+        <div class="md-form mb-5" style="width: 35%; float: left;">
+            <i class="fas fa-credit-card prefix grey-text"></i>
+            <input type="text" id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
+            <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>                
+            <mdb-error *ngIf="userInput.cardNumber.invalid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)" >{{getErrorCardNumber()}}</mdb-error>
+            <mdb-success *ngIf="userInput.cardNumber.valid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)">Ok!</mdb-success>           
+            
+        </div>
+        <div class="md-form mb-5" style="width: 10%; float: left; margin-left: 20px;">
+            <input type="text" id="cardCVC_reg" [formControl]="userInput.cardCVC" class="form-control validate" mdbInput mdbValidate >
+            <label data-error="wrong" data-success="right" for="cardCVC_reg">CVC</label>                
+            <mdb-error *ngIf="userInput.cardCVC.invalid && (userInput.cardCVC.dirty || userInput.cardCVC.touched)" >{{getErrorCardCVC()}}</mdb-error>
+            <mdb-success *ngIf="userInput.cardCVC.valid && (userInput.cardCVC.dirty || userInput.cardCVC.touched)">Ok!</mdb-success>
+        </div>
+        <div style="clear: both"></div>
         <div class="md-form mb-5">
             <i class="fas fa-lock prefix grey-text"></i>
             <input [type]="hide ? 'password' : 'text'" id="password_reg" [formControl]="userInput.password" class="form-control validate"  mdbInput mdbValidate >
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>       
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>       
             <label data-error="wrong" data-success="right" for="password_reg" >Your password</label>                
             <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)" >{{getErrorMessagePassword()}}</mdb-error>
             <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>

@@ -11,25 +11,9 @@
     margin: 20px auto;
     background-color: rgba(255, 255, 255, 0.76);
 }
+mat-icon{
+  float: right;
+  position: relative;
+  top: -67px;
+}
 
-.example-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .example-container > * {
-    width: 100%;
-  }
-  
-  .example-right-align {
-    text-align: right;
-  }
-  
-  input.example-right-align::-webkit-outer-spin-button,
-  input.example-right-align::-webkit-inner-spin-button {
-    display: none;
-  }
-  
-  input.example-right-align {
-    -moz-appearance: textfield;
-  }

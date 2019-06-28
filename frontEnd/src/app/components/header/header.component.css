@@ -1,16 +1,16 @@
 .wrapper{
     border-bottom: 2px solid white;
     width: 100%;
-    height: 125px;
+    height: 100px;
    
     padding: 1px;
 }
 .logo{
-    width: 550px;
-    height: 100px; 
+    width: 390px;
+    height: 70px; 
     background-image: url('../../../assets/logo.png');
     background-size: 100% 100%;
-    margin: 10px 0px; 
+    margin: 10px 10px; 
     display: block;
     float: left;
 } 
@@ -26,7 +26,7 @@
     margin: 15px;
     float: right;
     position: relative;
-    top: 20px;
+    top: 6px;
     height: 50px;
     width: 80px;
     font-size: 20px;
@@ -38,15 +38,15 @@
     margin: 15px;
     float: left;
     position: relative;
-    top: 20px;
+    top: 7px;
     height: 50px;
-    width: 165px;
-    font-size: 20px;
+    width: 130px;
+    font-size: 15px;
     color: rgb(197, 194, 194); 
     box-shadow: 5px 5px 15px rgb(138, 137, 137);
     border-radius: 10px;  
 }
 .menu_btn:hover{
     box-shadow: 10px 5px 5px red;
-    top: 25px;
+    top: 15px;
 }
