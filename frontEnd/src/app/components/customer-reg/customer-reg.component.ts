@@ -17,6 +17,7 @@ export class CustomerRegComponent implements OnInit {
 //----------------Validation---------------------------------------------------
   hide_1 = true;
   hide_2 = true;
+  
   userInput = {
     email: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)]),
     password_1: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),

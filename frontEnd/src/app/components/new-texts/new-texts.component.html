@@ -2,5 +2,22 @@
   <app-header></app-header>
   <div class="title anim">New texts</div>
 
+  <div class="dropzone" 
+    appDropzone
+     (hovered)="toggleHover($event)"
+     (dropped)="onDrop($event)"
+     [class.hovering]="isHovering">
+
+
+     <h3>AngularFire Drop Zone</h3>
+     <p>Drag and Drop a File</p>
+</div>
+
+<h3>Uploads</h3>
+
+<div *ngFor="let file of files">
+  <app-upload-task [file]="file"></app-upload-task>
+</div>
+  
   <app-footer></app-footer>
 </div>

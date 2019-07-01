@@ -30,6 +30,9 @@ export class HeaderComponent implements OnInit {
   navigate_messages(){
     this._router.navigate(['messages']);
   }
+  new_translator_reg(){
+    this._router.navigate(['new_translator_reg']);
+  }
   //----------------------------------------------
 
   //--------VALIDATION------------------------------
