@@ -21,6 +21,7 @@ import * as firebase from 'firebase/app';
 import { environment } from './../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HeaderComponent, 
   HomeComponent, 
   FooterComponent, 
@@ -29,9 +30,10 @@ import { HeaderComponent,
   MyTranslationsComponent,
   MessagesComponent,
   CustomerRegComponent,
-  RegNewTranslatorComponent} from './components/index';
+  RegNewTranslatorComponent,
+  UploadTaskComponent} from './components/index';
 import { DropzoneDirective } from './dropzone.directive';
-import { UploadTaskComponent } from './components/upload-task/upload-task.component';
+
 
 
 @NgModule({
@@ -77,7 +79,8 @@ import { UploadTaskComponent } from './components/upload-task/upload-task.compon
     MatSidenavModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireStorageModule    
+    AngularFireStorageModule,
+    MatSnackBarModule    
   ],
   providers: [],
   bootstrap: [AppComponent],

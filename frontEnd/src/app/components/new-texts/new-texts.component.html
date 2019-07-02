@@ -2,22 +2,25 @@
   <app-header></app-header>
   <div class="title anim">New texts</div>
 
+  <h4><bold>You can drop your file below in txt/pdf/doc/docx formats. Max size 20 Mb</bold></h4>
+
   <div class="dropzone" 
     appDropzone
      (hovered)="toggleHover($event)"
      (dropped)="onDrop($event)"
      [class.hovering]="isHovering">
-
-
-     <h3>AngularFire Drop Zone</h3>
-     <p>Drag and Drop a File</p>
+     <h3>Drag and Drop a File right here</h3>
 </div>
-
-<h3>Uploads</h3>
 
 <div *ngFor="let file of files">
   <app-upload-task [file]="file"></app-upload-task>
 </div>
+
+<h4><bold>Or you can put your text in the field below</bold></h4>
+
+<mat-form-field >
+  <textarea matInput placeholder="Type your text here"></textarea>
+</mat-form-field>
   
   <app-footer></app-footer>
 </div>

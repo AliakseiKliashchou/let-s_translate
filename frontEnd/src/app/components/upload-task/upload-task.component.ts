@@ -3,11 +3,12 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upload-task',
   templateUrl: './upload-task.component.html',
-  styleUrls: ['./upload-task.component.css']
+  styleUrls: ['./upload-task.component.css', '../../app.component.css']
 })
 export class UploadTaskComponent implements OnInit {
   @Input() file: File;
@@ -18,7 +19,7 @@ export class UploadTaskComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: string;
 
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore) { }
+  constructor(private storage: AngularFireStorage, private db: AngularFirestore, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.startUpload();
@@ -27,7 +28,7 @@ export class UploadTaskComponent implements OnInit {
   startUpload() {
 
     // The storage path
-    const path = `test/${Date.now()}_${this.file.name}`;
+    const path = `toTranslate/${Date.now()}_${this.file.name}`;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -45,6 +46,10 @@ export class UploadTaskComponent implements OnInit {
         this.downloadURL = await ref.getDownloadURL().toPromise();
 
         this.db.collection('files').add( { downloadURL: this.downloadURL, path });
+        console.log(this.downloadURL);
+        this._snackBar.open('The document was successfully uploaded','', {
+          duration: 2000,
+        });
       }),
     );
   }
