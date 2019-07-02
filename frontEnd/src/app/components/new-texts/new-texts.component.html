@@ -1,6 +1,44 @@
 <div class="wrapper">
-  <app-header></app-header>
   <div class="title anim">New texts</div>
 
-  <app-footer></app-footer>
+  <h4>
+    <bold>You can drop your file below in txt/pdf/doc/docx formats. Max size 20 Mb</bold>
+  </h4>
+
+  <div class="dropzone"
+       appDropzone
+       (hovered)="toggleHover($event)"
+       (dropped)="onDrop($event)"
+       [class.hovering]="isHovering"
+       (click)="filePicker.click()">
+    <input
+      type="file"
+      hidden
+      #filePicker
+      (change)="onFileDrop($event)">
+    <h3>Drag and Drop a File right here</h3>
+  </div>
+
+  <p *ngIf="isHasError.size" class="error">This file is too large</p>
+  <p *ngIf="isHasError.format" class="error">This type doesn't fit</p>
+
+  <div *ngFor="let file of files">
+    <app-upload-task [file]="file"></app-upload-task>
+  </div>
+
+  <h4>
+    <bold>Or you can put your text in the field below</bold>
+  </h4>
+
+
+  <mat-form-field>
+    <textarea matInput placeholder="Type your text here"></textarea>
+  </mat-form-field>
+  
+<div class="md-form text_input">
+  <textarea class="md-textarea form-control " rows="3" #inputTxt id="input_text" type="text" length="120" mdbCharCounter mdbInput></textarea>
+  <label for="input_text" class="label">Type your text</label>  
+  <button class="upload_btn" (click)="uploadText(inputTxt.value)" mat-button>Upload text</button>
+</div>
+
 </div>

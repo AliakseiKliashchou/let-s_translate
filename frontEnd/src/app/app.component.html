@@ -1,4 +1,5 @@
-<main [@routerAnimations]="getState(routerOutlet)">
-    <router-outlet #routerOutlet="outlet"></router-outlet>
+<main [@routerAnimations]="getState(routerOutlet)" class="wrapper">
+  <app-header></app-header>
+  <router-outlet #routerOutlet="outlet"></router-outlet>
+  <app-footer></app-footer>
 </main>
-

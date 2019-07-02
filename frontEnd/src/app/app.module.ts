@@ -14,6 +14,14 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { InputsModule, InputUtilitiesModule, WavesModule } from 'angular-bootstrap-md';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { AngularFireModule} from 'angularfire2';
+import * as firebase from 'firebase/app';
+import { environment } from './../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HeaderComponent, 
   HomeComponent, 
   FooterComponent, 
@@ -21,7 +29,12 @@ import { HeaderComponent,
   NewTextsComponent,
   MyTranslationsComponent,
   MessagesComponent,
-  CustomerRegComponent} from './components/index';
+  CustomerRegComponent,
+  RegNewTranslatorComponent,
+  UploadTaskComponent} from './components/index';
+import { DropzoneDirective } from './dropzone.directive';
+
+
 
 @NgModule({
   declarations: [
@@ -34,6 +47,9 @@ import { HeaderComponent,
     MyTranslationsComponent,
     MessagesComponent,
     CustomerRegComponent,
+    RegNewTranslatorComponent,
+    DropzoneDirective,
+    UploadTaskComponent,
    
   ],
   imports: [
@@ -58,7 +74,13 @@ import { HeaderComponent,
     WavesModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule   
+    MatIconModule,
+    MatSelectModule,
+    MatSidenavModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    MatSnackBarModule    
   ],
   providers: [],
   bootstrap: [AppComponent],

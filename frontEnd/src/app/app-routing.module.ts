@@ -5,7 +5,8 @@ import { HomeComponent,
   NewTextsComponent,
   MyTranslationsComponent,
   MessagesComponent,
-  CustomerRegComponent} from './components/index';
+  CustomerRegComponent,
+  RegNewTranslatorComponent} from './components/index';
 
 const appRoutes: Routes = [
   {path:'',component: HomeComponent, data: {state: ''}}, 
@@ -14,7 +15,7 @@ const appRoutes: Routes = [
   {path:'my_translations',component: MyTranslationsComponent, data: {state: 'my_translations'}}, 
   {path:'messages',component: MessagesComponent, data: {state: 'messages'}}, 
   {path:'customer_reg',component: CustomerRegComponent, data: {state: 'customer_reg'}}, 
-
+  {path:'new_translator_reg',component: RegNewTranslatorComponent, data: {state: 'new_translator_reg'}}, 
 ];
 
 @NgModule({

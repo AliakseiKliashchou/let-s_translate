@@ -50,3 +50,12 @@
     box-shadow: 10px 5px 5px red;
     top: 15px;
 }
+.new_translator_btn{
+    background-color: rgba(255, 255, 255, 0.603);
+    color: white;  
+    float: right;
+    position: relative;
+    top: 21px;
+    height: 50px;
+    font-size: 20px;
+}

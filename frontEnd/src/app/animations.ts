@@ -1,4 +1,4 @@
-import { trigger, animate, style, group, animateChild, query, stagger, transition, animation } from '@angular/animations';
+import {trigger, animate, style, group, animateChild, query, stagger, transition, animation} from '@angular/animations';
 
 export const routerAnimations = trigger('routerAnimations', [
     transition('* <=> *', [
@@ -15,7 +15,7 @@ export const routerAnimations = trigger('routerAnimations', [
             ], {optional: true}),
             query(':enter .anim', stagger (400, [
                 style({transform: 'translateX(100%)'}),
-                animate('1s ease-in-out', 
+                animate('0.4s ease-in-out', 
                 style({transform: 'translateX(0)', opacity: 1}))      
             ]), {optional: true})
         ])
