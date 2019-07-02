@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -6,12 +7,16 @@ import { finalize, tap } from 'rxjs/operators';
 import { Angular2Txt } from 'angular2-txt/Angular2-txt';
 
 
+import {Component, OnInit} from '@angular/core';
+
+
 @Component({
   selector: 'app-new-texts',
   templateUrl: './new-texts.component.html',
-  styleUrls: ['./new-texts.component.css', '../../app.component.css' ]
+  styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
+
 
   task: AngularFireUploadTask;
   percentage: Observable<number>;
@@ -20,12 +25,15 @@ export class NewTextsComponent implements OnInit {
 
   constructor(private storage: AngularFireStorage, private db: AngularFirestore,) { }
 
-  ngOnInit() {
-    
-  }
   isHovering: boolean;
-
   files: File[] = [];
+
+  constructor() {
+  }
+
+
+  ngOnInit() {
+  }
 
   toggleHover(event: boolean) {
     this.isHovering = event;
@@ -35,6 +43,11 @@ export class NewTextsComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.files.push(files.item(i));
     }
+  }
+
+  onFileDrop(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.files.push(file);
   }
   
   uploadText(text){
