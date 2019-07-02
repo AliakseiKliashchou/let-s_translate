@@ -17,19 +17,9 @@ mat-icon{
   top: -67px;
 }
 #card_number{
-  width: 35%; 
-  float: left;
+  width: 35%;  
 }
-#card_cvc{
-  width: 10%; 
-  float: left; 
-  margin-left: 20px;
-}
-#card_year{
-  width: 10%; 
-  float: left; 
-  margin-left: 20px;
-}
+
 .password{
   float: left;
   width: 40%;

@@ -28,5 +28,8 @@ export class NewTextsComponent implements OnInit {
     }
   }
   
+  uploadText(text){
+    console.log(text);
+  }
 
 }
