@@ -1,25 +1,29 @@
-.dropzone { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column; 
-    min-width: 80vw;
-    font-weight: 200;
-    height: 200px;
-    border: 2px dashed #f16624;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.644);
-    margin: 10px auto;
-    width: 90%;
-    color: #3224f1;
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 80vw;
+  font-weight: 200;
+  height: 200px;
+  border: 2px dashed #f16624;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.644);
+  margin: 10px auto;
+  width: 90%;
+  color: #3224f1;
+  cursor: pointer;
 }
+
 .file-label {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
+
 progress::-webkit-progress-value {
-    transition: width 0.1s ease;
+  transition: width 0.1s ease;
 }
-h4{
-    color: white;
-    text-align: center;
+
+h4 {
+  color: white;
+  text-align: center;
 }

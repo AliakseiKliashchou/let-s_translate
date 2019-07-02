@@ -5,12 +5,12 @@
 
 <div class="text_color" *ngIf="snapshot | async as snap">
 
-  {{ snap.bytesTransferred }} of {{ snap.totalBytes }} 
+  {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
 
   <div *ngIf="downloadURL as url">
-    <h3 class="text_color">Download was successfully completed</h3>    
+    <h3 class="text_color">Download was successfully completed</h3>
     <a class="text_color" [href]="url" target="_blank" rel="noopener">Download Me!</a>
-  </div> 
+  </div>
 
   <!--
   <button (click)="task.pause()" [disabled]="!isActive(snap)">Pause</button>

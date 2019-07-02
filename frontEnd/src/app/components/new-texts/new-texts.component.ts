@@ -1,22 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-new-texts',
   templateUrl: './new-texts.component.html',
-  styleUrls: ['./new-texts.component.css', '../../app.component.css' ]
+  styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
-  
+  isHovering: boolean;
+  files: File[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
-    
   }
-  isHovering: boolean;
-
-  files: File[] = [];
 
   toggleHover(event: boolean) {
     this.isHovering = event;
@@ -27,6 +24,10 @@ export class NewTextsComponent implements OnInit {
       this.files.push(files.item(i));
     }
   }
-  
+
+  onFileDrop(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.files.push(file);
+  }
 
 }
