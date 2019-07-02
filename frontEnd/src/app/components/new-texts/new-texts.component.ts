@@ -27,6 +27,12 @@ export class NewTextsComponent implements OnInit {
 
   isHovering: boolean;
   files: File[] = [];
+  maxSize = 20 * (10 ** 6);
+  isHasError = {
+    size: false,
+    format: false
+  };
+  typeAllowed = ['txt', 'pdf', 'doc', 'docx', 'image'];
 
   constructor() {
   }
@@ -47,7 +53,17 @@ export class NewTextsComponent implements OnInit {
 
   onFileDrop(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
-    this.files.push(file);
+    if (file.size > this.maxSize) {
+      this.isHasError.size = true;
+      console.log('this file is too large');
+    }
+    let type = (file.type.split('/')[0] === 'image') ?
+      file.type.split('/')[0] : file.name.split('.');
+    if (typeof type === 'object') type = type[type.length - 1];
+    if (this.typeAllowed.indexOf(type) !== -1) this.files.push(file);
+    else this.isHasError.format = true;
+
+    // if (type in this.typeAllowed)
   }
   
   uploadText(text){

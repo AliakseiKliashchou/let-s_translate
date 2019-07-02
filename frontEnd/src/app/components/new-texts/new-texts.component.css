@@ -43,3 +43,14 @@ h4{
     background-color: rgb(78, 235, 78);
     margin: 10px;
 }
+
+.error {
+  width: 30%;
+  padding: .4rem;
+  margin-left: 5%;
+  color: #ae032d;
+  border-radius: 5px;
+  background-color: aliceblue;
+  font-size: 1.3rem;
+  text-align: center;
+}
