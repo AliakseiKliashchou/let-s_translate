@@ -1,12 +1,15 @@
-const Sequelize = require("sequelize");
-
+const Sequelize = require('sequelize');
 const sequelize = new Sequelize("test1", "postgres", "1", {
-  dialect: "postgres"
+  dialect: 'postgres',
+  define: {
+    timestamps: false
+  }
 });
 
-sequelize.sync().then(result => {
-  console.log(result);
-})
-.catch(err=> console.log(err));
+sequelize.authenticate().then(() => {
+  console.log("Success!");
+}).catch((err) => {
+  console.log(err);
+});
 
 module.exports = sequelize;
