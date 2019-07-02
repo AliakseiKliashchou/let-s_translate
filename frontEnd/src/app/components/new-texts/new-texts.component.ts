@@ -29,5 +29,9 @@ export class NewTextsComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     this.files.push(file);
   }
+  
+  uploadText(text){
+    console.log(text);
+  }
 
 }

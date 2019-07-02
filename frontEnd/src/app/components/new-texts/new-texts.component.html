@@ -27,8 +27,15 @@
     <bold>Or you can put your text in the field below</bold>
   </h4>
 
+
   <mat-form-field>
     <textarea matInput placeholder="Type your text here"></textarea>
   </mat-form-field>
+  
+<div class="md-form text_input">
+  <textarea class="md-textarea form-control " rows="3" #inputTxt id="input_text" type="text" length="120" mdbCharCounter mdbInput></textarea>
+  <label for="input_text" class="label">Type your text</label>  
+  <button class="upload_btn" click="uploadText(inputTxt.value)" mat-button>Upload text</button>
+</div>
 
 </div>

@@ -23,7 +23,23 @@ progress::-webkit-progress-value {
   transition: width 0.1s ease;
 }
 
-h4 {
-  color: white;
-  text-align: center;
+h4{
+    color: white;
+    text-align: center;
+}
+.text_input{
+    background-color: rgba(255, 255, 255, 0.568);
+    width: 80%;
+    margin: 15px auto;
+    min-height: 50px;
+    display: block;
+    border-radius: 5px;
+}
+.label{
+    top: 15px !important;
+    left: 15px !important;
+}
+.upload_btn{
+    background-color: rgb(78, 235, 78);
+    margin: 10px;
 }
