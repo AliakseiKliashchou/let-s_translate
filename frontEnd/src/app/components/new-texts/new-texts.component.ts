@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Angular2Txt } from 'angular2-txt/Angular2-txt';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-new-texts',
@@ -69,10 +70,21 @@ export class NewTextsComponent implements OnInit {
   
   uploadText(text){
     console.log(text);
-    const path = `toTranslate/${Date.now()}_aaaaa.txt`;
+    let doc = new jsPDF();
+    var metadata = {
+      contentType: 'image/jpeg',
+    };
+    doc.text(`${text} `, 10, 10);
+    const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     //let txt = new Angular2Txt(text, 'My Report');
-    this.task = this.storage.upload(path, new Angular2Txt(text, 'My Report'));
+    // this.task = this.storage.upload(path, new Angular2Txt(text, 'My Report'));
+    ref.putString(text).then((snapshot) => {
+      this._snackBar.open('The text was successfully uploaded', '', {
+        duration: 2000,
+      });
+    }).catch(error => {
+    });;
   
   }
 

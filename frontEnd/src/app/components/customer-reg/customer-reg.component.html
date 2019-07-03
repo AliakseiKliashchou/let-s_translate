@@ -6,7 +6,7 @@
         <!-----------------------------------EMAIL-------------------------------------->
         <div class="md-form mb-5">
             <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
-            <input type="email" id="email_reg" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
+            <input type="email" #email id="email_reg" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="email_reg" >Your email</label>                
             <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)" >{{getErrorMessageEmail()}}</mdb-error>
             <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
@@ -15,7 +15,7 @@
         <!-----------------------------------NAME-------------------------------------->
         <div class="md-form mb-5">
             <i class="fas fa-user prefix" [ngClass]="userInput.name.valid ? 'green-text' : 'red-text'"></i>
-            <input type="text" id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
+            <input type="text" #name id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="name_reg" >Your name</label>                
             <mdb-error *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)" >{{getErrorMessageName()}}</mdb-error>
             <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
@@ -23,8 +23,8 @@
         <mat-divider></mat-divider>
         <!-----------------------------------CREDIT CARD-------------------------------------->
         <div class="md-form mb-5" id="card_number">
-            <i class="fas fa-credit-card prefix" [ngClass]="userInput.cardNumber.valid && userInput.cardCVC.valid && userInput.cardYear.valid ? 'green-text' : 'red-text'"></i>
-            <input type="text" id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
+            <i class="fas fa-credit-card prefix" [ngClass]="userInput.cardNumber.valid ? 'green-text' : 'red-text'"></i>
+            <input type="text" #creditCard id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>                
             <mdb-error *ngIf="userInput.cardNumber.invalid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)" >{{getErrorCardNumber()}}</mdb-error>
             <mdb-success *ngIf="userInput.cardNumber.valid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)">Ok!</mdb-success>           
@@ -58,7 +58,7 @@
             <div class="select_tariff">
                 <mat-form-field>
                     <mat-label>Tariff plans</mat-label>
-                    <mat-select [formControl]="userInput.tariff"> 
+                    <mat-select #tariff [formControl]="userInput.tariff"> 
                         <mat-option value="Silver">Silver</mat-option>
                         <mat-option value="Gold">Gold</mat-option>
                         <mat-option value="Platinum">Platinum</mat-option>
@@ -117,6 +117,7 @@
         (password1_reg.value == password2_reg.value) && 
         licenceCheck.checked &&
         userInput.tariff.valid ? false : true"
+        (click)="submit(name.value, email.value, creditCard.value, password1_reg.value, tariff.value)"
     >Register</button>
   </div>
   <app-footer></app-footer>
