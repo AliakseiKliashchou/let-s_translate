@@ -22,6 +22,7 @@ import { environment } from './../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent, 
   HomeComponent, 
   FooterComponent, 
@@ -33,6 +34,7 @@ import { HeaderComponent,
   RegNewTranslatorComponent,
   UploadTaskComponent} from './components/index';
 import { DropzoneDirective } from './dropzone.directive';
+import { HttpService } from './http.service';
 
 
 
@@ -80,9 +82,10 @@ import { DropzoneDirective } from './dropzone.directive';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    MatSnackBarModule    
+    MatSnackBarModule,
+    HttpClientModule    
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 })

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import {HttpService} from './../../http.service';
 
 
 
@@ -10,7 +11,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class CustomerRegComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpService) { }
 
   ngOnInit() {
   }
@@ -56,5 +57,20 @@ export class CustomerRegComponent implements OnInit {
   }
 //--------------------------------------------------------------------------------
 
+//----------------------------CUSTOMER REGISTRATION-------------------------------
+submit(name, email, creditCard, password, tariff){
+  let user = {
+    name: name,
+    email: email,
+    creditCard: creditCard,
+    password: password,
+    tariff: tariff
+  }
+  console.log(user);
+  /*this.http.customer_reg(user).subscribe( (data: any) => {
+    console.log(data);
+  });*/
+}
+//--------------------------------------------------------------------------------
 }
 
