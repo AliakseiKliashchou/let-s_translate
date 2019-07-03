@@ -1,14 +1,9 @@
-
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Angular2Txt } from 'angular2-txt/Angular2-txt';
-
-
-import {Component, OnInit} from '@angular/core';
-
 
 @Component({
   selector: 'app-new-texts',
@@ -34,8 +29,7 @@ export class NewTextsComponent implements OnInit {
   };
   typeAllowed = ['txt', 'pdf', 'doc', 'docx', 'image'];
 
-  constructor() {
-  }
+  
 
 
   ngOnInit() {
