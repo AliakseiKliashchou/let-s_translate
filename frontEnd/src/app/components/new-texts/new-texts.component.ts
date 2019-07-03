@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Angular2Txt } from 'angular2-txt/Angular2-txt';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-texts',
@@ -18,7 +19,10 @@ export class NewTextsComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: string;
 
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore,) { }
+  constructor(
+    private storage: AngularFireStorage, 
+    private db: AngularFirestore, 
+    private _snackBar: MatSnackBar) { }
 
   isHovering: boolean;
   files: File[] = [];
@@ -49,6 +53,9 @@ export class NewTextsComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     if (file.size > this.maxSize) {
       this.isHasError.size = true;
+      this._snackBar.open('Size of the document is too large', '', {
+        duration: 2000,
+      });
       console.log('this file is too large');
     }
     let type = (file.type.split('/')[0] === 'image') ?
@@ -64,7 +71,9 @@ export class NewTextsComponent implements OnInit {
     console.log(text);
     const path = `toTranslate/${Date.now()}_aaaaa.txt`;
     const ref = this.storage.ref(path);
-    new Angular2Txt(text, 'My Report');
+    //let txt = new Angular2Txt(text, 'My Report');
+    this.task = this.storage.upload(path, new Angular2Txt(text, 'My Report'));
+  
   }
 
 }
