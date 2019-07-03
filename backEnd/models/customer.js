@@ -23,7 +23,7 @@ const Customer = sequelize.define("customer", {
     allowNull: false
   },
   creditCard: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false
   },
   tarif: {

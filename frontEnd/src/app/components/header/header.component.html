@@ -30,14 +30,14 @@
             <mat-tab label="Customer"> 
               <div class="md-form mb-5">
                 <i class="fas fa-envelope prefix grey-text"></i>
-                <input type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
+                <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
                 <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>                
                 <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
                 <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
               </div>            
               <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
-                <input type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
+                <input (change)="checkInp('customer', customer_password.value, 'password')" #customer_password type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
                 <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
                 <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
                 <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>
@@ -46,14 +46,14 @@
             <mat-tab label="Translator"> 
               <div class="md-form mb-5">
                 <i class="fas fa-envelope prefix grey-text"></i>
-                <input type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate>
+                <input (change)="checkInp('translator', translator_email.value, 'email')" #translator_email type="email" id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate>
                 <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
                 <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
                 <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
               </div>
               <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
-                <input type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
+                <input (change)="checkInp('translator', translator_password.value, 'password')" #translator_password type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
                 <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
                 <mdb-error *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
                 <mdb-success *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!</mdb-success>
@@ -62,7 +62,7 @@
           </mat-tab-group>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-          <button mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
+          <button (click)="submit()" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
         </div>
       </div>
     </div>
