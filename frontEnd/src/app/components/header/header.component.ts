@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
+import { HttpService } from '../../_shared/service/users/http.service';
+
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,9 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private _router: Router) { }
+  constructor(
+    private _router: Router, 
+    private http: HttpService) { }
 
   ngOnInit() {
   }
@@ -51,6 +55,43 @@ export class HeaderComponent implements OnInit {
   }
   //--------------------------------------------------
 
-  
+  role = '';
+  user = {
+    email: '',
+    password: '',
+    role: ''   
+  }
+  checkInp(role, value, flag){
+    //this.role = role; 
+    switch (role) {
+      case 'customer': 
+        if(flag === 'email'){
+          this.user.email = value;
+          this.user.role = role;
+        }
+        if(flag === 'password'){
+          this.user.password = value;
+          this.user.role = role;
+        }
+      break;
+
+      case 'translator': 
+      if(flag === 'email'){
+        this.user.email = value;
+        this.user.role = role;
+      }
+      if(flag === 'password'){
+        this.user.password = value;
+        this.user.role = role;
+      }
+    break; 
+    }
+  }
+  submit(){
+    console.log(this.user);
+    this.http.login(this.user).subscribe( (data) => {
+      console.log(data);
+    });
+  }
  
 }

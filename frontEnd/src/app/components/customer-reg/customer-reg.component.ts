@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import {HttpService} from './../../http.service';
-
-
+import { HttpService } from '../../_shared/service/users/http.service';
 
 @Component({
   selector: 'app-customer-reg',
@@ -58,18 +56,19 @@ export class CustomerRegComponent implements OnInit {
 //--------------------------------------------------------------------------------
 
 //----------------------------CUSTOMER REGISTRATION-------------------------------
-submit(name, email, creditCard, password, tariff){
+submit(name, email, creditCard, password, tarif) {
   let user = {
     name: name,
     email: email,
     creditCard: creditCard,
     password: password,
-    tariff: tariff
+    tarif: tarif,
+    role: 'customer'
   }
   console.log(user);
-  /*this.http.customer_reg(user).subscribe( (data: any) => {
+  this.http.customer_reg(user).subscribe((data: any) => {
     console.log(data);
-  });*/
+  });
 }
 //--------------------------------------------------------------------------------
 }

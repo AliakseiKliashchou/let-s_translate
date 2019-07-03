@@ -19,4 +19,7 @@ export class HttpService {
   public customer_reg(user){
     return this.http.post(`${this.URL}/create/customer`, user, this.httpOptions);
   }
+  public login(user){
+    return this.http.post(`${this.URL}/login`, user, this.httpOptions);
+  }
 }

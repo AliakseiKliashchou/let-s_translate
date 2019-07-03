@@ -34,7 +34,7 @@ import { HeaderComponent,
   RegNewTranslatorComponent,
   UploadTaskComponent} from './components/index';
 import { DropzoneDirective } from './dropzone.directive';
-import { HttpService } from './http.service';
+import { HttpService } from './_shared/service/users/http.service';
 
 
 
