@@ -15,7 +15,7 @@ export const routerAnimations = trigger('routerAnimations', [
             ], {optional: true}),
             query(':enter .anim', stagger (400, [
                 style({transform: 'translateX(100%)'}),
-                animate('0.4s ease-in-out', 
+                animate('0.5s ease-in-out', 
                 style({transform: 'translateX(0)', opacity: 1}))      
             ]), {optional: true})
         ])
