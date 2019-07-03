@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
-const bcrypt = require('bcrypt');
 const sequelize = require('../configs/sequelize');
 
-const User = sequelize.define('user', {
+const Translator = sequelize.define('user', {
   role: {
     type: Sequelize.STRING,
     allowNull: false
@@ -29,15 +28,4 @@ const User = sequelize.define('user', {
   }
 });
 
-User.prototype.isValidPassword = async function(password) {
-  const user = this;
-  const compare = await bcrypt.compare(password, user.password);
-  return compare;
-}
-// User.methods.isValidPassword = async function(password) {
-//   const user = this;
-//   const compare = await bcrypt.compare(password, user.password);
-//   return compare;
-// }
-
-module.exports = User;
+module.exports = Translator;
