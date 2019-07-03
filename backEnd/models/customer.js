@@ -1,11 +1,20 @@
 const Sequelize = require('sequelize');
+const sequelize = require('../configs/sequelize');
 
 const Customer = sequelize.define("customer", {
+  role: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  role: {
+  password: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -13,20 +22,12 @@ const Customer = sequelize.define("customer", {
     type: Sequelize.BOOLEAN,
     allowNull: false
   },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  languages: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: false
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
   creditCard: {
     type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  tarif: {
+    type: Sequelize.STRING,
     allowNull: false
   }
 });
