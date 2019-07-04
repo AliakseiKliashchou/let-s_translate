@@ -11,9 +11,13 @@
           data-toggle="modal"
           data-target="#basicExample"
           (click)="frame.show()"
+          *ngIf="!isAuth"
           mdbWavesEffect>
     Login
   </button>
+
+  <button (click)="logout()" mat-button class="login_btn" *ngIf="isAuth">Logout</button>
+
   <button class="new_translator_btn" mat-button routerLink="/new_translator_reg">Register new translator</button>
 
   <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
