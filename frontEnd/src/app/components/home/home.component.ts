@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CarouselConfig } from 'ngx-bootstrap/carousel';
-import { Router } from '@angular/router';
-
+import {Component, OnInit} from '@angular/core';
+import {CarouselConfig} from 'ngx-bootstrap/carousel';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,14 +13,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _router: Router) { }
- 
+  constructor(private _router: Router) {
+  }
+
   ngOnInit() {
   }
 
-  goToCustomerReg(){
+  goToCustomerReg() {
     this._router.navigate(['customer_reg']);
   }
-  
+
 
 }

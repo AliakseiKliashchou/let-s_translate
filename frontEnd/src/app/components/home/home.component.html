@@ -1,5 +1,5 @@
 <div class="wrapper">
-<app-header></app-header>
+  <app-header></app-header>
   <!-----------------CAROUSEL--------------------------------->
   <mdb-carousel class="carousel slide carousel-fade anim" [animation]="'fade'">
     <mdb-carousel-item>
@@ -36,21 +36,21 @@
       </div>
     </mdb-carousel-item>
   </mdb-carousel>
-<!-------------------------------------------------->
+  <!-------------------------------------------------->
 
-<!--------------------TARIFF PLAN-------------------------------->
+  <!--------------------TARIFF PLAN-------------------------------->
 
   <div class="tarrif_plan">
     <h3 class="tariff_h"><strong>Tariff plans</strong></h3>
     <div class="tariff silver">
-      <h4 class="tariff_h">Silver</h4> 
+      <h4 class="tariff_h">Silver</h4>
       <ul>
         <li>Cost: <span>5 USD</span></li>
         <li>Quantity of purpose language: <span>1</span></li>
         <li>Numbers of texts: <span>1</span></li>
         <li>Time to translate: <span>4 days</span></li>
-      </ul> 
-      <button mat-button (click)="goToCustomerReg()">Buy</button> 
+      </ul>
+      <button mat-button [routerLink]="['/customer_reg']" fragment="silver">Buy</button>
     </div>
 
     <div class="tariff gold">
@@ -60,8 +60,9 @@
         <li>Quantity of purpose language: <span>5</span></li>
         <li>Numbers of texts: <span>5</span></li>
         <li>Time to translate: <span>2 days</span></li>
-      </ul> 
-      <button mat-button (click)="goToCustomerReg()">Buy</button>   
+      </ul>
+      <button mat-button [routerLink]="['/customer_reg']" fragment="gold">Buy</button>
+
     </div>
 
     <div class="tariff platinum">
@@ -71,8 +72,9 @@
         <li>Quantity of purpose language: <span>&infin;</span></li>
         <li>Numbers of texts: <span>&infin;</span></li>
         <li>Time to translate: <span>24 hours</span></li>
-      </ul> 
-      <button mat-button (click)="goToCustomerReg()">Buy</button>   
+      </ul>
+      <button mat-button [routerLink]="['/customer_reg']" fragment="platinum">Buy</button>
+
     </div>
 
     <div style="clear: both"></div>
@@ -83,7 +85,7 @@
   <!----------------------Customer registration------------------------------->
   <div class="customer_reg">
     <h4 class="tariff_h">If you have no a customer account yet, please, register by the button below</h4>
-    <button mat-button (click)="goToCustomerReg()">Register a customer account</button>   
+    <button mat-button (click)="goToCustomerReg()">Register a customer account</button>
   </div>
   <!-------------------------------------------------------------------------->
   <app-footer></app-footer>
