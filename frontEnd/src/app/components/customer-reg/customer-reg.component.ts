@@ -13,6 +13,7 @@ export class CustomerRegComponent implements OnInit {
   hide_1 = true;
   hide_2 = true;
   userInput: any;
+  emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute) {
@@ -20,11 +21,9 @@ export class CustomerRegComponent implements OnInit {
 
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;
-
-    console.log(tariff);
     this.userInput = {
       email: new FormControl('',
-        [Validators.required, Validators.email]),
+        [Validators.required, Validators.pattern(this.emailPattern)]),
       password_1: new FormControl('',
         [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
       password_2: new FormControl('',
@@ -35,7 +34,6 @@ export class CustomerRegComponent implements OnInit {
         [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
       tariff: new FormControl(tariff || '', [Validators.required]),
     };
-    console.log(this.userInput);
   }
 
 // ----------------Validation---------------------------------------------------
@@ -77,13 +75,13 @@ export class CustomerRegComponent implements OnInit {
 // --------------------------------------------------------------------------------
 
 // ----------------------------CUSTOMER REGISTRATION-------------------------------
-  submit(name, email, creditCard, password, tarif) {
-    let user = {
-      name: name,
-      email: email,
-      creditCard: creditCard,
-      password: password,
-      tarif: tarif,
+  submit(name, email, creditCard, password, tariff) {
+    const user = {
+      name,
+      email,
+      creditCard,
+      password,
+      tariff,
       role: 'customer'
     };
     console.log(user);
