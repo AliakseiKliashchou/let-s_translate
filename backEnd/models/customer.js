@@ -26,7 +26,7 @@ const Customer = sequelize.define("customer", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  tarif: {
+  tariff: {
     type: Sequelize.STRING,
     allowNull: false
   }

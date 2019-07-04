@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
+  isAuth = false;
 
 
   constructor(
@@ -25,6 +26,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAuth = this.authService.getIsAuth();
+    this.authService.getIsAuthStatus().subscribe((res: boolean) => {
+      this.isAuth = res;
+      console.log(res);
+    });
   }
 
   // --------VALIDATION------------------------------
@@ -75,17 +81,11 @@ export class HeaderComponent implements OnInit {
 
   submit() {
     console.log(this.user);
-    this.authService.login(this.user).subscribe((data) => {
-      if(data.isFind) {
-        const backendFakeResult = {
-          email: data.email,
-          name: data.name,
-          token: data.token,
-          role: data.role
-        };
-        localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
-      }
-    });
+    this.authService.login(this.user);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

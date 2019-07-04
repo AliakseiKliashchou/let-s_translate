@@ -1,9 +1,9 @@
 <div class="wrapper">
   <div class="logo" routerLink="/"></div>
-  <button class="menu_btn" mat-button routerLink="/dashboard">Dashboard</button>
-  <button class="menu_btn" mat-button routerLink="/new_texts">New Texts</button>
-  <button class="menu_btn" mat-button routerLink="/my_translations">My translations</button>
-  <button class="menu_btn" mat-button routerLink="/messages">Messages</button>
+  <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth">Dashboard</button>
+  <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth">New Texts</button>
+  <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth">My translations</button>
+  <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth">Messages</button>
 
   <!-------------------LOGIN---------------------------->
   <button class="login_btn"
@@ -11,9 +11,13 @@
           data-toggle="modal"
           data-target="#basicExample"
           (click)="frame.show()"
+          *ngIf="!isAuth"
           mdbWavesEffect>
     Login
   </button>
+
+  <button (click)="logout()" mat-button class="login_btn" *ngIf="isAuth">Logout</button>
+
   <button class="new_translator_btn" mat-button routerLink="/new_translator_reg">Register new translator</button>
 
   <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"

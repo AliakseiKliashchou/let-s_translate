@@ -54,3 +54,39 @@ h4{
   font-size: 1.3rem;
   text-align: center;
 }
+.order_properties{
+  width: 90%;
+  min-height: 50px;
+  margin: 15px auto;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.185);
+  padding: 10px;
+}
+
+.additional_properties{
+  width: 90%;
+  margin: 15px auto;
+  background-color: rgba(255, 255, 255, 0.788);
+  border-radius: 5px;
+  padding: 15px;
+}
+.add_check{
+  display: block;
+  margin: 25px auto;
+  width: 80%;
+}
+h5, h6{
+  text-align: center;
+}
+.attention{
+  text-align: center;
+  color: red;
+}
+.urgency_select{    
+  display: block;
+  width: 70%;
+  margin: 15px auto;
+}
+.tags{
+  width: 100%;
+}
