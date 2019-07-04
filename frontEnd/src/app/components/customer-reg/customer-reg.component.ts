@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { HttpService } from '../../_shared/service/users/http.service';
+import { AuthService } from '../../_shared/service/users/auth.service';
 
 @Component({
   selector: 'app-customer-reg',
@@ -9,7 +9,7 @@ import { HttpService } from '../../_shared/service/users/http.service';
 })
 export class CustomerRegComponent implements OnInit {
 
-  constructor(private http: HttpService) { }
+  constructor(private http: AuthService) { }
 
   ngOnInit() {
   }
