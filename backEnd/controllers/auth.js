@@ -27,7 +27,13 @@ const login = (req, res) => {
       const isValid = bcypt.compareSync(password, customer.password);
       if(isValid) {
         const token = jwt.sign(customer.id.toString(), jwtSecret);
-        res.json({ token })
+        res.json({ 
+          token, 
+          "id": customer.id, 
+          "email": customer.email, 
+          "role": customer.role,
+          "isFind": true
+        })
       } else {
         res.status(401).json({message: 'Invalid credentias!'})
       }

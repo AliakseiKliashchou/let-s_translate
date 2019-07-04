@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
     role: ''
   };
 
+
   constructor(
     private _router: Router,
     private authService: AuthService) {
@@ -75,7 +76,15 @@ export class HeaderComponent implements OnInit {
   submit() {
     console.log(this.user);
     this.authService.login(this.user).subscribe((data) => {
-      console.log(data);
+      if(data.isFind) {
+        const backendFakeResult = {
+          email: data.email,
+          name: data.name,
+          token: data.token,
+          role: data.role
+        };
+        localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
+      }
     });
   }
 
