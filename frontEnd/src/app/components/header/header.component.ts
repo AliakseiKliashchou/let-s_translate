@@ -26,7 +26,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getIsAuthStatus().subscribe((res: boolean) => this.isAuth = res);
+    this.isAuth = this.authService.getIsAuth();
+    this.authService.getIsAuthStatus().subscribe((res: boolean) => {
+      this.isAuth = res;
+      console.log(res);
+    });
   }
 
   // --------VALIDATION------------------------------
@@ -78,6 +82,10 @@ export class HeaderComponent implements OnInit {
   submit() {
     console.log(this.user);
     this.authService.login(this.user);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

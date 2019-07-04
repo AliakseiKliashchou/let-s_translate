@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
+import {Router} from "@angular/router";
 
 interface UserDataBack {
   isFind: boolean;
@@ -19,7 +20,8 @@ export class AuthService {
   private isAuthStatus = new Subject();
   private token: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   private httpOptions = {
@@ -47,6 +49,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
+        console.log(this.isAuth)
       }
     });
   }
@@ -66,6 +69,7 @@ export class AuthService {
     this.token = '';
     this.isAuth = false;
     this.isAuthStatus.next(false);
+    this.router.navigate(['/']);
   }
 
   getIsAuth() {
