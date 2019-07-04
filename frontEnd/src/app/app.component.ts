@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {routerAnimations} from './animations'
+import {Component, OnInit} from '@angular/core';
+import {routerAnimations} from './animations';
+import {AuthService} from './_shared/service/users/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,17 @@ import {routerAnimations} from './animations'
   styleUrls: ['./app.component.css'],
   animations: [routerAnimations]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'frontEnd';
-  getState(outlet){
+
+  constructor(private authService: AuthService) {
+  }
+
+  ngOnInit() {
+    this.authService.autoAuthUser();
+  }
+
+  getState(outlet) {
     return outlet.activatedRouteData.state;
   }
 }

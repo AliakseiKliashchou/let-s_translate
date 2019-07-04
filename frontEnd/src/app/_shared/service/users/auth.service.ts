@@ -17,6 +17,7 @@ interface UserDataBack {
 export class AuthService {
   private isAuth: boolean;
   private isAuthStatus = new Subject();
+  private token: string;
 
   constructor(private http: HttpClient) {
   }
@@ -51,11 +52,18 @@ export class AuthService {
   }
 
   autoAuthUser() {
-
+    const authInformation = this.getAuthData();
+    if (!authInformation) {
+      return;
+    }
+    this.token = JSON.parse(authInformation.data).token;
+    this.isAuth = true;
+    this.isAuthStatus.next(true);
   }
 
   logout() {
-    localStorage.clear();
+    localStorage.removeItem('currentUser');
+    this.token = '';
     this.isAuth = false;
     this.isAuthStatus.next(false);
   }
@@ -66,5 +74,13 @@ export class AuthService {
 
   getIsAuthStatus() {
     return this.isAuthStatus.asObservable();
+  }
+
+  private getAuthData() {
+    const data = localStorage.getItem('currentUser');
+    if (!data) {
+      return;
+    }
+    return {data};
   }
 }
