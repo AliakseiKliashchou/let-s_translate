@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
+  isAuth = false;
 
 
   constructor(
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getIsAuthStatus().subscribe((res: boolean) => this.isAuth = res);
   }
 
   // --------VALIDATION------------------------------
