@@ -38,7 +38,7 @@ import {
   UploadTaskComponent,
   LanguagesComponent
 } from './components';
-import {DropzoneDirective} from './dropzone.directive';
+import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
 
 @NgModule({
