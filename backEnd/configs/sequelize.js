@@ -6,7 +6,7 @@ const sequelize = new Sequelize("test1", "postgres", "1", {
   }
 });
 
-// sequelize.sync().then(() => {
+// sequelize.sync({force: true}).then(() => {
 // }).catch(err => console.log(err))
 
 sequelize.authenticate().then(() => {

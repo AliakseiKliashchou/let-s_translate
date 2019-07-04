@@ -14,7 +14,7 @@ router.post('/customer', async(req, res) => {
     password: req.body.password,
     verify: false,
     creditCard: req.body.creditCard,
-    tarif: req.body.tarif
+    tariff: req.body.tariff
   });
 
   bcrypt.hash(user.password, 10).then((hash) => {
