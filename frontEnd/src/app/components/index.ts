@@ -8,3 +8,4 @@ export * from './my-translations/my-translations.component';
 export * from './new-texts/new-texts.component';
 export * from './reg-new-translator/reg-new-translator.component';
 export * from './upload-task/upload-task.component';
+export * from './languages/languages.component';

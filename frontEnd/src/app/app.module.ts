@@ -23,6 +23,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {HttpClientModule} from '@angular/common/http';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {
   HeaderComponent,
   HomeComponent,
@@ -33,11 +35,11 @@ import {
   MessagesComponent,
   CustomerRegComponent,
   RegNewTranslatorComponent,
-  UploadTaskComponent
+  UploadTaskComponent,
+  LanguagesComponent
 } from './components';
 import {DropzoneDirective} from './dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
-
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import {AuthService} from './_shared/service/users/auth.service';
     RegNewTranslatorComponent,
     DropzoneDirective,
     UploadTaskComponent,
+    LanguagesComponent,
 
   ],
   imports: [
@@ -84,7 +87,9 @@ import {AuthService} from './_shared/service/users/auth.service';
     AngularFirestoreModule,
     AngularFireStorageModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
