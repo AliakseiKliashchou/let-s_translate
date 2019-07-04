@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,15 @@ export class AuthService {
   };
   private URL = 'http://localhost:3000';
 
-  public customer_reg(user) {
+  customer_reg(user): Observable<any> {
     return this.http.post(`${this.URL}/create/customer`, user, this.httpOptions);
   }
 
-  public login(user) {
+  login(user): Observable<any> {
     return this.http.post(`${this.URL}/login`, user, this.httpOptions);
   }
 
-  public isAuth() {
+  // isAuth(): Observable<any> {
 
-  }
+  // }
 }
