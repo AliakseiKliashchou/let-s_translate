@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../_shared/service/users/auth.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-customer-reg',
@@ -9,67 +10,89 @@ import { AuthService } from '../../_shared/service/users/auth.service';
 })
 export class CustomerRegComponent implements OnInit {
 
-  constructor(private http: AuthService) { }
-
-  ngOnInit() {
-  }
-//----------------Validation---------------------------------------------------
   hide_1 = true;
   hide_2 = true;
-  
-  userInput = {
-    email: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)]),
-    password_1: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-    password_2: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-    name: new FormControl('', [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
-    cardNumber: new FormControl('', [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
-    tariff: new FormControl('', [Validators.required]),
+  userInput: any;
+
+  constructor(private authService: AuthService,
+              private route: ActivatedRoute) {
   }
-  getErrorMessageEmail(){
+
+  ngOnInit() {
+    const tariff = this.route.snapshot.fragment;
+
+    console.log(tariff);
+    this.userInput = {
+      email: new FormControl('',
+        [Validators.required, Validators.email]),
+      password_1: new FormControl('',
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+      password_2: new FormControl('',
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+      name: new FormControl('',
+        [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
+      cardNumber: new FormControl('',
+        [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
+      tariff: new FormControl(tariff || '', [Validators.required]),
+    };
+    console.log(this.userInput);
+  }
+
+// ----------------Validation---------------------------------------------------
+
+
+  getErrorMessageEmail() {
     return this.userInput.email.hasError('required') ? 'You must enter a value' :
-    this.userInput.email.hasError('pattern') ? 'Not a valid email' : '';
+      this.userInput.email.hasError('pattern') ? 'Not a valid email' : '';
   }
-  getErrorMessagePassword_1(){
+
+  getErrorMessagePassword_1() {
     return this.userInput.password_1.hasError('required') ? 'You must enter a value' :
       this.userInput.password_1.hasError('minlength') ? 'The password is too short' :
-      this.userInput.password_1.hasError('maxlength') ? 'The password is too long' : '';
+        this.userInput.password_1.hasError('maxlength') ? 'The password is too long' : '';
   }
-  getErrorMessagePassword_2(){
+
+  getErrorMessagePassword_2() {
     return this.userInput.password_2.hasError('required') ? 'You must enter a value' :
       this.userInput.password_2.hasError('minlength') ? 'The password is too short' :
-      this.userInput.password_2.hasError('maxlength') ? 'The password is too long' : '';
+        this.userInput.password_2.hasError('maxlength') ? 'The password is too long' : '';
   }
-  
-  getErrorMessageName(){
+
+  getErrorMessageName() {
     return this.userInput.name.hasError('required') ? 'You must enter a value' :
-    this.userInput.name.hasError('pattern') ? 'The name field should not contains numbers' :
+      this.userInput.name.hasError('pattern') ? 'The name field should not contains numbers' :
         '';
   }
-  getErrorCardNumber(){
+
+  getErrorCardNumber() {
     return this.userInput.cardNumber.hasError('required') ? 'You must enter a value' :
       this.userInput.cardNumber.hasError('minlength') ? 'The password is too short' :
-      this.userInput.cardNumber.hasError('maxlength') ? 'The password is too long' : '';
-  } 
-  getErrorMessageTariff(){
+        this.userInput.cardNumber.hasError('maxlength') ? 'The password is too long' : '';
+  }
+
+  getErrorMessageTariff() {
     return this.userInput.email.hasError('required') ? 'You must select a value' : '';
   }
-//--------------------------------------------------------------------------------
 
-//----------------------------CUSTOMER REGISTRATION-------------------------------
-submit(name, email, creditCard, password, tarif) {
-  let user = {
-    name: name,
-    email: email,
-    creditCard: creditCard,
-    password: password,
-    tarif: tarif,
-    role: 'customer'
+// --------------------------------------------------------------------------------
+
+// ----------------------------CUSTOMER REGISTRATION-------------------------------
+  submit(name, email, creditCard, password, tarif) {
+    let user = {
+      name: name,
+      email: email,
+      creditCard: creditCard,
+      password: password,
+      tarif: tarif,
+      role: 'customer'
+    };
+    console.log(user);
+    this.authService.customer_reg(user).subscribe((data: any) => {
+      console.log(data);
+    });
   }
-  console.log(user);
-  this.http.customer_reg(user).subscribe((data: any) => {
-    console.log(data);
-  });
-}
-//--------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------
+
 }
 
