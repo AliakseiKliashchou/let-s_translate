@@ -1,9 +1,9 @@
 <div class="wrapper">
   <div class="logo" routerLink="/"></div>
-  <button class="menu_btn" mat-button routerLink="/dashboard">Dashboard</button>
-  <button class="menu_btn" mat-button routerLink="/new_texts">New Texts</button>
-  <button class="menu_btn" mat-button routerLink="/my_translations">My translations</button>
-  <button class="menu_btn" mat-button routerLink="/messages">Messages</button>
+  <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth">Dashboard</button>
+  <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth">New Texts</button>
+  <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth">My translations</button>
+  <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth">Messages</button>
 
   <!-------------------LOGIN---------------------------->
   <button class="login_btn"
