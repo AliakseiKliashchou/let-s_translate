@@ -10,11 +10,8 @@ app.use(cors());
 app.use(urlencodedParser);
 app.use(bodyParser.json());
 
-const login = require('./router/login');
-app.use('/', login);
-
-const registration = require('./router/registrations');
-app.use('/create', registration);
+const routes = require('./router/routes');
+app.use('/', routes);
 
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
