@@ -10,47 +10,27 @@ import {AuthService} from '../../_shared/service/users/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  role = '';
+  user = {
+    email: '',
+    password: '',
+    role: ''
+  };
 
   constructor(
     private _router: Router,
-    private http: AuthService) {
+    private authService: AuthService) {
   }
 
   ngOnInit() {
   }
 
-  //---------navigation-----------------------
-  navigate_home() {
-    this._router.navigate(['/']);
-  }
-
-  navigate_dashboard() {
-    this._router.navigate(['dashboard']);
-  }
-
-  navigate_newTexts() {
-    this._router.navigate(['new_texts']);
-  }
-
-  navigate_myTranslations() {
-    this._router.navigate(['my_translations']);
-  }
-
-  navigate_messages() {
-    this._router.navigate(['messages']);
-  }
-
-  new_translator_reg() {
-    this._router.navigate(['new_translator_reg']);
-  }
-
-  //----------------------------------------------
-
-  //--------VALIDATION------------------------------
+  // --------VALIDATION------------------------------
   userInput = {
-    email: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)]),
+    email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
-  }
+  };
 
   getErrorMessageEmail() {
     return this.userInput.email.hasError('required') ? 'You must enter a value' :
@@ -63,17 +43,10 @@ export class HeaderComponent implements OnInit {
         this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
   }
 
-  //--------------------------------------------------
-
-  role = '';
-  user = {
-    email: '',
-    password: '',
-    role: ''
-  }
+  // --------------------------------------------------
 
   checkInp(role, value, flag) {
-    //this.role = role; 
+    // this.role = role;
     switch (role) {
       case 'customer':
         if (flag === 'email') {
@@ -101,7 +74,7 @@ export class HeaderComponent implements OnInit {
 
   submit() {
     console.log(this.user);
-    this.http.login(this.user).subscribe((data) => {
+    this.authService.login(this.user).subscribe((data) => {
       console.log(data);
     });
   }
