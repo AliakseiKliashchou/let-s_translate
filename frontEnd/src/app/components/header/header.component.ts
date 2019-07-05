@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
+  msgError: string;
   isAuth = false;
 
 
@@ -79,8 +80,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  submit() {
-    console.log(this.user);
+  submit(frame) {
+    frame.hide();
     this.authService.login(this.user);
   }
 
