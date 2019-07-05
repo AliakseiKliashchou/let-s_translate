@@ -29,7 +29,8 @@ const login = (req, res) => {
         const token = jwt.sign(customer.id.toString(), jwtSecret);
         res.json({ 
           token, 
-          "id": customer.id, 
+          "id": customer.id,
+          "name": customer.name, 
           "email": customer.email, 
           "role": customer.role,
           "isFind": true
@@ -50,6 +51,7 @@ const login = (req, res) => {
         res.json({ 
           token, 
           "id": translator.id, 
+          "name": customer.name,
           "email": translator.email, 
           "role": translator.role,
           "isFind": true 
