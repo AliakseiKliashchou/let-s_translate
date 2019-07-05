@@ -5,7 +5,7 @@
     height: 400px !important;   
 }
 
-.inside_text{
+.inside-text{
     font-size: 30px !important;
 }
 
@@ -17,7 +17,7 @@ img{
     opacity: .8 !important;
 }
 
-.tarrif_plan{
+.tariff-plan{
     width: 90%;
     margin: 30px auto;
     border: 2px solid rgb(185, 183, 183);
@@ -34,7 +34,7 @@ img{
     margin: 1.6%;
     background-color: rgba(255, 255, 255, 0.205);
 }
-.tariff_h{
+.tariff-h{
     color: white;
     text-align: center;  
 }
@@ -51,7 +51,7 @@ button{
     background-color: rgba(255, 255, 255, 0.603);
     display: block;
 }
-.customer_reg{
+.customer-reg{
     width: 90%;
     min-height: 50px;
     border: 2px solid white;

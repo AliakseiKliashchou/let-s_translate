@@ -1,9 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
-import { Angular2Txt } from 'angular2-txt/Angular2-txt';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
+import {finalize, tap} from 'rxjs/operators';
+import {Angular2Txt} from 'angular2-txt/Angular2-txt';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
@@ -19,7 +19,7 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class NewTextsComponent implements OnInit {
 
-  //******************TAGS*************************** 
+  // ******************TAGS***************************
   visible = true;
   selectable = true;
   removable = true;
@@ -51,6 +51,7 @@ export class NewTextsComponent implements OnInit {
     }
     console.log(this.fruits);
   }
+
   remove(fruit: string): void {
     const index = this.fruits.indexOf(fruit);
     if (index >= 0) {
@@ -58,18 +59,20 @@ export class NewTextsComponent implements OnInit {
     }
     console.log(this.fruits);
   }
+
   selected(event: MatAutocompleteSelectedEvent): void {
     this.fruits.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
     console.log(this.fruits);
   }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
-  
-  //*************************************************
+
+  // *************************************************
 
 
   task: AngularFireUploadTask;
@@ -78,13 +81,13 @@ export class NewTextsComponent implements OnInit {
   downloadURL: string;
 
   constructor(
-    private storage: AngularFireStorage, 
-    private db: AngularFirestore, 
-    private _snackBar: MatSnackBar) { 
-      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
-    }
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar) {
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+  }
 
   isHovering: boolean;
   files: File[] = [];
@@ -125,13 +128,13 @@ export class NewTextsComponent implements OnInit {
 
     // if (type in this.typeAllowed)
   }
-  
-  uploadText(text){
-    console.log(text);    
+
+  uploadText(text) {
+    console.log(text);
     var metadata = {
       contentType: 'image/jpeg',
     };
-   
+
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     //let txt = new Angular2Txt(text, 'My Report');
@@ -141,8 +144,8 @@ export class NewTextsComponent implements OnInit {
         duration: 2000,
       });
     }).catch(error => {
-    });;
-  
+    });
+
   }
 
 }
