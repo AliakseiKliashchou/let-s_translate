@@ -1,9 +1,10 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {finalize, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+//import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-upload-task',
@@ -12,12 +13,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class UploadTaskComponent implements OnInit {
   @Input() file: File;
-
+@Output () downloadURLonDrop : EventEmitter<any> = new EventEmitter();
   task: AngularFireUploadTask;
-
+  downloadURL: string;
   percentage: Observable<number>;
   snapshot: Observable<any>;
-  downloadURL: string;
 
   constructor(
     private storage: AngularFireStorage,
@@ -27,10 +27,11 @@ export class UploadTaskComponent implements OnInit {
 
   ngOnInit() {
     this.startUpload();
+    console.log('check');
   }
 
   startUpload() {
-
+    console.log("check");
     const path = `toTranslate/${Date.now()}_${this.file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, this.file);
@@ -45,6 +46,8 @@ export class UploadTaskComponent implements OnInit {
         this._snackBar.open('The document was successfully uploaded', '', {
           duration: 2000,
         });
+        console.log(this.downloadURL);
+        this.downloadURLonDrop.emit(this.downloadURL);
       })
     );
   }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 interface UserDataBack {
   isFind: boolean;
@@ -49,7 +49,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
-        console.log(this.isAuth)
+        this.router.navigate(['/']);
       }
     });
   }

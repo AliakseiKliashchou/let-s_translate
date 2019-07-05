@@ -1,15 +1,16 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
-import { Angular2Txt } from 'angular2-txt/Angular2-txt';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
+import {finalize, tap} from 'rxjs/operators';
+import {Angular2Txt} from 'angular2-txt/Angular2-txt';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {map, startWith} from 'rxjs/operators';
+import { OrderService } from './../../_shared/service/order/order.service';
 
 
 @Component({
@@ -19,16 +20,16 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class NewTextsComponent implements OnInit {
 
-  //******************TAGS*************************** 
+  // ******************TAGS***************************
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = [];
-  allFruits: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
+  tagCtrl = new FormControl();
+  filteredTags: Observable<string[]>;
+  tags: string[] = [];
+  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -41,35 +42,38 @@ export class NewTextsComponent implements OnInit {
       const value = event.value;
       // Add our fruit
       if ((value || '').trim()) {
-        this.fruits.push(value.trim());
+        this.tags.push(value.trim());
       }
       // Reset the input value
       if (input) {
         input.value = '';
       }
-      this.fruitCtrl.setValue(null);
+      this.tagCtrl.setValue(null);
     }
-    console.log(this.fruits);
+    console.log(this.tags);
   }
+
   remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+    const index = this.tags.indexOf(fruit);
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.tags.splice(index, 1);
     }
-    console.log(this.fruits);
+    console.log(this.tags);
   }
+
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+    this.tags.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-    console.log(this.fruits);
+    this.tagCtrl.setValue(null);
+    console.log(this.tags);
   }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
-  
-  //*************************************************
+
+  // *************************************************
 
 
   task: AngularFireUploadTask;
@@ -78,13 +82,14 @@ export class NewTextsComponent implements OnInit {
   downloadURL: string;
 
   constructor(
-    private storage: AngularFireStorage, 
-    private db: AngularFirestore, 
-    private _snackBar: MatSnackBar) { 
-      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
-    }
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar,
+    private http : OrderService) {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
+  }
 
   isHovering: boolean;
   files: File[] = [];
@@ -115,23 +120,18 @@ export class NewTextsComponent implements OnInit {
       this._snackBar.open('Size of the document is too large', '', {
         duration: 2000,
       });
-      console.log('this file is too large');
     }
     let type = (file.type.split('/')[0] === 'image') ?
       file.type.split('/')[0] : file.name.split('.');
     if (typeof type === 'object') type = type[type.length - 1];
     if (this.typeAllowed.indexOf(type) !== -1) this.files.push(file);
     else this.isHasError.format = true;
-
-    // if (type in this.typeAllowed)
   }
-  
-  uploadText(text){
-    console.log(text);    
-    var metadata = {
-      contentType: 'image/jpeg',
-    };
-   
+
+  uploadText(text) {
+    console.log(text);
+    
+
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     //let txt = new Angular2Txt(text, 'My Report');
@@ -141,8 +141,46 @@ export class NewTextsComponent implements OnInit {
         duration: 2000,
       });
     }).catch(error => {
-    });;
-  
+    });
+
+  }
+  getURL(url){
+    this.order.URL = url;
+  }
+
+  //*************Configure object to push on server***************** */
+  order = {
+    email: JSON.parse(localStorage.getItem('currentUser')).email ,
+    initialLng: '',
+    finiteLng: '',
+    additional_review: false,
+    urgency: 0,
+    tags: [],
+    URL: '',
+    title: '',
+    id: JSON.parse(localStorage.getItem('currentUser')).id
+  }
+  getInitLng(lng){
+    this.order.initialLng = lng;
+  }
+  getFinitLng(lng){
+    this.order.finiteLng = lng;
+  }
+  getUrgency(urgency){
+    this.order.urgency = Number(urgency); 
+  }
+  getTitle(title){
+    this.order.title = title;
+  }
+  makeOrder(additional_review){
+    if(additional_review.checked){
+      this.order.additional_review = true;
+    }
+    this.order.tags = this.tags;  
+    console.table(this.order);
+    this.http.createOrder(this.order).subscribe( (data) => {
+      console.log(data);
+    });
   }
 
 }

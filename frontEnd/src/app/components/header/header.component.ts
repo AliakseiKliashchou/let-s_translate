@@ -11,12 +11,18 @@ import {AuthService} from '../../_shared/service/users/auth.service';
 })
 export class HeaderComponent implements OnInit {
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  userInput = {
+    email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+    password: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+  };
   role = '';
   user = {
     email: '',
     password: '',
     role: ''
   };
+  
+  msgError: string;
   isAuth = false;
 
 
@@ -34,10 +40,6 @@ export class HeaderComponent implements OnInit {
   }
 
   // --------VALIDATION------------------------------
-  userInput = {
-    email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
-    password: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
-  };
 
   getErrorMessageEmail() {
     return this.userInput.email.hasError('required') ? 'You must enter a value' :
@@ -79,8 +81,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  submit() {
-    console.log(this.user);
+  submit(frame) {
+    frame.hide();
     this.authService.login(this.user);
   }
 
