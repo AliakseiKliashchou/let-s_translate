@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const order = require('./orders');
 
-router.post('/text', (req, res) => {
-    res.json({message: 'OK SECURE TEXT'})
-})
+router.use('/', order);
 
 module.exports = router;

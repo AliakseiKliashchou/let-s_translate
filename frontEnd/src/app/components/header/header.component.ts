@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
+  
   msgError: string;
   isAuth = false;
 

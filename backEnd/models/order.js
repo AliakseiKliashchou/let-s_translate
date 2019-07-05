@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
 
-const Translator = sequelize.define('text', {
+const Order = sequelize.define('order', {
   idCustomer: {
     type: Sequelize.STRING,
     allowNull: false
@@ -48,4 +48,4 @@ const Translator = sequelize.define('text', {
   }
 });
 
-module.exports = Translator;
+module.exports = Order;

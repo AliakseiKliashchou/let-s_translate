@@ -11,6 +11,7 @@ export class LanguagesComponent implements OnInit {
 
   ngOnInit() {
   }
+  
 @Output () selectValue : EventEmitter<any> = new EventEmitter();
   getLang(sel){
     this.selectValue.emit(sel);
