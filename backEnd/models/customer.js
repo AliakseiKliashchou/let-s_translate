@@ -12,7 +12,13 @@ const Customer = sequelize.define("customer", {
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: true
+    },
+    unique: {
+      args: true
+    }
   },
   password: {
     type: Sequelize.STRING,

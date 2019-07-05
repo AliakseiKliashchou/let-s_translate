@@ -1,51 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-// const translatorModel = require('../models/translator');
+const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
 
-router.post('/customer', async(req, res) => {
-  // let user = req.body;
-  // res.json({user})
-  let user = await customerModel.create({
-    role: req.body.role,
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    verify: false,
-    creditCard: req.body.creditCard,
-    tariff: req.body.tariff
-  });
-
-  bcrypt.hash(user.password, 10).then((hash) => {
-    user.password = hash;
-    user.save().then((data) => {
-      res.json({"user": data}) 
+router.post('/translator', async(req, res) => {
+  try {
+    let translator = await translatorModel.create({
+      role: req.body.role,
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      verify: false,
+      languages: req.body.languages
     });
-  });
+  
+    bcrypt.hash(translator.password, 10).then((hash) => {
+      translator.password = hash;
+      translator.save().then((data) => {
+        res.json({"translator": data});
+      });
+    });
+  } catch(error) {
+    res.status(400).json({message: 'Email address already in use!'});
+  }
 });
 
-router.post('/translator', async(req, res) => {
-  console.log(req.body)
-  // let user = req.body;
-  // res.json({user})
-  // let user = await customerModel.create({
-  //   role: req.body.role,
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   password: req.body.password,
-  //   verify: false,
-  //   creditCard: req.body.creditCard,
-  //   tarif: req.body.tarif
-  // });
-
-  // bcypt.hash(user.password, 10).then((hash) => {
-  //   user.password = hash;
-  //   user.save().then((data) => { 
-  //     console.log("DATA", data); 
-  //     res.json({"user":user, "data": data}) 
-  //   });
-  // });
+router.post('/customer', async(req, res) => {
+  try {
+    let customer = await customerModel.create({
+      role: req.body.role,
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      verify: false,
+      creditCard: req.body.creditCard,
+      tariff: req.body.tariff
+    });
+  
+    bcrypt.hash(customer.password, 10).then((hash) => {
+      customer.password = hash;
+      customer.save().then((data) => {
+        res.json({"customer": data});
+      });
+    });
+  } catch(error) {
+    res.status(400).json({message: 'Email address already in use!'});
+  }
 });
 
 module.exports = router;

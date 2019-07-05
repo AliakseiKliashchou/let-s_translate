@@ -47,13 +47,18 @@ const login = (req, res) => {
       const isValid = bcypt.compareSync(password, translator.password);
       if(isValid) {
         const token = jwt.sign(translator.id.toString(), jwtSecret);
-        res.json({ token })
+        res.json({ 
+          token, 
+          "id": translator.id, 
+          "email": translator.email, 
+          "role": translator.role,
+          "isFind": true 
+        })
       } else {
         res.status(401).json({message: 'Invalid credentias!'})
       }
     }).catch(err => res.status(500).json({message: err.message}));
   }
-
 }
 
 module.exports = { login };

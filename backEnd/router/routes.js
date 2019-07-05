@@ -3,11 +3,11 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/auth');
 const auth = require('../controllers/auth');
 const registration = require('../router/registrations');
-const secure = require('./text');
+const secure = require('./secure-route');
 
 
 router.post('/login', auth.login);
-router.use('/secure', authMiddleware.checkToken, secure)
+router.use('/secure', authMiddleware.checkToken, secure);
 router.use('/create', registration);
 
 module.exports = router;

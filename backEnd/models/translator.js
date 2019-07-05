@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
 
-const Translator = sequelize.define('user', {
+const Translator = sequelize.define('translator', {
   role: {
     type: Sequelize.STRING,
     allowNull: false
@@ -12,7 +12,13 @@ const Translator = sequelize.define('user', {
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: true
+    },
+    unique: {
+      args: true
+    }
   },
   password: {
     type: Sequelize.STRING,
