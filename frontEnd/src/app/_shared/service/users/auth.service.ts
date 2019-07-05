@@ -49,6 +49,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
+        this.router.navigate(['/']);
       }
     });
   }
