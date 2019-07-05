@@ -118,15 +118,12 @@ export class NewTextsComponent implements OnInit {
       this._snackBar.open('Size of the document is too large', '', {
         duration: 2000,
       });
-      console.log('this file is too large');
     }
     let type = (file.type.split('/')[0] === 'image') ?
       file.type.split('/')[0] : file.name.split('.');
     if (typeof type === 'object') type = type[type.length - 1];
     if (this.typeAllowed.indexOf(type) !== -1) this.files.push(file);
     else this.isHasError.format = true;
-
-    // if (type in this.typeAllowed)
   }
 
   uploadText(text) {
