@@ -10,6 +10,10 @@ const Order = sequelize.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     allowNull: false
@@ -27,7 +31,7 @@ const Order = sequelize.define('order', {
     allowNull: false
   },
   urgency: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: true
   },
   review: {
@@ -39,7 +43,7 @@ const Order = sequelize.define('order', {
     allowNull: false
   },
   progress: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   date: {

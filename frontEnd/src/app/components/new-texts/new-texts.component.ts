@@ -145,7 +145,7 @@ export class NewTextsComponent implements OnInit {
 
   }
   getURL(url){
-    this.order.URL = url;
+    this.order.url = url;
   }
 
   //*************Configure object to push on server***************** */
@@ -156,7 +156,7 @@ export class NewTextsComponent implements OnInit {
     additional_review: false,
     urgency: 0,
     tags: [],
-    URL: '',
+    url: '',
     title: '',
     id: JSON.parse(localStorage.getItem('currentUser')).id
   }
@@ -182,5 +182,4 @@ export class NewTextsComponent implements OnInit {
       console.log(data);
     });
   }
-
 }
