@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>Choose language:</mat-label>
-  <mat-select class="form-control" id="select">
+  <mat-select class="form-control" #lang (focus)="getLang(lang.value)"  id="select">
     <mat-option value="AX">AALAND ISLANDS</mat-option>
     <mat-option value="AF">AFGHANISTAN</mat-option>
     <mat-option value="AL">ALBANIA</mat-option>

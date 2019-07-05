@@ -40,6 +40,7 @@ import {
 } from './components';
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
+import { OrderService } from './_shared/service/order/order.service';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,7 @@ import {AuthService} from './_shared/service/users/auth.service';
     MatChipsModule,
     MatAutocompleteModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, OrderService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
