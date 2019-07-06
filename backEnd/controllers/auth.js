@@ -51,7 +51,7 @@ const login = (req, res) => {
         res.json({ 
           token, 
           "id": translator.id, 
-          "name": customer.name,
+          "name": translator.name,
           "email": translator.email, 
           "role": translator.role,
           "isFind": true 

@@ -10,6 +10,10 @@ const Customer = sequelize.define("customer", {
     type: Sequelize.STRING,
     allowNull: false
   },
+  photo: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
