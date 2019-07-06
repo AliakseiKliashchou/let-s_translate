@@ -150,7 +150,8 @@ export class NewTextsComponent implements OnInit {
 
   //*************Configure object to push on server***************** */
   order = {
-    email: JSON.parse(localStorage.getItem('currentUser')).email ,
+    email: JSON.parse(localStorage.getItem('currentUser')).email,
+    name: JSON.parse(localStorage.getItem('currentUser')).name,
     initialLng: '',
     finiteLng: '',
     additional_review: false,

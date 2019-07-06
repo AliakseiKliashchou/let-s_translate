@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+// const valid = require('../validators/validator'); // valid.loginValidator,
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
 

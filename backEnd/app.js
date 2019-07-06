@@ -3,7 +3,6 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const http = require('http');
 const express = require('express');
 const app = express();
-app.use(express.static('./public/uploads'));
 
 const cors = require('cors');
 app.use(cors());
