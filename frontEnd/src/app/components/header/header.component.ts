@@ -39,11 +39,12 @@ export class HeaderComponent implements OnInit {
     this.authService.getIsAuthStatus().subscribe((res: boolean) => {
       this.isAuth = res;
     });
-    const userId = this.authService.getUserId();
-    this.userInfoService.getUserProfile(userId).subscribe((res => {
-      this.userProfile = res;
-      console.log(res)
-    }));
+    if (this.isAuth) {
+      const userId = this.authService.getUserId();
+      this.userInfoService.getUserProfile(userId).subscribe((res => {
+        this.userProfile = res;
+      }));
+    }
   }
 
   // --------VALIDATION------------------------------

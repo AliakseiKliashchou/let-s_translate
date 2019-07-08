@@ -21,7 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'access-token': token
+        'access-token': token || ''
       })
     };
     req = req.clone(httpOptions);
