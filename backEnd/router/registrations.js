@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-// const valid = require('../validators/validator'); // valid.loginValidator,
+const { check, validationResult } = require('express-validator');
+const valid = require('../validators/validator');
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
 
-router.post('/translator', async(req, res) => {
+router.post('/translator', valid.validationRegistration, async(req, res) => {
+  const result = validationResult(req);
+  const hasErrors = !result.isEmpty();
+
+  if(hasErrors) {
+    res.json({message: result})
+  }
+
   try {
     let translator = await translatorModel.create({
       role: req.body.role,
@@ -23,11 +31,18 @@ router.post('/translator', async(req, res) => {
       });
     });
   } catch(error) {
-    res.status(400).json({message: 'Email address already in use!'});
+    res.status(400).json({message: error});
   }
 });
 
-router.post('/customer', async(req, res) => {
+router.post('/customer', valid.validationRegistration, async(req, res) => {
+  const result = validationResult(req);
+  const hasErrors = !result.isEmpty();
+
+  if(hasErrors) {
+    res.json({message: result})
+  }
+
   try {
     let customer = await customerModel.create({
       role: req.body.role,
@@ -36,7 +51,8 @@ router.post('/customer', async(req, res) => {
       password: req.body.password,
       verify: false,
       creditCard: req.body.creditCard,
-      tariff: req.body.tariff
+      tariff: req.body.tariff,
+      photo: req.body.photo
     });
   
     bcrypt.hash(customer.password, 10).then((hash) => {
@@ -46,7 +62,7 @@ router.post('/customer', async(req, res) => {
       });
     });
   } catch(error) {
-    res.status(400).json({message: 'Email address already in use!'});
+    res.status(400).json({message: error});
   }
 });
 
