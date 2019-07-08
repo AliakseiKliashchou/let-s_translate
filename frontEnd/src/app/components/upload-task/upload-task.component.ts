@@ -27,11 +27,10 @@ export class UploadTaskComponent implements OnInit {
 
   ngOnInit() {
     this.startUpload();
-    console.log('check');
   }
 
   startUpload() {
-    console.log("check");
+    console.log(this.file);
     const path = `toTranslate/${Date.now()}_${this.file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, this.file);
