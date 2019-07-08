@@ -1,16 +1,17 @@
 <div class="wrapper">
   <app-header></app-header>
+
   <div class="title anim">Dashboard</div>
 
   <div class="block">
     <h3>Incomplete translations</h3>
-    <div class="container">
+    <div class="container" *ngIf="ordersArray">
 
-      <div *ngFor="let text of translateStatusArray" class="text-container">
-        <p>{{text.title}}</p>
-        <p [ngStyle]="{'color':getColor(text.status.value)}" style="font-weight: 400" >
-          {{text.status.display}}</p>
-        <p class="date">{{text.date}}</p>
+      <div *ngFor="let text of ordersArray; let i=index" class="text-container">
+        <p style="cursor: pointer" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
+        <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">
+          {{status[text.progress]}}</p>
+        <p class="date">{{text.date | date}}</p>
       </div>
 
     </div>

@@ -7,7 +7,8 @@ import {
   MyTranslationsComponent,
   MessagesComponent,
   CustomerRegComponent,
-  RegNewTranslatorComponent
+  RegNewTranslatorComponent,
+  TextDetailsComponent
 } from './components';
 import {AuthGuard} from './_shared/Guard/auth.guard';
 
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   {path: 'messages', component: MessagesComponent, data: {state: 'messages'}, canActivate: [AuthGuard]},
   {path: 'customerRegistration', component: CustomerRegComponent, data: {state: 'customerRegistration'}},
   {path: 'new_translator_reg', component: RegNewTranslatorComponent, data: {state: 'new_translator_reg'}},
+  {path: 'text_details/:id', component: TextDetailsComponent, data: {state: 'text_details'}}
 ];
 
 @NgModule({

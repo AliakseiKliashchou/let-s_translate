@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
     this.isAuth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((res: boolean) => {
       this.isAuth = res;
-      console.log(res);
     });
   }
 
