@@ -5,7 +5,7 @@
 
       <div class="logo" routerLink="/"></div>
 
-      <a href="#" class="button" (click)="toggleMenu()" *ngIf="isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
+      <a class="button" (click)="toggleMenu()" *ngIf="isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
 
       <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !isWindowSizeSmall">Dashboard</button>
       <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !isWindowSizeSmall">New Texts</button>
@@ -14,7 +14,7 @@
       <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !isWindowSizeSmall">Messages</button>
 
 
-      <ul class="sub-menu">
+      <ul class="sub-menu" *ngIf="isWindowSizeSmall && isAuth">
         <li routerLink="/dashboard">Dashboard</li>
         <li routerLink="/new_texts">New Texts</li>
         <li routerLink="/my_translations">My translations</li>
