@@ -1,61 +1,145 @@
-.wrapper{
-    border-bottom: 2px solid white;
-    width: 100%;
-    height: 100px;
-   
-    padding: 1px;
+.wrapper {
+  border-bottom: 2px solid white;
+  width: 100%;
+  height: 100px;
+  padding: 1px;
+  font-size: 16px;
 }
-.logo{
-    width: 390px;
-    height: 70px; 
-    background-image: url('../../../assets/logo.png');
-    background-size: 100% 100%;
-    margin: 10px 10px; 
-    display: block;
-    float: left;
-} 
-    
-.logo:hover{
-    cursor: pointer;
-    border: 2px solid rgb(196, 194, 194);
-    border-radius: 5px;
-    box-shadow: 10px 5px 5px red;
+
+.wrapper button {
+  font-size: 16px;
 }
-.login_btn{
-    background-color: rgba(255, 255, 255, 0.603);
-    margin: 15px;
-    float: right;
-    position: relative;
-    top: 6px;
-    height: 50px;
-    width: 80px;
-    font-size: 20px;
-    color: white;    
+
+nav {
+  display: flex;
+  justify-content: space-between;
 }
-.menu_btn{
-    background-image: url('../../../assets/background_btn.jpg');
-    background-size: 100% 100%;
-    margin: 15px;
-    float: left;
-    position: relative;
-    top: 7px;
-    height: 50px;
-    width: 130px;
-    font-size: 15px;
-    color: rgb(197, 194, 194); 
-    box-shadow: 5px 5px 15px rgb(138, 137, 137);
-    border-radius: 10px;  
+
+.left-block, .right-block {
+  display: flex;
+  align-items: center;
 }
-.menu_btn:hover{
-    box-shadow: 10px 5px 5px red;
-    top: 15px;
+
+.logo {
+  width: 24em;
+  height: 4em;
+  background-image: url('../../../assets/logo.png');
+  background-size: 100% 100%;
+  margin: 10px 10px;
+  display: block;
 }
-.new_translator_btn{
-    background-color: rgba(255, 255, 255, 0.603);
-    color: white;  
-    float: right;
-    position: relative;
-    top: 21px;
-    height: 50px;
-    font-size: 20px;
+
+.logo:hover {
+  cursor: pointer;
+  border: 2px solid rgb(196, 194, 194);
+  border-radius: 5px;
+  box-shadow: 10px 5px 5px red;
+}
+
+.right-block button {
+  background-color: rgba(255, 255, 255, 0.603);
+  margin-right: 15px;
+  height: 3em;
+  color: white;
+}
+
+.menu_btn {
+  background-image: url('../../../assets/background_btn.jpg');
+  background-size: 100% 100%;
+  margin: .9em;
+  height: 3em;
+  width: 9em;
+  color: rgb(197, 194, 194);
+  box-shadow: 5px 5px 15px rgb(138, 137, 137);
+  border-radius: 10px;
+}
+
+.menu_btn:hover {
+  box-shadow: 10px 5px 5px red;
+  top: .9em;
+}
+
+.new_translator_btn {
+  background-color: rgba(255, 255, 255, 0.603);
+  color: white;
+  position: relative;
+  top: 21px;
+  height: 50px;
+  font-size: 20px;
+}
+
+/*4*/
+.button {
+  padding: 10px;
+  height: 2em;
+  width: 2em;
+  display: block;
+  position: relative;
+  background: #797a75; /* Old browsers */
+}
+
+a .button {
+  background-color: #f16624;
+}
+
+.sub-menu {
+  font-weight: 300;
+  list-style-type: none;
+  padding: 10px 20px;
+  width: 200px;
+  color: white;
+  background: #62635e; /* Old browsers */
+  margin: 0;
+  z-index: 2;
+  position: fixed;
+  top: 2.5em;
+  left: 27.5em;
+  transition: opacity 0.25s ease;
+  opacity: 0;
+}
+
+.sub-menu li {
+  line-height: 60px;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+}
+
+.sub-menu li:last-child {
+  border-bottom: none;
+}
+
+
+.active .menu {
+  background: transparent;
+}
+
+.active .menu:before {
+  top: -10px;
+  left: 5px;
+  animation: top-rot-in .5s forwards;
+}
+
+.active .menu:after {
+  top: 10px;
+  left: 5px;
+  animation: bot-rot-in .5s forwards;
+}
+
+.active .sub-menu {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  animation: menu-active-slide .25s;
+}
+
+
+/*5*/
+
+@media (max-width: 1400px) {
+  .wrapper, .wrapper button {
+    font-size: 14px;
+  }
+
+  .logo {
+    margin: 20px 10px;
+  }
 }

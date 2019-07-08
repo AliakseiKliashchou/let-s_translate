@@ -21,8 +21,8 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
-  
-  msgError: string;
+  isWindowSizeSmall: boolean = (window.innerWidth < 1200);
+  isClose = true;
   isAuth = false;
 
 
@@ -88,6 +88,15 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggleMenu() {
+    this.isClose = !this.isClose;
+  }
+
+  resizeWindow() {
+    this.isWindowSizeSmall = (window.innerWidth < 1200);
+    if (!this.isWindowSizeSmall) this.isClose = true;
   }
 
 }
