@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {OrderService} from '../../_shared/service/order/order.service';
+import {OrderInterface} from '../../_shared/interface/order.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,21 +8,25 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./dashboard.component.css', '../../app.component.css']
 })
 export class DashboardComponent implements OnInit {
-  translateStatusArray = [
-    {title: 'Red Hat', status: {value: 1, display: 'In progress'}, date: '05 jul'},
-    {title: 'Chicken', status: {value: 1, display: 'In progress'}, date: '07 jul'},
-    {title: 'Gold card', status: {value: 0, display: 'Waiting translator'}, date: '12 jul'},
-    {title: 'Brave mouse', status: {value: 3, display: 'Ready for translator review'}, date: '24 aug'},
-    {title: 'Sly fox', status: {value: 1, display: 'In progress'}, date: '01 sep'},
-    {title: 'Live floor', status: {value: 3, display: 'Ready for customer review'}, date: '01 jul'},
-    {title: 'Onion', status: {value: 1, display: 'In progress'}, date: '13 aug'}
+  status = [
+    'Waiting translator',
+    'In progress',
+    'Ready for translator review',
+    'Ready for customer review'
   ];
+  ordersArray: OrderInterface[];
 
 
-  constructor() {
+  constructor(private orderService: OrderService) {
   }
 
   ngOnInit() {
+    this.orderService.getOrders().subscribe(
+      (orders: OrderInterface[]) => {
+        console.log(orders)
+        this.ordersArray = orders;
+      }
+    );
   }
 
   getColor(status) {
