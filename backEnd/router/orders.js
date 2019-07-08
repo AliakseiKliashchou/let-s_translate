@@ -34,10 +34,11 @@ router.get('/order', async(req, res) => {
   }
 });
 
-router.get('/one-order', async(req, res) => {
-  let id = req.query.id;
+router.get('/order/:id', async(req, res) => {
+  let id = req.params.id;
+
   try {
-    let order = await orderModel.findOne({where: {id: id}})
+    let order = await orderModel.findOne({where: {id: id}});
     // let order = await orderModel.findByPk(id, { raw: true }).then(() => {
       res.json({order});
     // })
