@@ -4,7 +4,7 @@ const customerModel = require('../models/customer');
 const translatorModel = require('../models/translator');
 
 router.get('/customer', async(req, res) => {
-  let id = req.query.id
+  let id = req.query.id;
   try {
     let profile = await customerModel.findOne({where: {id}}).then((customer) => {
       let data = {
@@ -12,7 +12,7 @@ router.get('/customer', async(req, res) => {
         email: customer.email,
         photo: customer.photo
       }
-      res.json({data})
+      res.json(data)
     });
   } catch(error) {
     res.json({message: error})

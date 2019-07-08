@@ -68,7 +68,26 @@ nav {
   font-size: 20px;
 }
 
-/*4*/
+.name {
+  background-color: #c7331d;
+  color: white;
+  font-size: 1.2em;
+  padding: 0.2em 1em;
+  margin: 0 0.5em;
+  border-radius: 5px;
+}
+
+.user-photo {
+  width: 3em;
+  height: 3em;
+  padding: .5em;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: url("../../../favicon.ico") no-repeat center;
+  background-size: cover;
+  cursor: pointer;
+}
+
 .button {
   padding: 10px;
   height: 2em;
