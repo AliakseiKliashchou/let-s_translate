@@ -28,6 +28,6 @@ export class OrderService {
   }
 
   getOrder(id) {
-    // return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
+    return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
   }
 }
