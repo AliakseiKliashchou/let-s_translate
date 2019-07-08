@@ -52,7 +52,7 @@
         <mat-divider></mat-divider>
         <!-------------------------------------PHOTO------------------------------------------>
         <div class="md-form mb-5" id="photo">
-            <i class="fas fa-camera prefix" ></i>
+            <i class="fas fa-camera prefix" [ngClass]="photoStatus ? 'green-text' : 'red-text'"></i>
             <input type="file" #upPhoto (change)="uploadPhoto($event)">            
         </div>
         <mat-divider></mat-divider>

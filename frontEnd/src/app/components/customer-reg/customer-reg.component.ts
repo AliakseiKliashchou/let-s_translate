@@ -20,6 +20,7 @@ export class CustomerRegComponent implements OnInit {
 
   hide_1 = true;
   hide_2 = true;
+  photoStatus = false;
   userInput: any;
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   photoIcon = false;
@@ -27,6 +28,7 @@ export class CustomerRegComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: Observable<string>;;
   percentage: Observable<number>;
+  photoUrl: string;
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
@@ -98,7 +100,7 @@ uploadPhoto(event){
   const path = `photos/${Date.now()}_${file.name}`;
   const ref = this.storage.ref(path); 
   this.task = this.storage.upload(path, file);
-  this.downloadURL = ref.getDownloadURL();
+ // this.downloadURL = ref.getDownloadURL();
   this.task.snapshotChanges().pipe(
     finalize(() => {
       this.downloadURL = ref.getDownloadURL();
@@ -106,7 +108,8 @@ uploadPhoto(event){
         this._snackBar.open('The document was successfully uploaded', '', {
           duration: 2000,
         });
-        console.log(url);
+        this.photoUrl = url;
+        this.photoStatus = true;
       });
     }
     )
@@ -124,7 +127,7 @@ uploadPhoto(event){
       password,
       tariff,
       role: 'customer',
-      photo: this.downloadURL,
+      photo: this.photoUrl,
     };
     console.log(user);
     this.authService.customer_reg(user).subscribe((data: any) => {
