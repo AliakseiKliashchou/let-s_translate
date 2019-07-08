@@ -36,7 +36,7 @@ router.get('/order', async(req, res) => {
 
 router.get('/order/:id', async(req, res) => {
   let id = req.params.id;
-  
+  console.log(id)
   try {
     let order = await orderModel.findOne({where: {id: id}})
     res.json({order});
