@@ -34,6 +34,18 @@ router.get('/order', async(req, res) => {
   }
 });
 
+router.get('/order/:id', async(req, res) => {
+  let id = req.params.id;
+  
+  try {
+    let order = await orderModel.findOne({where: {id: id}})
+    res.json({order});
+
+  } catch(error) {
+    res.status(400).json({error, message: 'Can not find any order'});
+  }
+});
+
 router.put('/order', async(req, res) => {
 
 });

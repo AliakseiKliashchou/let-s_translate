@@ -27,7 +27,9 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
   }
 
-  getOrder(id) {
-    return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
+
+  getOrder(id: number) {
+    return this.http.get(`${this.URL}/secure/order/${id}`, this.httpOptions);
+
   }
 }
