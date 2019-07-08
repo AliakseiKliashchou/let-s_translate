@@ -17,7 +17,7 @@ const appRoutes: Routes = [
   {path: 'new_texts', component: NewTextsComponent, data: {state: 'new_texts'}, canActivate: [AuthGuard]},
   {path: 'my_translations', component: MyTranslationsComponent, data: {state: 'my_translations'}, canActivate: [AuthGuard]},
   {path: 'messages', component: MessagesComponent, data: {state: 'messages'}, canActivate: [AuthGuard]},
-  {path: 'customer_reg', component: CustomerRegComponent, data: {state: 'customer_reg'}},
+  {path: 'customerRegistration', component: CustomerRegComponent, data: {state: 'customerRegistration'}},
   {path: 'new_translator_reg', component: RegNewTranslatorComponent, data: {state: 'new_translator_reg'}},
 ];
 

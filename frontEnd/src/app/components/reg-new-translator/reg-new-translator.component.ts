@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
+import {AuthService} from "../../_shared/service/users/auth.service";
 
 @Component({
   selector: 'app-reg-new-translator',
@@ -19,7 +20,7 @@ export class RegNewTranslatorComponent implements OnInit {
     name: new FormControl('', [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
   };
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -49,6 +50,14 @@ export class RegNewTranslatorComponent implements OnInit {
   }
 
 // --------------------------------------------------------------------------------
-
+  register(email, name, psw) {
+    const user = {
+      name,
+      email,
+      role: 'translator',
+      password: psw
+    };
+    this.authService.translatorRegistration(user).subscribe(res => console.log(res));
+  }
 
 }

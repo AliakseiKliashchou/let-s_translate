@@ -6,7 +6,7 @@
         <!-----------------------------------EMAIL-------------------------------------->
         <div class="md-form mb-5">
             <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
-            <input type="email" id="email_reg" [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
+            <input type="email" id="email_reg" #email [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="email_reg" >Your email</label>                
             <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)" >{{getErrorMessageEmail()}}</mdb-error>
             <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
@@ -15,7 +15,7 @@
         <!-----------------------------------NAME-------------------------------------->
         <div class="md-form mb-5">
             <i class="fas fa-user prefix" [ngClass]="userInput.name.valid ? 'green-text' : 'red-text'"></i>
-            <input type="text" id="name_reg" [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
+            <input type="text" id="name_reg" #name [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="name_reg" >Your name</label>                
             <mdb-error *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)" >{{getErrorMessageName()}}</mdb-error>
             <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
@@ -53,6 +53,7 @@
         userInput.password_1.valid && 
         userInput.password_2.valid && 
         (password1_reg.value == password2_reg.value) ? false : true"
+        (click)="register(email.value, name.value, password1_reg)"
     >Register</button>
   </div>
   <app-footer></app-footer>
