@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.orderService.getOrders().subscribe(
       (orders: OrderInterface[]) => {
+        console.log(orders)
         this.ordersArray = orders;
       }
     );
