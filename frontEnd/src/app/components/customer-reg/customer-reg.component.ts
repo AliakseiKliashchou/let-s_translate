@@ -127,7 +127,7 @@ uploadPhoto(event){
       photo: this.downloadURL,
     };
     console.log(user);
-    this.authService.customer_reg(user).subscribe((data: any) => {
+    this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
     });
   }

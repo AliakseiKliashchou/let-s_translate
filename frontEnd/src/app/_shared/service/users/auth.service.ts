@@ -32,8 +32,12 @@ export class AuthService {
   };
   private URL = 'http://localhost:3000';
 
-  customer_reg(user): Observable<any> {
+  customerRegistration(user): Observable<any> {
     return this.http.post(`${this.URL}/create/customer`, user, this.httpOptions);
+  }
+
+  translatorRegistration(user): Observable<any> {
+    return this.http.post(`${this.URL}/create/translator`, user, this.httpOptions);
   }
 
   login(user) {

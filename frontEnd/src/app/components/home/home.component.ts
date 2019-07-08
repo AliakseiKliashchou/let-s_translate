@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToCustomerReg() {
-    this._router.navigate(['customer_reg']);
+    this._router.navigate(['customerRegistration']);
   }
 
 
