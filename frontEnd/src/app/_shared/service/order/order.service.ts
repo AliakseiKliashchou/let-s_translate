@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
@@ -7,7 +7,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class OrderService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -18,7 +19,15 @@ export class OrderService {
   };
   private URL = 'http://localhost:3000';
 
-  createOrder(order){
+  createOrder(order) {
     return this.http.post(`${this.URL}/secure/order/`, order, this.httpOptions);
+  }
+
+  getOrders() {
+    return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
+  }
+
+  getOrder(id) {
+    // return this.http.get(`${this.URL}/secure/order/`, this.httpOptions);
   }
 }
