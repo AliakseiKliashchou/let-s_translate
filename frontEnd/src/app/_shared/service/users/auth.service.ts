@@ -40,6 +40,10 @@ export class AuthService {
     return this.http.post(`${this.URL}/create/translator`, user, this.httpOptions);
   }
 
+  getUserProfile() {
+    return this.http.get('http://localhost:3000/secure/profile/customer');
+  }
+
   login(user) {
     this.http.post(`${this.URL}/login`, user, this.httpOptions).subscribe((data: UserDataBack) => {
       if (data.isFind) {
