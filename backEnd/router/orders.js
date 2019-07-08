@@ -28,7 +28,7 @@ router.post('/order', async(req, res) => {
 router.get('/order', async(req, res) => {
   try {
     let orders = await orderModel.findAll({});
-    res.json({message: 'Orders finded!', orders});
+    res.json( orders);
   } catch(error) {
     res.status(400).json({error, message: 'Can not find any order'});
   }
