@@ -2,6 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {finalize, tap} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+
+
+
 
 @Component({
   selector: 'app-customer-reg',
@@ -14,11 +22,19 @@ export class CustomerRegComponent implements OnInit {
   hide_2 = true;
   userInput: any;
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-  constructor(private authService: AuthService,
-              private route: ActivatedRoute) {
+  photoIcon = false;
+  task: AngularFireUploadTask;
+  snapshot: Observable<any>;
+  downloadURL: Observable<string>;;
+  percentage: Observable<number>;
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar) {
   }
-
+  
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;
     this.userInput = {
@@ -34,6 +50,7 @@ export class CustomerRegComponent implements OnInit {
         [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
       tariff: new FormControl(tariff || '', [Validators.required]),
     };
+    //this.uploadPhoto(event);
   }
 
 // ----------------Validation---------------------------------------------------
@@ -64,8 +81,8 @@ export class CustomerRegComponent implements OnInit {
 
   getErrorCardNumber() {
     return this.userInput.cardNumber.hasError('required') ? 'You must enter a value' :
-      this.userInput.cardNumber.hasError('minlength') ? 'The password is too short' :
-        this.userInput.cardNumber.hasError('maxlength') ? 'The password is too long' : '';
+      this.userInput.cardNumber.hasError('minlength') ? 'The number is too short' :
+        this.userInput.cardNumber.hasError('maxlength') ? 'The number is too long' : '';
   }
 
   getErrorMessageTariff() {
@@ -73,6 +90,30 @@ export class CustomerRegComponent implements OnInit {
   }
 
 // --------------------------------------------------------------------------------
+
+//------------------------------Upload photo-----------------------------------------------
+
+uploadPhoto(event){
+  const file = event.target.files[0];  
+  const path = `photos/${Date.now()}_${file.name}`;
+  const ref = this.storage.ref(path); 
+  this.task = this.storage.upload(path, file);
+  this.downloadURL = ref.getDownloadURL();
+  this.task.snapshotChanges().pipe(
+    finalize(() => {
+      this.downloadURL = ref.getDownloadURL();
+      this.downloadURL.subscribe(url => {
+        this._snackBar.open('The document was successfully uploaded', '', {
+          duration: 2000,
+        });
+        console.log(url);
+      });
+    }
+    )
+  ).subscribe();
+  }
+  
+
 
 // ----------------------------CUSTOMER REGISTRATION-------------------------------
   submit(name, email, creditCard, password, tariff) {
@@ -82,7 +123,8 @@ export class CustomerRegComponent implements OnInit {
       creditCard,
       password,
       tariff,
-      role: 'customer'
+      role: 'customer',
+      photo: this.downloadURL,
     };
     console.log(user);
     this.authService.customerRegistration(user).subscribe((data: any) => {

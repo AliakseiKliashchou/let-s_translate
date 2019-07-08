@@ -50,6 +50,13 @@
         </div>
         <div style="clear: both"></div>
         <mat-divider></mat-divider>
+        <!-------------------------------------PHOTO------------------------------------------>
+        <div class="md-form mb-5" id="photo">
+            <i class="fas fa-camera prefix" ></i>
+            <input type="file" #upPhoto (change)="uploadPhoto($event)">            
+        </div>
+        <mat-divider></mat-divider>
+
         <!-----------------------------------TARIFF-------------------------------------->
         <div class="md-form mb-5" >
             <div class="tariff_icon">
