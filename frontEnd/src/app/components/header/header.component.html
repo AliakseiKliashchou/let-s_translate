@@ -1,25 +1,42 @@
-<div class="wrapper">
-  <div class="logo" routerLink="/"></div>
-  <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth">Dashboard</button>
-  <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth">New Texts</button>
-  <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth">My translations</button>
-  <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth">Messages</button>
+<div class="wrapper" (window:resize)="resizeWindow()">
 
-  <!-------------------LOGIN---------------------------->
-  <button class="login_btn"
-          mat-button
-          data-toggle="modal"
-          data-target="#basicExample"
-          (click)="frame.show()"
-          *ngIf="!isAuth"
-          mdbWavesEffect>
-    Login
-  </button>
+  <nav [class.active]="!isClose">
+    <div class="left-block ">
 
-  <button (click)="logout()" mat-button class="login_btn" *ngIf="isAuth">Logout</button>
+      <div class="logo" routerLink="/"></div>
 
-  <button class="new_translator_btn" mat-button routerLink="/new_translator_reg">Register new translator</button>
+      <a href="#" class="button" (click)="toggleMenu()" *ngIf="isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
 
+      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !isWindowSizeSmall">Dashboard</button>
+      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !isWindowSizeSmall">New Texts</button>
+      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !isWindowSizeSmall">My translations
+      </button>
+      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !isWindowSizeSmall">Messages</button>
+
+
+      <ul class="sub-menu">
+        <li routerLink="/dashboard">Dashboard</li>
+        <li routerLink="/new_texts">New Texts</li>
+        <li routerLink="/my_translations">My translations</li>
+        <li routerLink="/messages">Messages</li>
+      </ul>
+    </div>
+
+    <!-------------------LOGIN---------------------------->
+    <div class="right-block">
+      <button mat-button
+              data-toggle="modal"
+              data-target="#basicExample"
+              (click)="frame.show()"
+              *ngIf="!isAuth"
+              mdbWavesEffect>
+        Login
+      </button>
+
+      <button (click)="logout()" mat-button *ngIf="isAuth">Logout</button>
+      <button mat-button routerLink="/new_translator_reg">Register</button>
+    </div>
+  </nav>
   <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
