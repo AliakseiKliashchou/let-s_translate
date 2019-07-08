@@ -36,7 +36,8 @@ import {
   CustomerRegComponent,
   RegNewTranslatorComponent,
   UploadTaskComponent,
-  LanguagesComponent
+  LanguagesComponent,
+  TextDetailsComponent
 } from './components';
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
@@ -57,6 +58,7 @@ import { OrderService } from './_shared/service/order/order.service';
     DropzoneDirective,
     UploadTaskComponent,
     LanguagesComponent,
+    TextDetailsComponent,
 
   ],
   imports: [
