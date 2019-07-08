@@ -7,9 +7,7 @@ module.exports = {
       .isEmail().withMessage('Email is invalid!'),
 
     check('password')
-      .isLength({ min:8 }).withMessage('Password must be at least 8 characters in length.')
-      .matches('\[0-9\]').withMessage('Password must contain at least 1 number.')
-      .matches('\[a-z\]').withMessage('Password must contain at least 1 lowercase letter.')
-      .matches('\[A-Z\]').withMessage('Password must contain at least 1 uppercase letter.')
+      .isLength({ min: 3 }).withMessage('Password must be at minimum 3 characters in length.')
+      .isLength({ max: 10 }).withMessage('Password must be at maximum 10 characters in length.')
   ]
 }
