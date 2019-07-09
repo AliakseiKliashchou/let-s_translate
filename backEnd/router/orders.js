@@ -39,7 +39,7 @@ router.get('/order/:id', async(req, res) => {
   
   try {
     let order = await orderModel.findOne({where: {id: id}})
-    res.json({order});
+    res.json(order);
 
   } catch(error) {
     res.status(400).json({error, message: 'Can not find any order'});
