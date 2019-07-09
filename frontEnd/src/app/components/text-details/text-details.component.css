@@ -22,18 +22,19 @@ progressbar{
     margin: 10px auto;
     width: 90%;
 }
+
+
+/****************/
 .comments_wrapper{
     border: 2px solid white;
     border-radius: 5px;
     width: 95%;
     min-height: 50px;
     margin: 15px auto;
-
+   
 }
-
-/****************/
 .comments {
-  width: 400px;
+  width: 80%;
 }
 
   .comment {
@@ -47,11 +48,12 @@ progressbar{
 
   .dialog {
   position: relative;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.308);
   padding: 20px;
   color: #222;
   border-radius: 3px;
   margin-left: 20px;
+  color: white;
   }
 
   .dialog::after {
@@ -62,7 +64,28 @@ progressbar{
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-right: 15px solid #fff;
+  border-right: 15px solid rgba(255, 255, 255,0.308);
   left: -15px;
   top: 15px;
+  }
+  .avatar{
+      height: 50px;
+      width: 50px;
+      border: 1px solid white;
+      border-radius: 50%;
+      float: left;
+
+  }
+  .name{
+      float: left;
+      margin-left: 20px;      
+  }
+  .name > span{
+      text-decoration: underline;
+  }
+  .message{
+      border: 1px solid white;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0);
+      padding: 10px;
   }
