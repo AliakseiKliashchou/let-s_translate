@@ -3,6 +3,7 @@ import { ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {OrderService} from './../../_shared/service/order/order.service';
 import { OrderInterface } from 'src/app/_shared/interface/order.interface';
+import { MessagesService } from './../../_shared/service/messages/messages.service';
 
 
 
@@ -13,7 +14,10 @@ import { OrderInterface } from 'src/app/_shared/interface/order.interface';
 })
 export class TextDetailsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,  private OrderService: OrderService) {  
+  constructor(
+    private route: ActivatedRoute,  
+    private OrderService: OrderService,
+    private MessagesService: MessagesService) {  
     this.routeSubscription = route.params.subscribe(params=>this.id=params['id']);
     console.log(this.id);
   }
@@ -32,6 +36,9 @@ export class TextDetailsComponent implements OnInit {
       this.element.review = data.review,
       this.element.tags = data.tags,
       this.element.urgency = data.urgency
+    });
+    this.MessagesService.getMessages(this.element.id).subscribe( (data) => {
+      console.log(data);
     });
   }
 
