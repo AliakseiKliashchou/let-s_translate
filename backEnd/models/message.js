@@ -2,6 +2,10 @@ const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
 
 const Message = sequelize.define("message", {
+  senderEmail: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   role: {
     type: Sequelize.STRING,
     allowNull: false
@@ -15,6 +19,10 @@ const Message = sequelize.define("message", {
     allowNull: false
   },
   name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  photo: {
     type: Sequelize.STRING,
     allowNull: false
   },
