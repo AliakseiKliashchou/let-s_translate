@@ -25,6 +25,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { TableModule } from 'angular-bootstrap-md';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import {
   HeaderComponent,
   HomeComponent,
@@ -93,7 +95,9 @@ import {TokenInterceptor} from './_shared/token.interceptor';
     MatSnackBarModule,
     HttpClientModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    TableModule,
+    ProgressbarModule.forRoot()
   ],
   providers: [
     {

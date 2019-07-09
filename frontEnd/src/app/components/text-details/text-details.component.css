@@ -1,0 +1,32 @@
+.textDetail{
+    width: 95%;
+    border: 2px solid white;
+    border-radius: 5px;
+    min-height: 80px;
+    background-color: rgb(255, 255, 255);
+    margin: 20px auto;
+}
+
+.del_btn{
+    background-color: rgb(212, 26, 13);
+    margin: 10px;
+}
+a{
+    color: blue !important;
+    text-decoration: underline;
+}
+a:hover{
+    color: red !important;
+}
+progressbar{
+    margin: 10px auto;
+    width: 90%;
+}
+.comments{
+    border: 2px solid white;
+    border-radius: 5px;
+    width: 95%;
+    min-height: 50px;
+    margin: 15px auto;
+
+}
