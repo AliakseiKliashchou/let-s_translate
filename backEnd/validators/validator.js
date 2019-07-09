@@ -2,7 +2,7 @@ const { check, validationResult } = require('express-validator');
 
 module.exports = {
 
-  validationRegistration: [
+  checkValid: [
     check('email')
       .isEmail().withMessage('Email is invalid!'),
 

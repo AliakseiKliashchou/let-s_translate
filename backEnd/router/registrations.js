@@ -6,7 +6,7 @@ const valid = require('../validators/validator');
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
 
-router.post('/translator', valid.validationRegistration, async(req, res) => {
+router.post('/translator', valid.checkValid, async(req, res) => {
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
 
@@ -35,7 +35,7 @@ router.post('/translator', valid.validationRegistration, async(req, res) => {
   }
 });
 
-router.post('/customer', valid.validationRegistration, async(req, res) => {
+router.post('/customer', valid.checkValid, async(req, res) => {
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
 
