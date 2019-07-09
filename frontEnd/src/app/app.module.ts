@@ -22,9 +22,11 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { TableModule } from 'angular-bootstrap-md';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import {
   HeaderComponent,
   HomeComponent,
@@ -41,7 +43,8 @@ import {
 } from './components';
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
-import { OrderService } from './_shared/service/order/order.service';
+import {OrderService} from './_shared/service/order/order.service';
+import {TokenInterceptor} from './_shared/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -92,9 +95,18 @@ import { OrderService } from './_shared/service/order/order.service';
     MatSnackBarModule,
     HttpClientModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    TableModule,
+    ProgressbarModule.forRoot()
   ],
-  providers: [AuthService, OrderService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    AuthService,
+    OrderService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })

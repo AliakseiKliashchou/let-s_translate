@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
+import {UserInfoService} from "../../_shared/service/users/user-info.service";
 
 
 @Component({
@@ -24,11 +25,13 @@ export class HeaderComponent implements OnInit {
   isWindowSizeSmall: boolean = (window.innerWidth < 1200);
   isClose = true;
   isAuth = false;
+  userProfile;
 
 
   constructor(
     private _router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private userInfoService: UserInfoService) {
   }
 
   ngOnInit() {
@@ -36,6 +39,12 @@ export class HeaderComponent implements OnInit {
     this.authService.getIsAuthStatus().subscribe((res: boolean) => {
       this.isAuth = res;
     });
+    if (this.isAuth) {
+      const userId = this.authService.getUserId();
+      this.userInfoService.getUserProfile(userId).subscribe((res => {
+        this.userProfile = res;
+      }));
+    }
   }
 
   // --------VALIDATION------------------------------

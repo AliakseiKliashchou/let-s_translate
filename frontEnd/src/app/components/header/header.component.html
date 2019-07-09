@@ -7,9 +7,12 @@
 
       <a class="button" (click)="toggleMenu()" *ngIf="isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
 
-      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !isWindowSizeSmall">Dashboard</button>
-      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !isWindowSizeSmall">New Texts</button>
-      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !isWindowSizeSmall">My translations
+      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !isWindowSizeSmall">Dashboard
+      </button>
+      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !isWindowSizeSmall">New Texts
+      </button>
+      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !isWindowSizeSmall">My
+        translations
       </button>
       <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !isWindowSizeSmall">Messages</button>
 
@@ -21,9 +24,10 @@
         <li routerLink="/messages">Messages</li>
       </ul>
     </div>
-
     <!-------------------LOGIN---------------------------->
     <div class="right-block">
+      <p *ngIf="userProfile" class="name">{{userProfile.name}}</p>
+      <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"></div>
       <button mat-button
               data-toggle="modal"
               data-target="#basicExample"
