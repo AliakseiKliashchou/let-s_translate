@@ -40,10 +40,10 @@ progressbar{
   .comment {
   width: 100%;
   margin: 20px;
-  }
+  } 
 
   .comment p {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px 0; 
   }
 
   .dialog {

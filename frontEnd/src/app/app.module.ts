@@ -44,6 +44,7 @@ import {
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
 import {OrderService} from './_shared/service/order/order.service';
+import { MessagesService } from './_shared/service/messages/messages.service';
 import {TokenInterceptor} from './_shared/token.interceptor';
 
 @NgModule({
@@ -106,7 +107,8 @@ import {TokenInterceptor} from './_shared/token.interceptor';
       multi: true
     },
     AuthService,
-    OrderService],
+    OrderService,
+    MessagesService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
