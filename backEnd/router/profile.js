@@ -62,6 +62,6 @@ router.put('/customer/:id', async (req, res) => {
   } catch (error) {
     res.json(error)
   }
-})
+});
 
 module.exports = router;

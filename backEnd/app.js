@@ -15,8 +15,8 @@ app.use('/', routes);
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
-})
+});
 
 app.listen(3000, () => {
   console.log('server started');
-})
+});
