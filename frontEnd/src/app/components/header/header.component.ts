@@ -7,7 +7,7 @@ import {finalize, tap} from "rxjs/operators";
 import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {MatSnackBar} from "@angular/material";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 
 interface UserProfile {
   photo: string;
@@ -39,8 +39,10 @@ export class HeaderComponent implements OnInit {
   userProfile;
   userProfileForm;
   imageUrl;
+  photo;
   task: AngularFireUploadTask;
   downloadURL: Observable<string>;
+  downPhoto = new Subject();
 
 
   constructor(
@@ -146,13 +148,21 @@ export class HeaderComponent implements OnInit {
   }
 
   updateProfile(frame) {
-    const photo = this.userProfileForm.photo.value;
-    if (typeof photo !== 'string') {
-      this.uploadPhoto(photo);
-    }
+    this.photo = this.userProfileForm.photo.value;
     const email = this.userProfileForm.email.value;
     const name = this.userProfileForm.name.value;
-    this.userInfoService.updateUserProfile(photo, email, name);
+    if (typeof this.photo !== 'string') {
+      const prom = new Promise<string>((res) => {
+        res('ok');
+      }).then(res => {
+          this.uploadPhoto(this.photo);
+          return this.downPhoto;
+      }).then(res => {
+        this.downPhoto.subscribe(() => {
+          this.userInfoService.updateUserProfile(this.photo, email, name);
+        });
+      });
+    }
     frame.hide();
     this._snackBar.open('Your information was successfully updated', '', {
       duration: 2000,
@@ -167,6 +177,9 @@ export class HeaderComponent implements OnInit {
       finalize(() => {
           this.downloadURL = ref.getDownloadURL();
           this.downloadURL.subscribe(url => {
+            this.photo = url;
+            this.downPhoto.next(url);
+            console.log(this.photo);
             this._snackBar.open('The document was successfully uploaded', '', {
               duration: 2000,
             });
