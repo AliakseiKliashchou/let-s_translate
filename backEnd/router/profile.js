@@ -37,4 +37,28 @@ router.get('/translator/:id', async (req, res) => {
   }
 });
 
+router.put('/customer/:id', async(req, res) => {
+  let id = req.params.id;
+  try {
+    let data = {
+      name: req.body.name,
+      email: req.body.email,
+      photo: req.body.photo,
+      password: req.body.password
+    }
+
+    bcrypt.hash(data.password, 10).then((hash) => {
+      data.password = hash;
+      data.save().then((data) => {
+        console.log(data)
+      });
+    });
+    
+    let profile = await customerModel.update(data, {returning: true, where: {id}});
+    res.json({message: 'OK', profile})
+  } catch(error) {
+
+  }
+})
+
 module.exports = router;

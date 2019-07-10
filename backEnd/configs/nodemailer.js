@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 
-let sendEmail = (req, res, next) => {
+let sendEmail = (guid, id) => {
+  let url = `http://localhost:3000/confirm?code=${guid}&id=${id}`;
+  console.log(url)
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		secure: false,
@@ -15,7 +17,7 @@ let sendEmail = (req, res, next) => {
 		from: 'lets.translate.prod@gmail.com',
 		to: 'lets.translate.prod@gmail.com',
 		subject: 'You have successfully registered with the Let\'s translate site!',
-		text: 'some text'
+    text: `For confirm your account you need follow this link ${url}`
 	}
 
 	transporter.sendMail(mailOptions, (error, info) => {
@@ -24,9 +26,7 @@ let sendEmail = (req, res, next) => {
 		} else {
 			console.log(info.response)
 		}
-	})
-
-	next();
+  })
 }
 
 module.exports = {

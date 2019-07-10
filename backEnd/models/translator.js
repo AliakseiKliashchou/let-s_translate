@@ -24,10 +24,6 @@ const Translator = sequelize.define('translator', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  verify: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false
-  },
   languages: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false

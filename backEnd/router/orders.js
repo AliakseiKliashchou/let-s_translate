@@ -49,7 +49,15 @@ router.put('/order', async (req, res) => {
 });
 
 router.delete('/order', async (req, res) => {
+  let id = req.query.id;
 
+  let order = await orderModel.destroy({where: {id}}).then((result) => {
+    if(result === 1) {
+      res.json({message: 'Deleted successfully!'});
+    } else {
+      res.status(404).json({message: 'Record not found!'})
+    }
+  })
 });
 
 module.exports = router;

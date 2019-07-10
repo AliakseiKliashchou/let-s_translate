@@ -39,6 +39,10 @@ const Customer = sequelize.define("customer", {
   tariff: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  guid: {
+    type: Sequelize.STRING,
+    // allowNull: false
   }
 });
 
