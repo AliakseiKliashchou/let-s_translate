@@ -24,28 +24,18 @@ export class AuthService {
               private router: Router) {
   }
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    })
-  };
   private URL = 'http://localhost:3000';
 
   customerRegistration(user): Observable<any> {
-    return this.http.post(`${this.URL}/create/customer`, user, this.httpOptions);
+    return this.http.post(`${this.URL}/create/customer`, user);
   }
 
   translatorRegistration(user): Observable<any> {
-    return this.http.post(`${this.URL}/create/translator`, user, this.httpOptions);
-  }
-
-  getUserProfile() {
-    return this.http.get('http://localhost:3000/secure/profile/customer');
+    return this.http.post(`${this.URL}/create/translator`, user);
   }
 
   login(user) {
-    this.http.post(`${this.URL}/login`, user, this.httpOptions).subscribe((data: UserDataBack) => {
+    this.http.post(`${this.URL}/login`, user).subscribe((data: UserDataBack) => {
       if (data.isFind) {
         const backendFakeResult = {
           id: data.id,
@@ -54,6 +44,7 @@ export class AuthService {
           token: data.token,
           role: data.role
         };
+        this.token = data.token;
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
@@ -86,6 +77,14 @@ export class AuthService {
 
   getIsAuthStatus() {
     return this.isAuthStatus.asObservable();
+  }
+
+  getToken() {
+    return this.token;
+  }
+
+  getUserId() {
+    return JSON.parse(localStorage.getItem('currentUser')).id;
   }
 
   private getAuthData() {

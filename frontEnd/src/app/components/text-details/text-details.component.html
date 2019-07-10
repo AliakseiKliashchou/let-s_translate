@@ -1,5 +1,59 @@
 <div class="wrapper">
   <app-header></app-header>
   <div class="title anim">Text details</div>
+
+  <div class="textDetail">
+    <table mdbTable>
+      <thead>
+        <tr>
+          <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mdbTableCol >
+          <th scope="row">{{element.id}}</th>
+          <td>{{element.title}}</td>
+          <td>{{element.date | date:'medium'}}</td>
+          <td><a [href]="element.downloadURL">Download text</a></td>
+          <td>{{element.name}}</td>
+          <td>{{element.email}}</td>
+          <td>{{element.initLng}}</td>
+          <td>{{element.finLng}}</td>          
+          <td>{{element.review}}</td>
+          <td>{{element.tags}}</td>
+          <td>{{element.urgency}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-divider></mat-divider>   
+    <p><b>Progress of translation</b></p>
+    <progressbar [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
+    <mat-divider></mat-divider>
+    <button mat-button class="del_btn">Delete text</button>
+  </div>
+
+  <div class="comments_wrapper">
+      <div class="comments">
+          <div class="comment dialog">
+            <div class="avatar"></div>
+            <div class="name">
+                <span>name</span>
+                <p>date</p>
+            </div>
+            <div style="clear: both"></div>
+            <div class="message">
+              <p>Привет! Иди на хуй!</p>
+            </div>
+          </div>
+         </div>
+       
+         <div class="comments">
+          <div class="comment dialog">
+           <p>Как дела?)</p>
+          </div>
+         </div>
+
+  </div>
+  
   <app-footer></app-footer>
 </div>

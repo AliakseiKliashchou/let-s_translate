@@ -1,0 +1,91 @@
+.textDetail{
+    width: 95%;
+    border: 2px solid white;
+    border-radius: 5px;
+    min-height: 80px;
+    background-color: rgb(255, 255, 255);
+    margin: 20px auto;
+}
+
+.del_btn{
+    background-color: rgb(212, 26, 13);
+    margin: 10px;
+}
+a{
+    color: blue !important;
+    text-decoration: underline;
+}
+a:hover{
+    color: red !important;
+}
+progressbar{
+    margin: 10px auto;
+    width: 90%;
+}
+
+
+/****************/
+.comments_wrapper{
+    border: 2px solid white;
+    border-radius: 5px;
+    width: 95%;
+    min-height: 50px;
+    margin: 15px auto;
+   
+}
+.comments {
+  width: 80%;
+}
+
+  .comment {
+  width: 100%;
+  margin: 20px;
+  } 
+
+  .comment p {
+  margin: 0 0 10px 0; 
+  }
+
+  .dialog {
+  position: relative;
+  background: rgba(255, 255, 255, 0.308);
+  padding: 20px;
+  color: #222;
+  border-radius: 3px;
+  margin-left: 20px;
+  color: white;
+  }
+
+  .dialog::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 15px solid rgba(255, 255, 255,0.308);
+  left: -15px;
+  top: 15px;
+  }
+  .avatar{
+      height: 50px;
+      width: 50px;
+      border: 1px solid white;
+      border-radius: 50%;
+      float: left;
+
+  }
+  .name{
+      float: left;
+      margin-left: 20px;      
+  }
+  .name > span{
+      text-decoration: underline;
+  }
+  .message{
+      border: 1px solid white;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0);
+      padding: 10px;
+  }

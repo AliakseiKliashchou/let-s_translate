@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const orderModel = require('../models/order');
 
-router.post('/order', async(req, res) => {
+router.post('/order', async (req, res) => {
   try {
     let order = await orderModel.create({
       idCustomer: req.body.id,
@@ -17,40 +17,38 @@ router.post('/order', async(req, res) => {
       review: req.body.additional_review,
       progress: 0,
       date: new Date()
-    })
+    });
 
     res.json({message: 'Order is created!', order})
-  } catch(error) {
+  } catch (error) {
     res.status(400).json({message: 'Order is not created!', error})
   }
 });
 
-router.get('/order', async(req, res) => {
+router.get('/order', async (req, res) => {
   try {
     let orders = await orderModel.findAll({});
-    res.json( orders);
-  } catch(error) {
+    res.json(orders);
+  } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
   }
 });
 
-router.get('/order/:id', async(req, res) => {
+router.get('/order/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id)
   try {
-    let order = await orderModel.findOne({where: {id: id}})
+    let order = await orderModel.findOne({where: {id: id}});
     res.json(order);
-
-  } catch(error) {
+  } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
   }
 });
 
-router.put('/order', async(req, res) => {
+router.put('/order', async (req, res) => {
 
 });
 
-router.delete('/order', async(req, res) => {
+router.delete('/order', async (req, res) => {
 
 });
 

@@ -1,6 +1,14 @@
 export interface OrderInterface {
-  date: string;
-  title: string;
-  progress: number;
-  id: number;
+  id: number,
+  title: string,
+  date: string,
+  download: string,
+  name: string,
+  email: string,
+  originalLanguage: string,
+  translateLanguage: string,
+  progress: number,
+  review: boolean,
+  tags: Array<any>,
+  urgency: number,
 }
