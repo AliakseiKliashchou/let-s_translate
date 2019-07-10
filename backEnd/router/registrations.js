@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const {check, validationResult} = require('express-validator');
-const valid = require('../validators/validator');
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
+const bcrypt = require('bcrypt');
+const uuidv1 = require('uuid/v1');
+const { validationResult } = require('express-validator');
+const valid = require('../validators/validator');
+const nodemailer = require('../configs/nodemailer');
 
 router.post('/translator', valid.checkValid, async (req, res) => {
   const result = validationResult(req);
@@ -52,7 +54,8 @@ router.post('/customer', valid.checkValid, async (req, res) => {
       verify: false,
       creditCard: req.body.creditCard,
       tariff: req.body.tariff,
-      photo: req.body.photo
+      photo: req.body.photo,
+      guid: uuidv1()
     });
 
     bcrypt.hash(customer.password, 10).then((hash) => {
@@ -61,6 +64,8 @@ router.post('/customer', valid.checkValid, async (req, res) => {
         res.json({"customer": data});
       });
     });
+
+    nodemailer.sendEmail(customer.guid, customer.id);
   } catch (error) {
     res.status(400).json({message: error});
   }
