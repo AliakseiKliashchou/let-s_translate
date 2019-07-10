@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
-import {UserInfoService} from "../../_shared/service/users/user-info.service";
+import {UserInfoService} from '../../_shared/service/users/user-info.service';
 
 
 @Component({

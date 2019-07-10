@@ -10,6 +10,6 @@ export class UserInfoService {
   }
 
   getUserProfile(id: number) {
-    return this.http.get('http://localhost:3000/secure/profile/customer?id=' + id);
+    return this.http.get('http://localhost:3000/secure/profile/customer/' + id);
   }
 }

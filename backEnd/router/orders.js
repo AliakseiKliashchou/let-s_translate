@@ -17,7 +17,7 @@ router.post('/order', async (req, res) => {
       review: req.body.additional_review,
       progress: 0,
       date: new Date()
-    })
+    });
 
     res.json({message: 'Order is created!', order})
   } catch (error) {
@@ -36,11 +36,9 @@ router.get('/order', async (req, res) => {
 
 router.get('/order/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id)
   try {
-    let order = await orderModel.findOne({where: {id: id}})
+    let order = await orderModel.findOne({where: {id: id}});
     res.json(order);
-
   } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
   }

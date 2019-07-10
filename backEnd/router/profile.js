@@ -3,24 +3,23 @@ const router = express.Router();
 const customerModel = require('../models/customer');
 const translatorModel = require('../models/translator');
 
-router.get('/customer/:id', async(req, res) => {
+router.get('/customer/:id', async (req, res) => {
   let id = req.params.id;
-
   try {
     let profile = await customerModel.findOne({where: {id}}).then((customer) => {
       let data = {
         name: customer.name,
         email: customer.email,
         photo: customer.photo
-      }
-      res.json({data})
+      };
+      res.json(data)
     });
-  } catch(error) {
-    res.json({message: error})
+  } catch (error) {
+    res.json(error)
   }
 });
 
-router.get('/translator/:id', async(req, res) => {
+router.get('/translator/:id', async (req, res) => {
   let id = req.params.id;
 
   try {
@@ -30,11 +29,11 @@ router.get('/translator/:id', async(req, res) => {
         email: translator.email,
         languages: translator.languages,
         photo: translator.photo
-      }
-      res.json({data})
+      };
+      res.json(data)
     });
-  } catch(error) {
-    res.json({message: error})
+  } catch (error) {
+    res.json(error)
   }
 });
 
