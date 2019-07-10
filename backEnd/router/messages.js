@@ -23,7 +23,7 @@ router.post('/message', async (req, res) => {
 
 router.get('/message/:idOrder', async (req, res) => {
   let idOrder = req.params.idOrder;
-
+ //console.log(idOrder);
   try {
     let findMessage = await messageModel.findAll({where: {idOrder}}).then((message) => {
       res.json(message);
