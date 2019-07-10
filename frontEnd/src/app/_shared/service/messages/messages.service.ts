@@ -10,6 +10,10 @@ export class MessagesService {
   private URL = 'http://localhost:3000';
 
   getMessages(id: number){
-    return this.http.get(`${this.URL}/message/${id}`);
+    //console.log(id);
+    return this.http.get(`${this.URL}/secure/message/${id}`);
+  }
+  createMessage(message){
+    return this.http.post(`${this.URL}/secure/message/`, message);
   }
 }
