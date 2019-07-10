@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const messageModel = require('../models/message');
 
-router.post('/message', async(req, res) => {
+router.post('/message', async (req, res) => {
   try {
     let message = await messageModel.create({
       senderEmail: req.body.senderEmail,
@@ -14,21 +14,21 @@ router.post('/message', async(req, res) => {
       message: req.body.message,
       date: req.body.date
     });
-  
+
     res.json(message);
-  } catch(error) {
+  } catch (error) {
     res.status(400).json({message: error});
   }
 });
 
-router.get('/message/:idOrder', async(req, res) => {
+router.get('/message/:idOrder', async (req, res) => {
   let idOrder = req.params.idOrder;
 
   try {
     let findMessage = await messageModel.findAll({where: {idOrder}}).then((message) => {
       res.json(message);
     });
-  } catch(error) {
+  } catch (error) {
 
     res.status(400).json(error);
   }
