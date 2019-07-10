@@ -19,6 +19,7 @@ export class AuthService {
   private isAuth: boolean;
   private isAuthStatus = new Subject();
   private token: string;
+  private id;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -59,6 +60,7 @@ export class AuthService {
       return;
     }
     this.token = JSON.parse(authInformation.data).token;
+    this.id = JSON.parse(authInformation.data).id;
     this.isAuth = true;
     this.isAuthStatus.next(true);
   }
@@ -84,7 +86,7 @@ export class AuthService {
   }
 
   getUserId() {
-    return JSON.parse(localStorage.getItem('currentUser')).id;
+    return this.id;
   }
 
   private getAuthData() {

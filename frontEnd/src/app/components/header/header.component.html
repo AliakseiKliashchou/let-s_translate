@@ -27,7 +27,13 @@
     <!-------------------LOGIN---------------------------->
     <div class="right-block">
       <p *ngIf="userProfile" class="name">{{userProfile.name}}</p>
-      <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"></div>
+      <div
+        *ngIf="userProfile"
+        class="user-photo"
+        [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+        (click)="basicModal.show()"
+        mdbWavesEffect>
+      </div>
       <button mat-button
               data-toggle="modal"
               data-target="#basicExample"
@@ -55,7 +61,7 @@
         <div class="modal-body mx-3">
           <mat-tab-group>
             <mat-tab label="Customer">
-              <div class="md-form mb-5">
+              <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix grey-text"></i>
                 <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
                        id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
@@ -80,7 +86,7 @@
               </div>
             </mat-tab>
             <mat-tab label="Translator">
-              <div class="md-form mb-5">
+              <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix grey-text"></i>
                 <input (change)="checkInp('translator', translator_email.value, 'email')" #translator_email type="email"
                        id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
@@ -108,11 +114,100 @@
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
-          <button (click)="submit(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
+          <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
         </div>
       </div>
     </div>
   </div>
   <!---------------------------------------------------->
+
+  <!---------------------Profile------------------------>
+
+  <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+       aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right text-danger" aria-label="Close" (click)="basicModal.hide()">
+            <span aria-hidden="true" style="font-size: 1.5rem">×</span>
+          </button>
+          <h4 class="modal-title w-100" id="myModalLabel">Profile</h4>
+        </div>
+        <div class="modal-body">
+
+          <div id="info-user-block" *ngIf="userProfileForm">
+
+            <img [src]="imageUrl " (click)="filePicker.click()">
+            <input
+              type="file"
+              hidden
+              #filePicker
+              (change)="onImagePicked($event)">
+
+            <div class="text-block">
+              <div class="md-form mb-3">
+                <i class="fas fa-user prefix" [ngClass]="userProfileForm.name.valid ? 'green-text' : 'red-text'"></i>
+                <input
+                  [formControl]="userProfileForm.name"
+                  type="text"
+                  id="userName"
+                  class="form-control validate"
+                  mdbInput
+                  mdbValidate>
+                <label data-error="wrong" data-success="right" for="userName">Name</label>
+                <mdb-error
+                  *ngIf="userProfileForm.name.invalid && (userProfileForm.name.dirty || userProfileForm.name.touched)">
+                  Input a valid name
+                </mdb-error>
+                <mdb-success
+                  *ngIf="userProfileForm.name.valid && (userProfileForm.name.dirty || userProfileForm.name.touched)">
+                  Ok!
+                </mdb-success>
+              </div>
+
+              <div class="md-form mb-3">
+                <i class="fas fa-envelope prefix"
+                   [ngClass]="userProfileForm.email.valid ? 'green-text' : 'red-text'"></i>
+                <input
+                  [formControl]="userProfileForm.email"
+                  type="email"
+                  id="userEmail"
+                  class="form-control validate"
+                  mdbInput
+                  mdbValidate>
+                <label data-error="wrong" data-success="right" for="userEmail">Email</label>
+                <mdb-error
+                  *ngIf="userProfileForm.email.invalid && (userProfileForm.email.dirty || userProfileForm.email.touched)">
+                  Input a valid email
+                </mdb-error>
+                <mdb-success
+                  *ngIf="userProfileForm.email.valid && (userProfileForm.email.dirty || userProfileForm.email.touched)">
+                  Ok!
+                </mdb-success>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" mdbBtn class="waves-light" aria-label="Close"
+                  style="background-color: #c7331d; color:white"
+                  (click)="basicModal.hide()" mdbWavesEffect>Close
+          </button>
+          <button
+            type="button"
+            mdbBtn color="primary"
+            class="relative waves-light"
+            mdbWavesEffect
+            (click)="updateProfile(basicModal)">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---------------------------------------------------->
+
   <div style="clear: both"></div>
 </div>
