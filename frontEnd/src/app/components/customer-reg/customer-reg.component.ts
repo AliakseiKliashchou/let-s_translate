@@ -9,8 +9,6 @@ import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 
-
-
 @Component({
   selector: 'app-customer-reg',
   templateUrl: './customer-reg.component.html',
@@ -23,12 +21,10 @@ export class CustomerRegComponent implements OnInit {
   photoStatus = false;
   userInput: any;
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  photoIcon = false;
   task: AngularFireUploadTask;
-  snapshot: Observable<any>;
-  downloadURL: Observable<string>;;
-  percentage: Observable<number>;
+  downloadURL: Observable<string>;
   photoUrl: string;
+
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
@@ -36,7 +32,7 @@ export class CustomerRegComponent implements OnInit {
     private db: AngularFirestore,
     private _snackBar: MatSnackBar) {
   }
-  
+
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;
     this.userInput = {
@@ -52,7 +48,7 @@ export class CustomerRegComponent implements OnInit {
         [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
       tariff: new FormControl(tariff || '', [Validators.required]),
     };
-    //this.uploadPhoto(event);
+    // this.uploadPhoto(event);
   }
 
 // ----------------Validation---------------------------------------------------
@@ -93,29 +89,28 @@ export class CustomerRegComponent implements OnInit {
 
 // --------------------------------------------------------------------------------
 
-//------------------------------Upload photo-----------------------------------------------
+// ------------------------------Upload photo-----------------------------------------------
 
-uploadPhoto(event){
-  const file = event.target.files[0];  
-  const path = `photos/${Date.now()}_${file.name}`;
-  const ref = this.storage.ref(path); 
-  this.task = this.storage.upload(path, file);
- // this.downloadURL = ref.getDownloadURL();
-  this.task.snapshotChanges().pipe(
-    finalize(() => {
-      this.downloadURL = ref.getDownloadURL();
-      this.downloadURL.subscribe(url => {
-        this._snackBar.open('The document was successfully uploaded', '', {
-          duration: 2000,
-        });
-        this.photoUrl = url;
-        this.photoStatus = true;
-      });
-    }
-    )
-  ).subscribe();
+  uploadPhoto(event) {
+    const file = event.target.files[0];
+    const path = `photos/${Date.now()}_${file.name}`;
+    const ref = this.storage.ref(path);
+    this.task = this.storage.upload(path, file);
+    // this.downloadURL = ref.getDownloadURL();
+    this.task.snapshotChanges().pipe(
+      finalize(() => {
+          this.downloadURL = ref.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            this._snackBar.open('The document was successfully uploaded', '', {
+              duration: 2000,
+            });
+            this.photoUrl = url;
+            this.photoStatus = true;
+          });
+        }
+      )
+    ).subscribe();
   }
-  
 
 
 // ----------------------------CUSTOMER REGISTRATION-------------------------------

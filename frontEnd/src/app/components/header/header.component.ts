@@ -1,8 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
+import {finalize, tap} from "rxjs/operators";
+import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {MatSnackBar} from "@angular/material";
+import {Observable} from "rxjs";
+
+interface UserProfile {
+  photo: string;
+  name: string;
+  email: string;
+}
 
 
 @Component({
@@ -26,24 +37,40 @@ export class HeaderComponent implements OnInit {
   isClose = true;
   isAuth = false;
   userProfile;
+  userProfileForm;
+  imageUrl;
+  task: AngularFireUploadTask;
+  downloadURL: Observable<string>;
 
 
   constructor(
     private _router: Router,
     private authService: AuthService,
-    private userInfoService: UserInfoService) {
+    private userInfoService: UserInfoService,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.isAuth = this.authService.getIsAuth();
-    this.authService.getIsAuthStatus().subscribe((res: boolean) => {
-      this.isAuth = res;
+    this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
+      this.isAuth = isAuth;
     });
     if (this.isAuth) {
       const userId = this.authService.getUserId();
-      this.userInfoService.getUserProfile(userId).subscribe((res => {
-        this.userProfile = res;
-      }));
+      this.userInfoService.getUserProfile(userId).subscribe((userData: UserProfile) => {
+        this.userProfile = userData;
+        this.imageUrl = userData.photo;
+        this.userProfileForm = {
+          photo:
+            new FormControl(userData.photo || ''),
+          name:
+            new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
+          email:
+            new FormControl(userData.email, Validators.pattern(this.emailPattern))
+        };
+      });
     }
   }
 
@@ -89,7 +116,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  submit(frame) {
+  login(frame) {
     frame.hide();
     this.authService.login(this.user);
   }
@@ -105,6 +132,48 @@ export class HeaderComponent implements OnInit {
   resizeWindow() {
     this.isWindowSizeSmall = (window.innerWidth < 1200);
     if (!this.isWindowSizeSmall) this.isClose = true;
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.userProfileForm.photo.patchValue(file);
+    this.userProfileForm.photo.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  updateProfile(frame) {
+    const photo = this.userProfileForm.photo.value;
+    if (typeof photo !== 'string') {
+      this.uploadPhoto(photo);
+    }
+    const email = this.userProfileForm.email.value;
+    const name = this.userProfileForm.name.value;
+    this.userInfoService.updateUserProfile(photo, email, name);
+    frame.hide();
+    this._snackBar.open('Your information was successfully updated', '', {
+      duration: 2000,
+    });
+  }
+
+  private uploadPhoto(file) {
+    const path = `photos/${Date.now()}_${file.name}`;
+    const ref = this.storage.ref(path);
+    this.task = this.storage.upload(path, file);
+    this.task.snapshotChanges().pipe(
+      finalize(() => {
+          this.downloadURL = ref.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            this._snackBar.open('The document was successfully uploaded', '', {
+              duration: 2000,
+            });
+          });
+        }
+      )
+    ).subscribe();
   }
 
 }
