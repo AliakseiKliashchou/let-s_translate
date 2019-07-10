@@ -2,15 +2,13 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
-import {finalize, tap} from 'rxjs/operators';
-import {Angular2Txt} from 'angular2-txt/Angular2-txt';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {map, startWith} from 'rxjs/operators';
-import { OrderService } from './../../_shared/service/order/order.service';
+import {OrderService} from '../../_shared/service/order/order.service';
 
 
 @Component({
@@ -35,16 +33,12 @@ export class NewTextsComponent implements OnInit {
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
-      // Add our fruit
       if ((value || '').trim()) {
         this.tags.push(value.trim());
       }
-      // Reset the input value
       if (input) {
         input.value = '';
       }
@@ -85,10 +79,8 @@ export class NewTextsComponent implements OnInit {
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     private _snackBar: MatSnackBar,
-    private http : OrderService) {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
+    private http: OrderService) {
+
   }
 
   isHovering: boolean;
@@ -101,6 +93,9 @@ export class NewTextsComponent implements OnInit {
   typeAllowed = ['txt', 'pdf', 'doc', 'docx', 'image'];
 
   ngOnInit() {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
   }
 
   toggleHover(event: boolean) {
@@ -130,8 +125,6 @@ export class NewTextsComponent implements OnInit {
 
   uploadText(text) {
     console.log(text);
-    
-
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     //let txt = new Angular2Txt(text, 'My Report');
@@ -141,45 +134,51 @@ export class NewTextsComponent implements OnInit {
         duration: 2000,
       });
     }).catch(error => {
+      console.log(error);
     });
-
   }
-  getURL(url){
+
+  getURL(url) {
     this.order.url = url;
   }
 
-  //*************Configure object to push on server***************** */
+  // *************Configure object to push on server***************** */
   order = {
     email: JSON.parse(localStorage.getItem('currentUser')).email,
     name: JSON.parse(localStorage.getItem('currentUser')).name,
     initialLng: '',
     finiteLng: '',
-    additional_review: false,
+    additionalReview: false,
     urgency: 0,
     tags: [],
     url: '',
     title: '',
     id: JSON.parse(localStorage.getItem('currentUser')).id
-  }
-  getInitLng(lng){
+  };
+
+  getInitLng(lng) {
     this.order.initialLng = lng;
   }
-  getFinitLng(lng){
+
+  getFinitLng(lng) {
     this.order.finiteLng = lng;
   }
-  getUrgency(urgency){
-    this.order.urgency = Number(urgency); 
+
+  getUrgency(urgency) {
+    this.order.urgency = Number(urgency);
   }
-  getTitle(title){
+
+  getTitle(title) {
     this.order.title = title;
   }
-  makeOrder(additional_review){
-    if(additional_review.checked){
-      this.order.additional_review = true;
+
+  makeOrder(additionalReview) {
+    if (additionalReview.checked) {
+      this.order.additionalReview = true;
     }
-    this.order.tags = this.tags;  
+    this.order.tags = this.tags;
     console.table(this.order);
-    this.http.createOrder(this.order).subscribe( (data) => {
+    this.http.createOrder(this.order).subscribe((data) => {
       console.log(data);
     });
   }

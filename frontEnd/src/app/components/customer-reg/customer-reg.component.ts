@@ -3,7 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {finalize, tap} from 'rxjs/operators';
+import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -36,19 +36,18 @@ export class CustomerRegComponent implements OnInit {
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;
     this.userInput = {
-      email: new FormControl('',
+      email: new FormControl('test@mail.ru',
         [Validators.required, Validators.pattern(this.emailPattern)]),
       password_1: new FormControl('',
         [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
       password_2: new FormControl('',
         [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-      name: new FormControl('',
+      name: new FormControl('fruit',
         [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
-      cardNumber: new FormControl('',
+      cardNumber: new FormControl('1111111111111111',
         [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
-      tariff: new FormControl(tariff || '', [Validators.required]),
+      tariff: new FormControl(tariff || 'gold', [Validators.required])
     };
-    // this.uploadPhoto(event);
   }
 
 // ----------------Validation---------------------------------------------------
@@ -73,8 +72,8 @@ export class CustomerRegComponent implements OnInit {
 
   getErrorMessageName() {
     return this.userInput.name.hasError('required') ? 'You must enter a value' :
-      this.userInput.name.hasError('pattern') ? 'The name field should not contains numbers' :
-        '';
+      this.userInput.name.hasError('pattern') ?
+        'The name field should not contains numbers' : '';
   }
 
   getErrorCardNumber() {
@@ -96,7 +95,6 @@ export class CustomerRegComponent implements OnInit {
     const path = `photos/${Date.now()}_${file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, file);
-    // this.downloadURL = ref.getDownloadURL();
     this.task.snapshotChanges().pipe(
       finalize(() => {
           this.downloadURL = ref.getDownloadURL();

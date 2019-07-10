@@ -1,20 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-import {finalize, tap} from "rxjs/operators";
-import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/storage";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {MatSnackBar} from "@angular/material";
-import {Observable, Subject} from "rxjs";
+import {finalize} from 'rxjs/operators';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MatSnackBar} from '@angular/material';
+import {Observable, Subject} from 'rxjs';
 
 interface UserProfile {
   photo: string;
   name: string;
   email: string;
 }
-
 
 @Component({
   selector: 'app-header',
@@ -24,8 +23,10 @@ interface UserProfile {
 export class HeaderComponent implements OnInit {
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
-    email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
-    password: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+    email: new FormControl('',
+      [Validators.required, Validators.pattern(this.emailPattern)]),
+    password: new FormControl('',
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
   };
   role = '';
   user = {
@@ -33,8 +34,10 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
-  isWindowSizeSmall: boolean = (window.innerWidth < 1200);
-  isClose = true;
+  window = {
+    isWindowSizeSmall: (window.innerWidth < 1200),
+    isClose: true
+  };
   isAuth = false;
   userProfile;
   userProfileForm;
@@ -128,12 +131,12 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.isClose = !this.isClose;
+    this.window.isClose = !this.window.isClose;
   }
 
   resizeWindow() {
-    this.isWindowSizeSmall = (window.innerWidth < 1200);
-    if (!this.isWindowSizeSmall) this.isClose = true;
+    this.window.isWindowSizeSmall = (window.innerWidth < 1200);
+    if (!this.window.isWindowSizeSmall) this.window.isClose = true;
   }
 
   onImagePicked(event: Event) {
@@ -155,13 +158,15 @@ export class HeaderComponent implements OnInit {
       const prom = new Promise<string>((res) => {
         res('ok');
       }).then(res => {
-          this.uploadPhoto(this.photo);
-          return this.downPhoto;
+        this.uploadPhoto(this.photo);
+        return this.downPhoto;
       }).then(res => {
         this.downPhoto.subscribe(() => {
           this.userInfoService.updateUserProfile(this.photo, email, name);
         });
       });
+    } else {
+      this.userInfoService.updateUserProfile(this.photo, email, name);
     }
     frame.hide();
     this._snackBar.open('Your information was successfully updated', '', {
@@ -179,7 +184,6 @@ export class HeaderComponent implements OnInit {
           this.downloadURL.subscribe(url => {
             this.photo = url;
             this.downPhoto.next(url);
-            console.log(this.photo);
             this._snackBar.open('The document was successfully uploaded', '', {
               duration: 2000,
             });

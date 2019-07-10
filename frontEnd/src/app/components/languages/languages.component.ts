@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-languages',
@@ -7,13 +7,15 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 })
 export class LanguagesComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
-  
-@Output () selectValue : EventEmitter<any> = new EventEmitter();
-  getLang(sel){
+
+  @Output() selectValue: EventEmitter<any> = new EventEmitter();
+
+  getLang(sel) {
     this.selectValue.emit(sel);
-  } 
+  }
 }

@@ -1,23 +1,23 @@
 <div class="wrapper" (window:resize)="resizeWindow()">
 
-  <nav [class.active]="!isClose">
+  <nav [class.active]="!window.isClose">
     <div class="left-block ">
 
       <div class="logo" routerLink="/"></div>
 
-      <a class="button" (click)="toggleMenu()" *ngIf="isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
+      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
 
-      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !isWindowSizeSmall">Dashboard
+      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !window.isWindowSizeSmall">Dashboard
       </button>
-      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !isWindowSizeSmall">New Texts
+      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !window.isWindowSizeSmall">New Texts
       </button>
-      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !isWindowSizeSmall">My
+      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !window.isWindowSizeSmall">My
         translations
       </button>
-      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !isWindowSizeSmall">Messages</button>
+      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall">Messages</button>
 
 
-      <ul class="sub-menu" *ngIf="isWindowSizeSmall && isAuth">
+      <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth">
         <li routerLink="/dashboard">Dashboard</li>
         <li routerLink="/new_texts">New Texts</li>
         <li routerLink="/my_translations">My translations</li>

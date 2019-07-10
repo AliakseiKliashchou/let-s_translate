@@ -5,7 +5,6 @@ const orderModel = require('../models/order');
 router.post('/order', async (req, res) => {
   
   try {
-    
     console.log(req.body);
     let order = await orderModel.create({
       idCustomer: req.body.id,
