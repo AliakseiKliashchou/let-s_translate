@@ -3,58 +3,72 @@
   <div class="title anim">Translator registration</div>
   <div class="inputs_wrapper anim">
     <div class="inputs">
-        <!-----------------------------------EMAIL-------------------------------------->
-        <div class="md-form mb-5">
-            <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
-            <input type="email" id="email_reg" #email [formControl]="userInput.email" class="form-control validate" mdbInput mdbValidate >
-            <label data-error="wrong" data-success="right" for="email_reg" >Your email</label>                
-            <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)" >{{getErrorMessageEmail()}}</mdb-error>
-            <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!</mdb-success>
-        </div>
-        <mat-divider></mat-divider>
-        <!-----------------------------------NAME-------------------------------------->
-        <div class="md-form mb-5">
-            <i class="fas fa-user prefix" [ngClass]="userInput.name.valid ? 'green-text' : 'red-text'"></i>
-            <input type="text" id="name_reg" #name [formControl]="userInput.name" class="form-control validate" mdbInput mdbValidate >
-            <label data-error="wrong" data-success="right" for="name_reg" >Your name</label>                
-            <mdb-error *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)" >{{getErrorMessageName()}}</mdb-error>
-            <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
-        </div>
-        <mat-divider></mat-divider>       
-        <!-----------------------------------PASSWORD-------------------------------------->
-        <div class="md-form mb-5 password" >
-            <i class="fas fa-lock prefix" [ngClass]="userInput.password_1.valid && userInput.password_2.valid && (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'"></i>
-            <input [type]="hide_1 ? 'password' : 'text'" id="password1_reg" #password1_reg [formControl]="userInput.password_1" class="form-control validate"  mdbInput mdbValidate>
-            <mat-icon matSuffix (click)="hide_1 = !hide_1">{{hide_1 ? 'visibility_off' : 'visibility'}}</mat-icon>       
-            <label data-error="wrong" data-success="right" for="password1_reg" >Your password</label>                
-            <mdb-error *ngIf="(password1_reg.value == password2_reg.value) && userInput.password_1.invalid && (userInput.password_1.dirty || userInput.password_1.touched)" >{{getErrorMessagePassword_1()}}</mdb-error>
-            <mdb-error *ngIf="password1_reg.value !== password2_reg.value && (userInput.password_1.dirty || userInput.password_1.touched)">Password not equals</mdb-error>
-            <mdb-success *ngIf="(password1_reg.value == password2_reg.value) && userInput.password_1.valid && (userInput.password_1.dirty || userInput.password_1.touched)">Ok!</mdb-success>
-        </div>
-        <div class="md-form mb-5 password">            
-            <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg [formControl]="userInput.password_2" class="form-control validate"  mdbInput mdbValidate >
-            <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>       
-            <label data-error="wrong" data-success="right" for="password2_reg" >Repeat your password</label>                
-            <mdb-error *ngIf="userInput.password_2.invalid && (userInput.password_2.dirty || userInput.password_2.touched)" >{{getErrorMessagePassword_2()}}</mdb-error>
-            <mdb-success *ngIf="userInput.password_2.valid && (userInput.password_2.dirty || userInput.password_2.touched)">Ok!</mdb-success>
-        </div>
-        <div style="clear: both"></div>
-        <mat-divider></mat-divider>
+      <!-----------------------------------EMAIL-------------------------------------->
+      <div class="md-form mb-5">
+        <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
+        <input type="email" id="email_reg" #email [formControl]="userInput.email" class="form-control validate" mdbInput
+               mdbValidate>
+        <label data-error="wrong" data-success="right" for="email_reg">Your email</label>
+        <mdb-error
+          *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
+        <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
+        </mdb-success>
+      </div>
+      <mat-divider></mat-divider>
+      <!-----------------------------------NAME-------------------------------------->
+      <div class="md-form mb-5">
+        <i class="fas fa-user prefix" [ngClass]="userInput.name.valid ? 'green-text' : 'red-text'"></i>
+        <input type="text" id="name_reg" #name [formControl]="userInput.name" class="form-control validate" mdbInput
+               mdbValidate>
+        <label data-error="wrong" data-success="right" for="name_reg">Your name</label>
+        <mdb-error
+          *ngIf="userInput.name.invalid && (userInput.name.dirty || userInput.name.touched)">{{getErrorMessageName()}}</mdb-error>
+        <mdb-success *ngIf="userInput.name.valid && (userInput.name.dirty || userInput.name.touched)">Ok!</mdb-success>
+      </div>
+      <mat-divider></mat-divider>
+      <!-----------------------------------PASSWORD-------------------------------------->
+      <div class="md-form mb-5 password">
+        <i class="fas fa-lock prefix"
+           [ngClass]="userInput.password.valid && userInput.passwordSubmitted.valid && (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'"></i>
+        <input [type]="hide_1 ? 'password' : 'text'" id="password1_reg" #password1_reg
+               [formControl]="userInput.password" class="form-control validate" mdbInput mdbValidate>
+        <mat-icon matSuffix (click)="hide_1 = !hide_1">{{hide_1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <label data-error="wrong" data-success="right" for="password1_reg">Your password</label>
+        <mdb-error
+          *ngIf="(password1_reg.value == password2_reg.value) && userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword_1()}}</mdb-error>
+        <mdb-error
+          *ngIf="password1_reg.value !== password2_reg.value && (userInput.password.dirty || userInput.password.touched)">
+          Password not equals
+        </mdb-error>
+        <mdb-success
+          *ngIf="(password1_reg.value == password2_reg.value) && userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">
+          Ok!
+        </mdb-success>
+      </div>
+      <div class="md-form mb-5 password">
+        <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg
+               [formControl]="userInput.passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
+        <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <label data-error="wrong" data-success="right" for="password2_reg">Repeat your password</label>
+        <mdb-error
+          *ngIf="userInput.passwordSubmitted.invalid && (userInput.passwordSubmitted.dirty || userInput.passwordSubmitted.touched)">{{getErrorMessagePassword_2()}}</mdb-error>
+        <mdb-success
+          *ngIf="userInput.passwordSubmitted.valid && (userInput.passwordSubmitted.dirty || userInput.passwordSubmitted.touched)">
+          Ok!
+        </mdb-success>
+      </div>
+      <div style="clear: both"></div>
+      <mat-divider></mat-divider>
     </div>
 
-    <button 
-        id="submit_btn" 
-        type="button" 
-        mdbBtn color="success" 
-        mdbWavesEffect
-        [disabled]="
-        userInput.email.valid && 
-        userInput.name.valid &&         
-        userInput.password_1.valid && 
-        userInput.password_2.valid && 
-        (password1_reg.value == password2_reg.value) ? false : true"
-        (click)="register(email.value, name.value, password1_reg)"
-    >Register</button>
+    <button
+      id="submit_btn"
+      type="button"
+      mdbBtn color="success"
+      mdbWavesEffect
+      (click)="register()">
+      Register
+    </button>
   </div>
   <app-footer></app-footer>
 </div>

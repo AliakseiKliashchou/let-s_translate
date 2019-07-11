@@ -3,7 +3,9 @@ const router = express.Router();
 const orderModel = require('../models/order');
 
 router.post('/order', async (req, res) => {
+  
   try {
+    console.log(req.body);
     let order = await orderModel.create({
       idCustomer: req.body.id,
       name: req.body.name,
@@ -18,7 +20,6 @@ router.post('/order', async (req, res) => {
       progress: 0,
       date: new Date()
     });
-
     res.json({message: 'Order is created!', order})
   } catch (error) {
     res.status(400).json({message: 'Order is not created!', error})

@@ -13,7 +13,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class UploadTaskComponent implements OnInit {
   @Input() file: File;
-@Output () downloadURLonDrop : EventEmitter<any> = new EventEmitter();
+@Output () downloadURLonDrop: EventEmitter<any> = new EventEmitter();
   task: AngularFireUploadTask;
   downloadURL: string;
   percentage: Observable<number>;

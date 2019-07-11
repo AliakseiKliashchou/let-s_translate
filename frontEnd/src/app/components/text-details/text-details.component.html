@@ -9,7 +9,7 @@
           <th *ngFor="let head of headElements" scope="col">{{head}} </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="element">
         <tr mdbTableCol >
           <th scope="row">{{element.id}}</th>
           <td>{{element.title}}</td>
@@ -17,8 +17,8 @@
           <td><a [href]="element.downloadURL">Download text</a></td>
           <td>{{element.name}}</td>
           <td>{{element.email}}</td>
-          <td>{{element.initLng}}</td>
-          <td>{{element.finLng}}</td>          
+          <td>{{element.originalLanguage}}</td>
+          <td>{{element.translateLanguage}}</td>          
           <td>{{element.review}}</td>
           <td>{{element.tags}}</td>
           <td>{{element.urgency}}</td>
@@ -27,32 +27,30 @@
     </table>
     <mat-divider></mat-divider>   
     <p><b>Progress of translation</b></p>
-    <progressbar [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
+    <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
     <mat-divider></mat-divider>
     <button mat-button class="del_btn">Delete text</button>
   </div>
 
   <div class="comments_wrapper">
-      <div class="comments">
-          <div class="comment dialog">
-            <div class="avatar"></div>
-            <div class="name">
-                <span>name</span>
-                <p>date</p>
-            </div>
-            <div style="clear: both"></div>
-            <div class="message">
-              <p>Привет! Иди на хуй!</p>
-            </div>
-          </div>
-         </div>
-       
-         <div class="comments">
-          <div class="comment dialog">
-           <p>Как дела?)</p>
-          </div>
-         </div>
+    <div class="comments">
+      <div class="comment dialog" *ngFor="let incomingComment of incomingComments; let i = index;">
+        <div class="avatar"> <img class="avatar_img" src="{{incomingComment.photo}}" alt=""> </div>
+        <div class="name">
+          <span>{{incomingComment.name}}</span>
+          <p>{{incomingComment.date | date:'medium'}}</p>
+        </div>
+        <div style="clear: both"></div>
+        <div class="message">
+          <p>{{incomingComment.message}}</p>
+        </div>
+      </div>
+    </div>  
+  </div>
 
+  <div class="create_comment">
+    <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120" mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>  
+    <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>  
   </div>
   
   <app-footer></app-footer>

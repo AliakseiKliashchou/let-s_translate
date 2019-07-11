@@ -10,9 +10,9 @@ router.get('/confirm', async(req, res) => {
     if(customer.guid === guid) {
       customer.update({verify: true});
     }
-  })
+  });
 
   res.redirect('http://localhost:4200');
-})
+});
 
 module.exports = router;

@@ -18,20 +18,19 @@ router.post('/message', async (req, res) => {
       message: req.body.message,
       date: req.body.date
     });
-
     res.json(message);
   } catch (error) {
-    res.status(400).json({message: error});
+    res.status(400).json(error);
   }
 });
 
 router.get('/message/:idOrder', async (req, res) => {
   let idOrder = req.params.idOrder;
-
   try {
-    let findMessage = await messageModel.findAll({where: {idOrder}}).then((message) => {
-      res.json(message);
-    });
+    let findMessage = await messageModel.findAll({where: {idOrder}})
+      .then((message) => {
+        res.json(message);
+      });
   } catch (error) {
     res.status(400).json(error);
   }

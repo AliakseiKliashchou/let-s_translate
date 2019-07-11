@@ -19,7 +19,7 @@ const Order = sequelize.define('order', {
     allowNull: false
   },
   download: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(1000),
     allowNull: false
   },
   originalLanguage: {
