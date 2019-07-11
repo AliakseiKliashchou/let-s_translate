@@ -29,11 +29,11 @@ const login = (req, res) => {
         const token = jwt.sign(customer.id.toString(), jwtSecret);
         res.json({ 
           token, 
-          "id": customer.id,
-          "name": customer.name, 
-          "email": customer.email, 
-          "role": customer.role,
-          "isFind": true
+          id: customer.id,
+          name: customer.name, 
+          email: customer.email, 
+          role: customer.role,
+          isFind: true
         })
       } else {
         res.status(401).json({message: 'Invalid credentias!'})
@@ -50,11 +50,11 @@ const login = (req, res) => {
         const token = jwt.sign(translator.id.toString(), jwtSecret);
         res.json({ 
           token, 
-          "id": translator.id, 
-          "name": translator.name,
-          "email": translator.email, 
-          "role": translator.role,
-          "isFind": true 
+          id: translator.id, 
+          name: translator.name,
+          email: translator.email, 
+          role: translator.role,
+          isFind: true 
         })
       } else {
         res.status(401).json({message: 'Invalid credentias!'})
