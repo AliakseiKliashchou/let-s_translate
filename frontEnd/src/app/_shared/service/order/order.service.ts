@@ -20,6 +20,10 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/order/`);
   }
 
+  getUnownedOrders() {
+    return this.http.get(`${this.URL}/secure/order/`);
+  }
+
 
   getOrder(id: number) {
     return this.http.get(`${this.URL}/secure/order/${id}`);
