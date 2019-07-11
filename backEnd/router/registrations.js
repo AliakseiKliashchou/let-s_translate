@@ -13,7 +13,7 @@ router.post('/translator', valid.checkValid, async (req, res) => {
   const hasErrors = !result.isEmpty();
 
   if (hasErrors) {
-    res.json({message: result})
+    res.json(result)
   }
 
   try {
@@ -33,7 +33,7 @@ router.post('/translator', valid.checkValid, async (req, res) => {
       });
     });
   } catch (error) {
-    res.status(400).json({message: error});
+    res.status(400).json(error);
   }
 });
 
@@ -42,7 +42,7 @@ router.post('/customer', valid.checkValid, async (req, res) => {
   const hasErrors = !result.isEmpty();
 
   if (hasErrors) {
-    res.json({message: result})
+    res.json(result)
   }
 
   try {
@@ -67,7 +67,7 @@ router.post('/customer', valid.checkValid, async (req, res) => {
 
     nodemailer.sendEmail(customer.guid, customer.id);
   } catch (error) {
-    res.status(400).json({message: error});
+    res.status(400).json(error);
   }
 });
 

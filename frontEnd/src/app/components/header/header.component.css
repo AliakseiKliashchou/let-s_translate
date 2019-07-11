@@ -150,8 +150,26 @@ a .button {
   animation: menu-active-slide .25s;
 }
 
+.modal-header {
+  background-color: #6f6f6f;
+  color: white;
+}
 
-/*5*/
+#info-user-block {
+  display: flex;
+}
+
+#info-user-block img {
+  width: 20%;
+  height: 100%;
+  margin: 10px;
+}
+
+#info-user-block .text-block {
+  margin-left: 20px;
+  width: 60%;
+}
+
 
 @media (max-width: 1400px) {
   .wrapper, .wrapper button {

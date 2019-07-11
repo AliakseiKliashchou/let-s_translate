@@ -6,7 +6,7 @@ const registration = require('../router/registrations');
 const secure = require('./secure-routes');
 const confirm = require('./confirm');
 
-router.use('/', confirm)
+router.use('/', confirm);
 router.post('/login', auth.login);
 router.use('/secure', authMiddleware.checkToken, secure);
 router.use('/create', registration);

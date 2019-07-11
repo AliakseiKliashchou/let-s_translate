@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {AuthService} from "../../_shared/service/users/auth.service";
+import {AuthService} from '../../_shared/service/users/auth.service';
 
 @Component({
   selector: 'app-reg-new-translator',
@@ -14,10 +14,14 @@ export class RegNewTranslatorComponent implements OnInit {
   hide_2 = true;
 
   userInput = {
-    email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
-    password_1: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-    password_2: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-    name: new FormControl('', [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
+    email: new FormControl('',
+      [Validators.required, Validators.pattern(this.emailPattern)]),
+    password: new FormControl('',
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    passwordSubmitted: new FormControl('',
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    name: new FormControl('',
+      [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
   };
 
   constructor(private authService: AuthService) {
@@ -32,32 +36,35 @@ export class RegNewTranslatorComponent implements OnInit {
   }
 
   getErrorMessagePassword_1() {
-    return this.userInput.password_1.hasError('required') ? 'You must enter a value' :
-      this.userInput.password_1.hasError('minlength') ? 'The password is too short' :
-        this.userInput.password_1.hasError('maxlength') ? 'The password is too long' : '';
+    return this.userInput.password.hasError('required') ? 'You must enter a value' :
+      this.userInput.password.hasError('minlength') ? 'The password is too short' :
+        this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
   }
 
   getErrorMessagePassword_2() {
-    return this.userInput.password_2.hasError('required') ? 'You must enter a value' :
-      this.userInput.password_2.hasError('minlength') ? 'The password is too short' :
-        this.userInput.password_2.hasError('maxlength') ? 'The password is too long' : '';
+    return this.userInput.passwordSubmitted.hasError('required') ? 'You must enter a value' :
+      this.userInput.passwordSubmitted.hasError('minlength') ? 'The password is too short' :
+        this.userInput.passwordSubmitted.hasError('maxlength') ? 'The password is too long' : '';
   }
 
   getErrorMessageName() {
     return this.userInput.name.hasError('required') ? 'You must enter a value' :
-      this.userInput.name.hasError('pattern') ? 'The name field should not contains numbers' :
-        '';
+      this.userInput.name.hasError('pattern') ?
+        'The name field should not contains numbers' : '';
   }
 
 // --------------------------------------------------------------------------------
-  register(email, name, psw) {
-    const user = {
-      name,
-      email,
-      role: 'translator',
-      password: psw
-    };
-    this.authService.translatorRegistration(user).subscribe(res => console.log(res));
+  register() {
+    if (this.userInput.name.valid && this.userInput.email.valid
+      && (this.userInput.password.value === this.userInput.passwordSubmitted.value)) {
+      const user = {
+        name: this.userInput.name.value,
+        email: this.userInput.email.value,
+        role: 'translator',
+        password: this.userInput.password.value
+      };
+      this.authService.translatorRegistration(user).subscribe(res => console.log(res));
+    } else return;
   }
 
 }
