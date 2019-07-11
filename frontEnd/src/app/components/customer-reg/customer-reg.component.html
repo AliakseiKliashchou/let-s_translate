@@ -24,7 +24,7 @@
         <!-----------------------------------CREDIT CARD-------------------------------------->
         <div class="md-form mb-5" id="card_number">
             <i class="fas fa-credit-card prefix" [ngClass]="userInput.cardNumber.valid ? 'green-text' : 'red-text'"></i>
-            <input type="text" #creditCard id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
+            <input type="text" mask='0000-0000-0000-0000' #creditCard id="cardNumber_reg" [formControl]="userInput.cardNumber" class="form-control validate" mdbInput mdbValidate >
             <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>
             <mdb-error *ngIf="userInput.cardNumber.invalid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)" >{{getErrorCardNumber()}}</mdb-error>
             <mdb-success *ngIf="userInput.cardNumber.valid && (userInput.cardNumber.dirty || userInput.cardNumber.touched)">Ok!</mdb-success>

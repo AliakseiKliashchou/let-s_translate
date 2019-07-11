@@ -44,8 +44,8 @@ export class CustomerRegComponent implements OnInit {
         [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
       name: new FormControl('fruit',
         [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
-      cardNumber: new FormControl('1111111111111111',
-        [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
+      cardNumber: new FormControl('',
+        [Validators.required, Validators.minLength(16)]),
       tariff: new FormControl(tariff || 'gold', [Validators.required])
     };
   }

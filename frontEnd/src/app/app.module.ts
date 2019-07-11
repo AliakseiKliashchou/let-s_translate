@@ -25,8 +25,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { TableModule } from 'angular-bootstrap-md';
-import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import {TableModule} from 'angular-bootstrap-md';
+import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {
   HeaderComponent,
   HomeComponent,
@@ -44,8 +44,11 @@ import {
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
 import {OrderService} from './_shared/service/order/order.service';
-import { MessagesService } from './_shared/service/messages/messages.service';
+import {MessagesService} from './_shared/service/messages/messages.service';
 import {TokenInterceptor} from './_shared/token.interceptor';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -98,7 +101,8 @@ import {TokenInterceptor} from './_shared/token.interceptor';
     MatChipsModule,
     MatAutocompleteModule,
     TableModule,
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    NgxMaskModule.forRoot(options)
   ],
   providers: [
     {
