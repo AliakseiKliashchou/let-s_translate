@@ -35,6 +35,15 @@ router.get('/order', async (req, res) => {
   }
 });
 
+router.get('/order/unowned', async(req, res) => {
+  try {
+    let orders = await orderModel.findAll({where: {progress: 0}});
+    res.json(orders);
+  } catch(error) {
+    res.json({message: error});
+  }
+});
+
 router.get('/order/:id', async (req, res) => {
   let id = req.params.id;
   try {

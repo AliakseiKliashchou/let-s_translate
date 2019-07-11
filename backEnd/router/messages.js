@@ -27,10 +27,8 @@ router.post('/message', async (req, res) => {
 router.get('/message/:idOrder', async (req, res) => {
   let idOrder = req.params.idOrder;
   try {
-    let findMessage = await messageModel.findAll({where: {idOrder}})
-      .then((message) => {
-        res.json(message);
-      });
+    let message = await messageModel.findAll({where: {idOrder}});
+    res.json(message);
   } catch (error) {
     res.status(400).json(error);
   }

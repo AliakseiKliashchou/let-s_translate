@@ -30,8 +30,8 @@ const login = (req, res) => {
         res.json({ 
           token, 
           id: customer.id,
-          name: customer.name,
-          email: customer.email,
+          name: customer.name, 
+          email: customer.email, 
           role: customer.role,
           isFind: true
         })
@@ -50,11 +50,11 @@ const login = (req, res) => {
         const token = jwt.sign(translator.id.toString(), jwtSecret);
         res.json({ 
           token, 
-          id: translator.id,
+          id: translator.id, 
           name: translator.name,
-          email: translator.email,
+          email: translator.email, 
           role: translator.role,
-          isFind: true
+          isFind: true 
         })
       } else {
         res.status(401).json({message: 'Invalid credentials!'})
