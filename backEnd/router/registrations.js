@@ -22,8 +22,8 @@ router.post('/translator', valid.checkValid, async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      verify: false,
-      languages: req.body.languages
+      // verify: false,
+      // languages: req.body.languages
     });
 
     bcrypt.hash(translator.password, 10).then((hash) => {
