@@ -12,6 +12,7 @@
         <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">
           {{status[text.progress]}}</p>
         <p class="date">{{text.date | date}}</p>
+        <p (click)="getOrder(text.id, text.idCustomer)" style="background-color: #ae032d">Get</p>
       </div>
 
     </div>

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from '../../_shared/interface/order.interface';
+import {AuthService} from "../../_shared/service/users/auth.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,9 @@ export class DashboardComponent implements OnInit {
   ];
   ordersArray: OrderInterface[];
 
-  constructor(private orderService: OrderService) {
+  constructor(
+    private orderService: OrderService,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -43,6 +46,11 @@ export class DashboardComponent implements OnInit {
       case 3:
         return '#5546E4';
     }
+  }
+
+  getOrder(idOrder: number, idCustomer: number) {
+    let id = this.authService.getUserId();
+    this.orderService.acceptOrder(idOrder, id, idCustomer);
   }
 
 

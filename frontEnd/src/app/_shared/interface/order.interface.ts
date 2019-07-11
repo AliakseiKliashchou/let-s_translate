@@ -11,4 +11,5 @@ export interface OrderInterface {
   review: boolean;
   tags: Array<any>;
   urgency: number;
+  idCustomer:number;
 }

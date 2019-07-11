@@ -3,7 +3,7 @@ const sequelize = require('../configs/sequelize');
 
 const Order = sequelize.define('order', {
   idCustomer: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   name: {
