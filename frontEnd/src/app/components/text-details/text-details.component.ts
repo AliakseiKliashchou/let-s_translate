@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from 'src/app/_shared/interface/order.interface';
-import {CommentsInterface} from 'src/app/_shared/interface/comments.interface'
+import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
 
 
@@ -35,21 +35,17 @@ export class TextDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private messagesService: MessagesService) {
-    this.routeSubscription = route.params.subscribe(params => this.id = params['id']);
   }
 
   ngOnInit() {
-    this.orderService.getOrder(this.id).subscribe((data: OrderInterface) => {
-      console.log(data);
-      this.element = data;
+    this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
+    this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
+      this.element = order;
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         if (data) {
-          console.log(typeof this.incomingComments);
           for (let i = 0; i < data.length; i++) {
             this.incomingComments.push(data[i]);
           }
-          console.log(this.incomingComments);
-          console.log(this.incomingComments[0].name);
         } else console.log('empty db');
       });
     });
@@ -57,7 +53,7 @@ export class TextDetailsComponent implements OnInit {
   }
 
   sendComment(text) {
-    let message = {
+    const message = {
       senderEmail: JSON.parse(localStorage.getItem('currentUser')).email,
       role: JSON.parse(localStorage.getItem('currentUser')).role,
       idCommentator: JSON.parse(localStorage.getItem('currentUser')).id,
@@ -66,9 +62,11 @@ export class TextDetailsComponent implements OnInit {
       message: text,
       date: Date.now()
     };
-    console.log(message);
-    this.messagesService.createMessage(message).subscribe((data) => {
-      console.log(data);
+    this.messagesService.createMessage(message).subscribe(() => {
+      this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
+        const item = data.length - 1;
+        this.incomingComments.push(data[item]);
+      });
     });
   }
 

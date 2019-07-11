@@ -2,7 +2,7 @@ export interface OrderInterface {
   id: number;
   title: string;
   date: string;
-  download: string;
+  downloadURL: string;
   name: string;
   email: string;
   originalLanguage: string;
@@ -11,4 +11,5 @@ export interface OrderInterface {
   review: boolean;
   tags: Array<any>;
   urgency: number;
+  idCustomer:number;
 }

@@ -20,9 +20,20 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/order/`);
   }
 
+  getUnownedOrders() {
+    return this.http.get(`${this.URL}/secure/order/unowned`);
+  }
 
   getOrder(id: number) {
     return this.http.get(`${this.URL}/secure/order/${id}`);
-
   }
+
+  acceptOrder(idOrder: number, idTranslators: number, idCustomer: number) {
+    this.http.post(`${this.URL}/secure/waitlist/accept`, {
+      idOrder,
+      idTranslators,
+      idCustomer
+    }).subscribe(res => console.log(res));
+  }
+
 }
