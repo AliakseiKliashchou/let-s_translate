@@ -35,21 +35,17 @@ export class TextDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private messagesService: MessagesService) {
-    this.routeSubscription = route.params.subscribe(params => this.id = params['id']);
   }
 
   ngOnInit() {
-    this.orderService.getOrder(this.id).subscribe((data: OrderInterface) => {
-      console.log(data);
-      this.element = data;
+    this.routeSubscription = this.route.params.subscribe(params => this.id = params['id']);
+    this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
+      this.element = order;
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         if (data) {
-          console.log(typeof this.incomingComments);
           for (let i = 0; i < data.length; i++) {
             this.incomingComments.push(data[i]);
           }
-          console.log(this.incomingComments);
-          console.log(this.incomingComments[0].name);
         } else console.log('empty db');
       });
     });

@@ -16,7 +16,7 @@ router.post('/order', async (req, res) => {
       tags: req.body.tags,
       title: req.body.title,
       urgency: req.body.urgency,
-      review: req.body.additional_review,
+      review: req.body.additionalReview,
       progress: 0,
       date: new Date()
     });
