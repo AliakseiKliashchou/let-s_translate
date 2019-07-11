@@ -64,18 +64,19 @@ export class HeaderComponent implements OnInit {
     });
     if (this.isAuth) {
       const userId = this.authService.getUserId();
-      this.userInfoService.getUserProfile(userId).subscribe((userData: UserProfile) => {
-        this.userProfile = userData;
-        this.imageUrl = userData.photo;
-        this.userProfileForm = {
-          photo:
-            new FormControl(userData.photo || ''),
-          name:
-            new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
-          email:
-            new FormControl(userData.email, Validators.pattern(this.emailPattern))
-        };
-      });
+      this.userInfoService.getTranslatorProfile(userId).subscribe(res => console.log(res));
+      // this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+      //   // this.userProfile = userData;
+      //   // this.imageUrl = userData.photo;
+      //   // this.userProfileForm = {
+      //   //   photo:
+      //   //     new FormControl(userData.photo || ''),
+      //   //   name:
+      //   //     new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
+      //   //   email:
+      //   //     new FormControl(userData.email, Validators.pattern(this.emailPattern))
+      //   // };
+      // });
     }
   }
 

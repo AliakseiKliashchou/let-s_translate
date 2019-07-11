@@ -12,8 +12,12 @@ export class UserInfoService {
     private  authService: AuthService) {
   }
 
-  getUserProfile(id: number) {
+  getCustomerProfile(id: number) {
     return this.http.get('http://localhost:3000/secure/profile/customer/' + id);
+  }
+
+  getTranslatorProfile(id: number) {
+    return this.http.get('http://localhost:3000/secure/profile/translator/' + id);
   }
 
   updateUserProfile(photo, email, name) {

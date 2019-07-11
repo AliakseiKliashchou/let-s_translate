@@ -24,10 +24,10 @@ const Translator = sequelize.define('translator', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  languages: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: false
-  }
+  // languages: {
+  //   type: Sequelize.ARRAY(Sequelize.STRING),
+  //   allowNull: false
+  // }
 });
 
 module.exports = Translator;

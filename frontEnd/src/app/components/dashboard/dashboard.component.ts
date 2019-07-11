@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from '../../_shared/interface/order.interface';
 
@@ -16,12 +16,17 @@ export class DashboardComponent implements OnInit {
   ];
   ordersArray: OrderInterface[];
 
-
   constructor(private orderService: OrderService) {
   }
 
   ngOnInit() {
-    this.orderService.getOrders().subscribe(
+    if (localStorage.getItem('role') === 'translator')
+      this.orderService.getUnownedOrders().subscribe(
+        (orders: OrderInterface[]) => {
+          this.ordersArray = orders;
+        }
+      );
+    else this.orderService.getOrders().subscribe(
       (orders: OrderInterface[]) => {
         this.ordersArray = orders;
       }

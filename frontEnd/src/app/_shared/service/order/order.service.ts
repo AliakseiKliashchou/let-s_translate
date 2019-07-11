@@ -21,7 +21,7 @@ export class OrderService {
   }
 
   getUnownedOrders() {
-    return this.http.get(`${this.URL}/secure/order/`);
+    return this.http.get(`${this.URL}/secure/order/unowned`);
   }
 
 
