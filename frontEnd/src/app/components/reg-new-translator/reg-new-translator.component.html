@@ -3,6 +3,12 @@
   <div class="title anim">Translator registration</div>
   <div class="inputs_wrapper anim">
     <div class="inputs">
+      <!-----------------------------------LANGUAGES-------------------------------------->
+      <div class="md-form mb-5">
+          <i class="fas fa-globe prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>          
+          <app-lng-checkboxes  (LanguageArray)="getLng($event)"></app-lng-checkboxes>
+        </div>
+        <mat-divider></mat-divider>
       <!-----------------------------------EMAIL-------------------------------------->
       <div class="md-form mb-5">
         <i class="fas fa-envelope prefix" [ngClass]="userInput.email.valid ? 'green-text' : 'red-text'"></i>
