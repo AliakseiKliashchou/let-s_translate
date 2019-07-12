@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
     'Ready for customer review'
   ];
   ordersArray: OrderInterface[];
+  role: string;
 
   constructor(
     private orderService: OrderService,
@@ -23,17 +24,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem('role') === 'translator')
-      this.orderService.getUnownedOrders().subscribe(
-        (orders: OrderInterface[]) => {
-          this.ordersArray = orders;
-        }
-      );
-    else this.orderService.getOrders().subscribe(
-      (orders: OrderInterface[]) => {
-        this.ordersArray = orders;
-      }
-    );
+    this.role = this.authService.getRole();
+    console.log(this.role)
+    if (this.role === 'translator')
+      this.orderService.getUnownedOrders()
+        .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+    else this.orderService.getOrders()
+      .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
   }
 
   getColor(status) {

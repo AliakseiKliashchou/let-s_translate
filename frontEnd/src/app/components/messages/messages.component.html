@@ -1,5 +1,33 @@
 <div class="wrapper">
   <app-header></app-header>
   <div class="title anim">Messages</div>
+
+<!--  <div class="block">-->
+<!--    <h3>Incomplete translations</h3>-->
+<!--    <div class="container" *ngIf="ordersArray && role === 'customer';else translatorBlock">-->
+
+<!--      <div *ngFor="let text of ordersArray" class="text-container">-->
+<!--        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>-->
+<!--        <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">-->
+<!--          {{status[text.progress]}}</p>-->
+<!--        <p class="date">{{text.date | date}}</p>-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--    <ng-template #translatorBlock>-->
+<!--      <div *ngFor="let text of ordersArray; let i=index" class="text-container">-->
+<!--        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>-->
+
+<!--        <div class="tags-order">-->
+<!--          <p>{{text.tags}}</p>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;        <p style="width: 2em"> {{text.urgency}}</p>&ndash;&gt;-->
+<!--        <p class="date">{{text.date | date}}</p>-->
+<!--        <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+
   <app-footer></app-footer>
 </div>

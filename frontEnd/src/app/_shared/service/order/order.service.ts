@@ -36,4 +36,8 @@ export class OrderService {
     }).subscribe(res => console.log(res));
   }
 
+  getAcceptedOrderList(idCustomer: number) {
+    return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
+  }
+
 }
