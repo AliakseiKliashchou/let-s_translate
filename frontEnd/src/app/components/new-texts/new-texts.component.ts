@@ -127,8 +127,6 @@ export class NewTextsComponent implements OnInit {
     console.log(text);
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
-    //let txt = new Angular2Txt(text, 'My Report');
-    // this.task = this.storage.upload(path, new Angular2Txt(text, 'My Report'));
     ref.putString(text).then((snapshot) => {
       this._snackBar.open('The text was successfully uploaded', '', {
         duration: 2000,
@@ -139,7 +137,7 @@ export class NewTextsComponent implements OnInit {
   }
 
   getURL(url) {
-    this.order.url = url;
+    this.order.url.push(url);
   }
 
   // *************Configure object to push on server***************** */
@@ -151,7 +149,7 @@ export class NewTextsComponent implements OnInit {
     additionalReview: false,
     urgency: 0,
     tags: [],
-    url: '',
+    url: [],
     title: '',
     id: JSON.parse(localStorage.getItem('currentUser')).id
   };
@@ -177,7 +175,6 @@ export class NewTextsComponent implements OnInit {
       this.order.additionalReview = true;
     }
     this.order.tags = this.tags;
-    console.table(this.order);
     this.http.createOrder(this.order).subscribe((data) => {
       console.log(data);
     });
