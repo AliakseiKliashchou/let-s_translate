@@ -11,4 +11,4 @@ export * from './upload-task/upload-task.component';
 export * from './languages/languages.component';
 export * from './text-details/text-details.component';
 export * from './collections/collections.component';
-export * from './languages/lng-checkboxes/lng-checkboxes.component'
+export * from './languages/lng-checkboxes/lng-checkboxes.component';

@@ -65,8 +65,7 @@ router.get('/order', async (req, res) => {
   }
 });
 
-router.get('/order/unowned/:idTranslator', async(req, res) => {
-  let
+router.get('/order/unowned', async(req, res) => {
   try {
     let orders = await orderModel.findAll({where: {progress: 0}});
     res.json(orders);

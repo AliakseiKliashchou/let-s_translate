@@ -9,7 +9,7 @@ interface UserDataBack {
   name: string;
   token: string;
   role: string;
-  id: string;
+  id: number;
 }
 
 @Injectable({
@@ -47,6 +47,8 @@ export class AuthService {
           role: data.role
         };
         this.token = data.token;
+        this.role = data.role;
+        this.id = data.id;
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
@@ -71,6 +73,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('currentUser');
     this.token = '';
+    this.role = '';
     this.isAuth = false;
     this.isAuthStatus.next(false);
     this.router.navigate(['/']);

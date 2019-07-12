@@ -58,6 +58,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('enter')
     this.isAuth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isAuth = isAuth;
