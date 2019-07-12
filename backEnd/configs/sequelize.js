@@ -10,8 +10,8 @@ const sequelize = new Sequelize("postgres://kqskdyqjdnrbrn:0068d34a3cd648865de1a
   }
 });
 
- // sequelize.sync({force: true}).then(() => {
- // }).catch(err => console.log(err))
+//  sequelize.sync({force: true}).then(() => {
+//  }).catch(err => console.log(err))
 
 sequelize.authenticate().then(() => {
   console.log("Success!");
