@@ -44,6 +44,7 @@ h3 {
 .text-container .title-order{
   width: 10%;
   min-width: 5em;
+  cursor: pointer;
 }
 .text-container .tags-order{
   width: 40%;

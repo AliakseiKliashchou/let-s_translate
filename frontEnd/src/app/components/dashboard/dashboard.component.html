@@ -5,7 +5,7 @@
 
   <div class="block">
     <h3>Incomplete translations</h3>
-    <div class="container" *ngIf="ordersArray && role === 'customer';else translatorBlock">
+    <div class="container" *ngIf="ordersArray && role === 'customer'">
 
       <div *ngFor="let text of ordersArray" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
@@ -16,23 +16,19 @@
 
     </div>
 
-    <ng-template #translatorBlock>
-      <div *ngFor="let text of ordersArray; let i=index" class="text-container">
+    <div class="container" *ngIf="ordersArray && role === 'translator'">
+      <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
 
         <div class="tags-order">
           <p>{{text.tags}}</p>
         </div>
-<!--        <p style="width: 2em"> {{text.urgency}}</p>-->
+        <!--<p style="width: 2em"> {{text.urgency}}</p>-->
         <p class="date">{{text.date | date}}</p>
         <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
       </div>
-    </ng-template>
+    </div>
   </div>
-
-  <div class="block">
-  </div>
-
 
   <app-footer></app-footer>
 </div>

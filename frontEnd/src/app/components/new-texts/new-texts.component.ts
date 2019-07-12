@@ -113,14 +113,19 @@ export class NewTextsComponent implements OnInit {
     if (file.size > this.maxSize) {
       this.isHasError.size = true;
       this._snackBar.open('Size of the document is too large', '', {
-        duration: 2000,
+        duration: 3000,
       });
     }
     let type = (file.type.split('/')[0] === 'image') ?
       file.type.split('/')[0] : file.name.split('.');
     if (typeof type === 'object') type = type[type.length - 1];
     if (this.typeAllowed.indexOf(type) !== -1) this.files.push(file);
-    else this.isHasError.format = true;
+    else {
+      this.isHasError.format = true;
+      this._snackBar.open('This type doesn\'t fit', '', {
+        duration: 3000,
+      });
+    }
   }
 
   uploadText(text) {

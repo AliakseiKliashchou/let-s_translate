@@ -8,7 +8,7 @@ const orderModel = require('../models/order');
 router.post('/accept', async (req, res) => {
   let idOrder = req.body.idOrder;
   let id = req.body.idTranslators;
-  
+
   let waitlistExist = await waitlistModel.findOne({where: {idOrder: idOrder}}).then((result) => {
     if (result) {
       let idTranslator = result.idTranslators;
@@ -36,13 +36,27 @@ router.get('/:idCustomer', async (req, res) => {
   let idTranslators;
 
   let orders = await waitlistModel.findAll({where: {idCustomer: idCustomer}}).then((result) => {
-    idOrders = result.idOrder;
-    idTranslators = result.idTranslators;
-  });
+    let newResult = result;
+    idOrders = result.map(el => el.idOrder);
+    idTranslators = result.map(el => el.idTranslators);
+    const prom = new Promise((res) => {
+      res('ok');
+    })
+      .then(res => {
+        orderModel.findAll({where: {id: idOrders}}).then(orders => {
+          orders.forEach((el, index) => {
+            newResult[index].idOrder = el;
+          });
+        });
+        return newResult;
+      }).then(result => {
+        translatorModel.findAll({where: {id: idTranslators}}).then(translators => {
+          translators.forEach((el, index) => result[index].idTranslators = el);
+          res.json(result)
+        });
 
-  let orderInfo = await orderModel.findOne({where: {id: idOrders}});
-  let translator = await translatorModel.findAll({where: {id: idTranslators}});
-  res.json({orders, orderInfo, translator});
+      });
+  });
 });
 
 module.exports = router;
