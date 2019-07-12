@@ -14,7 +14,10 @@
       <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !window.isWindowSizeSmall">My
         translations
       </button>
-      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall">Messages</button>
+      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall" matBadge="11" matBadgePosition="after" matBadgeColor="accent">
+        <i class="fas fa-envelope prefix"></i>
+        Messages
+      </button>
 
 
       <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth" [style.display]="window.isClose? 'none': 'block'">

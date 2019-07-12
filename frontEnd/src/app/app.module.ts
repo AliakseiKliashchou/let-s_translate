@@ -27,6 +27,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {TableModule} from 'angular-bootstrap-md';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatListModule} from '@angular/material/list';
 import {
   HeaderComponent,
   HomeComponent,
@@ -39,7 +41,9 @@ import {
   RegNewTranslatorComponent,
   UploadTaskComponent,
   LanguagesComponent,
-  TextDetailsComponent
+  TextDetailsComponent,
+  CollectionsComponent,
+  LngCheckboxesComponent
 } from './components';
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
@@ -66,6 +70,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     UploadTaskComponent,
     LanguagesComponent,
     TextDetailsComponent,
+    CollectionsComponent,
+    LngCheckboxesComponent,
 
   ],
   imports: [
@@ -102,7 +108,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     MatAutocompleteModule,
     TableModule,
     ProgressbarModule.forRoot(),
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot(options),
+    MatBadgeModule,
+    MatListModule
   ],
   providers: [
     {

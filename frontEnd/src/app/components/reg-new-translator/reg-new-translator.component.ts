@@ -13,6 +13,8 @@ export class RegNewTranslatorComponent implements OnInit {
   hide_1 = true;
   hide_2 = true;
 
+  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+
   userInput = {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
@@ -54,6 +56,11 @@ export class RegNewTranslatorComponent implements OnInit {
   }
 
 // --------------------------------------------------------------------------------
+lngArray = [];
+getLng(lng) { 
+  this.lngArray = lng;
+  console.log(this.lngArray);
+}
   register() {
     if (this.userInput.name.valid && this.userInput.email.valid
       && (this.userInput.password.value === this.userInput.passwordSubmitted.value)) {
@@ -61,7 +68,8 @@ export class RegNewTranslatorComponent implements OnInit {
         name: this.userInput.name.value,
         email: this.userInput.email.value,
         role: 'translator',
-        password: this.userInput.password.value
+        password: this.userInput.password.value,
+        languages: this.lngArray,
       };
       this.authService.translatorRegistration(user).subscribe(res => console.log(res));
     } else return;
