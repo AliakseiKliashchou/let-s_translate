@@ -17,7 +17,7 @@
       <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall">Messages</button>
 
 
-      <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth">
+      <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth" [style.display]="window.isClose? 'none': 'block'">
         <li routerLink="/dashboard">Dashboard</li>
         <li routerLink="/new_texts">New Texts</li>
         <li routerLink="/my_translations">My translations</li>

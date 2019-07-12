@@ -41,6 +41,7 @@ export class TextDetailsComponent implements OnInit {
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
       this.element = order;
+      console.log(this.element)
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {

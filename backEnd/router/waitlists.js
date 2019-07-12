@@ -9,7 +9,6 @@ router.post('/accept', async (req, res) => {
   let idOrder = req.body.idOrder;
   let id = req.body.idTranslators;
   let waitlistExist = await waitlistModel.findOne({where: {idOrder: idOrder}}).then((result) => {
-    console.log(result)
     if (result) {
       let idTranslator = result.idTranslators;
       idTranslator.push(id);
@@ -24,7 +23,7 @@ router.post('/accept', async (req, res) => {
       let waitlist = waitlistModel.create({
         idCustomer: req.body.idCustomer,
         idOrder: req.body.idOrder,
-        idTranslators: array
+        idTranslators: idTranslatorArr
       });
 
       res.json({message: 'OK', waitlist});
@@ -34,15 +33,15 @@ router.post('/accept', async (req, res) => {
 
 router.get('/:idCustomer', async (req, res) => {
   let idCustomer = req.params.idCustomer;
-  let idOrder;
+  let idOrders;
   let idTranslators;
 
-  let orders = await waitlistModel.findOne({where: {idCustomer: idCustomer}}).then((result) => {
-    idOrder = result.idOrder;
+  let orders = await waitlistModel.findAll({where: {idCustomer: idCustomer}}).then((result) => {
+    idOrders = result.idOrder;
     idTranslators = result.idTranslators;
   });
 
-  let orderInfo = await orderModel.findOne({where: {id: idOrder}});
+  let orderInfo = await orderModel.findOne({where: {id: idOrders}});
   let translator = await translatorModel.findAll({where: {id: idTranslators}});
   res.json({orders: orders, orderInfo: orderInfo, translator: translator});
 });

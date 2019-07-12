@@ -19,7 +19,8 @@ export class AuthService {
   private isAuth: boolean;
   private isAuthStatus = new Subject();
   private token: string;
-  private id;
+  private id: number;
+  private role: string;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -49,7 +50,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       }
     });
   }
@@ -59,8 +60,10 @@ export class AuthService {
     if (!authInformation) {
       return;
     }
-    this.token = JSON.parse(authInformation.data).token;
-    this.id = JSON.parse(authInformation.data).id;
+    const parsedInfo = JSON.parse(authInformation.data);
+    this.token = parsedInfo.token;
+    this.id = parsedInfo.id;
+    this.role = parsedInfo.role;
     this.isAuth = true;
     this.isAuthStatus.next(true);
   }
@@ -87,6 +90,10 @@ export class AuthService {
 
   getUserId() {
     return this.id;
+  }
+
+  getRole() {
+    return this.role;
   }
 
   private getAuthData() {
