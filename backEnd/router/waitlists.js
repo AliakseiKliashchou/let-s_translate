@@ -35,28 +35,36 @@ router.get('/:idCustomer', async (req, res) => {
   let idOrders;
   let idTranslators;
 
-  let orders = await waitlistModel.findAll({where: {idCustomer: idCustomer}}).then((result) => {
-    let newResult = result;
-    idOrders = result.map(el => el.idOrder);
-    idTranslators = result.map(el => el.idTranslators);
-    const prom = new Promise((res) => {
-      res('ok');
-    })
-      .then(res => {
-        orderModel.findAll({where: {id: idOrders}}).then(orders => {
-          orders.forEach((el, index) => {
-            newResult[index].idOrder = el;
+  let orders = await waitlistModel.findAll({where: {idCustomer: idCustomer}})
+    .then((result) => {
+      let newResult = result;
+      idOrders = result.map(el => el.idOrder);
+      idTranslators = result.map(el => el.idTranslators);
+
+      const prom = new Promise(res => res('ok'))
+        .then(res => {
+          orderModel.findAll({where: {id: idOrders}}).then(orders => {
+            orders.forEach((el, index) => {
+              newResult[index].idOrder = el;
+            });
           });
-        });
-        return newResult;
-      }).then(result => {
-        translatorModel.findAll({where: {id: idTranslators}}).then(translators => {
-          translators.forEach((el, index) => result[index].idTranslators = el);
-          res.json(result)
+          return newResult;
+        })
+        .then(resultAfterOrder => {
+          for (let i = 0; i < idTranslators.length; i++) {
+            let currentId = idTranslators[i];
+            translatorModel.findAll({where: {id: currentId}})
+              .then(translators => {
+                resultAfterOrder[i].idTranslators = translators;
+                if (i === idTranslators.length - 1) {
+                  res.json(resultAfterOrder)
+                }
+              });
+          }
         });
 
-      });
-  });
+    });
+
 });
 
 module.exports = router;
