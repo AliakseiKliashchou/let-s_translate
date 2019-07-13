@@ -67,14 +67,15 @@ router.get('/order', async (req, res) => {
   }
 });
 
-// router.get('/collections/:idCustomer', async (req, res) => {
-//   try {
-//     let orders = await .findAll({});
-//     res.json(orders);
-//   } catch (error) {
-//     res.status(400).json({error, message: 'Can not find any order'});
-//   }
-// });
+router.get('/collections/:idCustomer', async (req, res) => {
+  let id = req.params.idCustomer;
+  try {
+    let orders = await collectionModel.findAll({where: {idCustomer: id }});
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json({error, message: 'Can not find any order'});
+  }
+});
 
 router.get('/order/unowned', async(req, res) => {
   try {
