@@ -4,7 +4,6 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {finalize, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
-//import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-upload-task',

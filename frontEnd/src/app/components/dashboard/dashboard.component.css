@@ -15,12 +15,12 @@ p, h3 {
   align-items: center;
   border: 2px solid white;
   border-radius: 5px;
-  min-height: 4rem;
+  min-height: 4em;
   background-color: rgba(255, 255, 255, 0.85);
 }
 
 h3 {
-  margin-top: 1rem;
+  margin-top: 1em;
   color: #5c5d58;
   font-weight: 400;
   text-align: center;
@@ -36,16 +36,27 @@ h3 {
 .text-container {
   width: 80%;
   min-width: 30rem;
-  padding: 1rem;
+  padding: 1em;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid gray;
 }
-
-.text-container p {
+.text-container .title-order{
+  width: 10%;
+  min-width: 5em;
+  cursor: pointer;
+}
+.text-container .tags-order{
   width: 40%;
+  min-width: min-content;
 }
 
+.text-container p{
+  width: 40%;
+}
+.text-container div p {
+  width: 100%;
+}
 .text-container p.date {
   width: 20%;
   cursor: auto;
@@ -56,12 +67,27 @@ h3 {
   color: white;
 }
 
+.text-container .get-order-btn {
+  width: 4em;
+  padding: 0.1rem;
+  background-color: #f16624;
+  border-radius: 5px;
+  text-align: center;
+  border: none;
+}
+
+.text-container .get-order-btn:active, .get-order-btn:hover {
+  box-shadow: 0 0 5px #ff902c;
+  color: white;
+}
+
 @media (max-width: 720px) {
-  .container,.block {
+  .container, .block {
     width: 100%;
     font-size: 13px;
   }
-  .text-container{
+
+  .text-container {
     width: 100%;
     min-width: auto;
   }

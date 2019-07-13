@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     password: new FormControl('',
       [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
   };
-  role = '';
+  role = 'customer';
   user = {
     email: '',
     password: '',
@@ -58,25 +58,31 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('enter')
     this.isAuth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isAuth = isAuth;
     });
     if (this.isAuth) {
       const userId = this.authService.getUserId();
-      this.userInfoService.getTranslatorProfile(userId).subscribe(res => console.log(res));
-      // this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-      //   // this.userProfile = userData;
-      //   // this.imageUrl = userData.photo;
-      //   // this.userProfileForm = {
-      //   //   photo:
-      //   //     new FormControl(userData.photo || ''),
-      //   //   name:
-      //   //     new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
-      //   //   email:
-      //   //     new FormControl(userData.email, Validators.pattern(this.emailPattern))
-      //   // };
-      // });
+      const role = this.authService.getRole();
+      if (role === 'translator') {
+        this.userInfoService.getTranslatorProfile(userId).subscribe(res => console.log(res));
+      } else {
+        this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+          this.userProfile = userData;
+          this.imageUrl = userData.photo;
+          this.userProfileForm = {
+            photo:
+              new FormControl(userData.photo || ''),
+            name:
+              new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
+            email:
+              new FormControl(userData.email, Validators.pattern(this.emailPattern))
+          };
+        });
+      }
+
     }
   }
 
@@ -129,6 +135,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.userProfile = null;
   }
 
   toggleMenu() {

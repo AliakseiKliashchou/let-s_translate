@@ -76,9 +76,6 @@
     <h3>Drag and Drop a File right here</h3>
   </div>
 
-  <p *ngIf="isHasError.size" class="error">This file is too large</p>
-  <p *ngIf="isHasError.format" class="error">This type doesn't fit</p>
-
   <div *ngFor="let file of files">
     <app-upload-task (downloadURLonDrop)="getURL($event)" [file]="file"></app-upload-task>
   </div>

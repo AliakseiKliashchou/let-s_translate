@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
 
-const Translator = sequelize.define('translator', {
-  role: {
+const Admin = sequelize.define("admin", {
+  name: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  name: {
+  photo: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -23,11 +23,7 @@ const Translator = sequelize.define('translator', {
   password: {
     type: Sequelize.STRING,
     allowNull: false
-  },
-  languages: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    // allowNull: false
   }
 });
 
-module.exports = Translator;
+module.exports = Admin;

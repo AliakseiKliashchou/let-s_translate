@@ -5,24 +5,30 @@
 
   <div class="block">
     <h3>Incomplete translations</h3>
-    <div class="container" *ngIf="ordersArray">
+    <div class="container" *ngIf="ordersArray && role === 'customer'">
 
-      <div *ngFor="let text of ordersArray; let i=index" class="text-container">
-        <p style="cursor: pointer" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
+      <div *ngFor="let text of ordersArray" class="text-container">
+        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
         <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">
           {{status[text.progress]}}</p>
         <p class="date">{{text.date | date}}</p>
-        <p (click)="getOrder(text.id, text.idCustomer)" style="background-color: #ae032d">Get</p>
       </div>
 
     </div>
 
+    <div class="container" *ngIf="ordersArray && role === 'translator'">
+      <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
+        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
 
+        <div class="tags-order">
+          <p>{{text.tags}}</p>
+        </div>
+        <!--<p style="width: 2em"> {{text.urgency}}</p>-->
+        <p class="date">{{text.date | date}}</p>
+        <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
+      </div>
+    </div>
   </div>
-
-  <div class="block">
-  </div>
-
 
   <app-footer></app-footer>
 </div>
