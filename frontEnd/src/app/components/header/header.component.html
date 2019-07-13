@@ -18,6 +18,8 @@
         <i class="fas fa-envelope prefix"></i>
         Messages
       </button>
+      <button class="menu_btn" mat-button routerLink="/collections" *ngIf="isAuth && !window.isWindowSizeSmall">Collections
+      </button>
 
 
       <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth" [style.display]="window.isClose? 'none': 'block'">

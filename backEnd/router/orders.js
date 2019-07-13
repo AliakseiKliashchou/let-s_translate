@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const orderModel = require('../models/order');
+
 const collectionModel = require('../models/collection');
+
 
 router.post('/order', async (req, res) => {
   let urls = req.body.url;
@@ -64,6 +66,15 @@ router.get('/order', async (req, res) => {
     res.status(400).json({error, message: 'Can not find any order'});
   }
 });
+
+// router.get('/collections/:idCustomer', async (req, res) => {
+//   try {
+//     let orders = await .findAll({});
+//     res.json(orders);
+//   } catch (error) {
+//     res.status(400).json({error, message: 'Can not find any order'});
+//   }
+// });
 
 router.get('/order/unowned', async(req, res) => {
   try {
