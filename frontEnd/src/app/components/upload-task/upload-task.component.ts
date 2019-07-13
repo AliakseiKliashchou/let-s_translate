@@ -29,7 +29,6 @@ export class UploadTaskComponent implements OnInit {
   }
 
   startUpload() {
-    console.log(this.file);
     const path = `toTranslate/${Date.now()}_${this.file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, this.file);
@@ -40,11 +39,9 @@ export class UploadTaskComponent implements OnInit {
         this.downloadURL = await ref.getDownloadURL().toPromise();
 
         this.db.collection('files').add({downloadURL: this.downloadURL, path});
-        console.log(this.downloadURL);
         this._snackBar.open('The document was successfully uploaded', '', {
           duration: 2000,
         });
-        console.log(this.downloadURL);
         this.downloadURLonDrop.emit(this.downloadURL);
       })
     );

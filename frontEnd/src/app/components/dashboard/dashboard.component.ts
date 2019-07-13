@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.role = this.authService.getRole();
-    console.log(this.role)
     if (this.role === 'translator')
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
