@@ -2,32 +2,42 @@
   <app-header></app-header>
   <div class="title anim">Messages</div>
 
-<!--  <div class="block">-->
-<!--    <h3>Incomplete translations</h3>-->
-<!--    <div class="container" *ngIf="ordersArray && role === 'customer';else translatorBlock">-->
+  <div class="block">
+    <div class="container" *ngFor="let waitItem of waitlistArray">
+      <form [formGroup]="waitListForm">
+        <p> This text
+          <a [routerLink]="['/text_details',waitItem.idOrder.id]">
+            {{waitItem.idOrder.title}}
+          </a> can be translated these translators : </p>
 
-<!--      <div *ngFor="let text of ordersArray" class="text-container">-->
-<!--        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>-->
-<!--        <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">-->
-<!--          {{status[text.progress]}}</p>-->
-<!--        <p class="date">{{text.date | date}}</p>-->
-<!--      </div>-->
+        <div class="cleaning-type-box">
 
-<!--    </div>-->
+          <div
+            [style.backgroundColor]="radioBtn.checked? '#00ADB5' : 'whitesmoke'"
+            [style.boxShadow]="radioBtn.checked? '0 0 5px white' : '0 0 1px gray'"
+            class="translator-block"
+            (click)=radioBtn.click()
+            *ngFor="let trans of waitItem.idTranslators">
 
-<!--    <ng-template #translatorBlock>-->
-<!--      <div *ngFor="let text of ordersArray; let i=index" class="text-container">-->
-<!--        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>-->
+            <label [for]="waitItem.id + trans.id"> {{trans.name}} -- {{trans.email}} </label>
 
-<!--        <div class="tags-order">-->
-<!--          <p>{{text.tags}}</p>-->
-<!--        </div>-->
-<!--        &lt;!&ndash;        <p style="width: 2em"> {{text.urgency}}</p>&ndash;&gt;-->
-<!--        <p class="date">{{text.date | date}}</p>-->
-<!--        <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>-->
-<!--      </div>-->
-<!--    </ng-template>-->
-<!--  </div>-->
+            <input
+              type="radio"
+              [formControlName]="'waitlist_' + waitItem.id"
+              #radioBtn
+              [id]="waitItem.id + trans.id"
+              [value]="trans.id"
+              hidden>
+          </div>
+
+        </div>
+        <div class="button-block btn-group">
+          <button class="btn btn-default" (click)="acceptTranslator(waitItem.id)">accept</button>
+          <button class="btn btn-warning" (click)="resetInfo(waitItem.id)">clear</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <app-footer></app-footer>
 </div>

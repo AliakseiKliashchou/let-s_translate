@@ -59,7 +59,6 @@ export class RegNewTranslatorComponent implements OnInit {
 lngArray = [];
 getLng(lng) { 
   this.lngArray = lng;
-  console.log(this.lngArray);
 }
   register() {
     if (this.userInput.name.valid && this.userInput.email.valid

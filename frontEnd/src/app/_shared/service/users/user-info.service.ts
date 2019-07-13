@@ -21,7 +21,6 @@ export class UserInfoService {
   }
 
   updateUserProfile(photo, email, name) {
-    console.log(photo);
     const data = {photo, email, name};
     const userId = this.authService.getUserId();
     this.http.put(`http://localhost:3000/secure/profile/customer/${userId}`, data).subscribe(res => console.log(res));

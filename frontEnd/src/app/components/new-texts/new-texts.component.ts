@@ -44,7 +44,6 @@ export class NewTextsComponent implements OnInit {
       }
       this.tagCtrl.setValue(null);
     }
-    console.log(this.tags);
   }
 
   remove(fruit: string): void {
@@ -52,14 +51,12 @@ export class NewTextsComponent implements OnInit {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
-    console.log(this.tags);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
-    console.log(this.tags);
   }
 
   private _filter(value: string): string[] {
@@ -129,7 +126,6 @@ export class NewTextsComponent implements OnInit {
   }
 
   uploadText(text) {
-    console.log(text);
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     ref.putString(text).then((snapshot) => {

@@ -92,7 +92,6 @@ export class CustomerRegComponent implements OnInit {
     const user = this.userInputForm.value;
     user.role = 'customer';
     user.photo = this.photoUrl;
-    console.log(user);
     this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
     });
