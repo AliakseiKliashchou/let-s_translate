@@ -49,6 +49,7 @@ import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
 import {OrderService} from './_shared/service/order/order.service';
 import {MessagesService} from './_shared/service/messages/messages.service';
+import { CollectionsService } from './_shared/service/collections/collections.service';
 import {TokenInterceptor} from './_shared/token.interceptor';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 
@@ -120,7 +121,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     },
     AuthService,
     OrderService,
-    MessagesService],
+    MessagesService,
+    CollectionsService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
