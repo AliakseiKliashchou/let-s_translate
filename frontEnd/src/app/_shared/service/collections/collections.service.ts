@@ -18,4 +18,13 @@ export class CollectionsService {
     return this.http.get(`${this.URL}/secure/collections/${id}`);
   }
 
+  getFindingCollections(findingParams){
+    const params = new HttpParams()
+      .set('review', findingParams.review)
+      .set('originalLanguage', findingParams.originalLanguage)
+      .set('translateLanguage', findingParams.translateLanguage)
+      .set('tags', findingParams.tags);
+    return this.http.get(`${this.URL}/secure/collections/by-params`, {params});
+  }
+
 }
