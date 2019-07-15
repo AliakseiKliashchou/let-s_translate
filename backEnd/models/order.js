@@ -42,6 +42,10 @@ const Order = sequelize.define('order', {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false
   },
+  status: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   progress: {
     type: Sequelize.INTEGER,
     allowNull: false
