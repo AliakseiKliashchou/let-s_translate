@@ -16,6 +16,7 @@ router.post('/order', async (req, res) => {
     title: req.body.title,
     urgency: req.body.urgency,
     review: req.body.additionalReview,
+    status: 0,
     progress: 0,
     date: new Date(),
     idTranslator: 0
@@ -32,7 +33,7 @@ router.post('/order', async (req, res) => {
         idOrders: ordersArray,
         title: req.body.title,
         idCustomer: req.body.id
-      });      
+      });
     } else {
       ordersInfo.download = urls[0];
       let order = await orderModel.create(ordersInfo);
@@ -55,7 +56,7 @@ router.get('/order', async (req, res) => {
 
 router.get('/order/unowned', async (req, res) => {
   try {
-    let orders = await orderModel.findAll({where: {progress: 0}});
+    let orders = await orderModel.findAll({where: {status: 0}});
     res.json(orders);
   } catch (error) {
     res.json({message: error});

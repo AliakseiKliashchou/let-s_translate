@@ -34,7 +34,7 @@ router.post('/selectTranslator', async (req, res) => {
   const {idWaitlist, idTrans, idOrder} = req.body;
   waitlistModel.destroy({where: {id: idWaitlist}});
   orderModel.findOne({where: {id: idOrder}}).then((result) => {
-    result.update({progress: 1, idTranslator: idTrans})
+    result.update({status: 1, idTranslator: idTrans})
   });
 });
 
