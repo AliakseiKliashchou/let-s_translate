@@ -16,3 +16,8 @@
   width: max-content;
   font-size: 30px;
 }
+mat-progress-bar{
+  position: absolute;
+  top: 80px;
+  
+}
