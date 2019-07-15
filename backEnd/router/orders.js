@@ -23,19 +23,16 @@ router.post('/order', async (req, res) => {
   try {
     if (urls.length > 1) {
       let ordersArray = [];
-
       for (let i = 0; i < urls.length; i++) {
         ordersInfo.download = urls[i];
         let order = await orderModel.create(ordersInfo);
         ordersArray.push(order.id);
       }
-
       let collection = collectionModel.create({
         idOrders: ordersArray,
         title: req.body.title,
         idCustomer: req.body.id
-      });
-
+      });      
     } else {
       ordersInfo.download = urls[0];
       let order = await orderModel.create(ordersInfo);
