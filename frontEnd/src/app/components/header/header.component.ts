@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     role: ''
   };
   window = {
-    isWindowSizeSmall: (window.innerWidth < 1200),
+    isWindowSizeSmall: (window.innerWidth < 1300),
     isClose: true
   };
   isAuth = false;
@@ -142,7 +142,7 @@ export class HeaderComponent implements OnInit {
   }
 
   resizeWindow() {
-    this.window.isWindowSizeSmall = (window.innerWidth < 1200);
+    this.window.isWindowSizeSmall = (window.innerWidth < 1300);
     if (!this.window.isWindowSizeSmall) this.window.isClose = true;
   }
 

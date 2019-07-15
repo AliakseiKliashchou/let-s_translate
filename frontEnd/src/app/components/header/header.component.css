@@ -21,8 +21,8 @@ nav {
 }
 
 .logo {
-  width: 24em;
-  height: 4em;
+  width: 20em;
+  height: 3.2em;
   background-image: url('../../../assets/logo.png');
   background-size: 100% 100%;
   margin: 10px 10px;
@@ -37,10 +37,10 @@ nav {
 }
 
 .right-block button {
-  background-color: rgba(255, 255, 255, 0.603);
+  background-color: rgba(255, 255, 255, 0.65);
   margin-right: 15px;
   height: 3em;
-  color: white;
+  color: black;
 }
 
 .menu_btn {
@@ -89,12 +89,14 @@ nav {
 }
 
 .button {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
   padding: 10px;
-  height: 2em;
-  width: 2em;
+  text-align: center;
   display: block;
   position: relative;
-  background: #797a75; /* Old browsers */
+  background: rgba(255, 255, 255, 0.65);
 }
 
 a .button {
@@ -107,12 +109,12 @@ a .button {
   padding: 10px 20px;
   width: 200px;
   color: white;
-  background: #62635e; /* Old browsers */
+  background: #62635e;
   margin: 0;
   z-index: 2;
   position: fixed;
-  top: 2.5em;
-  left: 27.5em;
+  top: 1.4em;
+  left: 23.7em;
   transition: opacity 0.25s ease;
   opacity: 0;
 }
@@ -171,12 +173,19 @@ a .button {
 }
 
 
-@media (max-width: 1400px) {
+@media (max-width: 1650px) {
+  .wrapper, .wrapper button {
+    font-size: 15px;
+  }
+
+  .logo {
+    margin: 1.2em 0.4em;
+  }
+}
+
+@media (max-width: 1550px) {
   .wrapper, .wrapper button {
     font-size: 14px;
   }
 
-  .logo {
-    margin: 20px 10px;
-  }
 }
