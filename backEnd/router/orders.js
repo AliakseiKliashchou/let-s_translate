@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const orderModel = require('../models/order');
+const collectionModel = require('../models/collection');
+
 
 router.post('/order', async (req, res) => {
-  let urls = req.body.url;
+  let urls = req.body.url;  
   try {
     if(urls.length > 1) {
       let ordersArray = [];
-
       for(let i = 0; i < urls.length; i++) {
         let order = await orderModel.create({
           idCustomer: req.body.id,
@@ -24,13 +26,11 @@ router.post('/order', async (req, res) => {
         });
         ordersArray.push(order.id);
       }
-
       let collection = collectionModel.create({
         idOrders: ordersArray,
         title: req.body.title,
         idCustomer: req.body.id
-      });
-      
+      });      
     } else {
       let order = await orderModel.create({
         idCustomer: req.body.id,
