@@ -176,6 +176,7 @@ export class NewTextsComponent implements OnInit {
       this.order.additionalReview = true;
     }
     this.order.tags = this.tags;
+    console.log(this.order);
     this.http.createOrder(this.order).subscribe((data) => {
       console.log(data);
     });
