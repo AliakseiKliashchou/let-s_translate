@@ -5,7 +5,10 @@
 
       <div class="logo" routerLink="/"></div>
 
-      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isAuth"> <span class="menu"></span> </a>
+      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isAuth"
+         >
+        <span class="menu">&#9776;</span>
+      </a>
 
       <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !window.isWindowSizeSmall">Dashboard
       </button>
@@ -14,11 +17,13 @@
       <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !window.isWindowSizeSmall">My
         translations
       </button>
-      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall" matBadge="11" matBadgePosition="after" matBadgeColor="accent">
+      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall"
+              matBadge="11" matBadgePosition="after" matBadgeColor="accent">
         <i class="fas fa-envelope prefix"></i>
         Messages
       </button>
-      <button class="menu_btn" mat-button routerLink="/collections" *ngIf="isAuth && !window.isWindowSizeSmall">Collections
+      <button class="menu_btn" mat-button routerLink="/collections" *ngIf="isAuth && !window.isWindowSizeSmall">
+        Collections
       </button>
 
 

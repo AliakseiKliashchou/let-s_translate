@@ -36,6 +36,13 @@ export class OrderService {
     }).subscribe(res => console.log(res));
   }
 
+  selectTranslator(idWaitlist: number, idTrans: number, idOrder: number) {
+    this.http.post(
+      `${this.URL}/secure/waitlist/selectTranslator`,
+      {idWaitlist, idTrans, idOrder})
+      .subscribe(res => console.log(res));
+  }
+
   getAcceptedOrderList(idCustomer: number) {
     return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
   }

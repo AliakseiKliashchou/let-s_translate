@@ -49,6 +49,10 @@ const Order = sequelize.define('order', {
   date: {
     type: Sequelize.DATE,
     allowNull: false
+  },
+  idTranslator: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 });
 
