@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthService} from './../../service/users/auth.service';
 
 @Injectable({
@@ -15,6 +15,15 @@ export class CollectionsService {
 
   getCollections(id: number){
     return this.http.get(`${this.URL}/secure/collections/${id}`);
+  }
+
+  getFindingCollections(findingParams){
+    const params = new HttpParams()
+      .set('review', findingParams.review)
+      .set('originalLanguage', findingParams.originalLanguage)
+      .set('translateLanguage', findingParams.translateLanguage)
+      .set('tags', findingParams.tags);
+    return this.http.get(`${this.URL}/secure/collections/by-params`, {params});
   }
 
 }
