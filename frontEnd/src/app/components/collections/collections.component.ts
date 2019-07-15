@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { CollectionsService } from './../../_shared/service/collections/collections.service';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {CollectionsService} from './../../_shared/service/collections/collections.service';
 import {AuthService} from '././../../_shared/service/users/auth.service';
 import {CollectionsInterface} from '../../_shared/interface/collections.interface';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -18,23 +18,24 @@ import {map, startWith} from 'rxjs/operators';
 export class CollectionsComponent implements OnInit {
 
   constructor(
-    private CollectionsService: CollectionsService, 
+    private CollectionsService: CollectionsService,
     private AuthService: AuthService
-    ) { 
-      this.filteredTags = this.tagCtrl.valueChanges.pipe(
-        startWith(null),
-        map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-    }
+  ) {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+  }
 
   ngOnInit() {
     this.progressBar = true;
     let id = this.AuthService.getUserId();
-    this.CollectionsService.getCollections(id).subscribe( (data: CollectionsInterface[]) => {
+    this.CollectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
       this.collectionsArray = data;
       console.log(this.collectionsArray);
       this.progressBar = false;
     });
   }
+
   isShowCollections = false;
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
@@ -57,7 +58,7 @@ export class CollectionsComponent implements OnInit {
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
-     
+
       if ((value || '').trim()) {
         this.tags.push(value.trim());
       }
@@ -86,26 +87,29 @@ export class CollectionsComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
+
   //****************************************************************** */
 
-  getInitLng(lng){
+  getInitLng(lng) {
     this.findingParams.originalLanguage = lng;
   }
-  getFinitLng(lng){
+
+  getFinitLng(lng) {
     this.findingParams.translateLanguage = lng;
   }
+
   findingParams = {
-    originalLanguage: '',
-    translateLanguage: '',
+    originalLanguage: '%%',
+    translateLanguage: '%%',
     tags: this.tags,
     review: false
   };
 
-  findOrders(review){
-    if(review.checked){
+  findOrders(review) {
+    if (review.checked) {
       this.findingParams.review = true;
     }
-    this.CollectionsService.getFindingCollections(this.findingParams).subscribe( (data) => {
+    this.CollectionsService.getFindingCollections(this.findingParams).subscribe((data) => {
       console.log(data);
     });
   }
