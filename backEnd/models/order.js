@@ -42,12 +42,20 @@ const Order = sequelize.define('order', {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false
   },
+  status: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   progress: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
   date: {
     type: Sequelize.DATE,
+    allowNull: false
+  },
+  idTranslator: {
+    type: Sequelize.INTEGER,
     allowNull: false
   }
 });

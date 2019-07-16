@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from '@angular/forms';
 
 interface WaitListModel {
   id: number;
@@ -46,10 +46,11 @@ export class MessagesComponent implements OnInit {
   }
 
   acceptTranslator(waitItem) {
-    const name = `waitlist_${waitItem}`
-    const valueByRadioBtn = this.waitListForm.value[name];
-    console.log(valueByRadioBtn);
-    // send to back idTrans and idOrders;
+    const idOrder = waitItem.idOrder.id;
+    const idWaitItem = waitItem.id;
+    const name = `waitlist_${idWaitItem}`;
+    const idTrans = this.waitListForm.value[name];
+    this.orderService.selectTranslator(idWaitItem, idTrans, idOrder);
   }
 
   resetInfo(waitItem) {

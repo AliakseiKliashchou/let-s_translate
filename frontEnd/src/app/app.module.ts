@@ -52,6 +52,8 @@ import {MessagesService} from './_shared/service/messages/messages.service';
 import { CollectionsService } from './_shared/service/collections/collections.service';
 import {TokenInterceptor} from './_shared/token.interceptor';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -111,7 +113,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ProgressbarModule.forRoot(),
     NgxMaskModule.forRoot(options),
     MatBadgeModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule,
+    MatExpansionModule
   ],
   providers: [
     {

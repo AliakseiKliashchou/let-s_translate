@@ -30,7 +30,15 @@ router.post('/accept', async (req, res) => {
   })
 });
 
-router.get('/:idCustomer', async(req, res) => {
+router.post('/selectTranslator', async (req, res) => {
+  const {idWaitlist, idTrans, idOrder} = req.body;
+  waitlistModel.destroy({where: {id: idWaitlist}});
+  orderModel.findOne({where: {id: idOrder}}).then((result) => {
+    result.update({status: 1, idTranslator: idTrans})
+  });
+});
+
+router.get('/:idCustomer', async (req, res) => {
   let idCustomer = req.params.idCustomer;
   let idOrders;
   let idTranslators;
