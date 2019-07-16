@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
   task: AngularFireUploadTask;
   downloadURL: Observable<string>;
   downPhoto = new Subject();
+  error: any;
 
 
   constructor(
@@ -57,7 +58,8 @@ export class HeaderComponent implements OnInit {
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -133,8 +135,17 @@ export class HeaderComponent implements OnInit {
   }
 
   login(frame) {
-    frame.hide();
-    this.authService.login(this.user);
+    //frame.hide();
+    this.authService.log(this.user).subscribe(() => {
+      console.log('Success');
+      this.authService.login(this.user);
+      frame.hide();
+      this.router.navigateByUrl('dashboard');
+    }, (err) => {
+      console.error(err.error.message);
+      this.error = err.error.message;
+      console.log(this.error);
+    });
   }
 
   logout() {

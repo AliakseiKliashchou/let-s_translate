@@ -36,6 +36,10 @@ export class AuthService {
     return this.http.post(`${this.URL}/create/translator`, user);
   }
 
+  log(user){
+    return this.http.post(`${this.URL}/login`, user)
+  }
+
   login(user) {
     this.http.post(`${this.URL}/login`, user).subscribe((data: UserDataBack) => {
       if (data.isFind) {
