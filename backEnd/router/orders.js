@@ -45,6 +45,7 @@ router.post('/order', async (req, res) => {
   }
 });
 
+//customer
 router.get('/order', async (req, res) => {
   try {
     let orders = await orderModel.findAll({});
@@ -54,10 +55,23 @@ router.get('/order', async (req, res) => {
   }
 });
 
+//translator
 router.get('/order/unowned', async (req, res) => {
+  const { translateLanguage, originalLanguage, tagsArray } = req.query;
   try {
-    let orders = await orderModel.findAll({where: {status: 0}});
-    res.json(orders);
+
+    console.log(translateLanguage, originalLanguage, tagsArray)
+    // if(true) {
+    //   let orders = await orderModel.findAll({where: 
+    //     {
+    //       originalLanguage: {[Op.like]: originalLanguage}, 
+    //       translateLanguage: {[Op.like]: translateLanguage}, 
+    //       tags: {[Op.contains]: tagsArray}
+    //     }
+    //   }).then(ordersArray => res.json(ordersArray))
+    // }
+    // let orders = await orderModel.findAll({where: {status: 0}});
+    // res.json(orders);
   } catch (error) {
     res.json({message: error});
   }
