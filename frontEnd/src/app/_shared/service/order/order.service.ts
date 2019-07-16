@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 
 @Injectable({
@@ -26,6 +26,13 @@ export class OrderService {
 
   getOrder(id: number) {
     return this.http.get(`${this.URL}/secure/order/${id}`);
+  }
+
+  getFilteredOrder(tags, lng) {
+    const params = new HttpParams()
+    .set('language', lng)
+    .set('tags', tags);
+    return this.http.get(`${this.URL}/secure/order/filter`, {params});
   }
 
   acceptOrder(idOrder: number, idTranslators: number, idCustomer: number) {
