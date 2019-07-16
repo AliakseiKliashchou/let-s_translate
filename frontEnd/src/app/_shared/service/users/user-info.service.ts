@@ -23,6 +23,7 @@ export class UserInfoService {
   updateUserProfile(photo, email, name) {
     const data = {photo, email, name};
     const userId = this.authService.getUserId();
-    this.http.put(`http://localhost:3000/secure/profile/customer/${userId}`, data).subscribe(res => console.log(res));
+    this.http.put(`http://localhost:3000/secure/profile/customer/${userId}`, data)
+      .subscribe(res => console.log(res));
   }
 }

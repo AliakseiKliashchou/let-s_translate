@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from 'src/app/_shared/interface/order.interface';
 import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
+import {OrderService} from '../../_shared/service/order/order.service';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
 
 
