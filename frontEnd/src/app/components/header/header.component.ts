@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
-import {AuthService} from '../../_shared/service/users/auth.service';
-import {UserInfoService} from '../../_shared/service/users/user-info.service';
-import {finalize} from 'rxjs/operators';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
+import {finalize} from 'rxjs/operators';
+
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {UserInfoService} from '../../_shared/service/users/user-info.service';
 
 interface UserProfile {
   photo: string;
@@ -28,6 +28,11 @@ export class HeaderComponent implements OnInit {
     password: new FormControl('',
       [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
   };
+  isRole = {
+    auth: false,
+    customer: false,
+    translator: false
+  };
   role = 'customer';
   user = {
     email: '',
@@ -38,7 +43,6 @@ export class HeaderComponent implements OnInit {
     isWindowSizeSmall: (window.innerWidth < 1300),
     isClose: true
   };
-  isAuth = false;
   userProfile;
   userProfileForm;
   imageUrl;
@@ -49,7 +53,6 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(
-    private _router: Router,
     private authService: AuthService,
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
@@ -58,17 +61,19 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isAuth = this.authService.getIsAuth();
+    this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
-      this.isAuth = isAuth;
+      this.isRole.auth = isAuth;
     });
-    if (this.isAuth) {
+    if (this.isRole.auth) {
       const userId = this.authService.getUserId();
       const role = this.authService.getRole();
       if (role === 'translator') {
+        this.isRole.translator = true;
         this.userInfoService.getTranslatorProfile(userId).subscribe(res => console.log(res));
       } else {
         this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+          this.isRole.customer = true;
           this.userProfile = userData;
           this.imageUrl = userData.photo;
           this.userProfileForm = {
@@ -135,6 +140,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.userProfile = null;
+    this.isRole = null;
   }
 
   toggleMenu() {
