@@ -43,10 +43,10 @@ export class OrderService {
     }).subscribe(res => console.log(res));
   }
 
-  selectTranslator(idWaitlist: number, idTrans: number, idOrder: number) {
+  selectTranslator(idWaitList: number, idTrans: number, idOrder: number) {
     this.http.post(
       `${this.URL}/secure/waitlist/selectTranslator`,
-      {idWaitlist, idTrans, idOrder})
+      {idWaitList, idTrans, idOrder})
       .subscribe(res => console.log(res));
   }
 

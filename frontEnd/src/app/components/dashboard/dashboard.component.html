@@ -33,8 +33,8 @@
     <div class="container" *ngIf="ordersArray && role === 'customer'">
       <div *ngFor="let text of ordersArray" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
-        <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">
-          {{status[text.progress]}}</p>
+        <p [ngStyle]="{'color':getColor(text.status)}" style="font-weight: 400">
+          {{status[text.status]}}</p>
         <p class="date">{{text.date | date}}</p>
       </div>
 
@@ -42,7 +42,7 @@
 
     <div class="container" *ngIf="ordersArray && role === 'translator'">
       <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
-        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
+        <p class="title-order">{{text.title}}</p>
 
         <div class="tags-order">
           <p>{{text.tags}}</p>

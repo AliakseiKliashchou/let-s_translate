@@ -8,6 +8,7 @@ export interface OrderInterface {
   originalLanguage: string;
   translateLanguage: string;
   progress: number;
+  status: number;
   review: boolean;
   tags: Array<any>;
   urgency: number;
