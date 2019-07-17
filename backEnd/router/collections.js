@@ -35,17 +35,23 @@ router.get('/by-params', async (req, res) => {
           originalLanguage: {[Op.like]: originalLanguage},
           translateLanguage: {[Op.like]: translateLanguage},
           tags: {[Op.contains]: tagsArray},
-          review: review
+          review: review,
+          isCollections: false
         }
     })
     .then(ordersArray => res.json(ordersArray))
 });
 
 router.post('/create', async (req, res) => {
-  const {idOrdersArray, title, idCustomer} = req.body;
+  const {idOrders, tittle, idCustomer} = req.body;
+  orderModel.findAll({where: {id: idOrders}}).then(orders => {
+    orders.forEach(el => {
+      el.update({isCollections: true})
+    });
+  });
   collectionModel.create({
-    idOrders: idOrdersArray,
-    title: title,
+    idOrders: idOrders,
+    title: tittle,
     idCustomer: idCustomer
   }).then(result => res.json(result));
 });

@@ -122,43 +122,43 @@ export class CollectionsComponent implements OnInit {
     this.progressBar = true;
     if (review.checked) {
       this.findingParams.review = true;
-    }else this.findingParams.review = false;
+    } else this.findingParams.review = false;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
       this.filteredCollections = data;
       console.log(this.filteredCollections);
       this.progressBar = false;
 
-    });    
+    });
   }
 
-//**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
-newCollectionArray = {
-  title: '',
-  id: []
-}
-  click_check(check, idOrder, i){
-    if(check.checked){
-      this.newCollectionArray.id[i] = idOrder;  
+// **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
+  newCollectionArray = {
+    title: '',
+    id: []
+  };
+
+  click_check(check, idOrder, i) {
+    if (check.checked) {
+      this.newCollectionArray.id[i] = idOrder;
     }
-    if(!check.checked){
+    if (!check.checked) {
       delete this.newCollectionArray.id[i];
-    } 
-   
+    }
+
   }
 
-  createNewCollection(title){
+  createNewCollection(title) {
     this.newCollectionArray.title = title;
-    for(let j = 0; j < this.newCollectionArray.id.length; j ++){
-      if(this.newCollectionArray.id[j] == undefined){
-        this.newCollectionArray.id.splice(j , 1);
+    for (let j = 0; j < this.newCollectionArray.id.length; j++) {
+      if (this.newCollectionArray.id[j] == undefined) {
+        this.newCollectionArray.id.splice(j, 1);
       }
     }
-    console.log(this.newCollectionArray);
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
-    .subscribe( (data) => {
-      console.log(data);
-    });    
-
+      .subscribe((data) => {
+        console.log(data);
+        this.ngOnInit();
+      });
   }
 
 
