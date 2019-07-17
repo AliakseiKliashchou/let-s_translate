@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
-const Waitlist = require('./waitlist');
+const Translator = require('./translator');
 
 const Order = sequelize.define('order', {
   idCustomer: {
@@ -53,11 +53,9 @@ const Order = sequelize.define('order', {
   date: {
     type: Sequelize.DATE,
     allowNull: false
-  },
-  idTranslator: {
-    type: Sequelize.INTEGER,
-    allowNull: false
   }
 });
+
+Order.belongsTo(Translator, {foreignKey: 'idTranslator'});
 
 module.exports = Order;

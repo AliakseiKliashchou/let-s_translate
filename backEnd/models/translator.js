@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
+// const Waitlist = require('./waitlist');
 
 const Translator = sequelize.define('translator', {
   role: {
@@ -28,5 +29,11 @@ const Translator = sequelize.define('translator', {
     type: Sequelize.ARRAY(Sequelize.STRING)
   }
 });
+
+// Translator.associate = function(models) {
+//   Translator.hasMany(models.Waitlist, {foreignKey: 'idTranslator'})
+// }
+
+// Translator.belongsTo(Waitlist, {foreignKey: 'waitlistId'});
 
 module.exports = Translator;
