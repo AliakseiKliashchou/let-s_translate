@@ -24,16 +24,7 @@ export class CollectionsComponent implements OnInit {
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
   filteredCollections: FilteredCollectionsInterface[] = [];
-  headElements = [
-    '',
-    'Name of customer',
-    'Title',
-    'Date',
-    'Download URL',
-    'Original language',
-    'Translate language',
-    'Email',
-  ];
+  headElements = ['', 'Name of customer', 'Title', 'Date', 'Download URL', 'Original language', 'Translate language', 'Email',];
   // ************************************TAGS************************* */
   visible = true;
   selectable = true;
@@ -65,7 +56,6 @@ export class CollectionsComponent implements OnInit {
     const id = this.authService.getUserId();
     this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
       this.collectionsArray = data;
-      console.log(this.collectionsArray);
       this.progressBar = false;
     });
   }
@@ -106,18 +96,13 @@ export class CollectionsComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
-
   // ****************************************************************** */
-
   getInitLng(lng) {
     this.findingParams.originalLanguage = lng;
   }
-
   getFinitLng(lng) {
     this.findingParams.translateLanguage = lng;
   }
-
-
   findOrders(review) {
     this.progressBar = true;
     if (review.checked) {
@@ -125,17 +110,20 @@ export class CollectionsComponent implements OnInit {
     }else this.findingParams.review = false;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
       this.filteredCollections = data;
-      console.log(this.filteredCollections);
       this.progressBar = false;
-
     });    
   }
-
+  //*****************************DELETE EXISTING COLLECTION****************************************** */
+  deleteCollection(id){
+    this.collectionsService.deleteCollection(id).subscribe( (data) => {
+      console.log(data);
+    });
+  }
 //**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
-newCollectionArray = {
-  title: '',
-  id: []
-}
+  newCollectionArray = {
+    title: '',
+    id: []
+  }
   click_check(check, idOrder, i){
     if(check.checked){
       this.newCollectionArray.id[i] = idOrder;  
@@ -143,9 +131,7 @@ newCollectionArray = {
     if(!check.checked){
       delete this.newCollectionArray.id[i];
     } 
-   
   }
-
   createNewCollection(title){
     this.newCollectionArray.title = title;
     for(let j = 0; j < this.newCollectionArray.id.length; j ++){
@@ -153,7 +139,6 @@ newCollectionArray = {
         this.newCollectionArray.id.splice(j , 1);
       }
     }
-    console.log(this.newCollectionArray);
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
     .subscribe( (data) => {
       console.log(data);
