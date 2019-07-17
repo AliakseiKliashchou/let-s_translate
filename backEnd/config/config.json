@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "1",
-    "database": "test1",
+    "username": "kqskdyqjdnrbrn",
+    "password": "0068d34a3cd648865de1ab9edc722f4d52539f505642e6f0a73a4e8bb87f1882",
+    "database": "d1ejj1n2bnepj8",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false

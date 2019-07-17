@@ -41,8 +41,7 @@ const Customer = sequelize.define("customer", {
     allowNull: false
   },
   guid: {
-    type: Sequelize.STRING,
-    // allowNull: false
+    type: Sequelize.STRING
   }
 });
 

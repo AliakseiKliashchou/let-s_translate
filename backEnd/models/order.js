@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
+const Waitlist = require('./waitlist');
 
 const Order = sequelize.define('order', {
   idCustomer: {
@@ -43,8 +44,7 @@ const Order = sequelize.define('order', {
     allowNull: false
   },
   status: {
-    type: Sequelize.INTEGER,
-    allowNull: false
+    type: Sequelize.INTEGER
   },
   progress: {
     type: Sequelize.INTEGER,

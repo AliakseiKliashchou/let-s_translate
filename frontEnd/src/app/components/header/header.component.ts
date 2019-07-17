@@ -58,8 +58,7 @@ export class HeaderComponent implements OnInit {
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar,
-    private router: Router) {
+    private _snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -140,7 +139,6 @@ export class HeaderComponent implements OnInit {
       console.log('Success');
       this.authService.login(this.user);
       frame.hide();
-      this.router.navigateByUrl('dashboard');
     }, (err) => {
       console.error(err.error.message);
       this.error = err.error.message;

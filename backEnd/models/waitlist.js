@@ -18,7 +18,4 @@ const Waitlist = sequelize.define('waitlist', {
   }
 });
 
-Waitlist.hasMany(Order);
-Waitlist.hasMany(Translator);
-
 module.exports = Waitlist;
