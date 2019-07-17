@@ -2,6 +2,7 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {CollectionsService} from '../../_shared/service/collections/collections.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {CollectionsInterface} from '../../_shared/interface/collections.interface';
+import { FilteredCollectionsInterface } from '../../_shared/interface/filteredCollections.interface';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
@@ -22,7 +23,18 @@ export class CollectionsComponent implements OnInit {
   isShowCollections = false;
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
-
+  filteredCollections: FilteredCollectionsInterface[] = [];
+  headElements = [
+    '',
+    'Name of customer',
+    'Title',
+    'Date',
+    'Download URL',
+    'Original language',
+    'Translate language',
+    'Email',   
+  ];
+  //************************************TAGS************************* */
   visible = true;
   selectable = true;
   removable = true;
@@ -107,12 +119,39 @@ export class CollectionsComponent implements OnInit {
 
 
   findOrders(review) {
+    this.progressBar = true;
     if (review.checked) {
       this.findingParams.review = true;
+
+    }
+    this.CollectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
+      this.filteredCollections = data;
+      console.log(this.filteredCollections);
+      this.progressBar = false;
+
     } else this.findingParams.review = false;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data) => {
       console.log(data);
+
     });
+  }
+
+//**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
+newCollectionArray = {
+  title: '',
+  id: []
+}
+  click_check(check, id, i){
+    check._checked = !check._checked; 
+    if(check.checked){
+      this.newCollectionArray.id.splice(i , 0 , id);  
+      console.log(this.newCollectionArray.id);   
+    }
+    if(!check.checked){
+      this.newCollectionArray.id.splice(i , 1);  
+      console.log(this.newCollectionArray.id);       
+    } 
+    
   }
 
 }

@@ -38,3 +38,25 @@ mat-divider{
     font-size: 20px;
     margin-bottom: 0px !important;
 }
+.filteredCollections, .filteredCollection{
+    border: 2px solid white;
+    border-radius: 5px;
+    width: 95%;
+    min-height: 50px;
+    margin: 15px auto;
+    background-color: rgba(255, 255, 255, 0.137);
+}
+.filteredCollection{
+    background-color: white;
+    min-height: 40px;
+}
+
+.checkbox_FC{
+    margin: 10px;
+    float: right;
+}
+span{
+    margin: 10px;  
+
+}
+
