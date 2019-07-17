@@ -122,18 +122,12 @@ export class CollectionsComponent implements OnInit {
     this.progressBar = true;
     if (review.checked) {
       this.findingParams.review = true;
-
-    }
-    this.CollectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
+    }else this.findingParams.review = false;
+    this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
       this.filteredCollections = data;
       console.log(this.filteredCollections);
       this.progressBar = false;
-
-    } else this.findingParams.review = false;
-    this.collectionsService.getFindingCollections(this.findingParams).subscribe((data) => {
-      console.log(data);
-
-    });
+    });    
   }
 
 //**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
@@ -141,17 +135,28 @@ newCollectionArray = {
   title: '',
   id: []
 }
-  click_check(check, id, i){
-    check._checked = !check._checked; 
+  click_check(check, idOrder, i){
     if(check.checked){
-      this.newCollectionArray.id.splice(i , 0 , id);  
-      console.log(this.newCollectionArray.id);   
+      this.newCollectionArray.id[i] = idOrder;  
     }
     if(!check.checked){
-      this.newCollectionArray.id.splice(i , 1);  
-      console.log(this.newCollectionArray.id);       
+      delete this.newCollectionArray.id[i];
     } 
-    
+   
+  }
+
+  createNewCollection(title){
+    this.newCollectionArray.title = title;
+    for(let j = 0; j < this.newCollectionArray.id.length; j ++){
+      if(this.newCollectionArray.id[j] == undefined){
+        this.newCollectionArray.id.splice(j , 1);
+      }
+    }
+    console.log(this.newCollectionArray);
+    this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
+    .subscribe( (data) => {
+      console.log(data);
+    });
   }
 
 }
