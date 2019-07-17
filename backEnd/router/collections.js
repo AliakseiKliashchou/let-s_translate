@@ -56,5 +56,27 @@ router.post('/create', async (req, res) => {
   }).then(result => res.json(result));
 });
 
+router.delete('/delete/:idCollection', async (req, res) => {
+  const idCollection = req.params.idCollection;
+  let flag = await collectionModel.findOne({where: {id: idCollection}})
+    .then(collection => {
+        const idOrders = collection.idOrders;
+        orderModel.findAll({where: {id: idOrders}})
+          .then(result => {
+            result.forEach(el => el.update({isCollections: false}))
+          });
+      }
+    );
+  let order = await collectionModel.destroy({where: {id: idCollection}}).then((result) => {
+    if (result === 1) {
+      res.json({message: 'Deleted successfully!'});
+    } else {
+      res.status(404).json({message: 'Record not found!'})
+    }
+  })
+
+
+});
+
 module.exports = router;
 

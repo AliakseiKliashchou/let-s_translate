@@ -27,8 +27,9 @@ export class CollectionsService {
     return this.http.get(`${this.URL}/secure/collections/by-params`, {params});
   }
 
-  deleteCollection(id){    
-    return this.http.delete(`${this.URL}/secure/collections/delete`, id);
+  deleteCollection(idCollections) {
+    console.log(idCollections)
+    return this.http.delete(`${this.URL}/secure/collections/delete/${idCollections}`);
   }
 
   createColection(idOrders: number[], tittle: string) {
