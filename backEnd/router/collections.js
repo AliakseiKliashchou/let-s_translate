@@ -42,5 +42,14 @@ router.get('/by-params', async (req, res) => {
     .then(ordersArray => res.json(ordersArray))
 });
 
+router.post('/create', async (req, res) => {
+  const {idOrdersArray, title, idCustomer} = req.body;
+  collectionModel.create({
+    idOrders: idOrdersArray,
+    title: title,
+    idCustomer: idCustomer
+  }).then(result => res.json(result));
+});
+
 module.exports = router;
 
