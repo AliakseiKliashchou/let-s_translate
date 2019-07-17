@@ -68,6 +68,38 @@
     <!--------------------------------------------------------------------------------->
     <button class="find_btn" (click)="findOrders(addReview)" mat-button>Find</button>
   </div>
+<!--------------------------------------FILTERED COLLECTIONS--------------------------------------------------->
+  <div class="filteredCollections" *ngIf="filteredCollections.length > 0">
+   <div class="filteredCollection" 
+        *ngFor="let collection of filteredCollections; let i = index" 
+        (click)="click_check(check_FC, collection.id, i)" 
+        [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
+     <div class="table">
+      <table mdbTable [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}}</th> 
+          </tr>
+        </thead>
+          <tbody >
+            <tr mdbTableCol >  
+              <th scope="row"><mat-checkbox #check_FC class="checkbox_FC"  hidden="true"></mat-checkbox> </th>            
+              <td>{{collection.name}}</td>
+              <td>{{collection.title}}</td>
+              <td>{{collection.date | date}}</td>
+              <td><a [href]="collection.download" target="_blank">Download text</a></td>
+              <td>{{collection.originalLanguage}}</td>
+              <td>{{collection.translateLanguage}}</td>
+              <td>{{collection.email}}</td>            
+            </tr>
+          </tbody>
+      </table>
+     </div>
+    <!-- <mat-checkbox #check_FC class="checkbox_FC" (change)="getCB(check_FC, i)"></mat-checkbox>  -->
+    <div style="clear: both"></div>
+   </div>
+  </div>
+ 
 
   <app-footer></app-footer>
 </div>

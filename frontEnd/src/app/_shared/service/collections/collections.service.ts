@@ -26,5 +26,8 @@ export class CollectionsService {
       .set('tags', findingParams.tags);
     return this.http.get(`${this.URL}/secure/collections/by-params`, {params});
   }
+  createNewCollection(collection){
+    return this.http.post(`${this.URL}/secure/collections/create`, collection);
+  }
 
 }
