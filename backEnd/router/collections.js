@@ -3,7 +3,6 @@ const router = express.Router();
 const orderModel = require('../models/order');
 const collectionModel = require('../models/collection');
 const Sequelize = require('sequelize');
-const sequelize = require('../configs/sequelize');
 const Op = Sequelize.Op;
 
 router.get('/get-by-user/:idCustomer', async (req, res) => {
