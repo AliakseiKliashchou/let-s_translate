@@ -14,6 +14,10 @@
     background-color: blue;
     color:white;
 }
+.delete_btn{
+    color:white;
+    background-color: rgb(218, 45, 45);
+}
 #isShowCollections_btn{
     background-color: rgba(82, 214, 29, 0.74);
     display: block;
