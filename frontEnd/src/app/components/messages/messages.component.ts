@@ -35,15 +35,23 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     const id = this.authService.getUserId();
-    this.orderService.getAcceptedOrderList(id)
-      .subscribe((res: WaitListModel[]) => {
-        this.waitlistArray = res;
-        this.waitListForm = new FormGroup({});
-        res.forEach(question => {
-          const name = `waitlist_${question.id}`;
-          this.waitListForm.addControl(name, new FormControl(null));
-        });
-      });
+    const role = this.authService.getRole();
+    if (role === 'customer') {
+      // this component doesn't work!
+      // waiting for correct route from backend
+
+      // this.orderService.getAcceptedOrderList(id)
+      //   .subscribe((res: WaitListModel[]) => {
+      //     console.log(res)
+      //     this.waitlistArray = res;
+      //     this.waitListForm = new FormGroup({});
+      //     res.forEach(question => {
+      //       const name = `waitlist_${question.id}`;
+      //       this.waitListForm.addControl(name, new FormControl(null));
+      //     });
+      //   });
+    }
+
   }
 
   acceptTranslator(waitItem) {
