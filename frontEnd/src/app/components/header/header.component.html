@@ -5,8 +5,7 @@
 
       <div class="logo" routerLink="/"></div>
 
-      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isRole.auth"
-      >
+      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isRole.auth">
         <span class="menu">&#9776;</span>
       </a>
 
@@ -48,7 +47,7 @@
         class="sub-menu"
         *ngIf="window.isWindowSizeSmall && isRole.auth"
         [style.display]="window.isClose? 'none': 'block'">
-        <li routerLink="/dashboard" >Dashboard</li>
+        <li routerLink="/dashboard">Dashboard</li>
         <li routerLink="/new_texts" *ngIf="isRole.customer">New Texts</li>
         <li routerLink="/my_translations" *ngIf="isRole.translator">My translations</li>
         <li routerLink="/messages">Messages</li>
@@ -79,7 +78,8 @@
     </div>
   </nav>
 
-  <div mdbModal 	[config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  <div mdbModal [config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop"
+       tabindex="-1" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -91,7 +91,7 @@
         </div>
         <div class="modal-body mx-3">
           <mat-tab-group>
-            <mat-tab label="Customer" >
+            <mat-tab label="Customer">
               <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix grey-text"></i>
                 <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"

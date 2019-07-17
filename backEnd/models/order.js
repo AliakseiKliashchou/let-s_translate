@@ -57,6 +57,10 @@ const Order = sequelize.define('order', {
   idTranslator: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  isCollections:{
+    type: Sequelize.BOOLEAN,
+    allowNull: false
   }
 });
 

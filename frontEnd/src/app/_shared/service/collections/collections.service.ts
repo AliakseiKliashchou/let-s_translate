@@ -33,6 +33,7 @@ export class CollectionsService {
 
   createColection(idOrders: number[], tittle: string) {
     const idCustomer = this.authService.getUserId();
+    console.log(idOrders)
     return this.http.post(`${this.URL}/secure/collections/create`, {idCustomer, idOrders, tittle});
   }
 

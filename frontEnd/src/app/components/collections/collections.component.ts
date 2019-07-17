@@ -107,7 +107,7 @@ export class CollectionsComponent implements OnInit {
     this.progressBar = true;
     if (review.checked) {
       this.findingParams.review = true;
-    }else this.findingParams.review = false;
+    } else this.findingParams.review = false;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
       this.filteredCollections = data;
       this.progressBar = false;
@@ -128,22 +128,23 @@ export class CollectionsComponent implements OnInit {
     if(check.checked){
       this.newCollectionArray.id[i] = idOrder;  
     }
-    if(!check.checked){
+    if (!check.checked) {
       delete this.newCollectionArray.id[i];
     } 
   }
+  
   createNewCollection(title){
     this.newCollectionArray.title = title;
-    for(let j = 0; j < this.newCollectionArray.id.length; j ++){
-      if(this.newCollectionArray.id[j] == undefined){
-        this.newCollectionArray.id.splice(j , 1);
+    for (let j = 0; j < this.newCollectionArray.id.length; j++) {
+      if (this.newCollectionArray.id[j] == undefined) {
+        this.newCollectionArray.id.splice(j, 1);
       }
     }
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
-    .subscribe( (data) => {
-      console.log(data);
-    });    
-
+      .subscribe((data) => {
+        console.log(data);
+        this.ngOnInit();
+      });
   }
 
 

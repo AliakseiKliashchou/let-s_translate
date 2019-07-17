@@ -17,6 +17,5 @@ const Collection = sequelize.define("collection", {
   }
 });
 
-Collection.hasMany(Order);
 
 module.exports = Collection;
