@@ -22,6 +22,7 @@
           <li><a href="{{order.download}}" target="_blank">Download</a></li>
           <button class="details_btn" mat-button [routerLink]="['/text_details',order.id]">Details</button>
         </ul>
+        <button class="delete_btn" mat-button (click)="deleteCollection(coll.id)">Delete collection</button>
       </mat-expansion-panel>
     </div>
   </div>
