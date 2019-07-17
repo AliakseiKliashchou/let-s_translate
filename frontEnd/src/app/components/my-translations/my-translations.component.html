@@ -1,5 +1,20 @@
 <div class="wrapper">
   <app-header></app-header>
   <div class="title anim">My translations</div>
+
+  <div class="block">
+    <h3>Incomplete translations</h3>
+    <div class="container" *ngIf="translateListArray">
+
+      <div *ngFor="let text of translateListArray" class="text-container">
+        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
+        <p style="font-weight: 400">
+          {{text.progress}}%</p>
+        <p class="date">{{text.date | date}}</p>
+      </div>
+
+    </div>
+  </div>
+
   <app-footer></app-footer>
 </div>

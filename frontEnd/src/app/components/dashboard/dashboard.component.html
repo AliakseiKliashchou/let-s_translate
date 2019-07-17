@@ -48,7 +48,7 @@
           <p>{{text.tags}}</p>
         </div>
         <!--<p style="width: 2em"> {{text.urgency}}</p>-->
-        <p class="date">{{text.date | date}}</p>
+        <p class="date">{{text.originalLanguage}} => {{text.translateLanguage}} | {{text.date | date}}</p>
         <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
       </div>
     </div>

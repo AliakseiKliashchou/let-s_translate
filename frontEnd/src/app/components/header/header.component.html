@@ -61,7 +61,7 @@
       <div
         *ngIf="userProfile"
         class="user-photo"
-        [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+        [style.backgroundImage]="'url(' + imageUrl + ')'"
         (click)="basicModal.show()"
         mdbWavesEffect>
       </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="modal-body mx-3">
           <mat-tab-group>
-            <mat-tab label="Customer">
+            <mat-tab label="Customer" >
               <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix grey-text"></i>
                 <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
