@@ -2,7 +2,7 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {CollectionsService} from '../../_shared/service/collections/collections.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {CollectionsInterface} from '../../_shared/interface/collections.interface';
-import { FilteredCollectionsInterface } from '../../_shared/interface/filteredCollections.interface';
+import {FilteredCollectionsInterface} from '../../_shared/interface/filteredCollections.interface';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
@@ -32,9 +32,9 @@ export class CollectionsComponent implements OnInit {
     'Download URL',
     'Original language',
     'Translate language',
-    'Email',   
+    'Email',
   ];
-  //************************************TAGS************************* */
+  // ************************************TAGS************************* */
   visible = true;
   selectable = true;
   removable = true;
@@ -127,6 +127,7 @@ export class CollectionsComponent implements OnInit {
       this.filteredCollections = data;
       console.log(this.filteredCollections);
       this.progressBar = false;
+
     });    
   }
 
@@ -156,7 +157,9 @@ newCollectionArray = {
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
     .subscribe( (data) => {
       console.log(data);
-    });
+    });    
+
   }
+
 
 }
