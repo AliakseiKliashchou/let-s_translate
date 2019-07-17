@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {AuthService} from '../users/auth.service';
 
@@ -32,6 +32,13 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/order/${id}`);
   }
 
+  getFilteredOrder(tags, lng) {
+    const params = new HttpParams()
+    .set('language', lng)
+    .set('tags', tags);
+    return this.http.get(`${this.URL}/secure/order/filter`, {params});
+  }
+  
   getTranslatedOrders() {
     const idTranslator = this.authService.getUserId();
     return this.http.get(`${this.URL}/secure/orders/translate/` + idTranslator);

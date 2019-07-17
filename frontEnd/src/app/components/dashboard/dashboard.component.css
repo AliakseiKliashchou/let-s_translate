@@ -81,6 +81,15 @@ h3 {
   color: white;
 }
 
+.tags{
+  width: 100%;
+}
+
+.filter{
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 720px) {
   .container, .block {
     width: 100%;
