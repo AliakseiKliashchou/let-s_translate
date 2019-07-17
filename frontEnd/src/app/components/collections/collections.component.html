@@ -71,9 +71,17 @@
   </div>
 <!--------------------------------------FILTERED COLLECTIONS--------------------------------------------------->
   <div class="filteredCollections" *ngIf="filteredCollections.length > 0">
+    <mat-form-field class="collection_name">
+      <input matInput #newCollectionName placeholder="New collection name" >
+    </mat-form-field>
+    <button class="create_btn" 
+      mat-button 
+      [disabled]="newCollectionArray.id.length && newCollectionName.value ?  false : true"
+      (click)="createNewCollection(newCollectionName.value)"
+      >Create new collection</button>
    <div class="filteredCollection" 
         *ngFor="let collection of filteredCollections; let i = index" 
-        (click)="click_check(check_FC, collection.id, i)" 
+        (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, i)"         
         [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
      <div class="table">
       <table mdbTable [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">

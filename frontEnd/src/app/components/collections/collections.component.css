@@ -57,6 +57,17 @@ mat-divider{
 }
 span{
     margin: 10px;  
-
+}
+.collection_name{
+    display: block;
+    width: 90%;
+    color: white;
+    margin: 15px auto;
+}
+.create_btn{
+    display: block;
+    margin: 10px auto;
+    background-color: rgba(82, 214, 29, 0.74);
+    color: white;
 }
 
