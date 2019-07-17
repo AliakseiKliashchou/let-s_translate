@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
+import {AuthService} from '../users/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService) {
   }
 
   private URL = 'http://localhost:3000';
@@ -17,15 +20,28 @@ export class OrderService {
   }
 
   getOrders() {
-    return this.http.get(`${this.URL}/secure/order/`);
+    const id = this.authService.getUserId();
+    return this.http.get(`${this.URL}/secure/orders?idCustomer=` + id);
   }
 
   getUnownedOrders() {
-    return this.http.get(`${this.URL}/secure/order/unowned`);
+    return this.http.get(`${this.URL}/secure/orders/unowned`);
   }
 
   getOrder(id: number) {
     return this.http.get(`${this.URL}/secure/order/${id}`);
+  }
+
+  getFilteredOrder(tags, lng) {
+    const params = new HttpParams()
+    .set('language', lng)
+    .set('tags', tags);
+    return this.http.get(`${this.URL}/secure/order/filter`, {params});
+  }
+  
+  getTranslatedOrders() {
+    const idTranslator = this.authService.getUserId();
+    return this.http.get(`${this.URL}/secure/orders/translate/` + idTranslator);
   }
 
   acceptOrder(idOrder: number, idTranslators: number, idCustomer: number) {
