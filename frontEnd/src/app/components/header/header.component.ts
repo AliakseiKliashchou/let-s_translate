@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {FormControl, Validators} from '@angular/forms';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -57,7 +58,8 @@ export class HeaderComponent implements OnInit {
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private sanitilizion: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -78,7 +80,7 @@ export class HeaderComponent implements OnInit {
           this.imageUrl = userData.photo;
           this.userProfileForm = {
             photo:
-              new FormControl(userData.photo || ''),
+              new FormControl(this.imageUrl || ''),
             name:
               new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
             email:
@@ -140,7 +142,11 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.userProfile = null;
-    this.isRole = null;
+    this.isRole = {
+      auth: false,
+      customer: false,
+      translator: false
+    };
   }
 
   toggleMenu() {

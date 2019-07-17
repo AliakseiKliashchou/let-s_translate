@@ -27,7 +27,9 @@
     </table>
     <mat-divider></mat-divider>   
     <p><b>Progress of translation</b></p>
+
     <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
+
     <mat-divider></mat-divider>
     <button mat-button class="del_btn">Delete text</button>
   </div>

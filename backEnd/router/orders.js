@@ -45,21 +45,13 @@ router.post('/order', async (req, res) => {
   }
 });
 
-router.get('/order', async (req, res) => {
+router.get('/orders', async (req, res) => {
+  const id = req.query.idCustomer;
   try {
-    let orders = await orderModel.findAll({});
+    let orders = await orderModel.findAll({where: {idCustomer: id}});
     res.json(orders);
   } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
-  }
-});
-
-router.get('/order/unowned', async (req, res) => {
-  try {
-    let orders = await orderModel.findAll({where: {status: 0}});
-    res.json(orders);
-  } catch (error) {
-    res.json({message: error});
   }
 });
 
@@ -73,13 +65,8 @@ router.get('/order/:id', async (req, res) => {
   }
 });
 
-router.put('/order', async (req, res) => {
-
-});
-
 router.delete('/order', async (req, res) => {
   let id = req.query.id;
-
   let order = await orderModel.destroy({where: {id}}).then((result) => {
     if (result === 1) {
       res.json({message: 'Deleted successfully!'});
@@ -87,6 +74,29 @@ router.delete('/order', async (req, res) => {
       res.status(404).json({message: 'Record not found!'})
     }
   })
+});
+
+router.put('/order', async (req, res) => {
+
+});
+
+router.get('/orders/unowned', async (req, res) => {
+  try {
+    let orders = await orderModel.findAll({where: {status: 0}});
+    res.json(orders);
+  } catch (error) {
+    res.json({message: error});
+  }
+});
+
+router.get('/orders/translate/:idTranslator', async (req, res) => {
+  const idTranslator = req.params.idTranslator;
+  try {
+    let orders = await orderModel.findAll({where: {idTranslator: idTranslator}});
+    res.json(orders);
+  } catch (error) {
+    res.json({error, message: 'Can not find any order'});
+  }
 });
 
 module.exports = router;

@@ -59,7 +59,7 @@ h3 {
 }
 .text-container p.date {
   width: 20%;
-  cursor: auto;
+  min-width: 12em;
 }
 
 .text-container:hover {
