@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
 import {FormControl, Validators} from '@angular/forms';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
+import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
@@ -109,7 +109,6 @@ export class HeaderComponent implements OnInit {
   // --------------------------------------------------
 
   checkInp(role, value, flag) {
-    // this.role = role;
     switch (role) {
       case 'customer':
         if (flag === 'email') {
@@ -136,7 +135,6 @@ export class HeaderComponent implements OnInit {
   }
 
   login(frame) {
-    //frame.hide();
     this.authService.log(this.user).subscribe(() => {
       console.log('Success');
       this.authService.login(this.user);
