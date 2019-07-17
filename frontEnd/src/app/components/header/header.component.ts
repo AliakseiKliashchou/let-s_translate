@@ -8,6 +8,7 @@ import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
+import { Router } from '@angular/router';
 
 interface UserProfile {
   photo: string;
@@ -58,6 +59,7 @@ export class HeaderComponent implements OnInit {
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
+    // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
     private router: Router) {
   }
@@ -135,7 +137,7 @@ export class HeaderComponent implements OnInit {
   }
 
   login(frame) {
-    //frame.hide();
+    // frame.hide();
     this.authService.log(this.user).subscribe(() => {
       console.log('Success');
       this.authService.login(this.user);
@@ -160,7 +162,7 @@ export class HeaderComponent implements OnInit {
 
   resizeWindow() {
     this.window.isWindowSizeSmall = (window.innerWidth < 1300);
-    if (!this.window.isWindowSizeSmall) this.window.isClose = true;
+    if (!this.window.isWindowSizeSmall) { this.window.isClose = true; }
   }
 
   onImagePicked(event: Event) {
