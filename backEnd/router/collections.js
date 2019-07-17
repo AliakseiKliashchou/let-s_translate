@@ -3,7 +3,6 @@ const router = express.Router();
 const orderModel = require('../models/order');
 const collectionModel = require('../models/collection');
 const Sequelize = require('sequelize');
-const sequelize = require('../configs/sequelize');
 const Op = Sequelize.Op;
 
 router.get('/get-by-user/:idCustomer', async (req, res) => {
@@ -40,6 +39,15 @@ router.get('/by-params', async (req, res) => {
         }
     })
     .then(ordersArray => res.json(ordersArray))
+});
+
+router.post('/create', async (req, res) => {
+  const {idOrdersArray, title, idCustomer} = req.body;
+  collectionModel.create({
+    idOrders: idOrdersArray,
+    title: title,
+    idCustomer: idCustomer
+  }).then(result => res.json(result));
 });
 
 module.exports = router;

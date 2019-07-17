@@ -25,8 +25,7 @@ const Translator = sequelize.define('translator', {
     allowNull: false
   },
   languages: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    // allowNull: false
+    type: Sequelize.ARRAY(Sequelize.STRING)
   }
 });
 

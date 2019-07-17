@@ -1,6 +1,6 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {CollectionsService} from './../../_shared/service/collections/collections.service';
-import {AuthService} from '././../../_shared/service/users/auth.service';
+import {CollectionsService} from '../../_shared/service/collections/collections.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
 import {CollectionsInterface} from '../../_shared/interface/collections.interface';
 import { FilteredCollectionsInterface } from '../../_shared/interface/filteredCollections.interface';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -17,31 +17,13 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['./collections.component.css', '../../app.component.css']
 })
 export class CollectionsComponent implements OnInit {
-
-  constructor(
-    private CollectionsService: CollectionsService,
-    private AuthService: AuthService
-  ) {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-  }
-
-  ngOnInit() {
-    this.progressBar = true;
-    let id = this.AuthService.getUserId();
-    this.CollectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
-      this.collectionsArray = data;
-      console.log(this.collectionsArray);
-      this.progressBar = false;
-    });
-  }
+  @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   isShowCollections = false;
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
   filteredCollections: FilteredCollectionsInterface[] = [];
-
   headElements = [
     '',
     'Name of customer',
@@ -61,10 +43,35 @@ export class CollectionsComponent implements OnInit {
   tagCtrl = new FormControl();
   filteredTags: Observable<string[]>;
   tags: string[] = [];
-  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
+  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
 
-  @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  findingParams = {
+    originalLanguage: '%%',
+    translateLanguage: '%%',
+    tags: this.tags,
+    review: false
+  };
+
+  constructor(
+    private collectionsService: CollectionsService,
+    private authService: AuthService) {
+  }
+
+  ngOnInit() {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+    this.progressBar = true;
+    const id = this.authService.getUserId();
+    this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
+      this.collectionsArray = data;
+      console.log(this.collectionsArray);
+      this.progressBar = false;
+    });
+  }
+
+
+  // ************************************TAGS************************* */
 
   add(event: MatChipInputEvent): void {
     if (!this.matAutocomplete.isOpen) {
@@ -100,7 +107,7 @@ export class CollectionsComponent implements OnInit {
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  //****************************************************************** */
+  // ****************************************************************** */
 
   getInitLng(lng) {
     this.findingParams.originalLanguage = lng;
@@ -110,22 +117,22 @@ export class CollectionsComponent implements OnInit {
     this.findingParams.translateLanguage = lng;
   }
 
-  findingParams = {
-    originalLanguage: '%%',
-    translateLanguage: '%%',
-    tags: this.tags,
-    review: false
-  };
 
   findOrders(review) {
     this.progressBar = true;
     if (review.checked) {
       this.findingParams.review = true;
+
     }
     this.CollectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
       this.filteredCollections = data;
       console.log(this.filteredCollections);
       this.progressBar = false;
+
+    } else this.findingParams.review = false;
+    this.collectionsService.getFindingCollections(this.findingParams).subscribe((data) => {
+      console.log(data);
+
     });
   }
 

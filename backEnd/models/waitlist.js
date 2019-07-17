@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
+const Order = require('./order');
+const Translator = require('./translator');
 
 const Waitlist = sequelize.define('waitlist', {
   idCustomer: {

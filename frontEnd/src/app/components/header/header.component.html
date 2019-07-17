@@ -5,34 +5,54 @@
 
       <div class="logo" routerLink="/"></div>
 
-      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isAuth"
-         >
+      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isRole.auth"
+      >
         <span class="menu">&#9776;</span>
       </a>
 
-      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isAuth && !window.isWindowSizeSmall">Dashboard
+      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isRole.auth && !window.isWindowSizeSmall">
+        Dashboard
       </button>
-      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isAuth && !window.isWindowSizeSmall">New Texts
+
+      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isRole.customer && !window.isWindowSizeSmall">
+        New Texts
       </button>
-      <button class="menu_btn" mat-button routerLink="/my_translations" *ngIf="isAuth && !window.isWindowSizeSmall">My
-        translations
+
+      <button
+        class="menu_btn"
+        mat-button
+        routerLink="/my_translations"
+        *ngIf="isRole.translator && !window.isWindowSizeSmall">
+        My translations
       </button>
-      <button class="menu_btn" mat-button routerLink="/messages" *ngIf="isAuth && !window.isWindowSizeSmall"
-              matBadge="11" matBadgePosition="after" matBadgeColor="accent">
+
+      <button
+        class="menu_btn"
+        mat-button
+        routerLink="/messages"
+        *ngIf="isRole.auth && !window.isWindowSizeSmall"
+        matBadge="11" matBadgePosition="after" matBadgeColor="accent">
         <i class="fas fa-envelope prefix"></i>
         Messages
       </button>
-      <button class="menu_btn" mat-button routerLink="/collections" *ngIf="isAuth && !window.isWindowSizeSmall">
+
+      <button
+        class="menu_btn" mat-button
+        routerLink="/collections"
+        *ngIf="isRole.customer && !window.isWindowSizeSmall">
         Collections
       </button>
 
 
-      <ul class="sub-menu" *ngIf="window.isWindowSizeSmall && isAuth" [style.display]="window.isClose? 'none': 'block'">
-        <li routerLink="/dashboard">Dashboard</li>
-        <li routerLink="/new_texts">New Texts</li>
-        <li routerLink="/my_translations">My translations</li>
+      <ul
+        class="sub-menu"
+        *ngIf="window.isWindowSizeSmall && isRole.auth"
+        [style.display]="window.isClose? 'none': 'block'">
+        <li routerLink="/dashboard" >Dashboard</li>
+        <li routerLink="/new_texts" *ngIf="isRole.customer">New Texts</li>
+        <li routerLink="/my_translations" *ngIf="isRole.translator">My translations</li>
         <li routerLink="/messages">Messages</li>
-        <li routerLink="/collections" >Collections</li>
+        <li routerLink="/collections" *ngIf="isRole.customer">Collections</li>
       </ul>
     </div>
     <!-------------------LOGIN---------------------------->
@@ -41,7 +61,7 @@
       <div
         *ngIf="userProfile"
         class="user-photo"
-        [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+        [style.backgroundImage]="'url(' + imageUrl + ')'"
         (click)="basicModal.show()"
         mdbWavesEffect>
       </div>
@@ -49,17 +69,17 @@
               data-toggle="modal"
               data-target="#basicExample"
               (click)="frame.show()"
-              *ngIf="!isAuth"
+              *ngIf="!isRole.auth"
               mdbWavesEffect>
         Login
       </button>
 
-      <button (click)="logout()" mat-button *ngIf="isAuth">Logout</button>
+      <button (click)="logout()" mat-button *ngIf="isRole.auth">Logout</button>
       <button mat-button routerLink="/new_translator_reg">Register</button>
     </div>
   </nav>
 
-  <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  <div mdbModal 	[config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -71,7 +91,7 @@
         </div>
         <div class="modal-body mx-3">
           <mat-tab-group>
-            <mat-tab label="Customer">
+            <mat-tab label="Customer" >
               <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix grey-text"></i>
                 <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
@@ -122,6 +142,9 @@
               </div>
             </mat-tab>
           </mat-tab-group>
+          <div *ngIf="error" [(ngModel)]="error" class="alert alert-danger" role="alert">
+            <b>{{error}}</b>
+          </div>
         </div>
 
         <div class="modal-footer d-flex justify-content-center">

@@ -59,7 +59,7 @@ h3 {
 }
 .text-container p.date {
   width: 20%;
-  cursor: auto;
+  min-width: 12em;
 }
 
 .text-container:hover {
@@ -79,6 +79,15 @@ h3 {
 .text-container .get-order-btn:active, .get-order-btn:hover {
   box-shadow: 0 0 5px #ff902c;
   color: white;
+}
+
+.tags{
+  width: 100%;
+}
+
+.filter{
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 720px) {

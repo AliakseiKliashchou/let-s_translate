@@ -5,12 +5,36 @@
 
   <div class="block">
     <h3>Incomplete translations</h3>
+    <div class="filter">
+      <div>
+        <mat-form-field class="tags">
+          <mat-chip-list #chipList aria-label="tags">
+            <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)"
+              color="accent">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Select some several tags" #fruitInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div>
+        <app-languages (selectValue)="getLng($event)"></app-languages>
+      </div>
+      <button mdbBtn color="info" block="true" class="my-4" (click)="filter()" matStepperNext>Filter</button>
+    </div>
     <div class="container" *ngIf="ordersArray && role === 'customer'">
-
       <div *ngFor="let text of ordersArray" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
-        <p [ngStyle]="{'color':getColor(text.progress)}" style="font-weight: 400">
-          {{status[text.progress]}}</p>
+        <p [ngStyle]="{'color':getColor(text.status)}" style="font-weight: 400">
+          {{status[text.status]}}</p>
         <p class="date">{{text.date | date}}</p>
       </div>
 
@@ -18,13 +42,13 @@
 
     <div class="container" *ngIf="ordersArray && role === 'translator'">
       <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
-        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
+        <p class="title-order">{{text.title}}</p>
 
         <div class="tags-order">
           <p>{{text.tags}}</p>
         </div>
         <!--<p style="width: 2em"> {{text.urgency}}</p>-->
-        <p class="date">{{text.date | date}}</p>
+        <p class="date">{{text.originalLanguage}} => {{text.translateLanguage}} | {{text.date | date}}</p>
         <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
       </div>
     </div>
@@ -32,5 +56,3 @@
 
   <app-footer></app-footer>
 </div>
-
-

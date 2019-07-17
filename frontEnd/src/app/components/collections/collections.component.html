@@ -4,67 +4,68 @@
 
   <div class="title anim">Collections</div>
 
-  <button id="isShowCollections_btn" mat-button (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
+  <button id="isShowCollections_btn" mat-button
+          (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
 
   <div class="collections" *ngIf="isShowCollections">
-    <div class="collection" *ngFor="let coll of collectionsArray; let i = index">     
+    <div class="collection" *ngFor="let coll of collectionsArray; let i = index">
       <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{coll.title}}
-            </mat-panel-title>
-          </mat-expansion-panel-header> 
-          <ul *ngFor="let order of coll.idOrders; let j = index">
-              <li>Title: {{order.title}}</li>
-              <li>Date: {{order.date | date}}</li>
-              <li>Tags: {{order.tags}}</li>
-              <li><a href="{{order.download}}" target="_blank">Download</a></li>
-              <button class="details_btn" mat-button [routerLink]="['/text_details',order.id]">Details</button>
-          </ul>     
-        </mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{coll.title}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul *ngFor="let order of coll.idOrders; let j = index">
+          <li>Title: {{order.title}}</li>
+          <li>Date: {{order.date | date}}</li>
+          <li>Tags: {{order.tags}}</li>
+          <li><a href="{{order.download}}" target="_blank">Download</a></li>
+          <button class="details_btn" mat-button [routerLink]="['/text_details',order.id]">Details</button>
+        </ul>
+      </mat-expansion-panel>
     </div>
   </div>
 
   <div class="find_wrapper">
     <!------------------------------TAGS-------------------------------------------->
     <mat-form-field class="example-chip-list">
-        <mat-chip-list #chipList aria-label="Tag selection">
-          <mat-chip
-            *ngFor="let tag of tags"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(tag)">
-            {{tag}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input
-            placeholder="New tag..."
-            #tagInput
-            [formControl]="tagCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-            {{tag}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <mat-chip-list #chipList aria-label="Tag selection">
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(tag)">
+          {{tag}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New tag..."
+          #tagInput
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
     <mat-divider></mat-divider>
-    <!------------------------------ADDITIONAL REVIEW-------------------------------------------->    
-    <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox> 
+    <!------------------------------ADDITIONAL REVIEW-------------------------------------------->
+    <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox>
     <mat-divider></mat-divider>
-    <!------------------------------INIT LNG-------------------------------------------->  
+    <!------------------------------INIT LNG-------------------------------------------->
     <p class="titles">Choose initial language:</p>
-    <app-languages  #initLng (selectValue)="getInitLng($event)"></app-languages>
+    <app-languages #initLng (selectValue)="getInitLng($event)"></app-languages>
     <mat-divider></mat-divider>
-    <!------------------------------FINIT LNG--------------------------------------------> 
+    <!------------------------------FINIT LNG-------------------------------------------->
     <p class="titles">Choose finite language:</p>
-    <app-languages  #finitLng (selectValue)="getFinitLng($event)"></app-languages>
-    <mat-divider></mat-divider> 
+    <app-languages #finitLng (selectValue)="getFinitLng($event)"></app-languages>
+    <mat-divider></mat-divider>
     <!--------------------------------------------------------------------------------->
     <button class="find_btn" (click)="findOrders(addReview)" mat-button>Find</button>
   </div>

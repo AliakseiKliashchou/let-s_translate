@@ -30,4 +30,9 @@ export class CollectionsService {
     return this.http.post(`${this.URL}/secure/collections/create`, collection);
   }
 
+  createColection(idOrders: number[], tittle: string) {
+    const idCustomer = this.authService.getUserId();
+    this.http.post(`${this.URL}/secure/collections/create`, {idCustomer, idOrders, tittle});
+  }
+
 }
