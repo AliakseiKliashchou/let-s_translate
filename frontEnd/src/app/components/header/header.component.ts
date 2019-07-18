@@ -59,7 +59,9 @@ export class HeaderComponent implements OnInit {
     private userInfoService: UserInfoService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar) {
+    // tslint:disable-next-line:variable-name
+    private _snackBar: MatSnackBar,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -134,6 +136,7 @@ export class HeaderComponent implements OnInit {
   }
 
   login(frame) {
+    // frame.hide();
     this.authService.log(this.user).subscribe(() => {
       console.log('Success');
       this.authService.login(this.user);
@@ -161,7 +164,7 @@ export class HeaderComponent implements OnInit {
 
   resizeWindow() {
     this.window.isWindowSizeSmall = (window.innerWidth < 1300);
-    if (!this.window.isWindowSizeSmall) this.window.isClose = true;
+    if (!this.window.isWindowSizeSmall) { this.window.isClose = true; }
   }
 
   onImagePicked(event: Event) {
