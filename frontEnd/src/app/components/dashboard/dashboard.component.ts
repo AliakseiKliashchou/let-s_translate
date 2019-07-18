@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit {
   selectedLng: string;
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -52,7 +51,7 @@ export class DashboardComponent implements OnInit {
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
-          console.log(orders)
+          console.log(orders);
           this.ordersArray = orders;
         });
     } else {
@@ -86,13 +85,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
-  }
-
   getLng(lng) {
     this.selectedLng = lng;
   }
@@ -114,10 +106,10 @@ export class DashboardComponent implements OnInit {
         return '#d09515';
       case 2:
       case 3:
-        return '#5546E4'; 
+        return '#5546E4';
     }
   }
-//***********************GET ORDER********************************* */
+// ***********************GET ORDER********************************* */
 
   getOrder(idOrder: number, j) {
     const id = this.authService.getUserId();
