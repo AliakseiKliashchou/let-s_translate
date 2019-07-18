@@ -16,6 +16,4 @@ const Notification = sequelize.define("notification", {
   }
 });
 
-// Notification.sync({force:true});
-
 module.exports = Notification;

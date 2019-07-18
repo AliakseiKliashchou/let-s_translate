@@ -102,7 +102,14 @@ router.delete('/order', async (req, res) => {
 });
 
 router.put('/order', async (req, res) => {
+  let idOrder = req.body.id;
+  let progress = req.body.progress;
 
+  let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+    order.update({progress: progress});
+  })
+  
+  res.json({message: 'Progress was changed', order});
 });
 
 router.get('/orders/unowned', async (req, res) => {
