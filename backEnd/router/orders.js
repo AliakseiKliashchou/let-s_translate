@@ -124,19 +124,5 @@ router.get('/orders/translate/:idTranslator', async (req, res) => {
   }
 });
 
-router.post('/accept', async (req, res) => {
-  let idOrder = req.body.idOrder;
-  let idTranslator = req.body.idTranslators;
-
-  try {
-    let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-      order.update({status: 1, translatorId: idTranslator})
-    });
-
-    res.json({message: 'Translator appointed!'})
-  } catch (error) {
-    res.json({message: 'Something was wrong!', error})
-  }
-});
 
 module.exports = router;
