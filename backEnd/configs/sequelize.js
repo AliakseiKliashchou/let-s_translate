@@ -9,9 +9,8 @@ const sequelize = new Sequelize("postgres://feqjbdayugbxxk:a4c222bb4a7870ec16f05
     timestamps: false
   }
 });
-
-//  sequelize.sync({force: true}).then(() => {
-//  }).catch(err => console.log(err))
+ // sequelize.sync({force: true}).then(() => {
+ // }).catch(err => console.log(err))
 
 sequelize.authenticate().then(() => {
   console.log("Success!");

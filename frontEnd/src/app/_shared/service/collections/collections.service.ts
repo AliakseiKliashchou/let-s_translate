@@ -21,18 +21,20 @@ export class CollectionsService {
   }
 
   getFindingCollections(findingParams) {
+    const idCustomer = this.authService.getUserId();
     const params = new HttpParams()
       .set('review', findingParams.review)
       .set('originalLanguage', findingParams.originalLanguage)
       .set('translateLanguage', findingParams.translateLanguage)
-      .set('tags', findingParams.tags);
+      .set('tags', findingParams.tags)
+      .set('idCustomer', String(idCustomer));
     return this.http.get(`${this.URL}/secure/collections/by-params`, {params});
   }
 
   deleteCollection(idCollections) {
-    console.log(idCollections)
     return this.http.delete(`${this.URL}/secure/collections/delete/${idCollections}`);
   }
+
 
   createColection(idOrders: number[], tittle: string, isOneTranslator: boolean) {
     const idCustomer = this.authService.getUserId();

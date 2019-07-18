@@ -34,21 +34,20 @@ export class OrderService {
 
   getFilteredOrder(tags, lng) {
     const params = new HttpParams()
-    .set('language', lng)
-    .set('tags', tags);
+      .set('language', lng)
+      .set('tags', tags);
     return this.http.get(`${this.URL}/secure/order/filter`, {params});
   }
-  
+
   getTranslatedOrders() {
     const idTranslator = this.authService.getUserId();
     return this.http.get(`${this.URL}/secure/orders/translate/` + idTranslator);
   }
 
-  acceptOrder(idOrder: number, idTranslators: number, idCustomer: number) {
-    this.http.post(`${this.URL}/secure/waitlist/accept`, {
+  acceptOrder(idOrder: number, idTranslators: number) {
+    this.http.post(`${this.URL}/secure/accept`, {
       idOrder,
       idTranslators,
-      idCustomer
     }).subscribe(res => console.log(res));
   }
 
