@@ -41,7 +41,7 @@
             <!-- <h1>{{userProfile.name}}</h1> -->
 
             <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
-              (click)="frame.show()"  *ngIf="!isRole.auth" mdbWavesEffect>
+              (click)="frame.show()" *ngIf="!isRole.auth" mdbWavesEffect>
               Login
             </button>
             <button class="btn btn-outline-danger btn-sm" (click)="logout()" *ngIf="isRole.auth">Logout</button>
@@ -186,6 +186,9 @@
               </div>
             </mat-tab>
           </mat-tab-group>
+          <div *ngIf="error" [(ngModel)]="error" class="alert alert-danger" role="alert">
+            <b>{{error}}</b>
+          </div>
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
