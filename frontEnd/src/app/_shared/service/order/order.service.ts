@@ -45,7 +45,7 @@ export class OrderService {
   }
 
   acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/accept`, {
+    this.http.post(`${this.URL}/secure/notification/accept`, {
       idOrder,
       idTranslators,
     }).subscribe(res => console.log(res));
