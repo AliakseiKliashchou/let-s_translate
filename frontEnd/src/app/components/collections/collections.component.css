@@ -68,6 +68,11 @@ span{
     color: white;
     margin: 15px auto;
 }
+.isOneTransCheck{
+    display: block;
+    margin-left: 70px;
+    color: white;
+}
 .create_btn{
     display: block;
     margin: 10px auto;

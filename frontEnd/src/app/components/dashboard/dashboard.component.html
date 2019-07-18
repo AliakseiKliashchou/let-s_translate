@@ -1,11 +1,10 @@
 <div class="wrapper">
   <app-header></app-header>
 
-  <div class="title anim">Dashboard</div>
-
   <div class="block">
-    <h3>Incomplete translations</h3>
-    <div class="filter">
+    <div class="title anim">Incomplete translations</div>
+
+    <div class="filter" *ngIf="ordersArray && role === 'translator'">
       <div>
         <mat-form-field class="tags">
           <mat-chip-list #chipList aria-label="tags">
@@ -30,29 +29,53 @@
       </div>
       <button mdbBtn color="info" block="true" class="my-4" (click)="filter()" matStepperNext>Filter</button>
     </div>
-    <div class="container" *ngIf="ordersArray && role === 'customer'">
-      <div *ngFor="let text of ordersArray" class="text-container">
-        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
-        <p [ngStyle]="{'color':getColor(text.status)}" style="font-weight: 400">
-          {{status[text.status]}}</p>
-        <p class="date">{{text.date | date}}</p>
-      </div>
 
+    <div class="container">
+      <table class="table table-hover bordered" *ngIf="ordersArray && role === 'translator'">
+        <thead class="black white-text">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Tags</th>
+            <th scope="col">From -> to</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor=" let text of ordersArray; let i=index">
+            <td><b>{{text.title}}</b></td>
+            <td>
+              <p><b>{{text.tags}}</b></p>
+            </td>
+            <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
+            <td><b>{{text.date | date}}</b></td>
+            <td> <button (click)="getOrder(text.id, text.idCustomer)" type="button"
+                class="btn btn-outline-primary waves-effect">Get</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table table-hover bordered" *ngIf="ordersArray && role === 'customer'">
+        <thead class="black white-text">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let text of ordersArray">
+            <td><b>{{text.title}}</b></td>
+            <td>
+              <h5><span class="badge badge" [ngClass]="{
+              'badge-danger': status[text.status] === 'Waiting translator',
+              'badge-success': status[text.status] === 'In progress'}">{{status[text.status]}}</span></h5>
+            </td>
+            <td><b>{{text.date | date}}</b></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="container" *ngIf="ordersArray && role === 'translator'">
-      <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
-        <p class="title-order">{{text.title}}</p>
-
-        <div class="tags-order">
-          <p>{{text.tags}}</p>
-        </div>
-        <!--<p style="width: 2em"> {{text.urgency}}</p>-->
-        <p class="date">{{text.originalLanguage}} => {{text.translateLanguage}} | {{text.date | date}}</p>
-        <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
-      </div>
-    </div>
   </div>
-
   <app-footer></app-footer>
-</div>

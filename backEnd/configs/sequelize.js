@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize("postgres://kqskdyqjdnrbrn:0068d34a3cd648865de1ab9edc722f4d52539f505642e6f0a73a4e8bb87f1882@ec2-174-129-41-127.compute-1.amazonaws.com:5432/d1ejj1n2bnepj8", {
+const sequelize = new Sequelize("postgres://feqjbdayugbxxk:a4c222bb4a7870ec16f056e8199c248a3e8c9f160c47bea442b6b90260a89a95@ec2-107-20-198-176.compute-1.amazonaws.com:5432/dco7tmo6p9kcne", {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -9,9 +9,8 @@ const sequelize = new Sequelize("postgres://kqskdyqjdnrbrn:0068d34a3cd648865de1a
     timestamps: false
   }
 });
-
-//  sequelize.sync({force: true}).then(() => {
-//  }).catch(err => console.log(err))
+ // sequelize.sync({force: true}).then(() => {
+ // }).catch(err => console.log(err))
 
 sequelize.authenticate().then(() => {
   console.log("Success!");

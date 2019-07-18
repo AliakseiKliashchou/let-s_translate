@@ -1,13 +1,13 @@
-import { Component, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { OrderService } from '../../_shared/service/order/order.service';
-import { OrderInterface } from '../../_shared/interface/order.interface';
-import { AuthService } from '../../_shared/service/users/auth.service';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import {Component, EventEmitter, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {OrderService} from '../../_shared/service/order/order.service';
+import {OrderInterface} from '../../_shared/interface/order.interface';
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {Observable} from 'rxjs';
+import {startWith, map} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material';
+import {ENTER, COMMA} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,8 +39,8 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService) {
   }
 
-  @ViewChild('fruitInput', { static: false }) fruitInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -51,10 +51,13 @@ export class DashboardComponent implements OnInit {
     this.role = this.authService.getRole();
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
-        .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+        .subscribe((orders: OrderInterface[]) => {
+          console.log(orders)
+          this.ordersArray = orders;
+        });
     } else {
       this.orderService.getOrders()
-      .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+        .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -115,9 +118,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getOrder(idOrder: number, idCustomer: number) {
+  getOrder(idOrder: number) {
     const id = this.authService.getUserId();
-    this.orderService.acceptOrder(idOrder, id, idCustomer);
+    this.orderService.acceptOrder(idOrder, id);
   }
 
 

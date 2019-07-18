@@ -50,6 +50,10 @@ ul{
   color: #3b99e0;
 }
 
+.block-heading h2 {
+  color: #3b99e0;
+}
+
 .pricing-table .block-heading p {
   text-align: center;
   max-width: 420px;
@@ -123,4 +127,12 @@ ul{
   margin: auto;
   font-weight: 600;
   padding: 9px 0; 
+}
+
+.reg-block{
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

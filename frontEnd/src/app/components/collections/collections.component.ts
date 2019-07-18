@@ -9,6 +9,8 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 
 @Component({
@@ -17,6 +19,24 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['./collections.component.css', '../../app.component.css']
 })
 export class CollectionsComponent implements OnInit {
+
+  ngOnInit() {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+    this.progressBar = true;
+    const id = this.authService.getUserId();
+    this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
+      this.collectionsArray = data;
+      this.progressBar = false;
+    });
+  }
+
+  constructor(
+    private collectionsService: CollectionsService,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar) {  }
+
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
@@ -42,24 +62,6 @@ export class CollectionsComponent implements OnInit {
     tags: this.tags,
     review: false
   };
-
-  constructor(
-    private collectionsService: CollectionsService,
-    private authService: AuthService) {
-  }
-
-  ngOnInit() {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-    this.progressBar = true;
-    const id = this.authService.getUserId();
-    this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
-      this.collectionsArray = data;
-      this.progressBar = false;
-    });
-  }
-
 
   // ************************************TAGS************************* */
 
@@ -96,55 +98,79 @@ export class CollectionsComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
+
   // ****************************************************************** */
   getInitLng(lng) {
     this.findingParams.originalLanguage = lng;
   }
+
   getFinitLng(lng) {
     this.findingParams.translateLanguage = lng;
   }
+
   findOrders(review) {
     this.progressBar = true;
-    if (review.checked) {
-      this.findingParams.review = true;
-    } else this.findingParams.review = false;
+    this.findingParams.review = !!review.checked;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
+      console.log(data);
       this.filteredCollections = data;
       this.progressBar = false;
-    });    
-  }
-  //*****************************DELETE EXISTING COLLECTION****************************************** */
-  deleteCollection(id){
-    this.collectionsService.deleteCollection(id).subscribe( (data) => {
-      console.log(data);
     });
   }
-//**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
+
+  //*****************************DELETE EXISTING COLLECTION****************************************** */
+  deleteCollection(id, i){
+    this.progressBar = true;
+    this.collectionsService.deleteCollection(id).subscribe( (data) => {
+      this.collectionsArray.splice(i , 1);
+      this._snackBar.open('Collection was successfully deleted', '', {
+        duration: 2000,
+      });
+    });
+    this.progressBar = false;
+  }
+
+// **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
   newCollectionArray = {
     title: '',
-    id: []
+    id: [],
+    isOneTranslator: false
   }
+  indexArray = [];
   click_check(check, idOrder, i){
     if(check.checked){
-      this.newCollectionArray.id[i] = idOrder;  
+      this.newCollectionArray.id[i] = idOrder; 
+      this.indexArray.push(i); 
     }
     if (!check.checked) {
       delete this.newCollectionArray.id[i];
+      let ind = this.indexArray.indexOf(i);
+      this.indexArray.splice(ind, 1);
     } 
   }
   
-  createNewCollection(title){
+  createNewCollection(title, isOneTranslator){  
+    this.progressBar = true;
+    if(isOneTranslator.checked){
+     this.newCollectionArray.isOneTranslator = true;
+    }else  this.newCollectionArray.isOneTranslator = false;
     this.newCollectionArray.title = title;
     for (let j = 0; j < this.newCollectionArray.id.length; j++) {
       if (this.newCollectionArray.id[j] == undefined) {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
+    for(let k = 0; k < this.indexArray.length; k ++){        
+      this.filteredCollections.splice(k, 1);          
+    }
+    this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title, this.newCollectionArray.isOneTranslator)
       .subscribe((data) => {
-        console.log(data);
         this.ngOnInit();
+        this._snackBar.open('Collection was successfully created', '', {
+          duration: 2000,
+        });
       });
+    this.progressBar = false;
   }
 
 
