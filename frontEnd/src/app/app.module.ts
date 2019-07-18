@@ -54,6 +54,8 @@ import {TokenInterceptor} from './_shared/token.interceptor';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSliderModule} from '@angular/material/slider';   
+               
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -115,7 +117,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     MatBadgeModule,
     MatListModule,
     MatProgressBarModule,
-    MatExpansionModule
+    MatExpansionModule, 
+    MatSliderModule
   ],
   providers: [
     {

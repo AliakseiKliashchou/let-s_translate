@@ -69,5 +69,8 @@ export class TextDetailsComponent implements OnInit {
       });
     });
   }
+  changeSlider(val){
+    console.log(val);
+  }
 
 }
