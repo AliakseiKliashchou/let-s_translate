@@ -22,7 +22,7 @@
           <li><a href="{{order.download}}" target="_blank">Download</a></li>
           <button class="details_btn" mat-button [routerLink]="['/text_details',order.id]">Details</button>
         </ul>
-        <button class="delete_btn" mat-button (click)="deleteCollection(coll.id)">Delete collection</button>
+        <button class="delete_btn" mat-button (click)="deleteCollection(coll.id, j)">Delete collection</button>
       </mat-expansion-panel>
     </div>
   </div>
@@ -70,15 +70,16 @@
     <!--------------------------------------------------------------------------------->
     <button class="find_btn" (click)="findOrders(addReview)" mat-button>Find</button>
   </div>
-<!--------------------------------------FILTERED COLLECTIONS--------------------------------------------------->
+<!--------------------------------------FILTERED COLLECTIONS------CREATE NEW COLLECTION--------------------------------------------->
   <div class="filteredCollections" *ngIf="filteredCollections.length > 0">
     <mat-form-field class="collection_name">
       <input matInput #newCollectionName placeholder="New collection name" >
     </mat-form-field>
+    <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
     <button class="create_btn" 
       mat-button 
       [disabled]="newCollectionArray.id.length && newCollectionName.value ?  false : true"
-      (click)="createNewCollection(newCollectionName.value)"
+      (click)="createNewCollection(newCollectionName.value, isOneTranslator)"
       >Create new collection</button>
    <div class="filteredCollection" 
         *ngFor="let collection of filteredCollections; let i = index" 
@@ -105,7 +106,6 @@
           </tbody>
       </table>
      </div>
-    <!-- <mat-checkbox #check_FC class="checkbox_FC" (change)="getCB(check_FC, i)"></mat-checkbox>  -->
     <div style="clear: both"></div>
    </div>
   </div>

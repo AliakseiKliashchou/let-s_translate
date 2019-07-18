@@ -18,6 +18,14 @@ import {OrderService} from '../../_shared/service/order/order.service';
 })
 export class NewTextsComponent implements OnInit {
 
+  constructor(
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar,
+    private http: OrderService) {
+
+  }
+
   // ******************TAGS***************************
   visible = true;
   selectable = true;
@@ -72,13 +80,7 @@ export class NewTextsComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: string;
 
-  constructor(
-    private storage: AngularFireStorage,
-    private db: AngularFirestore,
-    private _snackBar: MatSnackBar,
-    private http: OrderService) {
 
-  }
 
   isHovering: boolean;
   files: File[] = [];
