@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthService} from '../users/auth.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,8 @@ export class CollectionsService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService) {
+    private authService: AuthService,
+    ) {
   }
 
   getCollections(id: number) {
@@ -33,10 +35,11 @@ export class CollectionsService {
     return this.http.delete(`${this.URL}/secure/collections/delete/${idCollections}`);
   }
 
-  createCollection(idOrders: number[], tittle: string) {
+
+  createColection(idOrders: number[], tittle: string, isOneTranslator: boolean) {
     const idCustomer = this.authService.getUserId();
     console.log(idOrders)
-    return this.http.post(`${this.URL}/secure/collections/create`, {idCustomer, idOrders, tittle});
+    return this.http.post(`${this.URL}/secure/collections/create`, {idCustomer, idOrders, tittle, isOneTranslator});
   }
 
 }
