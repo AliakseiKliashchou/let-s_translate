@@ -5,6 +5,7 @@ import {OrderInterface} from 'src/app/_shared/interface/order.interface';
 import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
 
 
 @Component({
@@ -30,14 +31,17 @@ export class TextDetailsComponent implements OnInit {
     'Urgency'
   ];
   incomingComments: CommentsInterface[] = [];
-
+  role: string;
+  saveProgressBtn = false;
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private messagesService: MessagesService) {
+    private messagesService: MessagesService,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.role = this.authService.getRole();
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
       this.element = order;
@@ -71,6 +75,12 @@ export class TextDetailsComponent implements OnInit {
   }
   changeSlider(val){
     console.log(val);
+    this.element.progress = val;
+    this.saveProgressBtn = true;
   }
-
+  saveProgress(){
+    this.orderService.changeProgress(this.element.id, this.element.progress).subscribe( (data) => {
+      console.log(data);
+    });
+  }
 }
