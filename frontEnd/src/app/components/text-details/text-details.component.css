@@ -118,3 +118,6 @@ progressbar {
   margin: 15px auto;
   background-color: rgb(99, 238, 57);
 }
+mat-slider {
+  width: 300px;
+}
