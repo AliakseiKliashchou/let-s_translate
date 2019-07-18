@@ -62,4 +62,8 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
   }
 
+  changeProgress(id, progress){
+    return this.http.put(`${this.URL}/secure/order/`, {id, progress} );
+  }
+
 }
