@@ -46,16 +46,8 @@ router.put('/customer/:id', async (req, res) => {
     let data = {
       name: req.body.name,
       email: req.body.email,
-      photo: req.body.photo,
-      // password: req.body.password
+      photo: req.body.photo
     };
-
-    // bcrypt.hash(data.password, 10).then((hash) => {
-    //   data.password = hash;
-    //   data.save().then((data) => {
-    //     console.log(data)
-    //   });
-    // });
 
     let profile = await customerModel.update(data, {returning: true, where: {id}});
     res.json({message: 'OK', profile})

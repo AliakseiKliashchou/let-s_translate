@@ -45,7 +45,7 @@ export class OrderService {
   }
 
   acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/accept`, {
+    this.http.post(`${this.URL}/secure/notification/accept`, {
       idOrder,
       idTranslators,
     }).subscribe(res => console.log(res));
@@ -60,6 +60,10 @@ export class OrderService {
 
   getAcceptedOrderList(idCustomer: number) {
     return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
+  }
+
+  changeProgress(id, progress){
+    return this.http.put(`${this.URL}/secure/order/`, {id, progress} );
   }
 
 }

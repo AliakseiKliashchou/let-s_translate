@@ -9,6 +9,7 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -36,8 +37,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService) {
-  }
+    private authService: AuthService) { }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
-          console.log(orders)
+          console.log(orders);
           this.ordersArray = orders;
         });
     } else {
@@ -117,11 +117,13 @@ export class DashboardComponent implements OnInit {
         return '#5546E4';
     }
   }
+// ***********************GET ORDER********************************* */
 
-  getOrder(idOrder: number) {
+  getOrder(idOrder: number, j) {
     const id = this.authService.getUserId();
     this.orderService.acceptOrder(idOrder, id);
-  }
+    this.ordersArray.splice(j , 1);
+   }
 
 
 }

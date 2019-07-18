@@ -26,7 +26,9 @@ progressbar {
   margin: 10px auto;
   width: 90%;
 }
-
+.saveProgress_btn{
+  background-color: rgb(99, 238, 57);
+}
 
 /*******Comments from DB*********/
 .comments_wrapper, .create_comment {
@@ -117,4 +119,7 @@ progressbar {
   display: block;
   margin: 15px auto;
   background-color: rgb(99, 238, 57);
+}
+mat-slider {
+  width: 300px;
 }
