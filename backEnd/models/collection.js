@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
-// const Order = require('./order');
 
 const Collection = sequelize.define("collection", {
   idOrders: {
@@ -16,7 +15,5 @@ const Collection = sequelize.define("collection", {
     allowNull: false,
   }
 });
-
-// Collection.hasMany(Order);
 
 module.exports = Collection;

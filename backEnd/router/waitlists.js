@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const orderModel = require('../models/order');
+const notificationModel = require('../models/notification');
 
 router.post('/accept', async(req, res) => {
   let idOrder = req.body.idOrder;
@@ -9,6 +10,12 @@ router.post('/accept', async(req, res) => {
   try {
     let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
       order.update({translatorId: idTranslator})
+
+      let message = notificationModel.create({
+        idCustomer: order.idCustomer,
+        text: 'OK ORDER',
+        read: false
+      })
     });
 
     res.json({message: 'Translator appointed!'})
@@ -16,6 +23,16 @@ router.post('/accept', async(req, res) => {
     res.json({message: 'Something was wrong!', error})
   }
 });
+
+router.get('/notification/:idCustomer', async(req, res) => {
+  let idCustomer = req.params.idCustomer;
+
+  let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
+    return info;
+  });
+  res.json(notification)
+
+})
 
 
 
