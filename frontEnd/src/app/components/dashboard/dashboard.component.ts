@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit {
   selectedLng: string;
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -84,13 +83,6 @@ export class DashboardComponent implements OnInit {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
-  }
-
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
   }
 
   getLng(lng) {
