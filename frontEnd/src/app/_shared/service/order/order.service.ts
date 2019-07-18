@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {AuthService} from '../users/auth.service';
+import {UserInfoService} from '../users/user-info.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class OrderService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private userInfoService: UserInfoService) {
   }
 
   private URL = 'http://localhost:3000';
@@ -25,7 +27,8 @@ export class OrderService {
   }
 
   getUnownedOrders() {
-    return this.http.get(`${this.URL}/secure/orders/unowned`);
+    const idTranslator = this.authService.getUserId();
+    return this.http.get(`${this.URL}/secure/orders/unowned?idTranslator=` + idTranslator);
   }
 
   getOrder(id: number) {
