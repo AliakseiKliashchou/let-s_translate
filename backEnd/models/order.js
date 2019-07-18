@@ -56,6 +56,6 @@ const Order = sequelize.define('order', {
   }
 });
 
-Order.belongsTo(Translator, {foreignKey: 'idTranslator'});
+Order.belongsTo(Translator);
 
 module.exports = Order;

@@ -1,9 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const customerModel = require('../models/customer');
-const translatorModel = require('../models/translator');
-const waitlistModel = require('../models/waitlist');
 const orderModel = require('../models/order');
+
+router.post('/accept', async(req, res) => {
+  let idOrder = req.body.idOrder;
+  let idTranslator = req.body.idTranslators;
+
+  try {
+    let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+      order.update({translatorId: idTranslator})
+    });
+
+    res.json({message: 'Translator appointed!'})
+  } catch(error) {
+    res.json({message: 'Something was wrong!', error})
+  }
+});
+
+
 
 // router.post('/accept', async (req, res) => {
 //   let idOrder = req.body.idOrder;
