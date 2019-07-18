@@ -19,20 +19,22 @@ router.post('/order', async (req, res) => {
     status: 0,
     progress: 0,
     date: new Date(),
-    idTranslator: 0
+    isCollections: false
   };
   try {
     if (urls.length > 1) {
       let ordersArray = [];
       for (let i = 0; i < urls.length; i++) {
         ordersInfo.download = urls[i];
+        ordersInfo.isCollections = true;
         let order = await orderModel.create(ordersInfo);
         ordersArray.push(order.id);
       }
       let collection = collectionModel.create({
         idOrders: ordersArray,
         title: req.body.title,
-        idCustomer: req.body.id
+        idCustomer: req.body.id,
+        oneTranslator: false
       });
     } else {
       ordersInfo.download = urls[0];
@@ -47,7 +49,7 @@ router.post('/order', async (req, res) => {
 
 router.get('/orders', async (req, res) => {
   const id = req.query.idCustomer;
-  
+
   try {
     let orders = await orderModel.findAll({where: {idCustomer: id}});
     res.json(orders);
@@ -58,7 +60,7 @@ router.get('/orders', async (req, res) => {
 
 //translator
 router.get('/order/unowned', async (req, res) => {
-  const { translateLanguage, originalLanguage, tagsArray } = req.query;
+  const {translateLanguage, originalLanguage, tagsArray} = req.query;
   try {
 
     console.log(translateLanguage, originalLanguage, tagsArray)
@@ -115,10 +117,25 @@ router.get('/orders/unowned', async (req, res) => {
 router.get('/orders/translate/:idTranslator', async (req, res) => {
   const idTranslator = req.params.idTranslator;
   try {
-    let orders = await orderModel.findAll({where: {idTranslator: idTranslator}});
+    let orders = await orderModel.findAll({where: {translatorId: idTranslator}});
     res.json(orders);
   } catch (error) {
     res.json({error, message: 'Can not find any order'});
+  }
+});
+
+router.post('/accept', async (req, res) => {
+  let idOrder = req.body.idOrder;
+  let idTranslator = req.body.idTranslators;
+
+  try {
+    let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+      order.update({status: 1, translatorId: idTranslator})
+    });
+
+    res.json({message: 'Translator appointed!'})
+  } catch (error) {
+    res.json({message: 'Something was wrong!', error})
   }
 });
 

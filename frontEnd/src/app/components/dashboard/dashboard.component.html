@@ -5,7 +5,8 @@
 
   <div class="block">
     <h3>Incomplete translations</h3>
-    <div class="filter">
+
+    <div class="filter" *ngIf="ordersArray && role === 'translator'">
       <div>
         <mat-form-field class="tags">
           <mat-chip-list #chipList aria-label="tags">
@@ -30,6 +31,7 @@
       </div>
       <button mdbBtn color="info" block="true" class="my-4" (click)="filter()" matStepperNext>Filter</button>
     </div>
+
     <div class="container" *ngIf="ordersArray && role === 'customer'">
       <div *ngFor="let text of ordersArray" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>

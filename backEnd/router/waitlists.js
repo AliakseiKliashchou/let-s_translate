@@ -5,29 +5,44 @@ const translatorModel = require('../models/translator');
 const waitlistModel = require('../models/waitlist');
 const orderModel = require('../models/order');
 
-router.post('/accept', async (req, res) => {
+// router.post('/accept', async (req, res) => {
+//   let idOrder = req.body.idOrder;
+//   let id = req.body.idTranslators;
+//
+//   let waitlistExist = await waitlistModel.findOne({where: {idOrder: idOrder}}).then((result) => {
+//     if (result) {
+//       let idTranslator = result.idTranslators;
+//       idTranslator.push(id);
+//       idTranslator = [...new Set(idTranslator)];
+//       result.update({idTranslators: idTranslator});
+//       res.json({message: 'OK DOBAVLEN'});
+//     } else {
+//       let idTranslatorArr = [];
+//       idTranslatorArr.push(id);
+//       let waitlist = waitlistModel.create({
+//         idCustomer: req.body.idCustomer,
+//         idOrder: req.body.idOrder,
+//         idTranslators: idTranslatorArr
+//       });
+//
+//       res.json({message: 'OK', waitlist});
+//     }
+//   })
+// });
+
+router.post('/accept', async(req, res) => {
   let idOrder = req.body.idOrder;
-  let id = req.body.idTranslators;
+  let idTranslator = req.body.idTranslators;
 
-  let waitlistExist = await waitlistModel.findOne({where: {idOrder: idOrder}}).then((result) => {
-    if (result) {
-      let idTranslator = result.idTranslators;
-      idTranslator.push(id);
-      idTranslator = [...new Set(idTranslator)];
-      result.update({idTranslators: idTranslator});
-      res.json({message: 'OK DOBAVLEN'});
-    } else {
-      let idTranslatorArr = [];
-      idTranslatorArr.push(id);
-      let waitlist = waitlistModel.create({
-        idCustomer: req.body.idCustomer,
-        idOrder: req.body.idOrder,
-        idTranslators: idTranslatorArr
-      });
+  try {
+    let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+      order.update({translatorId: idTranslator})
+    });
 
-      res.json({message: 'OK', waitlist});
-    }
-  })
+    res.json({message: 'Translator appointed!'})
+  } catch(error) {
+    res.json({message: 'Something was wrong!', error})
+  }
 });
 
 router.post('/selectTranslator', async (req, res) => {

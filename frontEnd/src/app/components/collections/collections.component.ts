@@ -55,7 +55,10 @@ export class CollectionsComponent implements OnInit {
     this.progressBar = true;
     const id = this.authService.getUserId();
     this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
-      this.collectionsArray = data;
+      console.log(data)
+      if (data) {
+        this.collectionsArray = data;
+      }
       this.progressBar = false;
     });
   }
@@ -96,51 +99,56 @@ export class CollectionsComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
+
   // ****************************************************************** */
   getInitLng(lng) {
     this.findingParams.originalLanguage = lng;
   }
+
   getFinitLng(lng) {
     this.findingParams.translateLanguage = lng;
   }
+
   findOrders(review) {
     this.progressBar = true;
-    if (review.checked) {
-      this.findingParams.review = true;
-    } else this.findingParams.review = false;
+    this.findingParams.review = !!review.checked;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
+      console.log(data);
       this.filteredCollections = data;
       this.progressBar = false;
-    });    
+    });
   }
-  //*****************************DELETE EXISTING COLLECTION****************************************** */
-  deleteCollection(id){
-    this.collectionsService.deleteCollection(id).subscribe( (data) => {
+
+  // *****************************DELETE EXISTING COLLECTION****************************************** */
+  deleteCollection(id) {
+    this.collectionsService.deleteCollection(id).subscribe((data) => {
       console.log(data);
     });
   }
-//**************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
+
+// **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
   newCollectionArray = {
     title: '',
     id: []
-  }
-  click_check(check, idOrder, i){
-    if(check.checked){
-      this.newCollectionArray.id[i] = idOrder;  
+  };
+
+  click_check(check, idOrder, i) {
+    if (check.checked) {
+      this.newCollectionArray.id[i] = idOrder;
     }
     if (!check.checked) {
       delete this.newCollectionArray.id[i];
-    } 
+    }
   }
-  
-  createNewCollection(title){
+
+  createNewCollection(title) {
     this.newCollectionArray.title = title;
     for (let j = 0; j < this.newCollectionArray.id.length; j++) {
       if (this.newCollectionArray.id[j] == undefined) {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title)
+    this.collectionsService.createCollection(this.newCollectionArray.id, this.newCollectionArray.title)
       .subscribe((data) => {
         console.log(data);
         this.ngOnInit();

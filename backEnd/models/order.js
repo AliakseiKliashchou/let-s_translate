@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
-const Waitlist = require('./waitlist');
+const Translator = require('./translator');
 
 const Order = sequelize.define('order', {
   idCustomer: {
@@ -54,14 +54,12 @@ const Order = sequelize.define('order', {
     type: Sequelize.DATE,
     allowNull: false
   },
-  idTranslator: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
   isCollections:{
     type: Sequelize.BOOLEAN,
     allowNull: false
   }
 });
+
+Order.belongsTo(Translator);
 
 module.exports = Order;
