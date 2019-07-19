@@ -64,7 +64,8 @@
             <td>
               <h5><span class="badge badge" [ngClass]="{
               'badge-danger': status[text.status] === 'Waiting translator',
-              'badge-success': status[text.status] === 'In progress'}">{{status[text.status]}}</span></h5>
+              'badge-success': status[text.status] === 'In progress',
+              'badge-primary': status[text.status] === 'Ready for translator review'}">{{status[text.status]}}</span></h5>
             </td>
             <td><b>{{text.date | date}}</b></td>
           </tr>
