@@ -141,11 +141,14 @@ export class CollectionsComponent implements OnInit {
     if(check.checked){
       this.newCollectionArray.id[i] = idOrder; 
       this.indexArray.push(i); 
+      console.log(this.indexArray);
     }
     if (!check.checked) {
       delete this.newCollectionArray.id[i];
       let ind = this.indexArray.indexOf(i);
       this.indexArray.splice(ind, 1);
+      console.log(this.indexArray);
+
     } 
   }
   
@@ -160,8 +163,8 @@ export class CollectionsComponent implements OnInit {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    for(let k = 0; k < this.indexArray.length; k ++){        
-      this.filteredCollections.splice(k, 1);          
+    for(let k = 0; k <= this.indexArray.length; k ++){        
+      this.filteredCollections.splice(this.indexArray[k], 1);          
     }
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title, this.newCollectionArray.isOneTranslator)
       .subscribe((data) => {
