@@ -13,14 +13,14 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _router: Router) {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
   goToCustomerReg() {
-    this._router.navigate(['customerRegistration']);
+    this.router.navigate(['customerRegistration']);
   }
 
 

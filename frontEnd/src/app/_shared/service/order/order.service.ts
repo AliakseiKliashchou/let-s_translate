@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {AuthService} from '../users/auth.service';
-import {UserInfoService} from '../users/user-info.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +10,14 @@ export class OrderService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
-    private userInfoService: UserInfoService) {
+    private authService: AuthService) {
   }
 
   private URL = 'http://localhost:3000';
+
+  deleteOrder(orderId: number) {
+    return this.http.delete(`${this.URL}/secure/order?id=` + orderId);
+  }
 
   createOrder(order) {
     return this.http.post(`${this.URL}/secure/order/`, order);
@@ -35,10 +37,11 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/order/${id}`);
   }
 
-  getFilteredOrder(tags, lng) {
+  getFilteredOrder(tags) {
+    const idTranslator = this.authService.getUserId();
     const params = new HttpParams()
-      .set('language', lng)
-      .set('tags', tags);
+      .set('tags', tags)
+      .set('idTranslator', String(idTranslator));
     return this.http.get(`${this.URL}/secure/order/filter`, {params});
   }
 
@@ -48,25 +51,13 @@ export class OrderService {
   }
 
   acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/notification/accept`, {
-      idOrder,
-      idTranslators,
-    }).subscribe(res => console.log(res));
-  }
-
-  selectTranslator(idWaitList: number, idTrans: number, idOrder: number) {
-    this.http.post(
-      `${this.URL}/secure/waitlist/selectTranslator`,
-      {idWaitList, idTrans, idOrder})
+    this.http.post(`${this.URL}/secure/notification/accept`,
+      {idOrder, idTranslators})
       .subscribe(res => console.log(res));
   }
 
-  getAcceptedOrderList(idCustomer: number) {
-    return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
-  }
-
-  changeProgress(id, progress){
-    return this.http.put(`${this.URL}/secure/order/`, {id, progress} );
+  changeProgress(id, progress) {
+    return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
 
 }

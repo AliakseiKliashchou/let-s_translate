@@ -68,7 +68,6 @@ router.post('/translator', valid.checkValid, async (req, res) => {
 router.post('/customer', valid.checkValid, async (req, res) => {
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
-
   if (hasErrors) {
     res.json(result)
   }
