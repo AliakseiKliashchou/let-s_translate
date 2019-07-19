@@ -36,7 +36,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+  }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -85,17 +86,17 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getLng(lng) {
-    this.selectedLng = lng;
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tags.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.tagCtrl.setValue(null);
   }
 
   filter() {
-    console.log(`
-      Tags: ${this.tags}
-      Selected Language: ${this.selectedLng}
-    `);
-    this.orderService.getFilteredOrder(this.tags, this.selectedLng)
-      .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+    this.orderService.getFilteredOrder(this.tags)
+      .subscribe((orders: OrderInterface[]) => {
+        this.ordersArray = orders;
+      });
   }
 
   getColor(status) {
@@ -109,13 +110,14 @@ export class DashboardComponent implements OnInit {
         return '#5546E4';
     }
   }
+
 // ***********************GET ORDER********************************* */
 
   getOrder(idOrder: number, j) {
     const id = this.authService.getUserId();
     this.orderService.acceptOrder(idOrder, id);
-    this.ordersArray.splice(j , 1);
-   }
+    this.ordersArray.splice(j, 1);
+  }
 
 
 }

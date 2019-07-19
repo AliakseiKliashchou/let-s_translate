@@ -45,8 +45,6 @@ export class AuthService {
       if (data.isFind) {
         const backendFakeResult = {
           id: data.id,
-          email: data.email,
-          name: data.name,
           token: data.token,
           role: data.role
         };

@@ -57,7 +57,11 @@ const Order = sequelize.define('order', {
   isCollections:{
     type: Sequelize.BOOLEAN,
     allowNull: false
-  }
+  },
+  oneTranslator:{
+    type: Sequelize.BOOLEAN,
+    allowNull: false
+  },
 });
 
 Order.belongsTo(Translator);
