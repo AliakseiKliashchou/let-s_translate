@@ -109,7 +109,7 @@ router.put('/order', async (req, res) => {
     order.update({progress: progress});
   })
   
-  res.json({message: 'Progress was changed', order});
+  res.json({message: 'Progress was changed'});
 });
 
 router.get('/orders/unowned', async (req, res) => {

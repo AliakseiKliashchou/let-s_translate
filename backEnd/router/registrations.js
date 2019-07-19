@@ -14,22 +14,21 @@ router.post('/admin', valid.checkValid, async (req, res) => {
   const hasErrors = !result.isEmpty();
 
   if (hasErrors) {
-    res.json(result)
+    res.json(result);
   }
 
   try {
     let admin = await adminModel.create({
-      role: req.body.role,
+      role: 'admin',
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
-      // languages: req.body.languages
+      password: req.body.password
     });
 
-    bcrypt.hash(translator.password, 10).then((hash) => {
-      translator.password = hash;
-      translator.save().then((data) => {
-        res.json({"translator": data});
+    bcrypt.hash(admin.password, 10).then((hash) => {
+      admin.password = hash;
+      admin.save().then((data) => {
+        res.json({"admin": data});
       });
     });
   } catch (error) {
