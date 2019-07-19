@@ -1,5 +1,5 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -9,6 +9,8 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material/chips';
 import {map, startWith} from 'rxjs/operators';
 import {OrderService} from '../../_shared/service/order/order.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {UserInfoService} from '../../_shared/service/users/user-info.service';
 
 
 @Component({
@@ -17,17 +19,6 @@ import {OrderService} from '../../_shared/service/order/order.service';
   styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
-
-  constructor(
-    private storage: AngularFireStorage,
-    private db: AngularFirestore,
-    private _snackBar: MatSnackBar,
-    private http: OrderService) {
-
-  }
-
-  // ******************TAGS***************************
-  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -35,10 +26,49 @@ export class NewTextsComponent implements OnInit {
   tagCtrl = new FormControl();
   filteredTags: Observable<string[]>;
   tags: string[] = [];
-  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
+  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
+
+  isHovering: boolean;
+  files: File[] = [];
+  maxSize = 20 * (10 ** 6);
+  isHasError = {
+    size: false,
+    format: false
+  };
+  typeAllowed = ['txt', 'pdf', 'doc', 'docx', 'image'];
+
+  order = {
+    name: '',
+    email: '',
+    initialLng: '',
+    finiteLng: '',
+    additionalReview: false,
+    urgency: 0,
+    tags: [],
+    url: [],
+    title: '',
+    idCustomer: this.authService.getUserId()
+  };
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+
+  constructor(
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar,
+    private http: OrderService,
+    private authService: AuthService,
+    private userProfile: UserInfoService) {
+  }
+
+  ngOnInit() {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
+  }
+
+  // ******************TAGS***************************
 
   add(event: MatChipInputEvent): void {
     if (!this.matAutocomplete.isOpen) {
@@ -75,28 +105,6 @@ export class NewTextsComponent implements OnInit {
   // *************************************************
 
 
-  task: AngularFireUploadTask;
-  percentage: Observable<number>;
-  snapshot: Observable<any>;
-  downloadURL: string;
-
-
-
-  isHovering: boolean;
-  files: File[] = [];
-  maxSize = 20 * (10 ** 6);
-  isHasError = {
-    size: false,
-    format: false
-  };
-  typeAllowed = ['txt', 'pdf', 'doc', 'docx', 'image'];
-
-  ngOnInit() {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
-  }
-
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
@@ -130,7 +138,7 @@ export class NewTextsComponent implements OnInit {
   uploadText(text) {
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
-    ref.putString(text).then((snapshot) => {
+    ref.putString(text).then(() => {
       this._snackBar.open('The text was successfully uploaded', '', {
         duration: 2000,
       });
@@ -144,18 +152,6 @@ export class NewTextsComponent implements OnInit {
   }
 
   // *************Configure object to push on server***************** */
-  order = {
-    email: JSON.parse(localStorage.getItem('currentUser')).email,
-    name: JSON.parse(localStorage.getItem('currentUser')).name,
-    initialLng: '',
-    finiteLng: '',
-    additionalReview: false,
-    urgency: 0,
-    tags: [],
-    url: [],
-    title: '',
-    id: JSON.parse(localStorage.getItem('currentUser')).id
-  };
 
   getInitLng(lng) {
     this.order.initialLng = lng;
@@ -178,9 +174,14 @@ export class NewTextsComponent implements OnInit {
       this.order.additionalReview = true;
     }
     this.order.tags = this.tags;
-    console.log(this.order);
-    this.http.createOrder(this.order).subscribe((data) => {
-      console.log(data);
-    });
+    this.userProfile.getCustomerProfile(this.order.idCustomer).subscribe(
+      (res: { name, email }) => {
+        this.order.name = res.name;
+        this.order.email = res.email;
+        this.http.createOrder(this.order).subscribe((data) => {
+          console.log(data);
+        });
+      }
+    );
   }
 }

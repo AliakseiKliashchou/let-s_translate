@@ -1,23 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
 
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 
-interface WaitListModel {
-  id: number;
-  idCustomer: number;
-  idOrder: {
-    title: string;
-    id: number;
-    tags: [];
-  };
-  idTranslators: {
-    id: number;
-    email: string;
-    name: string;
-  }[];
-}
 
 @Component({
   selector: 'app-messages',
@@ -25,8 +10,6 @@ interface WaitListModel {
   styleUrls: ['./messages.component.css', '../../app.component.css']
 })
 export class MessagesComponent implements OnInit {
-  waitlistArray: WaitListModel[];
-  waitListForm: FormGroup;
 
   constructor(
     private orderService: OrderService,
@@ -37,34 +20,8 @@ export class MessagesComponent implements OnInit {
     const id = this.authService.getUserId();
     const role = this.authService.getRole();
     if (role === 'customer') {
-      // this component doesn't work!
-      // waiting for correct route from backend
-
-      // this.orderService.getAcceptedOrderList(id)
-      //   .subscribe((res: WaitListModel[]) => {
-      //     console.log(res)
-      //     this.waitlistArray = res;
-      //     this.waitListForm = new FormGroup({});
-      //     res.forEach(question => {
-      //       const name = `waitlist_${question.id}`;
-      //       this.waitListForm.addControl(name, new FormControl(null));
-      //     });
-      //   });
     }
 
-  }
-
-  acceptTranslator(waitItem) {
-    const idOrder = waitItem.idOrder.id;
-    const idWaitItem = waitItem.id;
-    const name = `waitlist_${idWaitItem}`;
-    const idTrans = this.waitListForm.value[name];
-    this.orderService.selectTranslator(idWaitItem, idTrans, idOrder);
-  }
-
-  resetInfo(waitItem) {
-    const name = `waitlist_${waitItem}`;
-    this.waitListForm.controls[name].reset();
   }
 
 }

@@ -15,15 +15,6 @@ import {AngularFirestore} from '@angular/fire/firestore';
   styleUrls: ['./customer-reg.component.css', '../../app.component.css']
 })
 export class CustomerRegComponent implements OnInit {
-
-  constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private storage: AngularFireStorage,
-    private db: AngularFirestore,
-    private _snackBar: MatSnackBar) {
-  }
-
   hide_1 = true;
   hide_2 = true;
   photoStatus = false;
@@ -40,7 +31,13 @@ export class CustomerRegComponent implements OnInit {
     pattern: 'Not a valid'
   };
 
- 
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private _snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;

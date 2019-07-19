@@ -12,8 +12,7 @@ export class CollectionsService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
-    ) {
+    private authService: AuthService) {
   }
 
   getCollections(id: number) {
@@ -36,10 +35,12 @@ export class CollectionsService {
   }
 
 
-  createColection(idOrders: number[], tittle: string, isOneTranslator: boolean) {
+  createCollection(idOrders: number[], tittle: string, oneTranslator: boolean) {
     const idCustomer = this.authService.getUserId();
-    console.log(idOrders)
-    return this.http.post(`${this.URL}/secure/collections/create`, {idCustomer, idOrders, tittle, isOneTranslator});
+    return this.http.post(
+      `${this.URL}/secure/collections/create`,
+      {idCustomer, idOrders, tittle, oneTranslator}
+    );
   }
 
 }

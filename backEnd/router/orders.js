@@ -9,7 +9,7 @@ const Op = Sequelize.Op;
 router.post('/order', async (req, res) => {
   let urls = req.body.url;
   let ordersInfo = {
-    idCustomer: req.body.id,
+    idCustomer: req.body.idCustomer,
     name: req.body.name,
     email: req.body.email,
     download: '',
@@ -22,7 +22,8 @@ router.post('/order', async (req, res) => {
     status: 0,
     progress: 0,
     date: new Date(),
-    isCollections: false
+    isCollections: false,
+    oneTranslator: false
   };
   try {
     if (urls.length > 1) {
@@ -36,7 +37,7 @@ router.post('/order', async (req, res) => {
       let collection = collectionModel.create({
         idOrders: ordersArray,
         title: req.body.title,
-        idCustomer: req.body.id,
+        idCustomer: req.body.idCustomer,
         oneTranslator: false
       });
     } else {
@@ -62,26 +63,29 @@ router.get('/orders', async (req, res) => {
 });
 
 //translator
-// router.get('/order/unowned', async (req, res) => {
-//   const {translateLanguage, originalLanguage, tagsArray} = req.query;
-//   try {
-//
-//     console.log(translateLanguage, originalLanguage, tagsArray)
-//     // if(true) {
-//     //   let orders = await orderModel.findAll({where:
-//     //     {
-//     //       originalLanguage: {[Op.like]: originalLanguage},
-//     //       translateLanguage: {[Op.like]: translateLanguage},
-//     //       tags: {[Op.contains]: tagsArray}
-//     //     }
-//     //   }).then(ordersArray => res.json(ordersArray))
-//     // }
-//     // let orders = await orderModel.findAll({where: {status: 0}});
-//     // res.json(orders);
-//   } catch (error) {
-//     res.json({message: error});
-//   }
-// });
+router.get('/order/filter', async (req, res) => {
+  const tags = req.query.tags;
+  let tagsArray = [];
+  if (tags.length) tagsArray = tags.split(',');
+  const idTranslator = req.query.idTranslator;
+  let translator = await translatorModel.findOne({where: {id: idTranslator}});
+  const languages = translator.languages;
+  try {
+    let orders = await orderModel.findAll({
+      where:
+        {
+          status: 0,
+          originalLanguage: {[Op.in]: languages},
+          translateLanguage: {[Op.in]: languages},
+          tags: {[Op.contains]: tagsArray}
+        }
+    }).then(ordersArray => {
+      res.json(ordersArray)
+    });
+  } catch (error) {
+    res.status(400).json({error, message: 'Can not find any order'});
+  }
+});
 
 router.get('/order/:id', async (req, res) => {
   let id = req.params.id;
@@ -95,7 +99,9 @@ router.get('/order/:id', async (req, res) => {
 
 router.delete('/order', async (req, res) => {
   let id = req.query.id;
-  let order = await orderModel.destroy({where: {id}}).then((result) => {
+  console.log(id)
+  let order = await orderModel.destroy({where: {id:id}}).then((result) => {
+    console.log(result)
     if (result === 1) {
       res.json({message: 'Deleted successfully!'});
     } else {
@@ -119,18 +125,15 @@ router.get('/orders/unowned', async (req, res) => {
   const idTranslator = req.query.idTranslator;
   try {
     let translator = await translatorModel.findOne({where: {id: idTranslator}});
-
     const languages = translator.languages;
-    console.log(languages);
     let orders = await orderModel.findAll(
       {
         where: {
-          status: 0,
+          // status: 0,
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }
-      }).then(response =>   res.json(response));
-
+      }).then(response => res.json(response));
   } catch (error) {
     res.json({message: error});
   }
