@@ -138,7 +138,11 @@ export class NewTextsComponent implements OnInit {
   uploadText(text) {
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
-    ref.putString(text).then(() => {
+    ref.putString(text).then((snapshot) => {
+      snapshot.ref.getDownloadURL().then( url => {
+        console.log(url);
+        this.order.url.push(url);
+      });
       this._snackBar.open('The text was successfully uploaded', '', {
         duration: 2000,
       });
