@@ -29,4 +29,8 @@ let sendEmail = (guid, id) => {
   })
 };
 
-module.exports = {sendEmail};
+let resetPassword = (encrypt) => {
+  let url = '';
+};
+
+module.exports = {sendEmail, resetPassword};

@@ -2,11 +2,11 @@ const Sequelize = require('sequelize');
 const sequelize = require('../configs/sequelize');
 
 const Admin = sequelize.define("admin", {
-  name: {
+  role: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  photo: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false
   },
