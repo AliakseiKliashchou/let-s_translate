@@ -55,6 +55,10 @@ export class TextDetailsComponent implements OnInit {
         } else console.log('empty db');
       });
     });
+
+    // console.log(Date.now() - this.incomingComments[0].);
+
+
   }
 
   sendComment(text) {
