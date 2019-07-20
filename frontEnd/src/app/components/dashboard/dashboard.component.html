@@ -62,7 +62,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let text of ordersArray">
-            <td><b>{{text.title}}</b></td>
+            <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
             <td>
               <h5><span class="badge badge" [ngClass]="{
               'badge-danger': status[text.status] === 'Waiting translator',
