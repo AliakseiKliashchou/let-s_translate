@@ -1,4 +1,5 @@
 const Cryptr = require('cryptr');
+const bcrypt = require('bcrypt')
 const express = require('express');
 const router = express.Router();
 const cryptr = new Cryptr('myTotalySecretKey');
@@ -22,40 +23,49 @@ router.post('/forgot-password', async(req, res) => {
   let email = req.body.email;
 
   let customer = await customerModel.findOne({where: {email: email}}).then((customer) => {
-    
     let info = {
+      email: customer.email,
       id: customer.id,
       guid: customer.guid,
       date: new Date()
     }
 
-    let encrypt = cryptr.encrypt(info);
-    // console.log(encrypt);
-    let decrypt = cryptr.decrypt(encrypt);
-    decrypt.toString();
-    res.json(decrypt)
+    let jsonInfo = JSON.stringify(info);
+    let encrypt = cryptr.encrypt(jsonInfo);
 
-    // nodemailer.resetPassword(encrypt);
+    nodemailer.resetPassword(encrypt);
   })
 })
 
-// router.post('/reset-password', async(req, res) => {
-//   let guid = req.query.code;
-//   let id = req.query.id;
+router.get('/reset-password', async(req, res) => {
+  let crypt = req.query.crypt;
+  let decrypt = cryptr.decrypt(crypt);
+  let data = JSON.parse(decrypt);
 
-//   let customer = await customerModel.findOne({where: {id}}).then((customer) => {
-//     if(customer.guid === guid) {
 
-//       bcrypt.hash(customer.password, 10).then((hash) => {
-//         customer.password = hash;
-//         customer.save().then((data) => {
-//           res.json({"customer": data});
-//         });
-//       });
+  let customer = await customerModel.findOne({where: {id: data.id}}).then((customer) => {
+    if(customer.guid === data.guid && data.date < new Date()) { 
+      res.redirect('http://localhost:4200/reset-password')
+    } else {
+      res.json({message: 'Link is not available!'})
+    }
+  })
 
-//       customer.update({password: customer.password});
-//     }
-//   })
-// })
+});
+
+router.post('/reset-password', async(req, res) => {
+  let password = req.body.password;
+  let email = req.body.email;
+
+  let customer = await customerModel.findOne({where: {email: email}}).then((customer) => {
+    bcrypt.hash(password, 10).then((hash) => {
+      password = hash;
+      customer.update({password: password});
+      res.json({customer})
+    });
+  });
+
+  nodemailer.passwordChanged();
+});
 
 module.exports = router;
