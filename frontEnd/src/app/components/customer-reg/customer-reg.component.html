@@ -1,6 +1,84 @@
+<!-- -------------------------------------------- -->
 <div class="wrapper">
   <app-header></app-header>
-  <div class="title anim"><h2>Customer registration</h2></div>
+  <div class="container">
+    <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Create Account</h4>
+        <p class="text-center">Get started with your free account</p>
+        <p>
+          <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+          <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+        </p>
+        <p class="divider-text">
+          <span class="bg-light">OR</span>
+        </p>
+        <form>
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input name="" class="form-control" placeholder="Full name" type="text">
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+            </div>
+            <input name="" class="form-control" placeholder="Email address" type="email">
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+            </div>
+            <select class="custom-select" style="max-width: 120px;">
+              <option selected="">+971</option>
+              <option value="1">+972</option>
+              <option value="2">+198</option>
+              <option value="3">+701</option>
+            </select>
+            <input name="" class="form-control" placeholder="Phone number" type="text">
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+            </div>
+            <select class="form-control">
+              <option selected=""> Select job type</option>
+              <option>Designer</option>
+              <option>Manager</option>
+              <option>Accaunting</option>
+            </select>
+          </div> <!-- form-group end.// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input class="form-control" placeholder="Create password" type="password">
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input class="form-control" placeholder="Repeat password" type="password">
+          </div> <!-- form-group// -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+          </div> <!-- form-group// -->
+          <p class="text-center">Have an account? <a href="">Log In</a> </p>
+        </form>
+      </article>
+    </div> <!-- card.// -->
+
+  </div>
+
+
+
+
+  <!-- ---------------------------------- -->
+
+  <div class="title anim">
+    <h2>Customer registration</h2>
+  </div>
   <div class="inputs_wrapper anim" *ngIf="userInputForm">
     <form [formGroup]="userInputForm">
       <div class="inputs">
@@ -9,21 +87,15 @@
 
         <div class="md-form mb-5">
           <i class="fas fa-envelope prefix"
-             [ngClass]="userInputForm.get('email').valid ? 'green-text' : 'red-text'"></i>
-          <input type="email"
-                 id="email_reg"
-                 #email
-                 formControlName="email"
-                 class="form-control validate"
-                 mdbInput mdbValidate>
+            [ngClass]="userInputForm.get('email').valid ? 'green-text' : 'red-text'"></i>
+          <input type="email" id="email_reg" #email formControlName="email" class="form-control validate" mdbInput
+            mdbValidate>
           <label data-error="wrong" data-success="right" for="email_reg">Your email</label>
-          <mdb-error
-            *ngIf="userInputForm.get('email').invalid && (userInputForm.get('email').dirty ||
+          <mdb-error *ngIf="userInputForm.get('email').invalid && (userInputForm.get('email').dirty ||
              userInputForm.get('email').touched)">
             {{getErrorMessage('email')}}
           </mdb-error>
-          <mdb-success
-            *ngIf="userInputForm.get('email').valid && (userInputForm.get('email').dirty ||
+          <mdb-success *ngIf="userInputForm.get('email').valid && (userInputForm.get('email').dirty ||
             userInputForm.get('email').touched)">
             Ok!
           </mdb-success>
@@ -35,7 +107,7 @@
         <div class="md-form mb-5">
           <i class="fas fa-user prefix" [ngClass]="userInputForm.get('name').valid ? 'green-text' : 'red-text'"></i>
           <input type="text" #name id="name_reg" formControlName="name" class="form-control validate" mdbInput
-                 mdbValidate>
+            mdbValidate>
           <label data-error="wrong" data-success="right" for="name_reg">Your name</label>
           <mdb-error
             *ngIf="userInputForm.get('name').invalid && (userInputForm.get('name').dirty || userInputForm.get('name').touched)">
@@ -52,17 +124,15 @@
 
         <div class="md-form mb-5" id="card_number">
           <i class="fas fa-credit-card prefix"
-             [ngClass]="userInputForm.get('creditCard').valid ? 'green-text' : 'red-text'"></i>
-          <input type="text" mask='0000-0000-0000-0000' #creditCard id="cardNumber_reg"
-                 formControlName="creditCard" class="form-control validate" mdbInput mdbValidate>
+            [ngClass]="userInputForm.get('creditCard').valid ? 'green-text' : 'red-text'"></i>
+          <input type="text" mask='0000-0000-0000-0000' #creditCard id="cardNumber_reg" formControlName="creditCard"
+            class="form-control validate" mdbInput mdbValidate>
           <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>
-          <mdb-error
-            *ngIf="userInputForm.get('creditCard').invalid &&
+          <mdb-error *ngIf="userInputForm.get('creditCard').invalid &&
             (userInputForm.get('creditCard').dirty || userInputForm.get('creditCard').touched)">
             {{getErrorMessage('creditCard')}}
           </mdb-error>
-          <mdb-success
-            *ngIf="userInputForm.get('creditCard').valid &&
+          <mdb-success *ngIf="userInputForm.get('creditCard').valid &&
             (userInputForm.get('creditCard').dirty || userInputForm.get('creditCard').touched)">
             Ok!
           </mdb-success>
@@ -73,47 +143,36 @@
         <!-----------------------------------PASSWORD-------------------------------------->
 
         <div class="md-form mb-5 password">
-          <i class="fas fa-lock prefix"
-             [ngClass]="userInputForm.get('password').valid && userInputForm.get('passwordSubmitted').valid &&
+          <i class="fas fa-lock prefix" [ngClass]="userInputForm.get('password').valid && userInputForm.get('passwordSubmitted').valid &&
              (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'">
           </i>
-          <input
-            [type]="hide_1 ? 'password' : 'text'"
-            id="password1_reg"
-            #password1_reg
-            formControlName="password"
-            class="form-control validate"
-            mdbInput mdbValidate>
+          <input [type]="hide_1 ? 'password' : 'text'" id="password1_reg" #password1_reg formControlName="password"
+            class="form-control validate" mdbInput mdbValidate>
           <mat-icon matSuffix (click)="hide_1 = !hide_1">{{hide_1 ? 'visibility_off' : 'visibility'}}</mat-icon>
           <label data-error="wrong" data-success="right" for="password1_reg">Your password</label>
-          <mdb-error
-            *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('password').invalid &&
+          <mdb-error *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('password').invalid &&
             (userInputForm.get('password').dirty || userInputForm.get('password').touched)">
             {{getErrorMessage('password')}}
           </mdb-error>
-          <mdb-error
-            *ngIf="password1_reg.value !== password2_reg.value &&
+          <mdb-error *ngIf="password1_reg.value !== password2_reg.value &&
             (userInputForm.get('password').dirty || userInputForm.get('password').touched)">
             Password not equals
           </mdb-error>
-          <mdb-success
-            *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('password').valid &&
+          <mdb-success *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('password').valid &&
              (userInputForm.get('password').dirty || userInputForm.get('password').touched)">
             Ok!
           </mdb-success>
         </div>
         <div class="md-form mb-5 password">
           <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg
-                 formControlName="passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
+            formControlName="passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
           <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
           <label data-error="wrong" data-success="right" for="password2_reg">Repeat your password</label>
-          <mdb-error
-            *ngIf="userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
+          <mdb-error *ngIf="userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             {{getErrorMessage('passwordSubmitted')}}
           </mdb-error>
-          <mdb-success
-            *ngIf="userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
+          <mdb-success *ngIf="userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             Ok!
           </mdb-success>
@@ -134,7 +193,7 @@
         <div class="md-form mb-5">
           <div class="tariff_icon">
             <i class="fas fa-dollar-sign prefix"
-               [ngClass]="userInputForm.get('tariff').valid ? 'green-text' : 'red-text'"></i>
+              [ngClass]="userInputForm.get('tariff').valid ? 'green-text' : 'red-text'"></i>
           </div>
           <div class="select_tariff">
             <mat-form-field>
@@ -147,13 +206,11 @@
             </mat-form-field>
           </div>
           <div style="clear: both"></div>
-          <mdb-error
-            *ngIf="userInputForm.get('tariff').invalid && (userInputForm.get('tariff').dirty ||
+          <mdb-error *ngIf="userInputForm.get('tariff').invalid && (userInputForm.get('tariff').dirty ||
             userInputForm.get('tariff').touched)">
             {{getErrorMessage('tariff')}}
           </mdb-error>
-          <mdb-success
-            *ngIf="userInputForm.get('tariff').valid && (userInputForm.get('tariff').dirty ||
+          <mdb-success *ngIf="userInputForm.get('tariff').valid && (userInputForm.get('tariff').dirty ||
              userInputForm.get('tariff').touched)">
             Ok!
           </mdb-success>
@@ -165,7 +222,7 @@
         <mat-checkbox id="licence_check" #licenceCheck>I have already read a licence agreement</mat-checkbox>
         <p id="licence" (click)="basicModal.show()">Licence agreement</p>
         <div style="overflow-y: auto" mdbModal #basicModal="mdbModal" class="modal fade bottom" tabindex="-1"
-             role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+          role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -207,14 +264,9 @@
       </div>
     </form>
 
-    <button
-      id="submit_btn"
-      type="button"
-      mdbBtn color="success"
-      mdbWavesEffect
-      [disabled]="userInputForm.invalid"
-      (click)="submit()"
-    >Register
+
+    <button id="submit_btn" type="button" mdbBtn color="info" block="true" class="my-4"
+      [disabled]="userInputForm.invalid" (click)="submit()">Register
     </button>
   </div>
   <app-footer></app-footer>
