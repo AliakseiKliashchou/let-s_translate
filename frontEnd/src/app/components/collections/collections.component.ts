@@ -112,7 +112,6 @@ export class CollectionsComponent implements OnInit {
     this.progressBar = true;
     this.findingParams.review = !!review.checked;
     this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
-      console.log(data);
       this.filteredCollections = data;
       this.progressBar = false;
     });
@@ -141,12 +140,14 @@ export class CollectionsComponent implements OnInit {
     if(check.checked){
       this.newCollectionArray.id[i] = idOrder; 
       this.indexArray.push(i); 
+      console.log(this.newCollectionArray.id);
       console.log(this.indexArray);
     }
     if (!check.checked) {
       delete this.newCollectionArray.id[i];
       let ind = this.indexArray.indexOf(i);
       this.indexArray.splice(ind, 1);
+      console.log(this.newCollectionArray.id);
       console.log(this.indexArray);
 
     } 
@@ -157,21 +158,28 @@ export class CollectionsComponent implements OnInit {
     if(isOneTranslator.checked){
      this.newCollectionArray.isOneTranslator = true;
     }else  this.newCollectionArray.isOneTranslator = false;
-    this.newCollectionArray.title = title;
+    this.newCollectionArray.title = title;    
     for (let j = 0; j < this.newCollectionArray.id.length; j++) {
       if (this.newCollectionArray.id[j] == undefined) {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    for(let k = 0; k <= this.indexArray.length; k ++){        
-      this.filteredCollections.splice(this.indexArray[k], 1);          
-    }
+
+   
     this.collectionsService.createColection(this.newCollectionArray.id, this.newCollectionArray.title, this.newCollectionArray.isOneTranslator)
       .subscribe((data) => {
         this.ngOnInit();
         this._snackBar.open('Collection was successfully created', '', {
           duration: 2000,
         });
+        for(let k = 0; k < this.indexArray.length; k ++){  
+          if(this.indexArray[k] != undefined){
+            this.filteredCollections.splice(this.indexArray[k], 1);
+          }     
+                
+           console.log(this.filteredCollections);   
+           console.log(this.indexArray);   
+        }
       });
     this.progressBar = false;
   }
