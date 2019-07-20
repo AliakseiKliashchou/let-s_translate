@@ -26,14 +26,11 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div>
-        <app-languages (selectValue)="getLng($event)"></app-languages>
-      </div>
       <button mdbBtn color="info" block="true" class="my-4" (click)="filter()" matStepperNext>Filter</button>
     </div>
 
     <div class="container" *ngIf="ordersArray && role === 'customer'">
-      <div *ngFor="let text of ordersArray; let i = index" class="text-container">
+      <div *ngFor="let text of ordersArray" class="text-container">
         <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
         <p [ngStyle]="{'color':getColor(text.status)}" style="font-weight: 400">
           {{status[text.status]}}</p>
@@ -43,7 +40,7 @@
     </div>
 
     <div class="container" *ngIf="ordersArray && role === 'translator'">
-      <div *ngFor=" let text of ordersArray; let j = index" class="text-container">
+      <div *ngFor=" let text of ordersArray; let i=index" class="text-container">
         <p class="title-order">{{text.title}}</p>
 
         <div class="tags-order">
@@ -51,7 +48,7 @@
         </div>
         <!--<p style="width: 2em"> {{text.urgency}}</p>-->
         <p class="date">{{text.originalLanguage}} => {{text.translateLanguage}} | {{text.date | date}}</p>
-        <button (click)="getOrder(text.id, j)" class="get-order-btn">Get</button>
+        <button (click)="getOrder(text.id, text.idCustomer)" class="get-order-btn">Get</button>
       </div>
     </div>
   </div>

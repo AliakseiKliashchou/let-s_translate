@@ -78,7 +78,7 @@
     <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
     <button class="create_btn" 
       mat-button 
-      [disabled]="newCollectionArray.id.length && newCollectionName.value ?  false : true"
+      [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
       (click)="createNewCollection(newCollectionName.value, isOneTranslator)"
       >Create new collection</button>
    <div class="filteredCollection" 

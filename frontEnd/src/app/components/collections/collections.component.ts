@@ -1,8 +1,4 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {CollectionsService} from '../../_shared/service/collections/collections.service';
-import {AuthService} from '../../_shared/service/users/auth.service';
-import {CollectionsInterface} from '../../_shared/interface/collections.interface';
-import {FilteredCollectionsInterface} from '../../_shared/interface/filteredCollections.interface';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
@@ -11,7 +7,10 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-
+import {CollectionsService} from '../../_shared/service/collections/collections.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {CollectionsInterface} from '../../_shared/interface/collections.interface';
+import {FilteredCollectionsInterface} from '../../_shared/interface/filteredCollections.interface';
 
 @Component({
   selector: 'app-collections',
@@ -20,23 +19,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class CollectionsComponent implements OnInit {
 
-  ngOnInit() {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-    this.progressBar = true;
-    const id = this.authService.getUserId();
-    this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
-      this.collectionsArray = data;
-      this.progressBar = false;
-    });
-  }
-
-  constructor(
-    private collectionsService: CollectionsService,
-    private authService: AuthService,
-    private _snackBar: MatSnackBar) {  }
-
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
@@ -44,9 +26,8 @@ export class CollectionsComponent implements OnInit {
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
   filteredCollections: FilteredCollectionsInterface[] = [];
-  headElements = ['', 'Name of customer', 'Title', 'Date', 'Download URL', 'Original language', 'Translate language', 'Email',];
-  // ************************************TAGS************************* */
-  visible = true;
+  headElements = ['', 'Name of customer', 'Title', 'Date', 'Download URL', 'Original language', 'Translate language', 'Email'];
+
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -62,6 +43,33 @@ export class CollectionsComponent implements OnInit {
     tags: this.tags,
     review: false
   };
+
+  newCollectionArray = {
+    title: '',
+    id: [],
+    isOneTranslator: false
+  };
+  indexArray = [];
+
+
+  constructor(
+    private collectionsService: CollectionsService,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar) {
+  }
+
+  ngOnInit() {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+    this.progressBar = true;
+    const id = this.authService.getUserId();
+    this.collectionsService.getCollections(id).subscribe((data: CollectionsInterface[]) => {
+      this.collectionsArray = data;
+      this.progressBar = false;
+    });
+  }
+
 
   // ************************************TAGS************************* */
 
@@ -117,11 +125,11 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
-  //*****************************DELETE EXISTING COLLECTION****************************************** */
-  deleteCollection(id, i){
+  // *****************************DELETE EXISTING COLLECTION****************************************** */
+  deleteCollection(id, i) {
     this.progressBar = true;
-    this.collectionsService.deleteCollection(id).subscribe( (data) => {
-      this.collectionsArray.splice(i , 1);
+    this.collectionsService.deleteCollection(id).subscribe(() => {
+      this.collectionsArray.splice(i, 1);
       this._snackBar.open('Collection was successfully deleted', '', {
         duration: 2000,
       });
@@ -130,6 +138,7 @@ export class CollectionsComponent implements OnInit {
   }
 
 // **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
+
   newCollectionArray = {
     title: '',
     id: [],
@@ -152,7 +161,7 @@ export class CollectionsComponent implements OnInit {
 
     } 
   }
-  
+
   createNewCollection(title, isOneTranslator){  
     this.progressBar = true;
     if(isOneTranslator.checked){
@@ -183,6 +192,7 @@ export class CollectionsComponent implements OnInit {
       });
     this.progressBar = false;
   }
+
 
 
 }

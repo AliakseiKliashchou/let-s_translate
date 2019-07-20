@@ -9,6 +9,7 @@ import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
+import {OrderService} from "../../_shared/service/order/order.service";
 
 interface UserProfile {
   photo: string;
@@ -57,6 +58,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userInfoService: UserInfoService,
+    private orderService: OrderService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     private _snackBar: MatSnackBar) {
@@ -72,7 +74,8 @@ export class HeaderComponent implements OnInit {
       const role = this.authService.getRole();
       if (role === 'translator') {
         this.isRole.translator = true;
-        this.userInfoService.getTranslatorProfile(userId).subscribe(res => console.log(res));
+        this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
+        });
       } else {
         this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
           this.isRole.customer = true;
@@ -134,15 +137,16 @@ export class HeaderComponent implements OnInit {
   }
 
   login(frame) {
-    this.authService.log(this.user).subscribe(() => {
-      console.log('Success');
-      this.authService.login(this.user);
-      frame.hide();
-    }, (err) => {
-      console.error(err.error.message);
-      this.error = err.error.message;
-      console.log(this.error);
-    });
+    if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
+      this.authService.log(this.user).subscribe(() => {
+        console.log('Success');
+        this.authService.login(this.user);
+        frame.hide();
+      }, (err) => {
+        this.error = err.error.message;
+        console.log(this.error);
+      });
+    } else return;
   }
 
   logout() {

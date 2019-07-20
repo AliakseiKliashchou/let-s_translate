@@ -1,4 +1,4 @@
-const bcypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
@@ -24,7 +24,7 @@ const login = (req, res) => {
     customerModel.findOne({where: {email: email}}).then((customer) => {
       if(!customer) res.status(401).json({message: 'User does not exist!'});
 
-      const isValid = bcypt.compareSync(password, customer.password);
+      const isValid = bcrypt.compareSync(password, customer.password);
       if(isValid) {
         const token = jwt.sign(customer.id.toString(), jwtSecret);
         res.json({ 
@@ -45,7 +45,7 @@ const login = (req, res) => {
     translatorModel.findOne({where: {email: email}}).then((translator) => {
       if(!translator) res.status(401).json({message: 'User does not exist!'});
 
-      const isValid = bcypt.compareSync(password, translator.password);
+      const isValid = bcrypt.compareSync(password, translator.password);
       if(isValid) {
         const token = jwt.sign(translator.id.toString(), jwtSecret);
         res.json({ 

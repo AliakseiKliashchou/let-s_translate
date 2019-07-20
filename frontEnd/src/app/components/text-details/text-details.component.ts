@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {OrderInterface} from 'src/app/_shared/interface/order.interface';
 import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
@@ -33,11 +33,13 @@ export class TextDetailsComponent implements OnInit {
   incomingComments: CommentsInterface[] = [];
   role: string;
   saveProgressBtn = false;
+
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private orderService: OrderService,
-    private messagesService: MessagesService,
-    private authService: AuthService) {
+    private messagesService: MessagesService) {
   }
 
   ngOnInit() {
@@ -53,10 +55,14 @@ export class TextDetailsComponent implements OnInit {
         } else console.log('empty db');
       });
     });
+
     // console.log(Date.now() - this.incomingComments[0].);
+
+
   }
 
   sendComment(text) {
+    // const id = this.au
     const message = {
       senderEmail: JSON.parse(localStorage.getItem('currentUser')).email,
       role: JSON.parse(localStorage.getItem('currentUser')).role,
@@ -73,14 +79,23 @@ export class TextDetailsComponent implements OnInit {
       });
     });
   }
-  changeSlider(val){
-    console.log(val);
+
+  changeSlider(val) {
     this.element.progress = val;
     this.saveProgressBtn = true;
   }
-  saveProgress(){
-    this.orderService.changeProgress(this.element.id, this.element.progress).subscribe( (data) => {
+
+  saveProgress() {
+    this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
       console.log(data);
+    });
+  }
+
+  deleteText() {
+    const orderId = this.element.id;
+    this.orderService.deleteOrder(orderId).subscribe(res => {
+      console.log(res);
+      this.router.navigate(['dashboard']);
     });
   }
 }

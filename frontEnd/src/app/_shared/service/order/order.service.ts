@@ -15,6 +15,10 @@ export class OrderService {
 
   private URL = 'http://localhost:3000';
 
+  deleteOrder(orderId: number) {
+    return this.http.delete(`${this.URL}/secure/order?id=` + orderId);
+  }
+
   createOrder(order) {
     return this.http.post(`${this.URL}/secure/order/`, order);
   }
@@ -25,17 +29,19 @@ export class OrderService {
   }
 
   getUnownedOrders() {
-    return this.http.get(`${this.URL}/secure/orders/unowned`);
+    const idTranslator = this.authService.getUserId();
+    return this.http.get(`${this.URL}/secure/orders/unowned?idTranslator=` + idTranslator);
   }
 
   getOrder(id: number) {
     return this.http.get(`${this.URL}/secure/order/${id}`);
   }
 
-  getFilteredOrder(tags, lng) {
+  getFilteredOrder(tags) {
+    const idTranslator = this.authService.getUserId();
     const params = new HttpParams()
-      .set('language', lng)
-      .set('tags', tags);
+      .set('tags', tags)
+      .set('idTranslator', String(idTranslator));
     return this.http.get(`${this.URL}/secure/order/filter`, {params});
   }
 
@@ -45,25 +51,13 @@ export class OrderService {
   }
 
   acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/accept`, {
-      idOrder,
-      idTranslators,
-    }).subscribe(res => console.log(res));
-  }
-
-  selectTranslator(idWaitList: number, idTrans: number, idOrder: number) {
-    this.http.post(
-      `${this.URL}/secure/waitlist/selectTranslator`,
-      {idWaitList, idTrans, idOrder})
+    this.http.post(`${this.URL}/secure/notification/accept`,
+      {idOrder, idTranslators})
       .subscribe(res => console.log(res));
   }
 
-  getAcceptedOrderList(idCustomer: number) {
-    return this.http.get(`${this.URL}/secure/waitlist/${idCustomer}`);
-  }
-
-  changeProgress(id, progress){
-    return this.http.put(`${this.URL}/secure/order/`, {id, progress} );
+  changeProgress(id, progress) {
+    return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
 
 }
