@@ -16,7 +16,7 @@ export class OrderService {
   private URL = 'http://localhost:3000';
 
   deleteOrder(orderId: number) {
-    return this.http.delete(`${this.URL}/secure/order?id=` + orderId);
+    return this.http.delete(`${this.URL}/secure/order/${orderId}`);
   }
 
   createOrder(order) {
@@ -60,4 +60,8 @@ export class OrderService {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
 
+  changePrice(id, price){
+    return this.http.put(`${this.URL}/secure/price/`, {id, price});
+  }
+ 
 }
