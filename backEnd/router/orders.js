@@ -23,7 +23,8 @@ router.post('/order', async (req, res) => {
     progress: 0,
     date: new Date(),
     isCollections: false,
-    oneTranslator: false
+    oneTranslator: false,
+    price: req.body.price,
   };
   try {
     if (urls.length > 1) {

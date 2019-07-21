@@ -13,6 +13,7 @@ import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 
 
+
 @Component({
   selector: 'app-new-texts',
   templateUrl: './new-texts.component.html',
@@ -27,7 +28,7 @@ export class NewTextsComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
-
+  progressBar = false;
   isHovering: boolean;
   files: File[] = [];
   maxSize = 20 * (10 ** 6);
@@ -180,6 +181,7 @@ export class NewTextsComponent implements OnInit {
   }
 
   makeOrder(additionalReview) {
+    this.progressBar = true;
     if (additionalReview.checked) {
       this.order.additionalReview = true;
     }
@@ -190,8 +192,12 @@ export class NewTextsComponent implements OnInit {
         this.order.email = res.email;
         this.http.createOrder(this.order).subscribe((data) => {
           console.log(data);
+          this._snackBar.open('Order was created', '', {
+            duration: 3000,
+          });
         });
       }
     );
+    this.progressBar = false;
   }
 }
