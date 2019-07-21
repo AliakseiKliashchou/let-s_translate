@@ -37,6 +37,9 @@
             <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
               (click)="basicModal.show()" mdbWavesEffect>
             </div>
+            <!-- <div class="coins">
+              <p>{{userProfile.coins}}</p>
+            </div> -->
             <!-- <h1>{{userProfile.name}}</h1> -->
 
             <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
