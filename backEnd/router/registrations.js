@@ -29,7 +29,7 @@ router.post('/admin', valid.checkValid, async (req, res) => {
     bcrypt.hash(translator.password, 10).then((hash) => {
       translator.password = hash;
       translator.save().then((data) => {
-        res.json({ "translator": data });
+        res.json({"translator": data});
       });
     });
   } catch (error) {
@@ -51,14 +51,13 @@ router.post('/translator', valid.checkValid, async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      languages: req.body.languages,
-      coins: 1000,
+      languages: req.body.languages
     });
 
     bcrypt.hash(translator.password, 10).then((hash) => {
       translator.password = hash;
       translator.save().then((data) => {
-        res.json({ "translator": data });
+        res.json({"translator": data});
       });
     });
   } catch (error) {
@@ -67,25 +66,8 @@ router.post('/translator', valid.checkValid, async (req, res) => {
 });
 
 router.post('/customer', valid.checkValid, async (req, res) => {
-  console.log(req.body)
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
-  let coins = 1000;
-  let coeff = 1;
-  switch (req.body.tariff) {
-    case 'silver':
-      coins = 1000;
-      coeff = 0.9;
-      break;
-    case 'gold':
-      coins = 5000;
-      coeff = 0.7;
-      break;
-    case 'platinum':
-      coins = 10000;
-      coeff = 0.5;
-      break; 
-  }
   if (hasErrors) {
     res.json(result)
   }
@@ -100,15 +82,13 @@ router.post('/customer', valid.checkValid, async (req, res) => {
       creditCard: req.body.creditCard,
       tariff: req.body.tariff,
       photo: req.body.photo,
-      guid: uuidv1(),
-      coins: coins,
-      coeff: coeff,
+      guid: uuidv1()
     });
 
     bcrypt.hash(customer.password, 10).then((hash) => {
       customer.password = hash;
       customer.save().then((data) => {
-        res.json({ "customer": data });
+        res.json({"customer": data});
       });
     });
 

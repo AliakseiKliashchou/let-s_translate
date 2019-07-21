@@ -37,84 +37,55 @@
     </mdb-carousel-item>
   </mdb-carousel>
   <!-------------------------------------------------->
-  <section class="pricing-table">
-    <div class="container">
-      <div class="block-heading">
-        <h2>Pricing Table</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-          vitae leo.</p>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-md-5 col-lg-4">
-          <div class="item">
-            <div class="heading">
-              <h3>SILVER</h3>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">1</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">1</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">4 Days</span></h4>
-            </div>
-            <div class="price">
-              <h4>$5</h4>
-            </div>
-            <button class="btn btn-block btn-outline-primary" [routerLink]="['/customerRegistration']"
-              fragment="silver">BUY NOW</button>
-          </div>
-        </div>
-        <div class="col-md-5 col-lg-4">
-          <div class="item">
-            <div class="ribbon red">Best offer</div>
-            <div class="heading">
-              <h3>GOLD</h3>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">5</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">5</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">2 Days</span></h4>
-            </div>
-            <div class="price">
-              <h4>$10</h4>
-            </div>
-            <button class="btn btn-block btn-primary" [routerLink]="['/customerRegistration']" fragment="gold">BUY
-              NOW</button>
-          </div>
-        </div>
-        <div class="col-md-5 col-lg-4">
-          <div class="item">
-            <div class="heading">
-              <h3>PLATINUM</h3>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">&infin;</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">&infin;</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">24 Hours</span></h4>
-            </div>
-            <div class="price">
-              <h4>$35</h4>
-            </div>
-            <button class="btn btn-block btn-outline-primary" [routerLink]="['/customerRegistration']"
-              fragment="platinum">BUY NOW</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
   <!--------------------TARIFF PLAN-------------------------------->
 
-  <!----------------------Customer registration------------------------------->
-  <div class="container">
-    <div class="block-heading">
-      <div class="reg-block">
-        <h2>If you have no a customer account yet, please, register by the button below</h2>
-        <button type="button" class="btn btn-outline-primary  btn  waves-effect" (click)="goToCustomerReg()">Register a
-          customer
-          account</button>
-      </div>
+  <div class="tariff-plan">
+    <h3 class="tariff-h"><strong>Tariff plans</strong></h3>
+    <div class="tariff silver">
+      <h4 class="tariff-h">Silver</h4>
+      <ul>
+        <li>Cost: <span>5 USD</span></li>
+        <li>Quantity of purpose language: <span>1</span></li>
+        <li>Numbers of texts: <span>1</span></li>
+        <li>Time to translate: <span>4 days</span></li>
+      </ul>
+      <button mat-button [routerLink]="['/customerRegistration']" fragment="silver">Buy</button>
     </div>
+
+    <div class="tariff gold">
+      <h4 class="tariff-h">Gold</h4>
+      <ul>
+        <li>Cost: <span>10 USD</span></li>
+        <li>Quantity of purpose language: <span>5</span></li>
+        <li>Numbers of texts: <span>5</span></li>
+        <li>Time to translate: <span>2 days</span></li>
+      </ul>
+      <button mat-button [routerLink]="['/customerRegistration']" fragment="gold">Buy</button>
+
+    </div>
+
+    <div class="tariff platinum">
+      <h4 class="tariff-h">Platinum</h4>
+      <ul>
+        <li>Cost: <span>30 USD</span></li>
+        <li>Quantity of purpose language: <span>&infin;</span></li>
+        <li>Numbers of texts: <span>&infin;</span></li>
+        <li>Time to translate: <span>24 hours</span></li>
+      </ul>
+      <button mat-button [routerLink]="['/customerRegistration']" fragment="platinum">Buy</button>
+
+    </div>
+
+    <div style="clear: both"></div>
+
+  </div>
+  <!-------------------------------------------------->
+
+  <!----------------------Customer registration------------------------------->
+  <div class="customer-reg">
+    <h4 class="tariff-h">If you have no a customer account yet, please, register by the button below</h4>
+    <button mat-button (click)="goToCustomerReg()">Register a customer account</button>
   </div>
   <!-------------------------------------------------------------------------->
   <app-footer></app-footer>

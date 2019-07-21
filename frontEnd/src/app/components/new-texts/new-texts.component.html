@@ -90,6 +90,12 @@
   <label for="input_text" class="label">Type your text</label>  
   <button class="upload_btn" (click)="uploadText(inputTxt.value)" mat-button>Upload text</button>
 </div>
+
+<h4>Enter the price:</h4>
+<mat-form-field class="input_title">
+  <input class="input_title_field" #price matInput type="number" (change)="getPrice(price.value)" value="">
+</mat-form-field>
+
 <button class="order_btn" (click)="makeOrder(additional_review)"  mat-button>Create order</button>
 <app-footer></app-footer>
 </div>
