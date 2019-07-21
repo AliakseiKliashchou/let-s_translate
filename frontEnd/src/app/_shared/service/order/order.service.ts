@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-
 import {AuthService} from '../users/auth.service';
 
 @Injectable({
@@ -16,7 +15,7 @@ export class OrderService {
   private URL = 'http://localhost:3000';
 
   deleteOrder(orderId: number) {
-    return this.http.delete(`${this.URL}/secure/order?id=` + orderId);
+    return this.http.delete(`${this.URL}/secure/order/${orderId}`);
   }
 
   createOrder(order) {

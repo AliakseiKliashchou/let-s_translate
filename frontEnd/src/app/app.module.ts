@@ -43,11 +43,13 @@ import {
   LanguagesComponent,
   TextDetailsComponent,
   CollectionsComponent,
-  LngCheckboxesComponent
+  LngCheckboxesComponent,
+  AdminPanelComponent
 } from './components';
 import {DropzoneDirective} from './_shared/directive/dropzone.directive';
 import {AuthService} from './_shared/service/users/auth.service';
 import {OrderService} from './_shared/service/order/order.service';
+import {AdminService} from './_shared/service/admin/admin.service';
 import {MessagesService} from './_shared/service/messages/messages.service';
 import {CollectionsService} from './_shared/service/collections/collections.service';
 import {TokenInterceptor} from './_shared/token.interceptor';
@@ -74,6 +76,7 @@ import {MatSliderModule} from '@angular/material/slider';
     TextDetailsComponent,
     CollectionsComponent,
     LngCheckboxesComponent,
+    AdminPanelComponent,
 
   ],
   imports: [
@@ -126,7 +129,8 @@ import {MatSliderModule} from '@angular/material/slider';
     AuthService,
     OrderService,
     MessagesService,
-    CollectionsService],
+    CollectionsService,
+    AdminService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
