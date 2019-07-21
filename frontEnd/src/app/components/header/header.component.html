@@ -1,164 +1,65 @@
-<div class="wrapper" (window:resize)="resizeWindow()">
+  <!--Navbar-->
+  <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
 
-  <nav [class.active]="!window.isClose">
-    <div class="left-block ">
+    <!-- Navbar brand -->
+    <mdb-navbar-brand><a class="navbar-brand" routerLink="/">Lets translate</a></mdb-navbar-brand>
 
-      <div class="logo" routerLink="/"></div>
+    <!-- Collapsible content -->
+    <links>
 
-      <a class="button" (click)="toggleMenu()" *ngIf="window.isWindowSizeSmall && isRole.auth">
-        <span class="menu">&#9776;</span>
-      </a>
-
-      <button class="menu_btn" mat-button routerLink="/dashboard" *ngIf="isRole.auth && !window.isWindowSizeSmall">
-        Dashboard
-      </button>
-
-      <button class="menu_btn" mat-button routerLink="/new_texts" *ngIf="isRole.customer && !window.isWindowSizeSmall">
-        New Texts
-      </button>
-
-      <button
-        class="menu_btn"
-        mat-button
-        routerLink="/my_translations"
-        *ngIf="isRole.translator && !window.isWindowSizeSmall">
-        My translations
-      </button>
-
-      <button
-        class="menu_btn"
-        mat-button
-        routerLink="/messages"
-        *ngIf="isRole.auth && !window.isWindowSizeSmall"
-        matBadge="11" matBadgePosition="after" matBadgeColor="accent">
-        <i class="fas fa-envelope prefix"></i>
-        Messages
-      </button>
-
-      <button
-        class="menu_btn" mat-button
-        routerLink="/collections"
-        *ngIf="isRole.customer && !window.isWindowSizeSmall">
-        Collections
-      </button>
-
-
-      <ul
-        class="sub-menu"
-        *ngIf="window.isWindowSizeSmall && isRole.auth"
-        [style.display]="window.isClose? 'none': 'block'">
-        <li routerLink="/dashboard">Dashboard</li>
-        <li routerLink="/new_texts" *ngIf="isRole.customer">New Texts</li>
-        <li routerLink="/my_translations" *ngIf="isRole.translator">My translations</li>
-        <li routerLink="/messages">Messages</li>
-        <li routerLink="/collections" *ngIf="isRole.customer">Collections</li>
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" *ngIf="isRole.auth && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/dashboard">
+            Dashboard</a>
+        </li>
+        <li class="nav-item" *ngIf="isRole.customer && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/new_texts"
+            *ngIf="isAuth && !window.isWindowSizeSmall">New texts</a>
+        </li>
+        <li class="nav-item" *ngIf="isRole.translator && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/my_translations">My
+            translations</a>
+        </li>
+        <li class="nav-item" *ngIf="isRole.auth && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/messages">Messages</a>
+        </li>
+        <li class="nav-item" *ngIf="isRole.customer && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/collections"
+            routerLinkActive="active">Collections</a>
+        </li>
       </ul>
-    </div>
-    <!-------------------LOGIN---------------------------->
-    <div class="right-block">
-      <p *ngIf="userProfile" class="name">{{userProfile.name}}</p>
-      <div
-        *ngIf="userProfile"
-        class="user-photo"
-        [style.backgroundImage]="'url(' + imageUrl + ')'"
-        (click)="basicModal.show()"
-        mdbWavesEffect>
-      </div>
-      <button mat-button
-              data-toggle="modal"
-              data-target="#basicExample"
-              (click)="frame.show()"
-              *ngIf="!isRole.auth"
-              mdbWavesEffect>
-        Login
-      </button>
 
-      <button (click)="logout()" mat-button *ngIf="isRole.auth">Logout</button>
-      <button mat-button routerLink="/new_translator_reg">Register</button>
-    </div>
-  </nav>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
 
-  <div mdbModal [config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop"
-       tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body mx-3">
-          <mat-tab-group>
-            <mat-tab label="Customer">
-              <div class="md-form mb-3">
-                <i class="fas fa-envelope prefix grey-text"></i>
-                <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
-                       id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
-                       mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                <mdb-error
-                  *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
-                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
-                </mdb-success>
-              </div>
-              <div class="md-form mb-4">
-                <i class="fas fa-lock prefix grey-text"></i>
-                <input (change)="checkInp('customer', customer_password.value, 'password')" #customer_password
-                       type="password" id="defaultForm-pass" [formControl]="userInput.password"
-                       class="form-control validate" mdbInput mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                <mdb-error
-                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
-                <mdb-success
-                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
-                </mdb-success>
-              </div>
-            </mat-tab>
-            <mat-tab label="Translator">
-              <div class="md-form mb-3">
-                <i class="fas fa-envelope prefix grey-text"></i>
-                <input (change)="checkInp('translator', translator_email.value, 'email')" #translator_email type="email"
-                       id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
-                       mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                <mdb-error
-                  *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
-                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
-                </mdb-success>
-              </div>
-              <div class="md-form mb-4">
-                <i class="fas fa-lock prefix grey-text"></i>
-                <input (change)="checkInp('translator', translator_password.value, 'password')" #translator_password
-                       type="password" id="defaultForm-pass" [formControl]="userInput.password"
-                       class="form-control validate" mdbInput mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                <mdb-error
-                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
-                <mdb-success
-                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
-                </mdb-success>
-              </div>
-            </mat-tab>
-          </mat-tab-group>
-          <div *ngIf="error" class="alert alert-danger" role="alert">
-            <b>{{error}}</b>
+          <div class="btn-group" mdbDropdown>
+            <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+              (click)="basicModal.show()" mdbWavesEffect>
+            </div>
+            <!-- <div class="coins">
+              <p>{{userProfile.coins}}</p>
+            </div> -->
+            <!-- <h1>{{userProfile.name}}</h1> -->
+
+            <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
+              (click)="frame.show()" *ngIf="!isRole.auth" mdbWavesEffect>
+              Login
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="logout()" *ngIf="isRole.auth">Logout</button>
+            <button *ngIf="!isRole.auth" class="btn btn-outline-white btn-sm my-0"
+              routerLink="/new_translator_reg">Register</button>
           </div>
-        </div>
 
-        <div class="modal-footer d-flex justify-content-center">
-          <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!---------------------------------------------------->
+        </li>
+      </ul>
+    </links>
+    <!-- Collapsible content -->
 
-  <!---------------------Profile------------------------>
+  </mdb-navbar>
 
   <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
-       aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -172,22 +73,13 @@
           <div id="info-user-block" *ngIf="userProfileForm">
 
             <img [src]="imageUrl " (click)="filePicker.click()">
-            <input
-              type="file"
-              hidden
-              #filePicker
-              (change)="onImagePicked($event)">
+            <input type="file" hidden #filePicker (change)="onImagePicked($event)">
 
             <div class="text-block">
               <div class="md-form mb-3">
                 <i class="fas fa-user prefix" [ngClass]="userProfileForm.name.valid ? 'green-text' : 'red-text'"></i>
-                <input
-                  [formControl]="userProfileForm.name"
-                  type="text"
-                  id="userName"
-                  class="form-control validate"
-                  mdbInput
-                  mdbValidate>
+                <input [formControl]="userProfileForm.name" type="text" id="userName" class="form-control validate"
+                  mdbInput mdbValidate>
                 <label data-error="wrong" data-success="right" for="userName">Name</label>
                 <mdb-error
                   *ngIf="userProfileForm.name.invalid && (userProfileForm.name.dirty || userProfileForm.name.touched)">
@@ -201,14 +93,9 @@
 
               <div class="md-form mb-3">
                 <i class="fas fa-envelope prefix"
-                   [ngClass]="userProfileForm.email.valid ? 'green-text' : 'red-text'"></i>
-                <input
-                  [formControl]="userProfileForm.email"
-                  type="email"
-                  id="userEmail"
-                  class="form-control validate"
-                  mdbInput
-                  mdbValidate>
+                  [ngClass]="userProfileForm.email.valid ? 'green-text' : 'red-text'"></i>
+                <input [formControl]="userProfileForm.email" type="email" id="userEmail" class="form-control validate"
+                  mdbInput mdbValidate>
                 <label data-error="wrong" data-success="right" for="userEmail">Email</label>
                 <mdb-error
                   *ngIf="userProfileForm.email.invalid && (userProfileForm.email.dirty || userProfileForm.email.touched)">
@@ -225,14 +112,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" mdbBtn class="waves-light" aria-label="Close"
-                  style="background-color: #c7331d; color:white"
-                  (click)="basicModal.hide()" mdbWavesEffect>Close
+            style="background-color: #c7331d; color:white" (click)="basicModal.hide()" mdbWavesEffect>Close
           </button>
-          <button
-            type="button"
-            mdbBtn color="primary"
-            class="relative waves-light"
-            mdbWavesEffect
+          <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
             (click)="updateProfile(basicModal)">
             Save changes
           </button>
@@ -241,7 +123,80 @@
     </div>
   </div>
 
-  <!---------------------------------------------------->
+  <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <mat-tab-group>
+            <mat-tab label="Customer">
+              <div class="md-form mb-3">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
+                  id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
+                  mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">
+                  {{getErrorMessageEmail()}}</mdb-error>
+                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
+                </mdb-success>
+              </div>
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input (change)="checkInp('customer', customer_password.value, 'password')" #customer_password
+                  type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate"
+                  mdbInput mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                <mdb-error
+                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">
+                  {{getErrorMessagePassword()}}</mdb-error>
+                <mdb-success
+                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
+                </mdb-success>
+              </div>
+            </mat-tab>
+            <mat-tab label="Translator">
+              <div class="md-form mb-3">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input (change)="checkInp('translator', translator_email.value, 'email')" #translator_email type="email"
+                  id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
+                  mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">
+                  {{getErrorMessageEmail()}}</mdb-error>
+                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
+                </mdb-success>
+              </div>
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input (change)="checkInp('translator', translator_password.value, 'password')" #translator_password
+                  type="password" id="defaultForm-pass" [formControl]="userInput.password" class="form-control validate"
+                  mdbInput mdbValidate>
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                <mdb-error
+                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">
+                  {{getErrorMessagePassword()}}</mdb-error>
+                <mdb-success
+                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
+                </mdb-success>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+          <div *ngIf="error" [(ngModel)]="error" class="alert alert-danger" role="alert">
+            <b>{{error}}</b>
+          </div>
+        </div>
 
-  <div style="clear: both"></div>
-</div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--/.Navbar-->

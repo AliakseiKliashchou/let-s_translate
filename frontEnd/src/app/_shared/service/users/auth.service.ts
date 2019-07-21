@@ -10,6 +10,7 @@ interface UserDataBack {
   token: string;
   role: string;
   id: number;
+  coins: number;
 }
 
 @Injectable({
@@ -54,6 +55,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
+        console.log(data)
         this.router.navigate(['/dashboard']);
       }
     });

@@ -13,5 +13,4 @@ export interface OrderInterface {
   tags: Array<any>;
   urgency: number;
   idCustomer: number;
-  price: number;
 }
