@@ -6,7 +6,7 @@ import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-text-details',
@@ -55,10 +55,11 @@ export class TextDetailsComponent implements OnInit {
         } else console.log('empty db');
       });
     });
+  }
 
-    // console.log(Date.now() - this.incomingComments[0].);
-
-
+  getRelativeDate(i){
+    let commentDate = new Date(this.incomingComments[i].date);
+    return moment(commentDate).fromNow();
   }
 
   sendComment(text) {

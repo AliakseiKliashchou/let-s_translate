@@ -62,9 +62,7 @@ export class HeaderComponent implements OnInit {
     private orderService: OrderService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    // tslint:disable-next-line:variable-name
-    private _snackBar: MatSnackBar,
-    private router: Router) {
+    private _snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -168,7 +166,7 @@ export class HeaderComponent implements OnInit {
 
   resizeWindow() {
     this.window.isWindowSizeSmall = (window.innerWidth < 1300);
-    if (!this.window.isWindowSizeSmall) { this.window.isClose = true; }
+    if (!this.window.isWindowSizeSmall) this.window.isClose = true;
   }
 
   onImagePicked(event: Event) {
