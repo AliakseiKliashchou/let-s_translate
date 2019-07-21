@@ -62,10 +62,6 @@ const Order = sequelize.define('order', {
     type: Sequelize.BOOLEAN,
     allowNull: false
   },
-  price: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  }
 });
 
 Order.belongsTo(Translator);
