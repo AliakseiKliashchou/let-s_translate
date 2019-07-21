@@ -47,7 +47,8 @@ export class NewTextsComponent implements OnInit {
     tags: [],
     url: [],
     title: '',
-    idCustomer: this.authService.getUserId()
+    idCustomer: this.authService.getUserId(),
+    price: 0
   };
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
@@ -171,6 +172,11 @@ export class NewTextsComponent implements OnInit {
 
   getTitle(title) {
     this.order.title = title;
+  }
+
+  getPrice(pr){
+    let price = Number(pr);
+    this.order.price = price;
   }
 
   makeOrder(additionalReview) {
