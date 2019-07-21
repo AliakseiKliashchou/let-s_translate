@@ -98,8 +98,8 @@ router.get('/order/:id', async (req, res) => {
   }
 });
 
-router.delete('/order', async (req, res) => {
-  let id = req.query.id;
+router.delete('/order/:id', async (req, res) => {
+  let id = req.params.id;
   console.log(id)
   let order = await orderModel.destroy({where: {id:id}}).then((result) => {
     console.log(result)

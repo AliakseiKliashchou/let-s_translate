@@ -82,13 +82,22 @@ export class TextDetailsComponent implements OnInit {
     });
   }
 
-  changeSlider(val) {
+  changeSliderTranslator(val) {
     this.element.progress = val;
+    this.saveProgressBtn = true;
+  }
+  changeSliderCustomer(val){
+    this.element.price = val;
     this.saveProgressBtn = true;
   }
 
   saveProgress() {
     this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
+      console.log(data);
+    });
+  }
+  savePrice(){
+    this.orderService.changePrice(this.element.id, this.element.price).subscribe( (data) =>{
       console.log(data);
     });
   }
