@@ -26,7 +26,11 @@ const Translator = sequelize.define('translator', {
   },
   languages: {
     type: Sequelize.ARRAY(Sequelize.STRING)
-  }
+  },
+  coins: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = Translator;
