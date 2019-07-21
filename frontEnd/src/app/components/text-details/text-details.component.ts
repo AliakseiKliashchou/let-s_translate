@@ -28,7 +28,8 @@ export class TextDetailsComponent implements OnInit {
     'Finite language',
     'Review',
     'Tags',
-    'Urgency'
+    'Urgency',
+    'Price'
   ];
   incomingComments: CommentsInterface[] = [];
   role: string;
