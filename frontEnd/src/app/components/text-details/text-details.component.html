@@ -54,7 +54,7 @@
         <div class="avatar"> <img class="avatar_img" src="{{incomingComment.photo}}" alt=""> </div>
         <div class="name">
           <span>{{incomingComment.name}}</span>
-          <p>{{incomingComment.date | date:'medium'}}</p>
+          <p>{{incomingComment.date | date:'medium'}}, {{getRelativeDate(i)}}</p>
         </div>
         <div style="clear: both"></div>
         <div class="message">
