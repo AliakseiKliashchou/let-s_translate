@@ -138,44 +138,44 @@ export class CollectionsComponent implements OnInit {
   }
 
 // **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
-
-  click_check(check, idOrder, i) {
-    if (check.checked) {
-      this.newCollectionArray.id[i] = idOrder;
-      this.indexArray.push(i);
+  click_check(check, idOrder, i){
+    if(check.checked){
+      this.newCollectionArray.id[i] = idOrder; 
+      this.indexArray.push(i); 
     }
     if (!check.checked) {
       delete this.newCollectionArray.id[i];
-      const ind = this.indexArray.indexOf(i);
+      let ind = this.indexArray.indexOf(i);
       this.indexArray.splice(ind, 1);
-    }
+    } 
   }
-
-  createNewCollection(title, isOneTranslatorChecked) {
-    this.progressBar = true;
-    if (isOneTranslatorChecked.checked) {
-      this.newCollectionArray.isOneTranslator = true;
-    } else this.newCollectionArray.isOneTranslator = false;
-
-    this.newCollectionArray.title = title;
+  createNewCollection(title, isOneTranslator){ 
+    this.progressBar = true; 
+    this.indexArray.sort().reverse();  
+    for(let k = 0; k < this.indexArray.length; k ++){  
+        this.filteredCollections.splice(this.indexArray[k] , 1);
+    }
+    this.indexArray = [];
+    if(isOneTranslator.checked){
+     this.newCollectionArray.isOneTranslator = true;
+    }else  this.newCollectionArray.isOneTranslator = false;
+    this.newCollectionArray.title = title;    
     for (let j = 0; j < this.newCollectionArray.id.length; j++) {
       if (this.newCollectionArray.id[j] == undefined) {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    for (let k = 0; k <= this.indexArray.length; k++) {
-      this.filteredCollections.splice(this.indexArray[k], 1);
-    }
-    const {id, isOneTranslator} = this.newCollectionArray;
-    this.collectionsService.createCollection(id, title, isOneTranslator)
-      .subscribe((resp) => {
+    this.collectionsService.createCollection(this.newCollectionArray.id, this.newCollectionArray.title, this.newCollectionArray.isOneTranslator)
+      .subscribe((data) => {
         this.ngOnInit();
         this._snackBar.open('Collection was successfully created', '', {
           duration: 2000,
         });
+      this.newCollectionArray.id = []; 
       });
     this.progressBar = false;
   }
+
 
 
 }
