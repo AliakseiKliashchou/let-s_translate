@@ -6,6 +6,7 @@ import {CommentsInterface} from 'src/app/_shared/interface/comments.interface';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class TextDetailsComponent implements OnInit {
     'Finite language',
     'Review',
     'Tags',
-    'Urgency'
+    'Urgency',
+    'Price'
   ];
   incomingComments: CommentsInterface[] = [];
   role: string;
@@ -60,6 +62,10 @@ export class TextDetailsComponent implements OnInit {
 
 
   }
+  getRelativeDate(i){
+    let commentDate = new Date(this.incomingComments[i].date);
+    return moment(commentDate).fromNow();
+  }
 
   sendComment(text) {
     // const id = this.au
@@ -80,11 +86,19 @@ export class TextDetailsComponent implements OnInit {
     });
   }
 
-  changeSlider(val) {
+  changeSliderTranslator(val) {
     this.element.progress = val;
     this.saveProgressBtn = true;
   }
-
+  changeSliderCustomer(val){
+    this.element.price = val;
+    this.saveProgressBtn = true;
+  }
+  savePrice(){
+    this.orderService.changePrice(this.element.id, this.element.price).subscribe( (data) =>{
+      console.log(data);
+    });
+  }
   saveProgress() {
     this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
       console.log(data);
