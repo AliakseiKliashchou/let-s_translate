@@ -26,7 +26,63 @@ let sendEmail = (guid, id) => {
     } else {
       console.log(info.response)
     }
-  })
+  });
 };
 
-module.exports = {sendEmail};
+let resetPassword = (encrypt) => {
+  let url = `http://localhost:3000/reset-password?crypt=${encrypt}`;
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false,
+    port: 25,
+    auth: {
+      user: 'lets.translate.prod@gmail.com',
+      pass: 'iTechArtLab'
+    }
+  });
+
+  const mailOptions = {
+    from: 'lets.translate.prod@gmail.com',
+    to: 'lets.translate.prod@gmail.com',
+    subject: 'Reset password',
+    text: `Follow this link to reset your password ${url}`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      res.status(401).json({message: error})
+    } else {
+      console.log(info.response)
+    }
+  });
+};
+
+let passwordChanged = (req, res) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false,
+    port: 25,
+    auth: {
+      user: 'lets.translate.prod@gmail.com',
+      pass: 'iTechArtLab'
+    }
+  });
+
+  const mailOptions = {
+    from: 'lets.translate.prod@gmail.com',
+    to: 'lets.translate.prod@gmail.com',
+    subject: 'Password update',
+    text: `Your password successfully updated`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      res.status(401).json({message: error})
+    } else {
+      console.log(info.response)
+    }
+  });
+}
+
+module.exports = {sendEmail, resetPassword, passwordChanged};
