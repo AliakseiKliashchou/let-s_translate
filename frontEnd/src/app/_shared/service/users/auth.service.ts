@@ -45,6 +45,9 @@ export class AuthService {
     this.http.post(`${this.URL}/login`, user).subscribe((data: UserDataBack) => {
       if (data.isFind) {
         const backendFakeResult = {
+          name: data.name,
+          email: data.email,
+          isFind: data.isFind,
           id: data.id,
           token: data.token,
           role: data.role

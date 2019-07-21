@@ -78,8 +78,10 @@ export class TextDetailsComponent implements OnInit {
       message: text,
       date: Date.now()
     };
+    console.log(message)
     this.messagesService.createMessage(message).subscribe(() => {
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
+        console.log(data);
         const item = data.length - 1;
         this.incomingComments.push(data[item]);
       });
