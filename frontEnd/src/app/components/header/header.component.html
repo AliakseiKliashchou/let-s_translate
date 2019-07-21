@@ -78,6 +78,7 @@
     </div>
   </nav>
 
+<<<<<<< HEAD
   <div mdbModal [config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop"
        tabindex="-1" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
@@ -144,6 +145,27 @@
           </mat-tab-group>
           <div *ngIf="error" class="alert alert-danger" role="alert">
             <b>{{error}}</b>
+=======
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+
+          <div class="btn-group" mdbDropdown>
+            <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+              (click)="basicModal.show()" mdbWavesEffect>
+            </div>
+            <!-- <div class="coins">
+              <p>{{userProfile.coins}}</p>
+            </div> -->
+            <!-- <h1>{{userProfile.name}}</h1> -->
+
+            <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
+              (click)="frame.show()" *ngIf="!isRole.auth" mdbWavesEffect>
+              Login
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="logout()" *ngIf="isRole.auth">Logout</button>
+            <button *ngIf="!isRole.auth" class="btn btn-outline-white btn-sm my-0"
+              routerLink="/new_translator_reg">Register</button>
+>>>>>>> UI
           </div>
         </div>
 

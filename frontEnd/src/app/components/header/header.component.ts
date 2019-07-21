@@ -15,6 +15,7 @@ interface UserProfile {
   photo: string;
   name: string;
   email: string;
+  coins: number;
 }
 
 @Component({
