@@ -59,5 +59,8 @@ export class OrderService {
   changeProgress(id, progress) {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
+  changePrice(id, price){
+    return this.http.put(`${this.URL}/secure/price/`, {id, price});
+  }
 
 }

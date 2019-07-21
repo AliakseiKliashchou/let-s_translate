@@ -22,6 +22,7 @@
           <td>{{element.review}}</td>
           <td>{{element.tags}}</td>
           <td>{{element.urgency}}</td>
+          <td>{{element.price}}</td>
         </tr>
       </tbody>
     </table>
@@ -44,6 +45,23 @@
       <mat-divider></mat-divider>
     </div>
     <!--------------------------------------->
+
+    <!---------------IF CUSTOMER...------------------------>
+    <div *ngIf="role === 'customer'">
+      <p><b>Change a current price</b></p>
+      <mat-slider
+        #slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        tickInterval="1000"
+        min="0"
+        max="1000" (change)="changeSliderCustomer(slider.value)">
+      </mat-slider>
+      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>  
+      <mat-divider></mat-divider>
+    </div>
+    <!--------------------------------------->
+
     <mat-divider></mat-divider>
     <button mat-button class="del_btn" (click)="deleteText()">Delete text</button>
   </div>
@@ -54,7 +72,7 @@
         <div class="avatar"> <img class="avatar_img" src="{{incomingComment.photo}}" alt=""> </div>
         <div class="name">
           <span>{{incomingComment.name}}</span>
-          <p>{{incomingComment.date | date:'medium'}}</p>
+          <p>{{incomingComment.date | date:'medium'}} , {{getRelativeDate(i)}}</p>
         </div>
         <div style="clear: both"></div>
         <div class="message">
