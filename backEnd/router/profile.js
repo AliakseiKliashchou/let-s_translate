@@ -10,7 +10,8 @@ router.get('/customer/:id', async (req, res) => {
       let data = {
         name: customer.name,
         email: customer.email,
-        photo: customer.photo
+        photo: customer.photo,
+        coins: customer.coins,
       };
       res.json(data)
     });
@@ -28,7 +29,7 @@ router.get('/translator/:id', async (req, res) => {
         name: translator.name,
         email: translator.email,
         languages: translator.languages,
-        photo: translator.photo
+        coins: customer.coins,
       };
       res.json(data)
     });

@@ -78,72 +78,25 @@
     </div>
   </nav>
 
-  <div mdbModal [config]="{ignoreBackdropClick: true}" #frame="mdbModal" class="modal fade left" id="frameModalTop"
-       tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body mx-3">
-          <mat-tab-group>
-            <mat-tab label="Customer">
-              <div class="md-form mb-3">
-                <i class="fas fa-envelope prefix grey-text"></i>
-                <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
-                       id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
-                       mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                <mdb-error
-                  *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
-                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
-                </mdb-success>
-              </div>
-              <div class="md-form mb-4">
-                <i class="fas fa-lock prefix grey-text"></i>
-                <input (change)="checkInp('customer', customer_password.value, 'password')" #customer_password
-                       type="password" id="defaultForm-pass" [formControl]="userInput.password"
-                       class="form-control validate" mdbInput mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                <mdb-error
-                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
-                <mdb-success
-                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
-                </mdb-success>
-              </div>
-            </mat-tab>
-            <mat-tab label="Translator">
-              <div class="md-form mb-3">
-                <i class="fas fa-envelope prefix grey-text"></i>
-                <input (change)="checkInp('translator', translator_email.value, 'email')" #translator_email type="email"
-                       id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
-                       mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                <mdb-error
-                  *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">{{getErrorMessageEmail()}}</mdb-error>
-                <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
-                </mdb-success>
-              </div>
-              <div class="md-form mb-4">
-                <i class="fas fa-lock prefix grey-text"></i>
-                <input (change)="checkInp('translator', translator_password.value, 'password')" #translator_password
-                       type="password" id="defaultForm-pass" [formControl]="userInput.password"
-                       class="form-control validate" mdbInput mdbValidate>
-                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                <mdb-error
-                  *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">{{getErrorMessagePassword()}}</mdb-error>
-                <mdb-success
-                  *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
-                </mdb-success>
-              </div>
-            </mat-tab>
-          </mat-tab-group>
-          <div *ngIf="error" class="alert alert-danger" role="alert">
-            <b>{{error}}</b>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+
+          <div class="btn-group" mdbDropdown>
+            <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+              (click)="basicModal.show()" mdbWavesEffect>
+            </div>
+            <!-- <div class="coins">
+              <p>{{userProfile.coins}}</p>
+            </div> -->
+            <!-- <h1>{{userProfile.name}}</h1> -->
+
+            <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
+              (click)="frame.show()" *ngIf="!isRole.auth" mdbWavesEffect>
+              Login
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="logout()" *ngIf="isRole.auth">Logout</button>
+            <button *ngIf="!isRole.auth" class="btn btn-outline-white btn-sm my-0"
+              routerLink="/new_translator_reg">Register</button>
           </div>
         </div>
 
