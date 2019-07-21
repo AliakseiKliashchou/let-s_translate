@@ -64,7 +64,7 @@ const Order = sequelize.define('order', {
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    // allowNull: false
   }
 });
 
