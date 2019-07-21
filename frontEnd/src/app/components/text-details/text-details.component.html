@@ -30,6 +30,7 @@
     <p><b>Progress of translation</b></p>
 
     <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
+
     <!---------------IF TRANSLATOR...------------------------>
     <div *ngIf="role === 'translator'">
       <p><b>Change a progress of current text translation</b></p>
@@ -39,12 +40,29 @@
         [displayWith]="formatLabel"
         tickInterval="1000"
         min="0"
-        max="100" (change)="changeSlider(slider.value)">
+        max="100" (change)="changeSliderTranslator(slider.value)">
       </mat-slider>
       <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="saveProgress()">Save changes</button>  
       <mat-divider></mat-divider>
     </div>
     <!--------------------------------------->
+
+    <!---------------IF CUSTOMER...------------------------>
+    <div *ngIf="role === 'customer'">
+      <p><b>Change a current price</b></p>
+      <mat-slider
+        #slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        tickInterval="1000"
+        min="0"
+        max="1000" (change)="changeSliderCustomer(slider.value)">
+      </mat-slider>
+      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>  
+      <mat-divider></mat-divider>
+    </div>
+    <!--------------------------------------->
+
     <mat-divider></mat-divider>
     <button mat-button class="del_btn" (click)="deleteText()">Delete text</button>
   </div>
