@@ -51,13 +51,12 @@
               <h3>SILVER</h3>
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">1</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">1</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">4 Days</span></h4>
+            <div class="features">              
+              <h4><span class="feature">Coefficient of money transactions</span> : <span class="value">{{tariffsArray[2].coeff}}</span></h4>
+              <h4><span class="feature">Quantity of coins</span> : <span class="value">{{tariffsArray[2].coins}}</span></h4>
             </div>
             <div class="price">
-              <h4>$5</h4>
+              <h4>${{tariffsArray[2].cost}}</h4>
             </div>
             <button class="btn btn-block btn-outline-primary" [routerLink]="['/customerRegistration']"
               fragment="silver">BUY NOW</button>
@@ -71,12 +70,11 @@
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">5</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">5</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">2 Days</span></h4>
+                <h4><span class="feature">Coefficient of money transactions</span> : <span class="value">{{tariffsArray[0].coeff}}</span></h4>
+                <h4><span class="feature">Quantity of coins</span> : <span class="value">{{tariffsArray[0].coins}}</span></h4>
             </div>
             <div class="price">
-              <h4>$10</h4>
+              <h4>${{tariffsArray[0].cost}}</h4>
             </div>
             <button class="btn btn-block btn-primary" [routerLink]="['/customerRegistration']" fragment="gold">BUY
               NOW</button>
@@ -89,12 +87,11 @@
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <div class="features">
-              <h4><span class="feature">Quantity of language</span> : <span class="value">&infin;</span></h4>
-              <h4><span class="feature">Numbers of texts</span> : <span class="value">&infin;</span></h4>
-              <h4><span class="feature">Time to translate</span> : <span class="value">24 Hours</span></h4>
+              <h4><span class="feature">Coefficient of money transactions</span> : <span class="value">{{tariffsArray[1].coeff}}</span></h4>
+              <h4><span class="feature">Quantity of coins</span> : <span class="value">{{tariffsArray[1].coins}}</span></h4>
             </div>
             <div class="price">
-              <h4>$35</h4>
+              <h4>${{tariffsArray[1].cost}}</h4>
             </div>
             <button class="btn btn-block btn-outline-primary" [routerLink]="['/customerRegistration']"
               fragment="platinum">BUY NOW</button>

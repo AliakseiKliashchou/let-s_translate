@@ -5,7 +5,7 @@ const tariffModel = require('../models/tariff');
 router.get('/', async(req, res) => {
   try {
     let tariffs = await tariffModel.findAll({});
-    res.json({tariffs, message: 'All tariffs are find!'});
+    res.json(tariffs);
   } catch(error) {
     res.json({message: 'No one tariff is not found!', error})
   }
