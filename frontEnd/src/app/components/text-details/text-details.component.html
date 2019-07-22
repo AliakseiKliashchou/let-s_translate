@@ -41,20 +41,28 @@
       </div>
 
       <!-- --------------- -->
-      <div *ngIf="element"> 
+      <div *ngIf="element">
         <mat-divider></mat-divider>
         <p class="lead"><b>Progress of translation</b></p>
 
         <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">
-          {{element.progress}}%</progressbar>
+          {{element.progress}}%
+        </progressbar>
         <!---------------IF TRANSLATOR...------------------------>
         <div *ngIf="role === 'translator'">
           <p class="lead"><b>Change a progress of current text translation</b></p>
-          <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
+          <mat-slider
+            #slider thumbLabel
+            [displayWith]="formatLabel"
+            tickInterval="1000"
+            min="0" max="100"
+            [value]="element.progress"
             (change)="changeSliderTranslator(slider.value)">
           </mat-slider>
-          <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">Save
-              changes</button>
+          <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">
+            Save
+            changes
+          </button>
           <mat-divider></mat-divider>
         </div>
         <!--------------------------------------->
@@ -63,23 +71,26 @@
         <div *ngIf="role === 'customer'">
           <div class="md-form inpChangePrice">
             <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
-              (change)="changeSliderCustomer(inpChangePrice.value)">
+                   (change)="changeSliderCustomer(inpChangePrice.value)">
             <label for="form1" class="">Change the price</label>
-            <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect large" (click)="savePrice()">Save
-              changes</button>
+            <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect large" (click)="savePrice()">
+              Save
+              changes
+            </button>
             <div style="clear: both"></div>
           </div>
         </div>
-       
+
       </div>
     </div>
-    <button *ngIf="element"  class="btn btn-outline-danger  waves-effect large" (click)="deleteText()">Delete text</button>
+    <button *ngIf="element" class="btn btn-outline-danger  waves-effect large" (click)="deleteText()">Delete text
+    </button>
   </div>
-  <div  class="comments_wrapper">
+  <div class="comments_wrapper">
     <div class="mesgs">
       <div class="msg_history">
         <div class="incoming_msg" *ngFor="let incomingComment of incomingComments; let i = index;">
-          <div class="incoming_msg_img"> <img src="{{incomingComment.photo}}" alt="sunil"> </div>
+          <div class="incoming_msg_img"><img src="{{incomingComment.photo}}" alt="sunil"></div>
           <div class="received_msg">
             <div class="received_withd_msg">
               <p>{{incomingComment.message}}</p>
@@ -91,7 +102,7 @@
     </div>
     <div class="create_comment">
       <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120"
-        mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
+                mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
       <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>
     </div>
     <!-- <div class="type_msg container">
@@ -102,3 +113,4 @@
       </div> -->
   </div>
   <app-footer></app-footer>
+</div>
