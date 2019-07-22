@@ -67,7 +67,15 @@ nav {
   height: 50px;
   font-size: 20px;
 }
-
+.user-data{
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.user-data p {
+  font-size: 1.2em;
+  margin: 0 0.5rem;
+}
 .name {
   background-color: #c7331d;
   color: white;
