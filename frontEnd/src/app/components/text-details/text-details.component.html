@@ -44,13 +44,20 @@
 
     <!---------------IF CUSTOMER...------------------------>
     <div *ngIf="role === 'customer'">
-      <p><b>Change a current price</b></p>
+      <!-- <p><b>Change a current price</b></p>
       <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="1000"
         (change)="changeSliderCustomer(slider.value)">
-      </mat-slider>
-      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>
+      </mat-slider> -->
+      <div class="md-form inpChangePrice">
+        <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"  (change)="changeSliderCustomer(inpChangePrice.value)">
+        <label for="form1" class="">Change the price</label>
+        <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>
+        <div style="clear: both"></div>
+      </div>
       <mat-divider></mat-divider>
     </div>
+
+   
     <!--------------------------------------->
 
     <mat-divider></mat-divider>
