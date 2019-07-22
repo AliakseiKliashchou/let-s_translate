@@ -1,20 +1,39 @@
-<div class="wrapper">
-  <app-header></app-header>
-  <div class="title anim">My translations</div>
+<app-header></app-header>
+<div class="title anim">Incomplete translations</div>
+<div class="block">
 
-  <div class="block">
-    <h3>Incomplete translations</h3>
-    <div class="container" *ngIf="translateListArray">
-
-      <div *ngFor="let text of translateListArray" class="text-container">
-        <p class="title-order" [routerLink]="['/text_details',text.id]">{{text.title}}</p>
-        <p style="font-weight: 400">
-          {{text.progress}}%</p>
-        <p class="date">{{text.date | date}}</p>
-      </div>
-
-    </div>
+  <div class="container" *ngIf="translateListArray">
+    <table class="table table-hover bordered">
+      <thead class="black white-text">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Progress</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let text of translateListArray">
+          <td>
+            <h5><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></h5>
+          </td>
+          <td>
+            <h5>
+              <circle-progress [percent]="text.progress" 
+              [showTitle]="false" 
+              [subtitle]='text.progress' 
+              [radius]="30"
+              [outerStrokeWidth] = "4"
+              [titleFontSize] = "12"
+              [subtitleFontSize] = "20">
+              </circle-progress>
+            </h5>
+          </td>
+          <td>
+            <h5>{{text.date | date}}</h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <app-footer></app-footer>
 </div>
+<app-footer></app-footer>
