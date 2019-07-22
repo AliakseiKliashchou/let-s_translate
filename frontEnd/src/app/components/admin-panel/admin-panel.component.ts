@@ -26,6 +26,7 @@ export class AdminPanelComponent implements OnInit {
         this.tariffsArray.push(data[i]);
       }
     });   
+    console.log(this.tariffsArray);
   }
 
   changeTariff(name, cost, coins, coeff){
