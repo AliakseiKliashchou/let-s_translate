@@ -11,7 +11,7 @@ router.get('/', async(req, res) => {
   }
 });
 
-router.put('/', async(req, res) => {
+router.put('/secure/', async(req, res) => {
   let { name, cost, coins, coeff } = req.body;
 
 
