@@ -44,10 +44,6 @@ const Customer = sequelize.define("customer", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  coeff: {
-    type: Sequelize.REAL,
-    allowNull: false
-  },
   guid: {
     type: Sequelize.STRING
   }

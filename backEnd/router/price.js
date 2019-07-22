@@ -13,4 +13,17 @@ router.put('/', async(req, res) => {
 
 });
 
+router.post('/pay', async(req, res) => {
+  let id = req.body.id;
+
+  let order = await orderModel.findOne({where: {id: id}}).then((info) => {
+
+  });
+
+  let customer
+  let tariff
+
+  //logic payment
+});
+
 module.exports = router;

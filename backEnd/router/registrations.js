@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const translatorModel = require('../models/translator');
 const customerModel = require('../models/customer');
+const tariffModel = require('../models/tariff');
 const bcrypt = require('bcrypt');
 const uuidv1 = require('uuid/v1');
 const { validationResult } = require('express-validator');
@@ -37,27 +38,17 @@ router.post('/translator', valid.checkValid, async (req, res) => {
 });
 
 router.post('/customer', valid.checkValid, async (req, res) => {
+  let tariff = req.body.tariff;
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
-  let coins = 1000;
-  let coeff = 1;
-  switch (req.body.tariff) {
-    case 'silver':
-      coins = 1000;
-      coeff = 0.9;
-      break;
-    case 'gold':
-      coins = 5000;
-      coeff = 0.7;
-      break;
-    case 'platinum':
-      coins = 10000;
-      coeff = 0.5;
-      break; 
-  }
+
   if (hasErrors) {
     res.json(result)
   }
+
+  let tariffInfo = await tariffModel.findOne({where: {name: tariff}}).then((info) => {
+    console.log(info);
+  });
 
   try {
     let customer = await customerModel.create({
@@ -67,11 +58,10 @@ router.post('/customer', valid.checkValid, async (req, res) => {
       password: req.body.password,
       verify: false,
       creditCard: req.body.creditCard,
-      tariff: req.body.tariff,
+      tariff: tariff,
       photo: req.body.photo,
       guid: uuidv1(),
-      coins: coins,
-      coeff: coeff,
+      // coins: cv 
     });
 
     bcrypt.hash(customer.password, 10).then((hash) => {
