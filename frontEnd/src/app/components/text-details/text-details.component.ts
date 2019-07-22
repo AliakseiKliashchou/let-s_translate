@@ -7,6 +7,8 @@ import {OrderService} from '../../_shared/service/order/order.service';
 import {MessagesService} from '../../_shared/service/messages/messages.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import * as moment from 'moment';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-text-details',
@@ -40,7 +42,8 @@ export class TextDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private orderService: OrderService,
-    private messagesService: MessagesService) {
+    private messagesService: MessagesService,
+    private _snackBar: MatSnackBar,) {
   }
 
   ngOnInit() {
@@ -56,6 +59,10 @@ export class TextDetailsComponent implements OnInit {
         } else console.log('empty db');
       });
     });
+
+    // console.log(Date.now() - this.incomingComments[0].);
+
+
   }
 
   getRelativeDate(i){
@@ -74,8 +81,10 @@ export class TextDetailsComponent implements OnInit {
       message: text,
       date: Date.now()
     };
+    console.log(message)
     this.messagesService.createMessage(message).subscribe(() => {
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
+        console.log(data);
         const item = data.length - 1;
         this.incomingComments.push(data[item]);
       });
@@ -90,15 +99,20 @@ export class TextDetailsComponent implements OnInit {
     this.element.price = val;
     this.saveProgressBtn = true;
   }
-
-  saveProgress() {
-    this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
-      console.log(data);
-    });
-  }
   savePrice(){
     this.orderService.changePrice(this.element.id, this.element.price).subscribe( (data) =>{
       console.log(data);
+      this._snackBar.open('The price was successfully changed', '', {
+        duration: 2000,
+      });
+    });
+  }
+  saveProgress() {
+    this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
+      console.log(data);
+      this._snackBar.open('The progress was successfully changed', '', {
+        duration: 2000,
+      });
     });
   }
 

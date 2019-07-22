@@ -1,92 +1,112 @@
 <div class="wrapper">
   <app-header></app-header>
   <div class="title anim">Text details</div>
+  <div class="container">
+    <div class="textDetail">
+      <div class="p-4" *ngIf="element">
+        <p class="lead">Title:
+          <span class="lead font-weight-bold">{{element.title}}</span>
+        </p>
+        <p class="lead">Date:
+          <span class="lead font-weight-bold">{{element.date | date}}</span>
+        </p>
+        <p class="lead">Link:
+          <span class="lead font-weight-bold"><a [href]="element.download" target="_blank">Download text</a></span>
+        </p>
+        <p class="lead">Customer name:
+          <span class="lead font-weight-bold">{{element.name}}</span>
+        </p>
+        <p class="lead">Customer e-mail:
+          <span class="lead font-weight-bold">{{element.email}}</span>
+        </p>
+        <p class="lead">Initial language:
+          <span class="lead font-weight-bold">{{element.originalLanguage}}</span>
+        </p>
+        <p class="lead">Finite language:
+          <span class="lead font-weight-bold">{{element.translateLanguage}}</span>
+        </p>
+        <p class="lead">Review:
+          <span class="lead font-weight-bold">{{element.review}}</span>
+        </p>
+        <p class="lead">Tags:
+          <span class="lead font-weight-bold">{{element.tags}}</span>
+        </p>
+        <p class="lead">Urgency:
+          <span class="lead font-weight-bold">{{element.urgency}}</span>
+        </p>
+        <p class="lead">Price:
+          <span class="lead font-weight-bold">{{element.price}}</span>
+        </p>
 
-  <div class="textDetail">
-    <table mdbTable>
-      <thead>
-        <tr>
-          <th *ngFor="let head of headElements" scope="col">{{head}} </th>
-        </tr>
-      </thead>
-      <tbody *ngIf="element">
-        <tr mdbTableCol >
-          <th scope="row">{{element.id}}</th>
-          <td>{{element.title}}</td>
-          <td>{{element.date | date}}</td>
-          <td><a [href]="element.download" target="_blank">Download text</a></td>
-          <td>{{element.name}}</td>
-          <td>{{element.email}}</td>
-          <td>{{element.originalLanguage}}</td>
-          <td>{{element.translateLanguage}}</td>          
-          <td>{{element.review}}</td>
-          <td>{{element.tags}}</td>
-          <td>{{element.urgency}}</td>
-          <td>{{element.price}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <mat-divider></mat-divider>   
-    <p><b>Progress of translation</b></p>
+      </div>
 
-    <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
+      <!-- --------------- -->
+      <div *ngIf="element"> 
+        <mat-divider></mat-divider>
+        <p class="lead"><b>Progress of translation</b></p>
 
-    <!---------------IF TRANSLATOR...------------------------>
-    <div *ngIf="role === 'translator'">
-      <p><b>Change a progress of current text translation</b></p>
-      <mat-slider
-        #slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        tickInterval="1000"
-        min="0"
-        max="100" (change)="changeSliderTranslator(slider.value)">
-      </mat-slider>
-      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="saveProgress()">Save changes</button>  
-      <mat-divider></mat-divider>
-    </div>
-    <!--------------------------------------->
-
-    <!---------------IF CUSTOMER...------------------------>
-    <div *ngIf="role === 'customer'">
-      <p><b>Change a current price</b></p>
-      <mat-slider
-        #slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        tickInterval="1000"
-        min="0"
-        max="1000" (change)="changeSliderCustomer(slider.value)">
-      </mat-slider>
-      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>  
-      <mat-divider></mat-divider>
-    </div>
-    <!--------------------------------------->
-
-    <mat-divider></mat-divider>
-    <button mat-button class="del_btn" (click)="deleteText()">Delete text</button>
-  </div>
-
-  <div class="comments_wrapper">
-    <div class="comments">
-      <div class="comment dialog" *ngFor="let incomingComment of incomingComments; let i = index;">
-        <div class="avatar"> <img class="avatar_img" src="{{incomingComment.photo}}" alt=""> </div>
-        <div class="name">
-          <span>{{incomingComment.name}}</span>
-          <p>{{incomingComment.date | date:'medium'}}, {{getRelativeDate(i)}}</p>
+        <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">
+          {{element.progress}}%</progressbar>
+        <!---------------IF TRANSLATOR...------------------------>
+        <div *ngIf="role === 'translator'">
+          <p class="lead"><b>Change a progress of current text translation</b></p>
+          <mat-slider
+            #slider thumbLabel
+            [displayWith]="formatLabel"
+            tickInterval="1000"
+            min="0" max="100"
+            [value]="element.progress"
+            (change)="changeSliderTranslator(slider.value)">
+          </mat-slider>
+          <mat-divider></mat-divider>
         </div>
-        <div style="clear: both"></div>
-        <div class="message">
-          <p>{{incomingComment.message}}</p>
+        <!--------------------------------------->
+
+        <!---------------IF CUSTOMER...------------------------>
+        <div *ngIf="role === 'customer'">
+          <!-- <p><b>Change a current price</b></p>
+      <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="1000"
+        (change)="changeSliderCustomer(slider.value)">
+      </mat-slider> -->
+          <div class="md-form inpChangePrice">
+            <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
+              (change)="changeSliderCustomer(inpChangePrice.value)">
+            <label for="form1" class="">Change the price</label>
+            <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect large" (click)="savePrice()">Save
+              changes</button>
+            <div style="clear: both"></div>
+          </div>
+        </div>
+        <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">Save
+          changes</button>
+      </div>
+    </div>
+    <button *ngIf="element"  class="btn btn-outline-danger  waves-effect large" (click)="deleteText()">Delete text</button>
+  </div>
+  <div  class="comments_wrapper">
+    <div class="mesgs">
+      <div class="msg_history">
+        <div class="incoming_msg" *ngFor="let incomingComment of incomingComments; let i = index;">
+          <div class="incoming_msg_img"> <img src="{{incomingComment.photo}}" alt="sunil"> </div>
+          <div class="received_msg">
+            <div class="received_withd_msg">
+              <p>{{incomingComment.message}}</p>
+              <span class="time_date">{{incomingComment.date | date:'medium'}} , {{getRelativeDate(i)}}</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>  
+    </div>
+    <div class="create_comment">
+      <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120"
+        mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
+      <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>
+    </div>
+    <!-- <div class="type_msg container">
+      <div class="input_msg_write">
+        <input type="text" class="write_msg" placeholder="Enter your comment here..." rows="3" #textArea id="input_text" />
+        <button class="msg_send_btn" type="button" (click)="sendComment(textArea.value)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+      </div>
+      </div> -->
   </div>
-
-  <div class="create_comment">
-    <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120" mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>  
-    <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>  
-  </div>
-  
   <app-footer></app-footer>
-</div>

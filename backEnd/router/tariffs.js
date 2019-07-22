@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 const tariffModel = require('../models/tariff');
 
-router.get('/', async(req, res) => {
+router.get('/tariff', async(req, res) => {
   try {
     let tariffs = await tariffModel.findAll({});
-    res.json({tariffs, message: 'All tariffs are find!'});
+    res.json(tariffs);
   } catch(error) {
     res.json({message: 'No one tariff is not found!', error})
   }
 });
 
-router.put('/', async(req, res) => {
+router.put('/secure/', async(req, res) => {
   let { name, cost, coins, coeff } = req.body;
 
 

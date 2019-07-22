@@ -9,7 +9,8 @@ import {
   CustomerRegComponent,
   RegNewTranslatorComponent,
   TextDetailsComponent,
-  CollectionsComponent
+  CollectionsComponent,
+  AdminPanelComponent
 } from './components';
 import {AuthGuard} from './_shared/Guard/auth.guard';
 import {CustomerRoleGuard} from './_shared/Guard/customer-role.guard';
@@ -28,6 +29,12 @@ const appRoutes: Routes = [
     component: NewTextsComponent,
     canActivate: [CustomerRoleGuard],
     data: {state: 'new_texts'}
+  },
+  {
+    path: 'admin_panel',
+    component: AdminPanelComponent,
+    //canActivate: [CustomerRoleGuard],
+    data: {state: 'admin_panel'}
   },
   {
     path: 'my_translations',

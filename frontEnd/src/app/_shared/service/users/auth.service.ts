@@ -10,6 +10,7 @@ interface UserDataBack {
   token: string;
   role: string;
   id: number;
+  coins: number;
 }
 
 @Injectable({
@@ -44,6 +45,9 @@ export class AuthService {
     this.http.post(`${this.URL}/login`, user).subscribe((data: UserDataBack) => {
       if (data.isFind) {
         const backendFakeResult = {
+          name: data.name,
+          email: data.email,
+          isFind: data.isFind,
           id: data.id,
           token: data.token,
           role: data.role
@@ -54,6 +58,7 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
+        console.log(data)
         this.router.navigate(['/dashboard']);
       }
     });
