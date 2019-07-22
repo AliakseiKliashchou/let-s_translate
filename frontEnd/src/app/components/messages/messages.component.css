@@ -29,9 +29,9 @@ p, h3 {
   border: 1px solid gray;
 }
 
-.translator-block{
-  width: 10rem;
-  margin: 0.5rem 1rem;
-  padding: 0.5rem;
-  text-align: center;
+.msg-container{
+  width: 80%;
+  background-color: #3b99e0;
+  padding: 1em;
+  border-radius: 5px;
 }
