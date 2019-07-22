@@ -11,7 +11,7 @@ const price = require('./price');
 router.use('/', order);
 router.use('/profile', profile);
 router.use('/', message);
-router.use('/notification', notifications);
+router.use('/', notifications);
 router.use('/collections', collections);
 router.use('/review', review);
 router.use('/price', price);

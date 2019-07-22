@@ -10,13 +10,14 @@ router.post('/accept', async (req, res) => {
   try {
     let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
       order.update({status: 1, translatorId: idTranslator});
+      return order;
     });
 
     let notification = await notificationModel.create({
       idCustomer: order.idCustomer,
-      text: 'OK ORDER',
+      text: `accepted,${order.title},${order.id}`,
       read: false
-    })
+    });
 
     res.json({message: 'Translator appointed!', notification})
   } catch (error) {
@@ -24,8 +25,8 @@ router.post('/accept', async (req, res) => {
   }
 });
 
-router.get('/:idCustomer', async (req, res) => {
-  let idCustomer = req.params.idCustomer;
+router.get('/notifications', async (req, res) => {
+  let idCustomer = req.query.idUser;
 
   let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
     return info;

@@ -17,7 +17,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AngularFireModule } from 'angularfire2';
-import * as firebase from 'firebase/app';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -78,7 +77,6 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     CollectionsComponent,
     LngCheckboxesComponent,
     AdminPanelComponent,
-
   ],
   imports: [
     BrowserModule,
