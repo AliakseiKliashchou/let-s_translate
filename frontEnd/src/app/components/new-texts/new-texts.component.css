@@ -23,89 +23,15 @@ progress::-webkit-progress-value {
   transition: width 0.1s ease;
 }
 
-h4{
-    color: white;
-    text-align: center;
-}
 .text_input{
     background-color: rgba(255, 255, 255, 0.568);
-    width: 80%;
-    margin: 15px auto;
+    width: 100%;
     min-height: 50px;
     display: block;
     border-radius: 5px;
-}
-.label{
-    top: 15px !important;
-    left: 15px !important;
-}
-.upload_btn{
-    background-color: rgb(78, 235, 78);
-    margin: 10px;
-}
-.order_btn{
-  background-color: rgb(78, 235, 78);
-  text-align: center;
-  margin: 15px auto;
-  display: block;
-  font-size: 20px;
-  padding: 15px;
-  width: 200px;
+    border: 2px solid #bebebe;
 }
 
-.error {
-  width: 30%;
-  padding: .4rem;
-  margin-left: 5%;
-  color: #ae032d;
-  border-radius: 5px;
-  background-color: aliceblue;
-  font-size: 1.3rem;
-  text-align: center;
-}
-.order_properties{
-  width: 90%;
-  min-height: 50px;
-  margin: 15px auto;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.185);
-  padding: 10px;
-}
-
-.additional_properties{
-  width: 90%;
-  margin: 15px auto;
-  background-color: rgba(255, 255, 255, 0.788);
-  border-radius: 5px;
-  padding: 15px;
-}
-.add_check{
-  display: block;
-  margin: 25px auto;
-  width: 80%;
-}
-h5, h6{
-  text-align: center;
-}
-.attention{
-  text-align: center;
-  color: red;
-}
-.urgency_select{    
-  display: block;
-  width: 70%;
-  margin: 15px auto;
-}
 .tags{
   width: 100%;
-}
-.input_title{
-  display: block;
-  width: 70%;
-  margin: 15px auto;
-}
-.input_title_field{
-  background-color: rgba(255, 255, 255, 0.753);
-  height: 40px;
-  border-radius: 5px;
 }
