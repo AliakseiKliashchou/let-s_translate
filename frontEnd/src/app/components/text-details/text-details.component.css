@@ -28,8 +28,17 @@ progressbar {
 }
 
 .saveProgress_btn {
-    background-color: rgb(99, 238, 57);
+    background-color: rgb(99, 238, 57);  
+    display: block;
+    float: left;
+    margin-left: 10px;
 }
+
+.changePriceInp{
+    width: 200px;
+    float: left;
+}
+
 
 /*******Comments from DB*********/
 .comments_wrapper,
