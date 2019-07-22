@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const tariffModel = require('../models/tariff');
 
-router.get('/', async(req, res) => {
+router.get('/tariff', async(req, res) => {
   try {
     let tariffs = await tariffModel.findAll({});
     res.json(tariffs);
