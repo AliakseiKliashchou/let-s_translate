@@ -16,4 +16,7 @@ export class AdminService {
   getAdminData(){
     return this.http.get(`${this.URL}/secure/tariff/`);
   }
+  changeTariffPlan(tariff){  
+    return this.http.put(`${this.URL}/secure/tariff/`, tariff);
+  }
 }
