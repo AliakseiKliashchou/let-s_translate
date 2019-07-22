@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
+
   userProfile;
   userProfileForm;
   imageUrl;
