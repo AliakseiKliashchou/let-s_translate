@@ -15,6 +15,10 @@
         </li>
         <li class="nav-item" *ngIf="isRole.customer && !window.isWindowSizeSmall" routerLinkActive="active">
           <a class="nav-link waves-light" mdbWavesEffect routerLink="/new_texts"
+            routerLinkActive="active">New text</a>
+        </li>
+        <li class="nav-item" *ngIf="isRole.customer && !window.isWindowSizeSmall" routerLinkActive="active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/new_texts"
             *ngIf="isAuth && !window.isWindowSizeSmall">New texts</a>
         </li>
         <li class="nav-item" *ngIf="isRole.translator && !window.isWindowSizeSmall" routerLinkActive="active">

@@ -53,16 +53,14 @@
           <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
             (change)="changeSliderTranslator(slider.value)">
           </mat-slider>
+          <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">Save
+              changes</button>
           <mat-divider></mat-divider>
         </div>
         <!--------------------------------------->
 
         <!---------------IF CUSTOMER...------------------------>
         <div *ngIf="role === 'customer'">
-          <!-- <p><b>Change a current price</b></p>
-      <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="1000"
-        (change)="changeSliderCustomer(slider.value)">
-      </mat-slider> -->
           <div class="md-form inpChangePrice">
             <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
               (change)="changeSliderCustomer(inpChangePrice.value)">
@@ -72,8 +70,7 @@
             <div style="clear: both"></div>
           </div>
         </div>
-        <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">Save
-          changes</button>
+       
       </div>
     </div>
     <button *ngIf="element"  class="btn btn-outline-danger  waves-effect large" (click)="deleteText()">Delete text</button>
