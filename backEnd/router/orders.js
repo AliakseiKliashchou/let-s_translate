@@ -130,7 +130,7 @@ router.get('/orders/unowned', async (req, res) => {
     let orders = await orderModel.findAll(
       {
         where: {
-          // status: 0,
+          status: 0,
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }

@@ -64,6 +64,7 @@ export class TextDetailsComponent implements OnInit {
 
 
   }
+
   getRelativeDate(i){
     let commentDate = new Date(this.incomingComments[i].date);
     return moment(commentDate).fromNow();
