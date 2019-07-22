@@ -11,7 +11,7 @@ import {map, startWith} from 'rxjs/operators';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-
+import {MatStepperModule} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-new-texts',

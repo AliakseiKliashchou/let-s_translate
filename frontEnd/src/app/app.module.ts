@@ -58,6 +58,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     CollectionsComponent,
     LngCheckboxesComponent,
     AdminPanelComponent,
-
+    
   ],
   imports: [
     BrowserModule,
@@ -88,6 +89,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MatButtonModule,
     MatCheckboxModule,
     MatGridListModule,
+    MatStepperModule,
     MatDividerModule,
     ModalModule,
     TooltipModule,
