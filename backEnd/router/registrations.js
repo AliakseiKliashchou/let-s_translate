@@ -68,7 +68,7 @@ router.post('/customer', valid.checkValid, async (req, res) => {
     bcrypt.hash(customer.password, 10).then((hash) => {
       customer.password = hash;
       customer.save().then((data) => {
-        res.json({"customer": data});
+        res.json({"customer": data, message: 'Settings sent to e-mail'});
       });
     });
 

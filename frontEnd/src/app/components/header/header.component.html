@@ -2,7 +2,9 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
 
   <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" routerLink="/">Lets translate</a></mdb-navbar-brand>
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: #ff3547">
+    <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a>
+  </mdb-navbar-brand>
 
   <!-- Collapsible content -->
   <links>
@@ -14,8 +16,8 @@
           Dashboard</a>
       </li>
       <li class="nav-item" *ngIf="isRole.customer" routerLinkActive="active">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/new_texts"
-           *ngIf="isAuth && !window.isWindowSizeSmall">New texts</a>
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/new_texts">
+          New texts</a>
       </li>
       <li class="nav-item" *ngIf="isRole.translator" routerLinkActive="active">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/my_translations">My
@@ -35,13 +37,14 @@
       <li class="nav-item">
 
         <div class="btn-group" mdbDropdown>
-          <div *ngIf="userProfile" class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
-               (click)="basicModal.show()" mdbWavesEffect>
+          <div *ngIf="userProfile" class="user-data">
+            <p>{{userProfile.coins}} &sect;</p>
+            <p> {{userProfile.name}}</p>
+            <div class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
+                 (click)="basicModal.show()" mdbWavesEffect>
+            </div>
           </div>
-          <!-- <div class="coins">
-            <p>{{userProfile.coins}}</p>
-          </div> -->
-          <!-- <h1>{{userProfile.name}}</h1> -->
+
 
           <button class="btn btn-outline-white btn-sm my-0" data-toggle="modal" data-target="#basicExample"
                   (click)="frame.show()" *ngIf="!isRole.auth" mdbWavesEffect>
