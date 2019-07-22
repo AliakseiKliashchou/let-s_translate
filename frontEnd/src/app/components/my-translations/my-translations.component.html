@@ -18,7 +18,13 @@
           </td>
           <td>
             <h5>
-              <circle-progress [percent]="text.progress" [showTitle]="false" [subtitle]='text.progress' [radius]="30">
+              <circle-progress [percent]="text.progress" 
+              [showTitle]="false" 
+              [subtitle]='text.progress' 
+              [radius]="30"
+              [outerStrokeWidth] = "4"
+              [titleFontSize] = "12"
+              [subtitleFontSize] = "20">
               </circle-progress>
             </h5>
           </td>
