@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit {
         });
       } else {
         this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+          console.log(userData)
           this.isRole.customer = true;
           this.userProfile = userData;
           this.imageUrl = userData.photo;

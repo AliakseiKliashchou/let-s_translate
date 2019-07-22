@@ -17,7 +17,6 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.authService.getUserId();
     const role = this.authService.getRole();
     if (role === 'customer') {
     }

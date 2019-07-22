@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../_shared/service/admin/admin.service';
-import { TariffInterface } from './../../_shared/interface/tariff.interface';
+import { AdminService } from '../../_shared/service/admin/admin.service';
+import { TariffInterface } from '../../_shared/interface/tariff.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
