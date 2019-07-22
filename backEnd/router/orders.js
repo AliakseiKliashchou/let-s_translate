@@ -54,6 +54,7 @@ router.post('/order', async (req, res) => {
 
 router.get('/orders', async (req, res) => {
   const id = req.query.idCustomer;
+  console.log('OK')
 
   try {
     let orders = await orderModel.findAll({where: {idCustomer: id}});
