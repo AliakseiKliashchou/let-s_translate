@@ -50,7 +50,12 @@
         <!---------------IF TRANSLATOR...------------------------>
         <div *ngIf="role === 'translator'">
           <p class="lead"><b>Change a progress of current text translation</b></p>
-          <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
+          <mat-slider
+            #slider thumbLabel
+            [displayWith]="formatLabel"
+            tickInterval="1000"
+            min="0" max="100"
+            [value]="element.progress"
             (change)="changeSliderTranslator(slider.value)">
           </mat-slider>
           <mat-divider></mat-divider>

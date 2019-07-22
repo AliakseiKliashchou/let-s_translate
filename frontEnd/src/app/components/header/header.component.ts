@@ -42,10 +42,6 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
-  window = {
-    isWindowSizeSmall: (window.innerWidth < 1300),
-    isClose: true
-  };
   userProfile;
   userProfileForm;
   imageUrl;
@@ -81,6 +77,7 @@ export class HeaderComponent implements OnInit {
         });
       } else {
         this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+          console.log(userData)
           this.isRole.customer = true;
           this.userProfile = userData;
           this.imageUrl = userData.photo;
@@ -160,15 +157,6 @@ export class HeaderComponent implements OnInit {
       customer: false,
       translator: false
     };
-  }
-
-  toggleMenu() {
-    this.window.isClose = !this.window.isClose;
-  }
-
-  resizeWindow() {
-    this.window.isWindowSizeSmall = (window.innerWidth < 1300);
-    if (!this.window.isWindowSizeSmall) { this.window.isClose = true; }
   }
 
   onImagePicked(event: Event) {
