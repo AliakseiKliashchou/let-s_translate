@@ -35,7 +35,7 @@
     <div *ngIf="role === 'translator'">
       <p><b>Change a progress of current text translation</b></p>
       <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
-        (change)="changeSlider(slider.value)">
+        (change)="changeSliderTranslator(slider.value)">
       </mat-slider>
       <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="saveProgress()">Save changes</button>
       <mat-divider></mat-divider>
