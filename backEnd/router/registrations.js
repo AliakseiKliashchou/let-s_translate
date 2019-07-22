@@ -39,6 +39,7 @@ router.post('/translator', valid.checkValid, async (req, res) => {
 
 router.post('/customer', valid.checkValid, async (req, res) => {
   let tariff = req.body.tariff;
+  let coins;
   const result = validationResult(req);
   const hasErrors = !result.isEmpty();
 
@@ -47,7 +48,7 @@ router.post('/customer', valid.checkValid, async (req, res) => {
   }
 
   let tariffInfo = await tariffModel.findOne({where: {name: tariff}}).then((info) => {
-    console.log(info);
+    return coins = info.coins;
   });
 
   try {
@@ -61,7 +62,7 @@ router.post('/customer', valid.checkValid, async (req, res) => {
       tariff: tariff,
       photo: req.body.photo,
       guid: uuidv1(),
-      // coins: cv 
+      coins: coins
     });
 
     bcrypt.hash(customer.password, 10).then((hash) => {
