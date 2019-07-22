@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-
 import {AuthService} from '../users/auth.service';
 
 @Injectable({
@@ -59,9 +58,8 @@ export class OrderService {
   changeProgress(id, progress) {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
-
   changePrice(id, price){
     return this.http.put(`${this.URL}/secure/price/`, {id, price});
   }
- 
+
 }

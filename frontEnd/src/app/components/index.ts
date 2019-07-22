@@ -12,3 +12,4 @@ export * from './languages/languages.component';
 export * from './text-details/text-details.component';
 export * from './collections/collections.component';
 export * from './languages/lng-checkboxes/lng-checkboxes.component';
+export * from './admin-panel/admin-panel.component';

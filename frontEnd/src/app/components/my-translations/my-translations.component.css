@@ -60,3 +60,11 @@ h3 {
   background-color: #848580;
   color: white;
 }
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}

@@ -88,21 +88,15 @@ nav {
   cursor: pointer;
 }
 
-.button {
-  box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  padding: 10px;
-  text-align: center;
-  display: block;
-  position: relative;
-  background: rgba(255, 255, 255, 0.65);
+.btn-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-a .button {
-  background-color: #f16624;
+.badge{
+  display: flex;
+  align-items: center;
 }
-
 .sub-menu {
   font-weight: 300;
   list-style-type: none;

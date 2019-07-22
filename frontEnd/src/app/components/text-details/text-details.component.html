@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody *ngIf="element">
-        <tr mdbTableCol >
+        <tr mdbTableCol>
           <th scope="row">{{element.id}}</th>
           <td>{{element.title}}</td>
           <td>{{element.date | date}}</td>
@@ -18,7 +18,7 @@
           <td>{{element.name}}</td>
           <td>{{element.email}}</td>
           <td>{{element.originalLanguage}}</td>
-          <td>{{element.translateLanguage}}</td>          
+          <td>{{element.translateLanguage}}</td>
           <td>{{element.review}}</td>
           <td>{{element.tags}}</td>
           <td>{{element.urgency}}</td>
@@ -26,41 +26,38 @@
         </tr>
       </tbody>
     </table>
-    <mat-divider></mat-divider>   
+    <mat-divider></mat-divider>
     <p><b>Progress of translation</b></p>
 
-    <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">{{element.progress}}%</progressbar>
-
+    <progressbar *ngIf="element" [value]="element.progress" type="type" [animate]="true" [striped]="true">
+      {{element.progress}}%</progressbar>
     <!---------------IF TRANSLATOR...------------------------>
     <div *ngIf="role === 'translator'">
       <p><b>Change a progress of current text translation</b></p>
-      <mat-slider
-        #slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        tickInterval="1000"
-        min="0"
-        max="100" (change)="changeSliderTranslator(slider.value)">
+      <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
+        (change)="changeSliderTranslator(slider.value)">
       </mat-slider>
-      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="saveProgress()">Save changes</button>  
+      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="saveProgress()">Save changes</button>
       <mat-divider></mat-divider>
     </div>
     <!--------------------------------------->
 
     <!---------------IF CUSTOMER...------------------------>
     <div *ngIf="role === 'customer'">
-      <p><b>Change a current price</b></p>
-      <mat-slider
-        #slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        tickInterval="1000"
-        min="0"
-        max="1000" (change)="changeSliderCustomer(slider.value)">
-      </mat-slider>
-      <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>  
+      <!-- <p><b>Change a current price</b></p>
+      <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="1000"
+        (change)="changeSliderCustomer(slider.value)">
+      </mat-slider> -->
+      <div class="md-form inpChangePrice">
+        <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"  (change)="changeSliderCustomer(inpChangePrice.value)">
+        <label for="form1" class="">Change the price</label>
+        <button *ngIf="saveProgressBtn" mat-button class="saveProgress_btn" (click)="savePrice()">Save changes</button>
+        <div style="clear: both"></div>
+      </div>
       <mat-divider></mat-divider>
     </div>
+
+   
     <!--------------------------------------->
 
     <mat-divider></mat-divider>
@@ -68,25 +65,24 @@
   </div>
 
   <div class="comments_wrapper">
-    <div class="comments">
-      <div class="comment dialog" *ngFor="let incomingComment of incomingComments; let i = index;">
-        <div class="avatar"> <img class="avatar_img" src="{{incomingComment.photo}}" alt=""> </div>
-        <div class="name">
-          <span>{{incomingComment.name}}</span>
-          <p>{{incomingComment.date | date:'medium'}}, {{getRelativeDate(i)}}</p>
-        </div>
-        <div style="clear: both"></div>
-        <div class="message">
-          <p>{{incomingComment.message}}</p>
+    <div class="mesgs">
+      <div class="msg_history">
+        <div class="incoming_msg" *ngFor="let incomingComment of incomingComments; let i = index;">
+          <div class="incoming_msg_img"> <img src="{{incomingComment.photo}}" alt="sunil"> </div>
+          <div class="received_msg">
+            <div class="received_withd_msg">
+              <p>{{incomingComment.message}}</p>
+              <span class="time_date">{{incomingComment.date | date:'medium'}} , {{getRelativeDate(i)}}</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>  
-  </div>
+    </div>
+    <div class="create_comment">
+      <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120"
+        mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
+      <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>
+    </div>
 
-  <div class="create_comment">
-    <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120" mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>  
-    <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>  
+    <app-footer></app-footer>
   </div>
-  
-  <app-footer></app-footer>
-</div>

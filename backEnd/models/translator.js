@@ -30,7 +30,7 @@ const Translator = sequelize.define('translator', {
   coins: {
     type: Sequelize.INTEGER,
     allowNull: false,
-  },
+  }
 });
 
 module.exports = Translator;
