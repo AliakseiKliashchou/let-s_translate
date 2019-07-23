@@ -6,17 +6,17 @@ const notificationModel = require('../models/notification');
 router.post('/accept', async (req, res) => {
   let idOrder = req.body.idOrder;
   let idTranslator = req.body.idTranslators;
-
   try {
     let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
       order.update({status: 1, translatorId: idTranslator});
+      return order;
     });
 
     let notification = await notificationModel.create({
       idCustomer: order.idCustomer,
-      text: 'OK ORDER',
+      text: `accepted,${order.title},${order.id}`,
       read: false
-    })
+    });
 
     res.json({message: 'Translator appointed!', notification})
   } catch (error) {
@@ -24,13 +24,25 @@ router.post('/accept', async (req, res) => {
   }
 });
 
-router.get('/:idCustomer', async (req, res) => {
-  let idCustomer = req.params.idCustomer;
-
+router.get('/notifications', async (req, res) => {
+  let idCustomer = req.query.idUser;
+  
   let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
     return info;
   });
+
   res.json(notification)
+});
+
+router.put('/notifications', async (req, res) => {
+  console.log('hello')
+  let idCustomer = req.query;
+  let body = req.body;
+  res.json({idCustomer, body})
+  // let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
+  //   return info;
+  // });
+  // res.json(notification)
 });
 
 

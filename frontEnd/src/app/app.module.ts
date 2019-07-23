@@ -17,7 +17,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AngularFireModule } from 'angularfire2';
-import * as firebase from 'firebase/app';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -58,7 +57,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+
 import { FragmentPolyfillModule } from "./_shared/fragment-polyfill";
+
+import {MatStepperModule} from '@angular/material/stepper';
+
 
 @NgModule({
   declarations: [
@@ -78,8 +81,7 @@ import { FragmentPolyfillModule } from "./_shared/fragment-polyfill";
     TextDetailsComponent,
     CollectionsComponent,
     LngCheckboxesComponent,
-    AdminPanelComponent,
-
+    AdminPanelComponent
   ],
   imports: [
     FragmentPolyfillModule.forRoot({
@@ -92,6 +94,7 @@ import { FragmentPolyfillModule } from "./_shared/fragment-polyfill";
     MatButtonModule,
     MatCheckboxModule,
     MatGridListModule,
+    MatStepperModule,
     MatDividerModule,
     ModalModule,
     TooltipModule,

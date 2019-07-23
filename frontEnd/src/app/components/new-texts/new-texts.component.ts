@@ -11,7 +11,7 @@ import {map, startWith} from 'rxjs/operators';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-
+import {MatStepperModule} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-new-texts',
@@ -27,7 +27,8 @@ export class NewTextsComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
-
+  initial = 'initial';
+  finite = 'finite';
   isHovering: boolean;
   files: File[] = [];
   maxSize = 20 * (10 ** 6);
@@ -139,7 +140,7 @@ export class NewTextsComponent implements OnInit {
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     ref.putString(text).then((snapshot) => {
-      snapshot.ref.getDownloadURL().then( url => {
+      snapshot.ref.getDownloadURL().then(url => {
         console.log(url);
         this.order.url.push(url);
       });
@@ -165,19 +166,15 @@ export class NewTextsComponent implements OnInit {
     this.order.finiteLng = lng;
   }
 
-  getUrgency(urgency) {
-    this.order.urgency = Number(urgency);
-  }
-
   getTitle(title) {
     this.order.title = title;
   }
 
-  makeOrder(additionalReview) {
-    if (additionalReview.checked) {
-      this.order.additionalReview = true;
-    }
+  makeOrder(additionalReview, urgency) {
+    this.order.additionalReview = additionalReview.checked;
+    this.order.urgency = urgency.checked;
     this.order.tags = this.tags;
+    console.log(this.order);
     this.userProfile.getCustomerProfile(this.order.idCustomer).subscribe(
       (res: { name, email }) => {
         this.order.name = res.name;
