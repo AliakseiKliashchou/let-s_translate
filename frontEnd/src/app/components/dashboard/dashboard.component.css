@@ -38,12 +38,17 @@ td {
     text-align: center;
 }
 
-.filter{
+.filter {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-.black{
+
+.black {
   background-color: #2e2e2e !important;
   text-align: center;
+}
+
+.container-width {
+    width: 80%;
 }

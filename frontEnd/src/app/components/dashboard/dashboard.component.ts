@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges} from '@angular/core';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from '../../_shared/interface/order.interface';
 import {AuthService} from '../../_shared/service/users/auth.service';
@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  label: string;
 
   constructor(
     private orderService: OrderService,
@@ -118,6 +119,12 @@ export class DashboardComponent implements OnInit {
     this.orderService.acceptOrder(idOrder, id);
     this.ordersArray.splice(j, 1);
   }
+
+// ***********************Label********************************* */
+
+getLabel(label) {
+  console.log(label)
+}
 
 
 }
