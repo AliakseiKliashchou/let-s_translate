@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -21,7 +21,8 @@ export class DashboardComponent implements OnInit {
     'Waiting translator',
     'In progress',
     'Ready for translator review',
-    'Ready for customer review'
+    'Ready for customer review',
+    'Complete'
   ];
   filteredTags: Observable<string[]>;
   tagCtrl = new FormControl();
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
   role: string;
   tags: string[] = [];
   selectedLng: string;
-  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
+  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   selectable = true;
   removable = true;
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private authService: AuthService,
-    private _router: Router) {
+    private router: Router) {
   }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
@@ -115,8 +116,9 @@ export class DashboardComponent implements OnInit {
         return '#5546E4';
     }
   }
-  anchor(id){
-    this._router.navigate(['/text_details', id], { fragment: 'bottom' });
+
+  anchor(id) {
+    this.router.navigate(['/text_details', id], {fragment: 'bottom'});
   }
 
 // ***********************GET ORDER********************************* */
