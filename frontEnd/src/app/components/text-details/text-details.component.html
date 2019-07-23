@@ -100,9 +100,27 @@
       </div>
     </div>
     <div class="create_comment">
-      <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120"
-                mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
-      <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>
+      <div style="display: flex; width: 80%;margin: auto;">
+            <textarea
+              class="md-textarea form-control"
+              rows="3"
+              #textArea
+              id="input_text"
+              type="text"
+              length="120"
+              mdbCharCounter
+              mdbInput
+              placeholder="Enter your comment here..."
+              style="margin: 0; width: 95%"
+              [value]="textUrl? textUrl: ''">
+          </textarea>
+        <button class="btn" style="margin: 0" (click)="filePicker.click()">
+          <i class="fas fa-file" style="font-size: 1.5rem"></i>
+          <input type="file" hidden #filePicker (change)="upload($event)">
+        </button>
+      </div>
+
+      <button mat-button id="createCommentBtn" (click)="sendComment(textArea)">Send comment</button>
     </div>
   </div>
 </div>

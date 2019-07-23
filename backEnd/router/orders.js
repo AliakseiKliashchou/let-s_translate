@@ -151,7 +151,6 @@ router.get('/orders/translate/:idTranslator', async (req, res) => {
     let orders = await orderModel.findAll(
       {where: {translatorId: idTranslator}, order: [['date', 'DESC']]})
       .then(order => res.json(order))
-    // res.json(orders);
   } catch (error) {
     res.json({error, message: 'Can not find any order'});
   }
