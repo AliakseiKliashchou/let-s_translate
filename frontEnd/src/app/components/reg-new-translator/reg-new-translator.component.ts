@@ -8,7 +8,7 @@ import {AuthService} from '../../_shared/service/users/auth.service';
   styleUrls: ['./reg-new-translator.component.css', '../../app.component.css']
 })
 export class RegNewTranslatorComponent implements OnInit {
-
+namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   hide_1 = true;
   hide_2 = true;
@@ -23,7 +23,7 @@ export class RegNewTranslatorComponent implements OnInit {
     passwordSubmitted: new FormControl('',
       [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
     name: new FormControl('',
-      [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
+      [Validators.required, Validators.pattern(this.namePattern)]),
   };
 
   constructor(private authService: AuthService) {

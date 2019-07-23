@@ -2,7 +2,7 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
 
   <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: #ff3547">
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: white">
     <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a>
   </mdb-navbar-brand>
 
@@ -30,7 +30,7 @@
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/collections"
            routerLinkActive="active">Collections</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li class="nav-item" *ngIf="isRole.admin" routerLinkActive="active" >
           <a class="nav-link waves-light" mdbWavesEffect routerLink="/admin_panel"
              routerLinkActive="active">Administration panel</a>
         </li>

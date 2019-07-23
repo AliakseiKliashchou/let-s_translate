@@ -28,7 +28,6 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------NAME-------------------------------------->
 
@@ -46,7 +45,6 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------CREDIT CARD-------------------------------------->
 
@@ -68,11 +66,10 @@
           </mdb-success>
           <div style="clear: both"></div>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------PASSWORD-------------------------------------->
 
-        <div class="md-form mb-5 password">
+        <div class="md-form mb-2 password" style="margin-bottom: 0 !important;" >
           <i class="fas fa-lock prefix"
              [ngClass]="userInputForm.get('password').valid && userInputForm.get('passwordSubmitted').valid &&
              (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'">
@@ -102,7 +99,7 @@
             Ok!
           </mdb-success>
         </div>
-        <div class="md-form mb-5 password">
+        <div class="md-form mb-3 password" style="margin-bottom: 0 !important;">
           <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg
                  formControlName="passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
           <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -119,7 +116,6 @@
           </mdb-success>
         </div>
         <div style="clear: both"></div>
-        <mat-divider></mat-divider>
 
         <!-------------------------------------PHOTO------------------------------------------>
 
@@ -127,7 +123,6 @@
           <i class="fas fa-camera prefix" [ngClass]="photoStatus ? 'green-text' : 'red-text'"></i>
           <input type="file" (change)="uploadPhoto($event)">
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------TARIFF-------------------------------------->
 
@@ -158,7 +153,6 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------LICENCE-------------------------------------->
 
@@ -203,7 +197,6 @@
             </div>
           </div>
         </div>
-        <mat-divider></mat-divider>
       </div>
     </form>
 
