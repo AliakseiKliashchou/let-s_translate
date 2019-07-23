@@ -26,17 +26,19 @@ router.post('/accept', async (req, res) => {
 
 router.get('/notifications', async (req, res) => {
   let idCustomer = req.query.idUser;
+  
   let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
     return info;
   });
+
   res.json(notification)
 });
 
 router.put('/notifications', async (req, res) => {
   console.log('hello')
-  let idCustomer = req.params.idUser;
-  console.log(idCustomer)
-console.log(req.body.idNtf)
+  let idCustomer = req.query;
+  let body = req.body;
+  res.json({idCustomer, body})
   // let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
   //   return info;
   // });
