@@ -42,7 +42,7 @@
 
         <div class="btn-group" mdbDropdown>
           <div *ngIf="userProfile" class="user-data">
-            <p>{{userProfile.coins}} &sect;</p>
+            <p>{{userProfile.coins}} <mdb-icon fas style="color: yellow" icon="coins"></mdb-icon></p>
             <p> {{userProfile.name}}</p>
             <div class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
                  (click)="basicModal.show()" mdbWavesEffect>

@@ -8,6 +8,7 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private _router: Router) {
   }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
@@ -57,7 +59,10 @@ export class DashboardComponent implements OnInit {
         });
     } else {
       this.orderService.getOrders()
-        .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+        .subscribe((orders: OrderInterface[]) => {
+          this.ordersArray = orders;
+          console.log(this.ordersArray);
+        });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -109,6 +114,9 @@ export class DashboardComponent implements OnInit {
       case 3:
         return '#5546E4';
     }
+  }
+  anchor(id){
+    this._router.navigate(['/text_details', id], { fragment: 'bottom' });
   }
 
 // ***********************GET ORDER********************************* */
