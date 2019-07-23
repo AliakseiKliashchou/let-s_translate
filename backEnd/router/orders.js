@@ -3,6 +3,9 @@ const router = express.Router();
 const orderModel = require('../models/order');
 const translatorModel = require('../models/translator');
 const collectionModel = require('../models/collection');
+const aggregationModel = require('../models/aggregation');
+const customerModel = require('../models/customer');
+const notificationModel = require('../models/notification');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -24,7 +27,7 @@ router.post('/order', async (req, res) => {
     date: new Date(),
     isCollections: false,
     oneTranslator: false,
-    price: req.body.price,
+    price: 0,
   };
   try {
     if (urls.length > 1) {
@@ -100,15 +103,27 @@ router.get('/order/:id', async (req, res) => {
 
 router.delete('/order/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id)
-  let order = await orderModel.destroy({where: {id:id}}).then((result) => {
-    console.log(result)
-    if (result === 1) {
-      res.json({message: 'Deleted successfully!'});
-    } else {
-      res.status(404).json({message: 'Record not found!'})
-    }
-  })
+
+  let order = await orderModel.findOne({where: {id: id}}).then(order => order);
+  let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then(customer => customer);
+  let translator = await translatorModel.findOne({where: {id: order.translatorId}}).then(translator => translator);
+
+  if(order.status === 1) {
+    let halfPrice = order.price / 2;
+
+    customerModel.update({coins: customer.coins + halfPrice}, {where: {id: order.idCustomer}});
+    translatorModel.update({coins: translator.coins + halfPrice}, {where: {id: order.translatorId}});
+
+    orderModel.destroy({where: {id: id}});
+    aggregationModel.destroy({where: {idOrder: id}});
+  };
+
+  let notification = await notificationModel.create({
+    idCustomer: order.idCustomer,
+    text: `Your order: ${order.title} was delete. Half the cost of the order send to the translator `
+  });
+
+  res.json(notification);
 });
 
 router.put('/order', async (req, res) => {
@@ -116,9 +131,14 @@ router.put('/order', async (req, res) => {
   let progress = req.body.progress;
 
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-    order.update({progress: progress});
-  })
-  
+    if (progress === 100) {
+      const status = order.additionalReview ? 2 : 3;
+      order.update({progress: progress, status: status, date: new Date()});
+    } else {
+      order.update({progress: progress, date: new Date()});
+    }
+  });
+
   res.json({message: 'Progress was changed'});
 });
 
