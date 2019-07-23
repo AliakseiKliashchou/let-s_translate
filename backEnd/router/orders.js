@@ -55,6 +55,7 @@ router.post('/order', async (req, res) => {
   }
 });
 
+//customer STATUS
 router.get('/orders', async (req, res) => {
   const id = req.query.idCustomer;
 
@@ -63,6 +64,25 @@ router.get('/orders', async (req, res) => {
     res.json(orders);
   } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
+  }
+});
+
+//translator STATUS
+router.get('/orders/unowned', async (req, res) => {
+  const idTranslator = req.query.idTranslator;
+  try {
+    let translator = await translatorModel.findOne({where: {id: idTranslator}});
+    const languages = translator.languages;
+    let orders = await orderModel.findAll(
+      {
+        where: {
+          status: 0,
+          originalLanguage: {[Op.in]: languages},
+          translateLanguage: {[Op.in]: languages},
+        }
+      }).then(response => res.json(response));
+  } catch (error) {
+    res.json({message: error});
   }
 });
 
@@ -140,24 +160,6 @@ router.put('/order', async (req, res) => {
   });
 
   res.json({message: 'Progress was changed'});
-});
-
-router.get('/orders/unowned', async (req, res) => {
-  const idTranslator = req.query.idTranslator;
-  try {
-    let translator = await translatorModel.findOne({where: {id: idTranslator}});
-    const languages = translator.languages;
-    let orders = await orderModel.findAll(
-      {
-        where: {
-          status: 0,
-          originalLanguage: {[Op.in]: languages},
-          translateLanguage: {[Op.in]: languages},
-        }
-      }).then(response => res.json(response));
-  } catch (error) {
-    res.json({message: error});
-  }
 });
 
 router.get('/orders/translate/:idTranslator', async (req, res) => {
