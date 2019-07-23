@@ -24,7 +24,7 @@ interface UserProfile {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?' ;
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
     email: new FormControl('',
@@ -64,38 +64,37 @@ export class HeaderComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
     private router: Router) {
-  }
 
-  ngOnInit() {
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isRole.auth = isAuth;
-    });
-    if (this.isRole.auth) {
-      const userId = this.authService.getUserId();
-      const role = this.authService.getRole();
-      if (role === 'translator') {
-        this.isRole.translator = true;
-        this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-        });
-      } else if (role === 'customer') {
-        this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-          this.isRole.customer = true;
-          this.userProfile = userData;
-          this.imageUrl = userData.photo;
-          this.userProfileForm = {
-            photo:
-              new FormControl(this.imageUrl || ''),
-            name:
-              new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
-            email:
-              new FormControl(userData.email, Validators.pattern(this.emailPattern))
-          };
-        });
+      if (this.isRole.auth) {
+        const userId = this.authService.getUserId();
+        const role = this.authService.getRole();
+        if (role === 'translator') {
+          this.isRole.translator = true;
+          this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
+          });
+        } else if (role === 'customer') {
+          this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+            this.isRole.customer = true;
+            this.userProfile = userData;
+            this.imageUrl = userData.photo;
+            this.userProfileForm = {
+              photo:
+                new FormControl(this.imageUrl || ''),
+              name:
+                new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+              email:
+                new FormControl(userData.email, Validators.pattern(this.emailPattern))
+            };
+          });
+        } else if (role === 'admin') this.isRole.admin = true;
       }
-      else if (role === 'admin') this.isRole.admin = true;
+    });
+  }
 
-    }
+  ngOnInit() {
   }
 
   // --------VALIDATION------------------------------
@@ -144,6 +143,7 @@ export class HeaderComponent implements OnInit {
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
         this.authService.login(this.user);
+        this.ngOnInit();
         frame.hide();
       }, (err) => {
         this.error = err.error.message;

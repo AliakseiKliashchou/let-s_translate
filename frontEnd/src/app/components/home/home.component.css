@@ -76,8 +76,8 @@ ul{
   position: relative; 
 }
 
-.pricing-table .col-md-5:not(:last-child) .item {
-  margin-bottom: 30px; 
+.pricing-table .item {
+  margin-bottom: 30px;
 }
 
 .pricing-table .item button {

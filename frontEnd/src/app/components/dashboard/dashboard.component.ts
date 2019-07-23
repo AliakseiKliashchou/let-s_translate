@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
           console.log(orders);
           this.ordersArray = orders;
         });
-    } else {
+    } else if (this.role === 'customer') {
       this.orderService.getOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
@@ -123,10 +123,10 @@ export class DashboardComponent implements OnInit {
 
 // ***********************GET ORDER********************************* */
 
-  getOrder(idOrder: number, j) {
-    const id = this.authService.getUserId();
-    this.orderService.acceptOrder(idOrder, id);
-    this.ordersArray.splice(j, 1);
+  getOrder(idOrder: number, index) {
+    const idCustomer = this.authService.getUserId();
+    this.orderService.acceptOrder(idOrder, idCustomer);
+    this.ordersArray.splice(index, 1);
   }
 
 
