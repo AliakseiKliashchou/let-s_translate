@@ -37,7 +37,7 @@ const login = (req, res) => {
           res.status(401).json({message: 'Invalid credentials!'})
         }
       } else {
-        res.json({message: 'You are not authorized! Please check your email'});
+        res.status(401).json({message: 'You are not authorized! Please check your email'});
       }
     }).catch(err => res.json({err}));
   }
