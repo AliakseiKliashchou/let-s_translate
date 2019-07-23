@@ -14,6 +14,7 @@ const Notification = sequelize.define("notification", {
     type: Sequelize.INTEGER,
     allowNull: false
   }
+
 });
 
 module.exports = Notification;

@@ -11,7 +11,7 @@ import {map, startWith} from 'rxjs/operators';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-
+import {MatStepperModule} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-new-texts',
@@ -27,7 +27,8 @@ export class NewTextsComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
-
+  initial = 'initial';
+  finite = 'finite';
   isHovering: boolean;
   files: File[] = [];
   maxSize = 20 * (10 ** 6);

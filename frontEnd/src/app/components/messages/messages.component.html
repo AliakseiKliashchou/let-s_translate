@@ -2,8 +2,16 @@
   <app-header></app-header>
   <div class="title anim">Messages</div>
 
-  <div class="block">
-
+  <div class="block" *ngIf="msgArray">
+    <div class="msg-container" *ngFor="let msg of msgArray">
+      <p>
+        Ваше текст
+        <a [routerLink]="['/text_details',msg.textId]"> {{msg.textName}}</a>
+        перешел в состояние перевода</p>
+      <button class="btn btn-success waves-effect" style="float: right">
+        &#10003;Ok
+      </button>
+    </div>
   </div>
 
   <app-footer></app-footer>

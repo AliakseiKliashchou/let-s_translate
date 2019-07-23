@@ -50,7 +50,7 @@ export class OrderService {
   }
 
   acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/notification/accept`,
+    this.http.post(`${this.URL}/secure/accept`,
       {idOrder, idTranslators})
       .subscribe(res => console.log(res));
   }
@@ -58,7 +58,8 @@ export class OrderService {
   changeProgress(id, progress) {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
-  changePrice(id, price){
+
+  changePrice(id, price) {
     return this.http.put(`${this.URL}/secure/price/`, {id, price});
   }
 

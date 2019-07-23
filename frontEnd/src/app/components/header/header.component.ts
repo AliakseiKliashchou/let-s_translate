@@ -24,6 +24,7 @@ interface UserProfile {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?' ;
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
     email: new FormControl('',
@@ -34,7 +35,8 @@ export class HeaderComponent implements OnInit {
   isRole = {
     auth: false,
     customer: false,
-    translator: false
+    translator: false,
+    admin: false
   };
   role = 'customer';
   user = {
@@ -42,10 +44,7 @@ export class HeaderComponent implements OnInit {
     password: '',
     role: ''
   };
-  window = {
-    isWindowSizeSmall: (window.innerWidth < 1300),
-    isClose: true
-  };
+
   userProfile;
   userProfileForm;
   imageUrl;
@@ -79,7 +78,7 @@ export class HeaderComponent implements OnInit {
         this.isRole.translator = true;
         this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
         });
-      } else {
+      } else if (role === 'customer') {
         this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
           this.isRole.customer = true;
           this.userProfile = userData;
@@ -88,12 +87,13 @@ export class HeaderComponent implements OnInit {
             photo:
               new FormControl(this.imageUrl || ''),
             name:
-              new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
+              new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
             email:
               new FormControl(userData.email, Validators.pattern(this.emailPattern))
           };
         });
       }
+      else if (role === 'admin') this.isRole.admin = true;
 
     }
   }
@@ -158,17 +158,9 @@ export class HeaderComponent implements OnInit {
     this.isRole = {
       auth: false,
       customer: false,
-      translator: false
+      translator: false,
+      admin: false
     };
-  }
-
-  toggleMenu() {
-    this.window.isClose = !this.window.isClose;
-  }
-
-  resizeWindow() {
-    this.window.isWindowSizeSmall = (window.innerWidth < 1300);
-    if (!this.window.isWindowSizeSmall) { this.window.isClose = true; }
   }
 
   onImagePicked(event: Event) {
