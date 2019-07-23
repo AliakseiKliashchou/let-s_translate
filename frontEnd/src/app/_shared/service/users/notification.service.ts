@@ -21,9 +21,6 @@ export class NotificationService {
   }
 
   readNotification(idNtf: number) {
-    const idUser = this.authService.getUserId();
-    console.log(idNtf)
-    this.http.put(`${this.URL}/secure/notifications`, idNtf)
-      .subscribe(res => console.log(res));
+    return this.http.delete(`${this.URL}/secure/notifications?idNtf=${idNtf}`);
   }
 }

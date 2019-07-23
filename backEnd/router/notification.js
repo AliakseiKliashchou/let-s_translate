@@ -14,8 +14,7 @@ router.post('/accept', async (req, res) => {
 
     let notification = await notificationModel.create({
       idCustomer: order.idCustomer,
-      text: `accepted,${order.title},${order.id}`,
-      read: false
+      text: `accepted,${order.title},${order.id}`
     });
 
     res.json({message: 'Translator appointed!', notification})
@@ -34,15 +33,10 @@ router.get('/notifications', async (req, res) => {
   res.json(notification)
 });
 
-router.put('/notifications', async (req, res) => {
-  console.log('hello')
-  let idCustomer = req.query;
-  let body = req.body;
-  res.json({idCustomer, body})
-  // let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
-  //   return info;
-  // });
-  // res.json(notification)
+router.delete('/notifications', async (req, res) => {
+  let {idNtf} = req.query;
+  let notification = await notificationModel.destroy({where: {id: idNtf}})
+  res.json('notification updated');
 });
 
 
