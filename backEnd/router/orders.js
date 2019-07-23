@@ -101,7 +101,7 @@ router.get('/order/:id', async (req, res) => {
 router.delete('/order/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id)
-  let order = await orderModel.destroy({where: {id:id}}).then((result) => {
+  let order = await orderModel.destroy({where: {id: id}}).then((result) => {
     console.log(result)
     if (result === 1) {
       res.json({message: 'Deleted successfully!'});
@@ -116,9 +116,14 @@ router.put('/order', async (req, res) => {
   let progress = req.body.progress;
 
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-    order.update({progress: progress});
-  })
-  
+    if (progress === 100) {
+      const status = order.additionalReview ? 2 : 3;
+      order.update({progress: progress, status: status});
+    } else {
+      order.update({progress: progress});
+    }
+  });
+
   res.json({message: 'Progress was changed'});
 });
 
