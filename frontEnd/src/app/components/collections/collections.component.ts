@@ -22,6 +22,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
+  initial = 'initial';
+  finite = 'finite';
   isShowCollections = false;
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
