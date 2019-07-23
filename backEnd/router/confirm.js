@@ -33,7 +33,7 @@ router.post('/forgot-password', async(req, res) => {
     let jsonInfo = JSON.stringify(info);
     let encrypt = cryptr.encrypt(jsonInfo);
 
-    nodemailer.resetPassword(encrypt);
+    nodemailer.resetPassword(encrypt, email);
   })
 })
 

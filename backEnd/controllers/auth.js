@@ -17,29 +17,29 @@ const login = (req, res) => {
     case 'translator':
       translator();
       break;
-    default:
-      res.json({message: "ERROR BLYAT"})
   }
 
   function customer() {
     customerModel.findOne({where: {email: email}}).then((customer) => {
-      if (!customer) res.status(401).json({message: 'User does not exist!'});
-
-      const isValid = bcrypt.compareSync(password, customer.password);
-      if (isValid) {
-        const token = jwt.sign(customer.id.toString(), jwtSecret);
-        res.json({
-          token,
-          id: customer.id,
-          name: customer.name,
-          email: customer.email,
-          role: customer.role,
-          isFind: true
-        })
+      if(!customer) res.status(401).json({message: 'User does not exist!'});
+      if(customer.verify) {
+        const isValid = bcrypt.compareSync(password, customer.password);
+        if(isValid) {
+          const token = jwt.sign(customer.id.toString(), jwtSecret);
+          res.json({ 
+            token, 
+            id: customer.id,
+            name: customer.name, 
+            email: customer.email, 
+            role: customer.role
+          });
+        } else {
+          res.status(401).json({message: 'Invalid credentials!'})
+        }
       } else {
-        res.status(401).json({message: 'Invalid credentials!'})
+        res.json({message: 'You are not authorized! Please check your email'});
       }
-    }).catch(err => res.status(500).json(err));
+    }).catch(err => res.json({err}));
   }
 
   function translator() {
@@ -53,9 +53,8 @@ const login = (req, res) => {
           token,
           id: translator.id,
           name: translator.name,
-          email: translator.email,
-          role: translator.role,
-          isFind: true
+          email: translator.email, 
+          role: translator.role
         })
       } else {
         res.status(401).json({message: 'Invalid credentials!'})

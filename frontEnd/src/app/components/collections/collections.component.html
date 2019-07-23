@@ -35,7 +35,7 @@
             </tr>
           </tbody>
         </table>
-        <button class="btn btn-outline-danger  waves-effect large" (click)="deleteCollection(coll.id, j)">Delete
+        <button class="btn btn-outline-danger  waves-effect large" (click)="deleteCollection(coll.id, i)">Delete
           collection</button>
       </mat-expansion-panel>
     </div>
@@ -83,8 +83,8 @@
     <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
     <button class="create_btn" mat-button [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
       (click)="createNewCollection(newCollectionName.value, isOneTranslator)">Create new collection</button>
-    <div class="filteredCollection" *ngFor="let collection of filteredCollections; let i = index"
-      (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, i)"
+    <div class="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
+      (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j)"
       [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
       <div class="table">
         <table mdbTable [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
