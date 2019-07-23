@@ -1,12 +1,12 @@
-<div class="wrapper">
+
   <app-header></app-header>
   <div class="title anim">New texts</div>
   <div class="container">
   <mat-vertical-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="first">
       <ng-template matStepLabel>General options</ng-template>
-      <mat-form-field>
-          <input placeholder="Input the title" class="input_title_field" matInput #titleVal (change)="getTitle(titleVal.value)" value="">
+      <mat-form-field class="title-input">
+          <input placeholder="Input the title" matInput #titleVal (change)="getTitle(titleVal.value)" value="">
       </mat-form-field>
       <mat-form-field class="tags">
           <mat-chip-list #chipList aria-label="Fruit selection">
@@ -26,10 +26,8 @@
           </mat-autocomplete>
         </mat-form-field>
       <div>
-        <h4>Choose initial language:</h4>
-        <app-languages #initLng (selectValue)="getInitLng($event)"></app-languages>
-        <h4>Choose finite language:</h4>
-        <app-languages (selectValue)="getFinitLng($event)"></app-languages>
+        <app-languages [placeholder] = "initial" #initLng (selectValue)="getInitLng($event)"></app-languages>   
+        <app-languages [placeholder] = "finite" (selectValue)="getFinitLng($event)"></app-languages>
         <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
@@ -76,7 +74,10 @@
     <mat-step>
       <ng-template matStepLabel>Additional options</ng-template>
       
-      <mat-checkbox #additional_review class="add_check">Additional review</mat-checkbox>
+      <mat-checkbox 
+        #additional_review 
+        class="add_check"
+      >Additional review</mat-checkbox>
       <h6>The standard transfer duration takes up to a week. If you want to set the required transfer time for an
         additional fee, select the item below.</h6>
       <mat-checkbox #urgency class="add_check">Urgency</mat-checkbox>
@@ -168,4 +169,3 @@
   </div>
   <button class="order_btn" (click)="makeOrder(additional_review)" mat-button>Create order</button> -->
   <app-footer></app-footer>
-</div>

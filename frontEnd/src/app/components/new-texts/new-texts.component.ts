@@ -27,7 +27,8 @@ export class NewTextsComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
-
+  initial = 'initial';
+  finite = 'finite';
   isHovering: boolean;
   files: File[] = [];
   maxSize = 20 * (10 ** 6);

@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-let sendEmail = (guid, id) => {
+let sendEmail = (guid, id, email) => {
   let url = `http://localhost:3000/confirm?code=${guid}&id=${id}`;
   console.log(url);
   let transporter = nodemailer.createTransport({
@@ -14,8 +14,8 @@ let sendEmail = (guid, id) => {
   });
 
   const mailOptions = {
-    from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    from: 'Lets Translate',
+    to: `${email}`,
     subject: 'You have successfully registered with the Let\'s translate site!',
     text: `For confirm your account you need follow this link ${url}`
   };
@@ -29,7 +29,7 @@ let sendEmail = (guid, id) => {
   });
 };
 
-let resetPassword = (encrypt) => {
+let resetPassword = (encrypt, email) => {
   let url = `http://localhost:3000/reset-password?crypt=${encrypt}`;
 
   let transporter = nodemailer.createTransport({
@@ -43,8 +43,8 @@ let resetPassword = (encrypt) => {
   });
 
   const mailOptions = {
-    from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    from: 'Lets Translate',
+    to: `${email}`,
     subject: 'Reset password',
     text: `Follow this link to reset your password ${url}`
   };
@@ -71,7 +71,7 @@ let passwordChanged = (req, res) => {
 
   const mailOptions = {
     from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    to: `${req.body.email}`,
     subject: 'Password update',
     text: `Your password successfully updated`
   };
