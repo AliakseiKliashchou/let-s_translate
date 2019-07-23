@@ -35,13 +35,15 @@ h3 {
 }
 
 td {
-    text-align: center;
+    align-items: center;
+    vertical-align: middle;
 }
 
 .filter{
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
 }
 .black{
   background-color: #2e2e2e !important;
