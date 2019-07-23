@@ -44,8 +44,11 @@ export class MessagesComponent implements OnInit {
 
   readMsg(indexOfMsg) {
     const idNtf = this.msgArray[indexOfMsg].id;
-    this.ntfService.readNotification(idNtf);
-    this.msgArray.splice(indexOfMsg, 1);
+    this.ntfService.readNotification(idNtf)
+      .subscribe(res => {
+        this.msgArray.splice(indexOfMsg, 1);
+        console.log(res);
+      });
   }
 
 }

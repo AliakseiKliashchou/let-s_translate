@@ -55,9 +55,7 @@ router.post('/pay', async (req, res) => {
 
   let notification = await notificationModel.create({
     idCustomer: order.idCustomer,
-    text: 'paid',
-    read: false,
-    order: order
+    text: `paid,${order.title}`
   });
 
   let destroy = await orderModel.destroy({where: {id: id}});
