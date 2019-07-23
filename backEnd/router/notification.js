@@ -6,7 +6,6 @@ const notificationModel = require('../models/notification');
 router.post('/accept', async (req, res) => {
   let idOrder = req.body.idOrder;
   let idTranslator = req.body.idTranslators;
-
   try {
     let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
       order.update({status: 1, translatorId: idTranslator});
@@ -27,11 +26,21 @@ router.post('/accept', async (req, res) => {
 
 router.get('/notifications', async (req, res) => {
   let idCustomer = req.query.idUser;
-
   let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
     return info;
   });
   res.json(notification)
+});
+
+router.put('/notifications', async (req, res) => {
+  console.log('hello')
+  let idCustomer = req.params.idUser;
+  console.log(idCustomer)
+console.log(req.body.idNtf)
+  // let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
+  //   return info;
+  // });
+  // res.json(notification)
 });
 
 

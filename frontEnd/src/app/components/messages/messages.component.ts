@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
-import {NotificationService} from "../../_shared/service/users/notification.service";
+import {NotificationService} from '../../_shared/service/users/notification.service';
 
-interface msg {
+interface Msg {
+  text: string;
   textName: string;
-  textId: string;
+  id: number
 }
 
 @Component({
@@ -16,8 +17,7 @@ interface msg {
 })
 export class MessagesComponent implements OnInit {
 // accepted paid
-
-  msgArray=[];
+  msgArray = [];
 
   constructor(
     private orderService: OrderService,
@@ -27,14 +27,25 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.ntfService.getNotifications()
-      .subscribe((res: { text: string, textName: string }[]) => {
+      .subscribe((res: Msg[]) => {
           res.forEach(el => {
-            let textInfo = el.text.split(',');
-            let info = {textName: textInfo[1], textId: textInfo[2]};
+            const textInfo = el.text.split(',');
+            const info = {
+              status: textInfo[0],
+              textName: textInfo[1],
+              textId: textInfo[2],
+              id: el.id
+            };
             this.msgArray.push(info);
           });
         }
-      )
+      );
+  }
+
+  readMsg(indexOfMsg) {
+    const idNtf = this.msgArray[indexOfMsg].id;
+    this.ntfService.readNotification(idNtf);
+    this.msgArray.splice(indexOfMsg, 1);
   }
 
 }
