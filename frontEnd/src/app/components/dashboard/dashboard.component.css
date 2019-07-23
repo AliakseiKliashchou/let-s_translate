@@ -47,3 +47,7 @@ td {
   background-color: #2e2e2e !important;
   text-align: center;
 }
+.link{
+    color: blue;
+    text-decoration: underline; 
+}
