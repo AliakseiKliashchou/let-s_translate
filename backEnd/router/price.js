@@ -32,7 +32,11 @@ router.post('/pay', async(req, res) => {
 
   let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
     let {coeff} = tariff;
-    payment = Math.floor(order.price * coeff);
+    if(order.urgency) {
+      payment = Math.floor(order.price * coeff * 1.2);
+    } else {
+      payment = Math.floor(order.price * coeff);
+    }
   });
 
   let data = { coins: order.price - payment };
@@ -51,9 +55,9 @@ router.post('/pay', async(req, res) => {
     }
   });
 
-  let destroy = await orderModel.destroy({where: {id: id}});
+  // let destroy = await orderModel.destroy({where: {id: id}});
   
-  res.json({message: 'Transaction is successfully'})
+  res.json({message: 'Transaction is successfully', order})
 });
 
 module.exports = router;
