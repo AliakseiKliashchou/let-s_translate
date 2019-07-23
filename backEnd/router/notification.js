@@ -25,9 +25,11 @@ router.post('/accept', async (req, res) => {
 
 router.get('/notifications', async (req, res) => {
   let idCustomer = req.query.idUser;
+  
   let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
     return info;
   });
+
   res.json(notification)
 });
 

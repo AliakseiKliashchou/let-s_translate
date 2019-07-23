@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <app-header></app-header>
 
   <div class="block">
     <div class="title anim">Incomplete translations</div>
@@ -58,6 +57,7 @@
             <th scope="col">Title</th>
             <th scope="col">Status</th>
             <th scope="col">Date</th>
+            <th scope="col">Last comment</th>
           </tr>
         </thead>
         <tbody>
@@ -70,10 +70,10 @@
               'badge-primary': status[text.status] === 'Ready for translator review'}">{{status[text.status]}}</span></h5>
             </td>
             <td><b>{{text.date | date}}</b></td>
+            <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last comment...</a></td>
           </tr>
         </tbody>
       </table>
     </div>
 
   </div>
-  <app-footer></app-footer>
