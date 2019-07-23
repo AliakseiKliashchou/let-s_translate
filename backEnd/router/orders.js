@@ -118,9 +118,9 @@ router.put('/order', async (req, res) => {
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
     if (progress === 100) {
       const status = order.additionalReview ? 2 : 3;
-      order.update({progress: progress, status: status});
+      order.update({progress: progress, status: status, date: new Date()});
     } else {
-      order.update({progress: progress});
+      order.update({progress: progress, date: new Date()});
     }
   });
 
@@ -148,8 +148,10 @@ router.get('/orders/unowned', async (req, res) => {
 router.get('/orders/translate/:idTranslator', async (req, res) => {
   const idTranslator = req.params.idTranslator;
   try {
-    let orders = await orderModel.findAll({where: {translatorId: idTranslator}});
-    res.json(orders);
+    let orders = await orderModel.findAll(
+      {where: {translatorId: idTranslator}, order: [['date', 'DESC']]})
+      .then(order => res.json(order))
+    // res.json(orders);
   } catch (error) {
     res.json({error, message: 'Can not find any order'});
   }
