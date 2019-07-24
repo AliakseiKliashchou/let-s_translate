@@ -35,6 +35,6 @@ export class UserInfoService {
 
   addMoney(money) {
     const idCustomer = this.authService.getUserId();
-    return this.http.put(`http://localhost:3000/secure/profile/customer/${idCustomer}/money`, {money});
+    return this.http.put(`${this.URL}/secure/profile/customer/${idCustomer}/money`, {money});
   }
 }
