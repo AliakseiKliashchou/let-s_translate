@@ -10,6 +10,7 @@ import {finalize} from 'rxjs/operators';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {OrderService} from "../../_shared/service/order/order.service";
+import { NotificationService } from 'src/app/_shared/service/users/notification.service';
 
 interface UserProfile {
   photo: string;
@@ -53,7 +54,7 @@ export class HeaderComponent implements OnInit {
   downloadURL: Observable<string>;
   downPhoto = new Subject();
   error: any;
-
+  msgCounter: number;
 
   constructor(
     private authService: AuthService,
@@ -63,7 +64,8 @@ export class HeaderComponent implements OnInit {
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
-    private router: Router) {
+    private router: Router,
+    private ntfService: NotificationService) {
 
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
@@ -95,6 +97,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ntfService.getNotifications()
+    .subscribe((res: any) => {
+      this.msgCounter = res.length;
+      }
+    );
   }
 
   // --------VALIDATION------------------------------
