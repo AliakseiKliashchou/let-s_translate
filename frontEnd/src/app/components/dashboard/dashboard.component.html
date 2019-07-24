@@ -53,7 +53,7 @@
                   </td>
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
-                  <td> <button (click)="getOrder(text.id, text.idCustomer)" type="button"
+                  <td> <button (click)="getOrder(text.id, i)" type="button"
                       class="btn btn-outline-primary waves-effect">Get</button></td>
                 </ng-container>
               </tr>

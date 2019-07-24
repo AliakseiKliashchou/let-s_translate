@@ -29,8 +29,8 @@ router.post('/accept', async (req, res) => {
     });
 
     let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
-      let { coeff } = tariff;
-      if(order.urgency) {
+      let {coeff} = tariff;
+      if (order.urgency) {
         payment = Math.floor(order.price * coeff * 1.2);
       } else {
         payment = Math.floor(order.price * coeff);
@@ -41,7 +41,7 @@ router.post('/accept', async (req, res) => {
     let data = {coins: customer.coins - (order.price - payment)};
     let find = {where: {id: order.idCustomer}};
     let updateCustomer = await customerModel.update(data, find);
-  
+
     let aggregation = await aggregationModel.findOne({where: {idOrder: order.id}}).then((aggregation) => {
       let coins = aggregation.coins;
       let price = order.price;
@@ -51,7 +51,7 @@ router.post('/accept', async (req, res) => {
 
     let notification = await notificationModel.create({
       idCustomer: order.idCustomer,
-      text: `Accepted. Your order: ${order.title}, your order id: ${order.id}`
+      text: `accepted,${order.title},${order.id}`
     });
 
     res.json({message: 'Translator appointed!'});
@@ -62,12 +62,11 @@ router.post('/accept', async (req, res) => {
 
 router.get('/notifications', async (req, res) => {
   let idCustomer = req.query.idUser;
-  
-  let notification = await notificationModel.findAll({where: {idCustomer: idCustomer}}).then((info) => {
-    return info;
-  });
-
-  res.json(notification)
+  notificationModel.findAll({where: {idCustomer: idCustomer}})
+    .then((notifications) => {
+      res.json(notifications)
+    })
+    .catch(err => res.json(err));
 });
 
 router.delete('/notifications', async (req, res) => {
