@@ -22,7 +22,7 @@ router.get('/customer/:id', async(req, res) => {
 });
 
 router.post('/done', async(req, res) => {
-  let id = req.body.idOrder;
+  let id = req.body.id;
 
   try {
     let order = await orderModel.findOne({where: {id: id}}).then(order => {
@@ -52,9 +52,9 @@ router.post('/done', async(req, res) => {
       return translator;
     });
   
-    res.json({message: 'Transaction is successfully', order, aggregation, translator})
+    res.json({message: 'Transaction is successfully', order, aggregation})
   } catch(error) {
-    res.status(400).json({message: 'Something was wrong!', error});
+    res.json({message: 'Something was wrong!', error});
   }
 });
 

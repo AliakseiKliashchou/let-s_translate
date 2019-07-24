@@ -13,7 +13,8 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean {
     const isAuth = this.authService.getIsAuth();
-    if (!isAuth) this.router.navigate(['/']);
+    const role = this.authService.getRole();
+    if (!isAuth || role === 'admin') this.router.navigate(['/']);
     return this.authService.getIsAuth();
   }
 }

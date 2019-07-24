@@ -59,6 +59,14 @@ export class OrderService {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
 
+  reviewDone(id) {
+    return this.http.put(`${this.URL}/secure/order-review/`, {id});
+  }
+
+  CustumerReviewDone(id) {
+    return this.http.post(`${this.URL}/secure/review/done/`, {id});
+  }
+
   changePrice(id, price) {
     return this.http.put(`${this.URL}/secure/price/`, {id, price});
   }

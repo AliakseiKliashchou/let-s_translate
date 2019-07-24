@@ -145,6 +145,21 @@ router.delete('/order/:id', async (req, res) => {
   res.json(notification);
 });
 
+router.put('/order-review', async (req, res) => {
+  let idOrder = req.body.id;
+
+  let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+    if (order.progress === 100) {
+      let status = order.review ? 3 : 4;
+      order.update({status: status, date: new Date()});
+      res.json({message: 'Review done'});
+    } else {
+      order.update({date: new Date()});
+      res.json({message: 'Review ne done'});
+    }
+  });
+});
+
 router.put('/order', async (req, res) => {
   let idOrder = req.body.id;
   let progress = req.body.progress;

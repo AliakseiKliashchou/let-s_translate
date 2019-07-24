@@ -58,7 +58,6 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
-        console.log(data)
         this.router.navigate(['/dashboard']);
       }
     });
@@ -112,5 +111,8 @@ export class AuthService {
       return;
     }
     return {data};
+  } 
+  sendPasswordChange(email){    
+    return this.http.post(`${this.URL}/forgot-password`, {email});
   }
 }

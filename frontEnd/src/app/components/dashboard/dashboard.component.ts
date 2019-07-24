@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {OrderInterface} from '../../_shared/interface/order.interface';
 import {AuthService} from '../../_shared/service/users/auth.service';
@@ -8,7 +8,6 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
-import {Router} from '@angular/router';
 
 
 @Component({
@@ -29,7 +28,6 @@ export class DashboardComponent implements OnInit {
   ordersArray: OrderInterface[];
   role: string;
   tags: string[] = [];
-  selectedLng: string;
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   selectable = true;
@@ -39,8 +37,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService,
-    private router: Router) {
+    private authService: AuthService) {
   }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
@@ -56,14 +53,12 @@ export class DashboardComponent implements OnInit {
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
-          console.log(orders);
           this.ordersArray = orders;
         });
     } else if (this.role === 'customer') {
       this.orderService.getOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
-          console.log(this.ordersArray);
         });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
@@ -85,7 +80,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
   remove(fruit: string): void {
     const index = this.tags.indexOf(fruit);
     if (index >= 0) {
@@ -106,22 +100,6 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  getColor(status) {
-    switch (status) {
-      case 0:
-        return '#DA111A';
-      case 1:
-        return '#d09515';
-      case 2:
-      case 3:
-        return '#5546E4';
-    }
-  }
-
-  anchor(id) {
-    this.router.navigate(['/text_details', id], {fragment: 'bottom'});
-  }
-
 // ***********************GET ORDER********************************* */
 
   getOrder(idOrder: number, index) {
@@ -129,12 +107,4 @@ export class DashboardComponent implements OnInit {
     this.orderService.acceptOrder(idOrder, idCustomer);
     this.ordersArray.splice(index, 1);
   }
-
-// ***********************Label********************************* */
-
-getLabel(label) {
-  console.log(label)
-}
-
-
 }

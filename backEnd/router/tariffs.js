@@ -14,7 +14,6 @@ router.get('/tariff', async(req, res) => {
 router.put('/secure/tariff', async(req, res) => {
   let { name, cost, coins, coeff } = req.body;
 
-
   try {
     let tariffs = await tariffModel.findOne({where: {name: name}}).then((info) => {
       info.update({cost: cost, coins: coins, coeff: coeff});

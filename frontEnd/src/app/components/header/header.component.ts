@@ -1,22 +1,30 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { MatSnackBar } from '@angular/material';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MatSnackBar} from '@angular/material';
+import {Observable, Subject, Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
 
-import { AuthService } from '../../_shared/service/users/auth.service';
-import { UserInfoService } from '../../_shared/service/users/user-info.service';
-import { OrderService } from "../../_shared/service/order/order.service";
-import { NotificationService } from 'src/app/_shared/service/users/notification.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
+import {UserInfoService} from '../../_shared/service/users/user-info.service';
+import {OrderService} from '../../_shared/service/order/order.service';
+import {NotificationService} from 'src/app/_shared/service/users/notification.service';
+import {AdminService} from '../../_shared/service/admin/admin.service';
 
-interface UserProfile {
+interface UserProfileInterface {
   photo: string;
+  role: string;
   name: string;
   email: string;
   coins: number;
+  tariff: string;
+}
+
+interface TariffsInterface {
+  name: string;
+  coeff: number;
 }
 
 @Component({
@@ -31,7 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('',
-      [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    recoverEmail: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)])
   };
   isRole = {
     auth: false,
@@ -39,14 +48,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     translator: false,
     admin: false
   };
+
   role = 'customer';
   user = {
     email: '',
     password: '',
     role: ''
   };
-
-  userProfile;
+  tariffs = {};
+  userProfile: UserProfileInterface;
   userProfileForm;
   imageUrl;
   photo;
@@ -55,11 +65,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   downPhoto = new Subject();
   error: any;
   msgCounter: number;
+
+
+  isShowRecoverPanel = false;
+
+
   subscription: Subscription;
+
   constructor(
     private authService: AuthService,
     private userInfoService: UserInfoService,
     private orderService: OrderService,
+    private adminService: AdminService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
@@ -67,7 +84,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private ntfService: NotificationService) {
 
-    this.subscription = this.ntfService.getMessage().subscribe(message => { this.msgCounter = message; });
+    this.subscription = this.ntfService.getMessage().subscribe(message => {
+      this.msgCounter = message;
+    });
 
 
     this.isRole.auth = this.authService.getIsAuth();
@@ -78,22 +97,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const role = this.authService.getRole();
         if (role === 'translator') {
           this.isRole.translator = true;
-          this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-          });
+          this.userInfoService.getTranslatorProfile(userId)
+            .subscribe((res: any) => {
+            });
         } else if (role === 'customer') {
-          this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-            this.isRole.customer = true;
-            this.userProfile = userData;
-            this.imageUrl = userData.photo;
-            this.userProfileForm = {
-              photo:
-                new FormControl(this.imageUrl || ''),
-              name:
-                new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
-              email:
-                new FormControl(userData.email, Validators.pattern(this.emailPattern))
-            };
-          });
+          this.userInfoService.getCustomerProfile(userId)
+            .subscribe((userData: UserProfileInterface) => {
+
+              this.adminService.getTariffs().subscribe((tariffs: TariffsInterface[]) => {
+                  tariffs.forEach(el => {
+                    const name = el.name;
+                    this.tariffs[name] = (2 - el.coeff) * 100;
+                  });
+                }
+              );
+              this.isRole.customer = true;
+              this.userProfile = userData;
+              this.imageUrl = userData.photo;
+              this.userProfileForm = {
+                photo:
+                  new FormControl(this.imageUrl || ''),
+                name:
+                  new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+                email:
+                  new FormControl(userData.email, Validators.pattern(this.emailPattern))
+              };
+            });
         } else if (role === 'admin') this.isRole.admin = true;
       }
     });
@@ -102,15 +131,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ntfService.getNotifications()
       .subscribe((res: any) => {
-        this.msgCounter = res.length;
-      }
+          this.msgCounter = res.length;
+        }
       );
   }
-  
+
   ngOnDestroy(): void {
     // нужно отписаться чтобы не выгружать память
     this.subscription.unsubscribe();
   }
+
   // --------VALIDATION------------------------------
 
   getErrorMessageEmail() {
@@ -122,6 +152,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.userInput.password.hasError('required') ? 'You must enter a value' :
       this.userInput.password.hasError('minlength') ? 'The password is too short' :
         this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  }
+  getRecoverEmailMessage(){
+    return this.userInput.recoverEmail.hasError('required') ? 'You must enter a value' :
+      this.userInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
   }
 
   // --------------------------------------------------
@@ -150,6 +184,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
         break;
     }
+  }
+
+  addMoney(money) {
+    if (money) this.userInfoService.addMoney(money)
+      .subscribe((res: { msg: string; resultMoney: number }) => {
+        this.userProfile.coins = res.resultMoney;
+        this._snackBar.open('You get more coins!', '', {
+          duration: 2000,
+        });
+      });
+  }
+
+  getNewMoney(money, newMoneyInput) {
+    const tariff = this.userProfile.tariff
+    const internalMoney = money * this.tariffs[tariff];
+    newMoneyInput.value = internalMoney;
   }
 
   login(frame) {
@@ -218,17 +268,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.task = this.storage.upload(path, file);
     this.task.snapshotChanges().pipe(
       finalize(() => {
-        this.downloadURL = ref.getDownloadURL();
-        this.downloadURL.subscribe(url => {
-          this.photo = url;
-          this.downPhoto.next(url);
-          this._snackBar.open('The document was successfully uploaded', '', {
-            duration: 2000,
+          this.downloadURL = ref.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            this.photo = url;
+            this.downPhoto.next(url);
+            this._snackBar.open('The document was successfully uploaded', '', {
+              duration: 2000,
+            });
           });
-        });
-      }
+        }
       )
     ).subscribe();
+  }
+
+  sendNewOptions(){
+    let recoverEmail = this.userInput.recoverEmail.value;
+    this.authService.sendPasswordChange(recoverEmail).subscribe( (data) => {
+      console.log(data);
+      this._snackBar.open('On your e-mail adress was send a recovery options', '', {
+        duration: 2000,
+      });
+    });
   }
 
 }
