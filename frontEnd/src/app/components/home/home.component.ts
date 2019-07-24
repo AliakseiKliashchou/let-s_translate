@@ -22,12 +22,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.adminService.getAdminData().subscribe((data: any) => {
+    this.adminService.getTariffs().subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
         this.tariffsArray.push(data[i]);
       }
     });
-    console.log(this.tariffsArray);
   }
 
   goToCustomerReg() {

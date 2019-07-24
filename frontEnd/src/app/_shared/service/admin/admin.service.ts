@@ -14,7 +14,7 @@ export class AdminService {
 
   private URL = 'http://localhost:3000';
 
-  getAdminData() {
+  getTariffs() {
     return this.http.get(`${this.URL}/tariff`);
   }
 

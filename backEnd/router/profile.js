@@ -42,8 +42,6 @@ router.get('/translator/:id', async (req, res) => {
 });
 
 router.put('/customer/:id', async (req, res) => {
-  res.json(req.body.photo);
-
   let id = req.params.id;
   try {
     let data = {
@@ -60,8 +58,16 @@ router.put('/customer/:id', async (req, res) => {
 });
 
 router.put('/customer/:id/money', async (req, res) => {
-  res.json(req.body.photo);
-})
+  const {money} = req.body;
+  const id = req.params.id;
+  customerModel.findOne({where: {id: id}})
+    .then(user => {
+      const resultMoney = user.coins + Number(money);
+      user.update({coins: resultMoney})
+        .then(result => res.json({msg: 'You get you money', resultMoney}))
+        .catch(err => res.json(err))
+    }).catch(err => res.json(err));
+});
 
 
 module.exports = router;

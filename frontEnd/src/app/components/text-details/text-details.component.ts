@@ -57,6 +57,7 @@ export class TextDetailsComponent implements OnInit {
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
       this.element = order;
+      console.log(this.element);
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
@@ -87,7 +88,6 @@ export class TextDetailsComponent implements OnInit {
     };
     this.messagesService.createMessage(message).subscribe(() => {
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
-        console.log(data);
         const item = data.length - 1;
         this.incomingComments.push(data[item]);
       });
@@ -107,7 +107,6 @@ export class TextDetailsComponent implements OnInit {
 
   savePrice() {
     this.orderService.changePrice(this.element.id, this.element.price).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('The price was successfully changed', '', {
         duration: 2000,
       });
@@ -116,7 +115,6 @@ export class TextDetailsComponent implements OnInit {
 
   saveProgress() {
     this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('The progress was successfully changed', '', {
         duration: 2000,
       });
