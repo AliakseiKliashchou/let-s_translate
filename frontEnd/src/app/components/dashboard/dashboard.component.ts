@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  label: string;
 
   constructor(
     private orderService: OrderService,
@@ -108,5 +109,4 @@ export class DashboardComponent implements OnInit {
     this.orderService.acceptOrder(idOrder, idCustomer);
     this.ordersArray.splice(index, 1);
   }
-
 }

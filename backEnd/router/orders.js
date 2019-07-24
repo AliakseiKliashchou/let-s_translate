@@ -3,6 +3,9 @@ const router = express.Router();
 const orderModel = require('../models/order');
 const translatorModel = require('../models/translator');
 const collectionModel = require('../models/collection');
+const aggregationModel = require('../models/aggregation');
+const customerModel = require('../models/customer');
+const notificationModel = require('../models/notification');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -24,7 +27,7 @@ router.post('/order', async (req, res) => {
     date: new Date(),
     isCollections: false,
     oneTranslator: false,
-    price: req.body.price,
+    price: 0,
   };
   try {
     if (urls.length > 1) {
@@ -52,6 +55,7 @@ router.post('/order', async (req, res) => {
   }
 });
 
+//customer STATUS
 router.get('/orders', async (req, res) => {
   const id = req.query.idCustomer;
 
@@ -60,6 +64,25 @@ router.get('/orders', async (req, res) => {
     res.json(orders);
   } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
+  }
+});
+
+//translator STATUS
+router.get('/orders/unowned', async (req, res) => {
+  const idTranslator = req.query.idTranslator;
+  try {
+    let translator = await translatorModel.findOne({where: {id: idTranslator}});
+    const languages = translator.languages;
+    let orders = await orderModel.findAll(
+      {
+        where: {
+          status: 0,
+          originalLanguage: {[Op.in]: languages},
+          translateLanguage: {[Op.in]: languages},
+        }
+      }).then(response => res.json(response));
+  } catch (error) {
+    res.json({message: error});
   }
 });
 
@@ -100,15 +123,27 @@ router.get('/order/:id', async (req, res) => {
 
 router.delete('/order/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id)
-  let order = await orderModel.destroy({where: {id: id}}).then((result) => {
-    console.log(result)
-    if (result === 1) {
-      res.json({message: 'Deleted successfully!'});
-    } else {
-      res.status(404).json({message: 'Record not found!'})
-    }
-  })
+
+  let order = await orderModel.findOne({where: {id: id}}).then(order => order);
+  let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then(customer => customer);
+  let translator = await translatorModel.findOne({where: {id: order.translatorId}}).then(translator => translator);
+
+  if(order.status === 1) {
+    let halfPrice = order.price / 2;
+
+    customerModel.update({coins: customer.coins + halfPrice}, {where: {id: order.idCustomer}});
+    translatorModel.update({coins: translator.coins + halfPrice}, {where: {id: order.translatorId}});
+
+    orderModel.destroy({where: {id: id}});
+    aggregationModel.destroy({where: {idOrder: id}});
+  };
+
+  let notification = await notificationModel.create({
+    idCustomer: order.idCustomer,
+    text: `Your order: ${order.title} was delete. Half the cost of the order send to the translator `
+  });
+
+  res.json(notification);
 });
 
 router.put('/order', async (req, res) => {
@@ -125,24 +160,6 @@ router.put('/order', async (req, res) => {
   });
 
   res.json({message: 'Progress was changed'});
-});
-
-router.get('/orders/unowned', async (req, res) => {
-  const idTranslator = req.query.idTranslator;
-  try {
-    let translator = await translatorModel.findOne({where: {id: idTranslator}});
-    const languages = translator.languages;
-    let orders = await orderModel.findAll(
-      {
-        where: {
-          status: 0,
-          originalLanguage: {[Op.in]: languages},
-          translateLanguage: {[Op.in]: languages},
-        }
-      }).then(response => res.json(response));
-  } catch (error) {
-    res.json({message: error});
-  }
 });
 
 router.get('/orders/translate/:idTranslator', async (req, res) => {

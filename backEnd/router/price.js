@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const orderModel = require('../models/order');
-const customerModel = require('../models/customer');
-const tariffModel = require('../models/tariff');
+const aggregationModel = require('../models/aggregation');
 const translatorModel = require('../models/translator');
 const notificationModel = require('../models/notification');
 
@@ -17,54 +16,38 @@ router.put('/', async (req, res) => {
 
 });
 
-router.post('/pay', async (req, res) => {
-  let id = req.body.id;
-  let payment;
+// router.post('/pay', async (req, res) => {
+//   let id = req.body.id;
 
-  let order = await orderModel.findOne({where: {id: id}}).then((order) => {
-    return order;
-  });
+//   let order = await orderModel.findOne({where: {id: id}}).then((order) => {
+//     return order;
+//   });
 
-  let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then((customer) => {
-    return {
-      tariffName: customer.tariff,
-      coins: customer.coins,
-    };
-  });
+//   let aggregation = await aggregationModel.findOne({where: {idOrder: order.id}}).then((aggregation) => {
+//     return aggregation;
+//   });
 
-  let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
-    let {coeff} = tariff;
-    if(order.urgency) {
-      payment = Math.floor(order.price * coeff * 1.2);
-    } else {
-      payment = Math.floor(order.price * coeff);
-    }
-  });
+//   let translator = await translatorModel.findOne({where: {id: aggregation.translatorId}}).then((translator) => {
+//     if(order.status === 4) {
+//       let coins = translator.coins;
+//       let payment = aggregation.coins;
 
-  let data = {coins: order.price - payment};
-  let find = {where: {id: order.idCustomer}};
+//       translator.update({coins: coins + payment});
 
-  let updateCustomer = await customerModel.update(data, find);
+//       notificationModel.create({
+//         idCustomer: order.idCustomer,
+//         text: 'paid'
+//       });
 
-  let translator = await translatorModel.findOne({where: {id: order.translatorId}}).then((translator) => {
-    if (translator === null) {
-      res.json({message: 'NO TRANSLATOR'})
-    } else {
-      let coins = translator.coins;
-      let price = order.price;
+//       aggregationModel.destroy({where: {idOrder: order.id}});
+//     } else {
+//       res.json({message: 'Order in progress now!'})
+//     }
 
-      translator.update({coins: coins + price});
-    }
-  });
+//     return translator;
+//   });
 
-  let notification = await notificationModel.create({
-    idCustomer: order.idCustomer,
-    text: `paid,${order.title}`
-  });
-
-  let destroy = await orderModel.destroy({where: {id: id}});
-
-  res.json({message: 'Transaction is successfully'})
-});
+//   res.json({message: 'Transaction is successfully', order, aggregation, translator})
+// });
 
 module.exports = router;
