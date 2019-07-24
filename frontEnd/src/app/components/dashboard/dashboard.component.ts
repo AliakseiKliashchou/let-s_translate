@@ -52,14 +52,12 @@ export class DashboardComponent implements OnInit {
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
-          console.log(orders);
           this.ordersArray = orders;
         });
     } else if (this.role === 'customer') {
       this.orderService.getOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
-          console.log(this.ordersArray);
         });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(

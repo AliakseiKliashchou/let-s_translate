@@ -10,12 +10,20 @@ import {finalize} from 'rxjs/operators';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {OrderService} from '../../_shared/service/order/order.service';
+import {AdminService} from '../../_shared/service/admin/admin.service';
 
-interface UserProfile {
+interface UserProfileInterface {
   photo: string;
+  role: string;
   name: string;
   email: string;
   coins: number;
+  tariff: string;
+}
+
+interface TariffsInterface {
+  name: string;
+  coeff: number;
 }
 
 @Component({
@@ -38,14 +46,15 @@ export class HeaderComponent implements OnInit {
     translator: false,
     admin: false
   };
+
   role = 'customer';
   user = {
     email: '',
     password: '',
     role: ''
   };
-
-  userProfile;
+  tariffs = {};
+  userProfile: UserProfileInterface;
   userProfileForm;
   imageUrl;
   photo;
@@ -59,6 +68,7 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private userInfoService: UserInfoService,
     private orderService: OrderService,
+    private adminService: AdminService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
@@ -73,22 +83,32 @@ export class HeaderComponent implements OnInit {
         const role = this.authService.getRole();
         if (role === 'translator') {
           this.isRole.translator = true;
-          this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-          });
+          this.userInfoService.getTranslatorProfile(userId)
+            .subscribe((res: any) => {
+            });
         } else if (role === 'customer') {
-          this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-            this.isRole.customer = true;
-            this.userProfile = userData;
-            this.imageUrl = userData.photo;
-            this.userProfileForm = {
-              photo:
-                new FormControl(this.imageUrl || ''),
-              name:
-                new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
-              email:
-                new FormControl(userData.email, Validators.pattern(this.emailPattern))
-            };
-          });
+          this.userInfoService.getCustomerProfile(userId)
+            .subscribe((userData: UserProfileInterface) => {
+
+              this.adminService.getTariffs().subscribe((tariffs: TariffsInterface[]) => {
+                  tariffs.forEach(el => {
+                    const name = el.name;
+                    this.tariffs[name] = (2 - el.coeff) * 100;
+                  });
+                }
+              );
+              this.isRole.customer = true;
+              this.userProfile = userData;
+              this.imageUrl = userData.photo;
+              this.userProfileForm = {
+                photo:
+                  new FormControl(this.imageUrl || ''),
+                name:
+                  new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+                email:
+                  new FormControl(userData.email, Validators.pattern(this.emailPattern))
+              };
+            });
         } else if (role === 'admin') this.isRole.admin = true;
       }
     });
@@ -139,8 +159,13 @@ export class HeaderComponent implements OnInit {
   }
 
   addMoney(money) {
-    console.log(money)
-    this.userInfoService.addMoney(money);
+    if (money) this.userInfoService.addMoney(money);
+  }
+
+  getNewMoney(money, newMoneyInput) {
+    const tariff = this.userProfile.tariff
+    const internalMoney = money * this.tariffs[tariff];
+    newMoneyInput.value = internalMoney;
   }
 
   login(frame) {
