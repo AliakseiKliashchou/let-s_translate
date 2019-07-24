@@ -8,7 +8,7 @@
   <links>
     <!-- Links -->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active">
+      <li class="nav-item" *ngIf="isRole.auth && !isRole.admin" routerLinkActive="active">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/dashboard">
           Dashboard</a>
       </li>
@@ -22,7 +22,7 @@
       </li>
       <li
         class="nav-item"
-        *ngIf="isRole.auth"
+        *ngIf="isRole.customer"
         routerLinkActive="active"
         matBadge="{{msgCounter}}"
         [matBadgeHidden]="msgCounter === 0"

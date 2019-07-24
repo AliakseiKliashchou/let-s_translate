@@ -11,27 +11,32 @@ const Op = Sequelize.Op;
 
 router.post('/order', async (req, res) => {
   let urls = req.body.url;
+  const {
+    idCustomer, name, email, additionalReview: review, title, urgency,
+    finiteLng: translateLanguage, initialLng: originalLanguage, tags
+  } = req.body;
   let ordersInfo = {
-    idCustomer: req.body.idCustomer,
-    name: req.body.name,
-    email: req.body.email,
+    idCustomer,
+    name,
+    email,
+    originalLanguage,
+    translateLanguage,
+    tags,
+    title,
+    urgency,
+    review,
     download: '',
-    originalLanguage: req.body.initialLng,
-    translateLanguage: req.body.finiteLng,
-    tags: req.body.tags,
-    title: req.body.title,
-    urgency: req.body.urgency,
-    review: req.body.additionalReview,
     status: 0,
     progress: 0,
     date: new Date(),
     isCollections: false,
     oneTranslator: false,
-    price: 0,
+    price: 0
   };
   try {
     if (urls.length > 1) {
       let ordersArray = [];
+      const lng = [translateLanguage, originalLanguage];
       for (let i = 0; i < urls.length; i++) {
         ordersInfo.download = urls[i];
         ordersInfo.isCollections = true;
@@ -40,9 +45,10 @@ router.post('/order', async (req, res) => {
       }
       let collection = collectionModel.create({
         idOrders: ordersArray,
-        title: req.body.title,
-        idCustomer: req.body.idCustomer,
-        oneTranslator: false
+        title: title,
+        idCustomer: idCustomer,
+        oneTranslator: false,
+        lng: lng
       });
     } else {
       ordersInfo.download = urls[0];
@@ -82,10 +88,7 @@ router.get('/orders/unowned', async (req, res) => {
         }
       }).then(ordersArray => {
       if (ordersArray) {
-        const newArray = ordersArray.filter(el => {
-          if (el.isCollections && el.oneTranslator) {
-          } else return el;
-        });
+        const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
         res.json(newArray);
       } else res.json({msg: 'You don\'t have work'})
     });
