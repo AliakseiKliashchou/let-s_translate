@@ -45,7 +45,7 @@ router.get('/by-params', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const {idOrders, tittle, idCustomer, oneTranslator} = req.body;
+  const {idOrders, tittle, idCustomer, oneTranslator, lng} = req.body;
   orderModel.findAll({where: {id: idOrders}}).then(orders => {
     orders.forEach(el => {
       el.update({isCollections: true, oneTranslator: oneTranslator})
@@ -55,7 +55,8 @@ router.post('/create', async (req, res) => {
     idOrders: idOrders,
     title: tittle,
     idCustomer: idCustomer,
-    oneTranslator: oneTranslator
+    oneTranslator: oneTranslator,
+    lng: lng
   }).then(result => res.json(result));
 });
 

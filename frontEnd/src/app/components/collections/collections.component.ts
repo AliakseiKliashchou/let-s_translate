@@ -170,8 +170,9 @@ export class CollectionsComponent implements OnInit {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
+    const lng = [this.findingParams.originalLanguage, this.findingParams.translateLanguage];
     const {id, isOneTranslator} = this.newCollectionArray;
-    this.collectionsService.createCollection(id, title, isOneTranslator)
+    this.collectionsService.createCollection(id, title, isOneTranslator, lng)
       .subscribe((data) => {
         this.ngOnInit();
         this._snackBar.open('Collection was successfully created', '', {
