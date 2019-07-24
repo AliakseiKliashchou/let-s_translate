@@ -31,7 +31,8 @@ export class HeaderComponent implements OnInit {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('',
-      [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    recoverEmail: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)])
   };
   isRole = {
     auth: false,
@@ -55,6 +56,8 @@ export class HeaderComponent implements OnInit {
   downPhoto = new Subject();
   error: any;
   msgCounter: number;
+
+  isShowRecoverPanel = false;
 
   constructor(
     private authService: AuthService,
@@ -115,6 +118,10 @@ export class HeaderComponent implements OnInit {
     return this.userInput.password.hasError('required') ? 'You must enter a value' :
       this.userInput.password.hasError('minlength') ? 'The password is too short' :
         this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  }
+  getRecoverEmailMessage(){
+    return this.userInput.recoverEmail.hasError('required') ? 'You must enter a value' :
+      this.userInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
   }
 
   // --------------------------------------------------
@@ -222,6 +229,16 @@ export class HeaderComponent implements OnInit {
         }
       )
     ).subscribe();
+  }
+
+  sendNewOptions(){
+    let recoverEmail = this.userInput.recoverEmail.value;
+    this.authService.sendPasswordChange(recoverEmail).subscribe( (data) => {
+      console.log(data);
+      this._snackBar.open('On your e-mail adress was send a recovery options', '', {
+        duration: 2000,
+      });
+    });
   }
 
 }

@@ -217,6 +217,30 @@
       <div class="modal-footer d-flex justify-content-center">
         <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
       </div>
+<!---------------------------------------FORGET PASSWORD---------------------------------------------------------------->
+      <p id="forgotPassword" (click)="isShowRecoverPanel = !isShowRecoverPanel">Forgot password?</p>
+      <div *ngIf="isShowRecoverPanel" class="md-form mb-3 mx-3">
+          <i class="fas fa-envelope prefix grey-text"></i>
+              <input 
+                #recoverEmail type="email"
+                id="recoverEmail" 
+                [formControl]="userInput.recoverEmail" 
+                class="form-control validate" 
+                mdbInput
+                mdbValidate>
+              <label data-error="wrong" data-success="right" for="recoverEmail">Enter e-mail for recovery password</label>
+              <mdb-error *ngIf="userInput.recoverEmail.invalid && (userInput.recoverEmail.dirty || userInput.recoverEmail.touched)">
+                {{getRecoverEmailMessage()}}
+              </mdb-error>
+              <mdb-success *ngIf="userInput.recoverEmail.valid && (userInput.recoverEmail.dirty || userInput.recoverEmail.touched)">Ok!</mdb-success>
+              <button
+                type="button"
+                mdbBtn color="success"
+                mdbWavesEffect
+                [disabled]="userInput.recoverEmail.invalid"
+                (click)="sendNewOptions()"
+              >Send new options</button>
+      </div>
     </div>
   </div>
 </div>
