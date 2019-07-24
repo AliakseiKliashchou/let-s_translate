@@ -141,7 +141,6 @@ export class NewTextsComponent implements OnInit {
     const ref = this.storage.ref(path);
     ref.putString(text).then((snapshot) => {
       snapshot.ref.getDownloadURL().then(url => {
-        console.log(url);
         this.order.url.push(url);
       });
       this._snackBar.open('The text was successfully uploaded', '', {
@@ -174,7 +173,6 @@ export class NewTextsComponent implements OnInit {
     this.order.additionalReview = additionalReview.checked;
     this.order.urgency = urgency.checked;
     this.order.tags = this.tags;
-    console.log(this.order);
     this.userProfile.getCustomerProfile(this.order.idCustomer).subscribe(
       (res: { name, email }) => {
         this.order.name = res.name;

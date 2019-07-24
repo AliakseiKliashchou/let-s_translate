@@ -22,7 +22,7 @@ export class AdminPanelComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.adminService.getAdminData().subscribe((data: []) => {
+    this.adminService.getTariffs().subscribe((data: []) => {
       data.forEach((el: TariffInterface) => {
         (this.tariffArray.get('items') as FormArray).push(
           new FormGroup({
@@ -39,7 +39,6 @@ export class AdminPanelComponent implements OnInit {
 
   changeTariff(tariff) {
     const tariffData = tariff.value;
-    console.log(tariffData)
     this.adminService.changeTariffPlan(tariffData).subscribe((data) => {
       tariff.disable();
       this._snackBar.open('The tariff plan was successfully changed', '', {
@@ -50,7 +49,6 @@ export class AdminPanelComponent implements OnInit {
 
   disabled(tariff) {
     tariff.enable();
-    console.log(tariff);
   }
 
 }
