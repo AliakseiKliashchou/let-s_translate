@@ -7,7 +7,6 @@ import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -100,7 +99,7 @@ export class CustomerRegComponent implements OnInit {
         '', {
           duration: 2000,
         });
-    this.router.navigate(['/']);  
+      this.router.navigate(['/']);
     });
   }
 
