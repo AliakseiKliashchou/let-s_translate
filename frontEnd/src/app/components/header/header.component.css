@@ -216,3 +216,13 @@ nav {
 li{
   text-transform: uppercase;
 }
+#forgotPassword{
+  text-align: center;
+  text-decoration: underline;
+  color: blue;
+}
+#forgotPassword:hover{
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}

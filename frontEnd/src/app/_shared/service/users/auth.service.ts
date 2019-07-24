@@ -112,4 +112,7 @@ export class AuthService {
     }
     return {data};
   }
+  sendPasswordChange(email){    
+    return this.http.post(`${this.URL}/forgot-password`, {email});
+  }
 }

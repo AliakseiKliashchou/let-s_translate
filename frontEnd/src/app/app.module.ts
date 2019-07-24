@@ -43,7 +43,8 @@ import {
   TextDetailsComponent,
   CollectionsComponent,
   LngCheckboxesComponent,
-  AdminPanelComponent
+  AdminPanelComponent,
+  NewPasswordComponent
 } from './components';
 import { DropzoneDirective } from './_shared/directive/dropzone.directive';
 import { AuthService } from './_shared/service/users/auth.service';
@@ -81,7 +82,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     TextDetailsComponent,
     CollectionsComponent,
     LngCheckboxesComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    NewPasswordComponent
   ],
   imports: [
     FragmentPolyfillModule.forRoot({
