@@ -37,8 +37,8 @@ export class AuthService {
     return this.http.post(`${this.URL}/create/translator`, user);
   }
 
-  log(user){
-    return this.http.post(`${this.URL}/login`, user)
+  log(user) {
+    return this.http.post(`${this.URL}/login`, user);
   }
 
   login(user) {
@@ -111,8 +111,9 @@ export class AuthService {
       return;
     }
     return {data};
-  } 
-  sendPasswordChange(email){    
+  }
+
+  sendPasswordChange(email) {
     return this.http.post(`${this.URL}/forgot-password`, {email});
   }
 }
