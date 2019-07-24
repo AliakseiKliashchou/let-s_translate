@@ -152,6 +152,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  addMoney(money) {
+    console.log(money)
+    this.userInfoService.addMoney(money);
+  }
+
   login(frame) {
     if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
       this.authService.log(this.user).subscribe(() => {
