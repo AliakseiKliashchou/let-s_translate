@@ -200,3 +200,7 @@ nav {
 .nav-item{
   margin: 10px;
 }
+
+li{
+  text-transform: uppercase;
+}
