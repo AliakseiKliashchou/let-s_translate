@@ -147,11 +147,11 @@ router.delete('/order/:id', async (req, res) => {
 
 router.put('/order', async (req, res) => {
   let idOrder = req.body.id;
-
+  let progress = req.body.progress;
+  
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-    if (order.progress === 100) {
-      const status = order.additionalReview ? 2 : 3;
-      order.update({progress: progress, status: status, date: new Date()});
+    if (progress === 100) {
+      order.update({progress: progress, status: 2, date: new Date()});
     } else {
       order.update({progress: progress, date: new Date()});
     }
