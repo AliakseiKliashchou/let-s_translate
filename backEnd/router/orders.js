@@ -14,6 +14,7 @@ router.post('/order', async (req, res) => {
   let ordersInfo = {
     idCustomer: req.body.idCustomer,
     name: req.body.name,
+    email: req.body.email,
     download: '',
     originalLanguage: req.body.initialLng,
     translateLanguage: req.body.finiteLng,
@@ -156,9 +157,9 @@ router.delete('/order/:id', async (req, res) => {
 });
 
 router.put('/order-review', async (req, res) => {
-  let idOrder = req.body.id;
+  let id = req.body.id;
 
-  let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+  let order = await orderModel.findOne({where: {id: id}}).then((order) => {
     if (order.progress === 100) {
       let status = order.review ? 3 : 4;
       order.update({status: status, date: new Date()});

@@ -23,7 +23,8 @@ router.post('/translator', valid.checkValid, async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      languages: req.body.languages
+      languages: req.body.languages,
+      coins: 0
     });
 
     bcrypt.hash(translator.password, 10).then((hash) => {
