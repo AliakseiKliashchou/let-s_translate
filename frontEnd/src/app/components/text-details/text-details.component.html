@@ -50,17 +50,15 @@
         <!---------------IF TRANSLATOR...------------------------>
         <div *ngIf="role === 'translator'">
           <p class="lead"><b>Change a progress of current text translation</b></p>
-          <mat-slider
-            #slider thumbLabel
-            [displayWith]="formatLabel"
-            tickInterval="1000"
-            min="0" max="100"
-            [value]="element.progress"
-            (change)="changeSliderTranslator(slider.value)">
+          <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
+            [value]="element.progress" (change)="changeSliderTranslator(slider.value)">
           </mat-slider>
           <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">
             Save
             changes
+          </button>
+          <button *ngIf="element.review === true" class="btn btn-outline-primary  waves-effect large" (click)="reviewDone()">
+            Review done
           </button>
           <mat-divider></mat-divider>
         </div>
@@ -70,12 +68,15 @@
         <div *ngIf="role === 'customer'">
           <div class="md-form inpChangePrice">
             <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
-                   (change)="changeSliderCustomer(inpChangePrice.value)">
+              (change)="changeSliderCustomer(inpChangePrice.value)">
             <label for="form1" class="">Change the price</label>
             <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect large" (click)="savePrice()">
               Save
               changes
             </button>
+            <button class="btn btn-outline-primary  waves-effect large" (click)="customerReviewDone()">
+                Review done
+              </button>
             <div style="clear: both"></div>
           </div>
         </div>
@@ -101,18 +102,9 @@
     </div>
     <div class="create_comment">
       <div style="display: flex; width: 80%;margin: auto;">
-            <textarea
-              class="md-textarea form-control"
-              rows="3"
-              #textArea
-              id="input_text"
-              type="text"
-              length="120"
-              mdbCharCounter
-              mdbInput
-              placeholder="Enter your comment here..."
-              style="margin: 0; width: 95%"
-              [value]="textUrl? textUrl: ''">
+        <textarea class="md-textarea form-control" rows="3" #textArea id="input_text" type="text" length="120"
+          mdbCharCounter mdbInput placeholder="Enter your comment here..." style="margin: 0; width: 95%"
+          [value]="textUrl? textUrl: ''">
           </textarea>
         <button class="btn" style="margin: 0" (click)="filePicker.click()">
           <i class="fas fa-file" style="font-size: 1.5rem"></i>

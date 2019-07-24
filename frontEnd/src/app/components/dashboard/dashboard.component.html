@@ -1,33 +1,33 @@
-
 <div class="wrapper">
 
   <div class="block">
 
-    <mat-tab-group mat-align-tabs="center" class="container-width" (focusChange)="getLabel($event)">
-      <mat-tab label="Incomplete translations">
 
-        <div class="filter" *ngIf="ordersArray && role === 'translator'">
-          <div>
-            <mat-form-field class="tags">
-              <mat-chip-list #chipList aria-label="tags">
-                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)"
-                  color="accent">
-                  {{tag}}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input placeholder="Select some several tags" #fruitInput [formControl]="tagCtrl" [matAutocomplete]="auto"
-                  [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-              </mat-chip-list>
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                  {{tag}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <button mdbBtn color="info" block="true" class="my-4" (click)="filter()">Filter</button>
-        </div>
+    <div class="filter" *ngIf="ordersArray && role === 'translator'">
+      <div>
+        <mat-form-field class="tags">
+          <mat-chip-list #chipList aria-label="tags">
+            <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)"
+              color="accent">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Select some several tags" #fruitInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <button mdbBtn color="info" block="true" class="my-4" (click)="filter()">Filter</button>
+    </div>
+
+    <mat-tab-group mat-align-tabs="center" class="container-width">
+      <mat-tab label="Incomplete translations">
 
         <div class="container">
           <table class="table table-hover bordered" *ngIf="ordersArray && role === 'translator'">
@@ -35,6 +35,7 @@
               <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Tags</th>
+
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
                 <th scope="col">Action</th>
@@ -42,15 +43,18 @@
             </thead>
             <tbody>
               <tr *ngFor=" let text of ordersArray; let i=index">
-                <td ><b> {{text.title}}</b></td>
-                <td>
-                  <p><b>{{text.tags}}</b></p>
-                </td>
-                <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
-                <td><b>{{text.date | date}}</b></td>
-                <td> <button (click)="getOrder(text.id, text.idCustomer)" type="button"
-                    class="btn btn-outline-primary waves-effect">Get</button></td>
+                <ng-container *ngIf="status[text.status] === 'Waiting translator'">
+                  <td><b> {{text.title}}</b></td>
+                  <td>
+                    <p><b>{{text.tags}}</b></p>
+                  </td>
+                  <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
+                  <td><b>{{text.date | date}}</b></td>
+                  <td> <button (click)="getOrder(text.id, text.idCustomer)" type="button"
+                      class="btn btn-outline-primary waves-effect">Get</button></td>
+                </ng-container>
               </tr>
+
             </tbody>
           </table>
 
@@ -64,14 +68,18 @@
             </thead>
             <tbody>
               <tr *ngFor="let text of ordersArray">
-                <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
-                <td>
-                  <h5><span class="badge badge" [ngClass]="{
-                  'badge-danger': status[text.status] === 'Waiting translator',
-                  'badge-success': status[text.status] === 'In progress',
-                  'badge-primary': status[text.status] === 'Ready for translator review'}">{{status[text.status]}}</span></h5>
-                </td>
-                <td><b>{{text.date | date}}</b></td>
+                <ng-container *ngIf="status[text.status] !== 'Complete'">
+                  <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
+                  <td>
+                    <h5><span class="badge badge" [ngClass]="{
+                      'badge-danger': status[text.status] === 'Waiting translator',
+                      'badge-info': status[text.status] === 'Ready for customer review',
+                      'badge-warning': status[text.status] === 'In progress',
+                      'badge-primary': status[text.status] === 'Ready for translator review',
+                      'badge-success': status[text.status] === 'Complete'}">{{status[text.status]}}</span></h5>
+                  </td>
+                  <td><b>{{text.date | date}}</b></td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
@@ -79,29 +87,6 @@
 
       </mat-tab>
       <mat-tab label="Сomplete translations">
-        <!-- <div class="filter" *ngIf="ordersArray && role === 'translator'">
-          <div>
-            <mat-form-field class="tags">
-              <mat-chip-list #chipList aria-label="tags">
-                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)"
-                  color="accent">
-                  {{tag}}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input placeholder="Select some several tags" #fruitInput [formControl]="tagCtrl" [matAutocomplete]="auto"
-                  [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-              </mat-chip-list>
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                  {{tag}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <button mdbBtn color="info" block="true" class="my-4" (click)="filter()">Filter</button>
-        </div>
-
         <div class="container">
           <table class="table table-hover bordered" *ngIf="ordersArray && role === 'translator'">
             <thead class="black white-text">
@@ -110,19 +95,19 @@
                 <th scope="col">Tags</th>
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
-                <th scope="col">Action</th>
+
               </tr>
             </thead>
             <tbody>
               <tr *ngFor=" let text of ordersArray; let i=index">
-                <td ><b> {{text.title}}</b></td>
-                <td>
-                  <p><b>{{text.tags}}</b></p>
-                </td>
-                <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
-                <td><b>{{text.date | date}}</b></td>
-                <td> <button (click)="getOrder(text.id, text.idCustomer)" type="button"
-                    class="btn btn-outline-primary waves-effect">Get</button></td>
+                <ng-container *ngIf="status[text.status] === 'Ready for translator review'">
+                  <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
+                  <td>
+                    <p><b>{{text.tags}}</b></p>
+                  </td>
+                  <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
+                  <td><b>{{text.date | date}}</b></td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
@@ -137,18 +122,22 @@
             </thead>
             <tbody>
               <tr *ngFor="let text of ordersArray">
-                <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
-                <td>
-                  <h5><span class="badge badge" [ngClass]="{
-                  'badge-danger': status[text.status] === 'Waiting translator',
-                  'badge-success': status[text.status] === 'In progress',
-                  'badge-primary': status[text.status] === 'Ready for translator review'}">{{status[text.status]}}</span></h5>
-                </td>
-                <td><b>{{text.date | date}}</b></td>
+                <ng-container *ngIf="status[text.status] === 'Complete'">
+                  <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
+                  <td>
+                    <h5><span class="badge badge" [ngClass]="{
+                        'badge-danger': status[text.status] === 'Waiting translator',
+                        'badge-warning': status[text.status] === 'In progress',
+                        'badge-primary': status[text.status] === 'Ready for translator review',
+                        'badge-success': status[text.status] === 'Complete'}">{{status[text.status]}}</span></h5>
+                  </td>
+                  <td><b>{{text.date | date}}</b></td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
-        </div> -->
+        </div>
+
       </mat-tab>
     </mat-tab-group>
 

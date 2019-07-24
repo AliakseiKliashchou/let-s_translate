@@ -76,7 +76,6 @@ router.get('/orders/unowned', async (req, res) => {
     let orders = await orderModel.findAll(
       {
         where: {
-          status: 0,
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }
@@ -146,14 +145,33 @@ router.delete('/order/:id', async (req, res) => {
   res.json(notification);
 });
 
+router.put('/order-review', async (req, res) => {
+  let idOrder = req.body.id;
+
+  let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+    if (order.progress === 100) {
+      let status = order.review ? 3 : 4;
+      // if(order.review) {
+      //   let status = 3;
+      // } else {
+      //   let status = 3;
+      // }
+      order.update({status: status, date: new Date()});
+      res.json({message: 'Review done'});
+    } else {
+      order.update({date: new Date()});
+      res.json({message: 'Review ne done'});
+    }
+  });
+});
+
 router.put('/order', async (req, res) => {
   let idOrder = req.body.id;
   let progress = req.body.progress;
-
+  
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
     if (progress === 100) {
-      const status = order.additionalReview ? 2 : 3;
-      order.update({progress: progress, status: status, date: new Date()});
+      order.update({progress: progress, status: 2, date: new Date()});
     } else {
       order.update({progress: progress, date: new Date()});
     }
