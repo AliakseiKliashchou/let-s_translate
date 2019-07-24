@@ -9,7 +9,7 @@ import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-import {OrderService} from "../../_shared/service/order/order.service";
+import {OrderService} from '../../_shared/service/order/order.service';
 
 interface UserProfile {
   photo: string;
@@ -136,6 +136,11 @@ export class HeaderComponent implements OnInit {
         }
         break;
     }
+  }
+
+  addMoney(money) {
+    console.log(money)
+    this.userInfoService.addMoney(money);
   }
 
   login(frame) {
