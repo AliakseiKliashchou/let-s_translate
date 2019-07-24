@@ -2,8 +2,9 @@
   <app-header></app-header>
 
   <div class="block">
+   
     <div class="title anim">Incomplete translations</div>
-
+ <!-------------------------TRANSLATOR-------------------------------->
     <div class="filter" *ngIf="ordersArray && role === 'translator'">
       <div>
         <mat-form-field class="tags">
@@ -51,7 +52,7 @@
           </tr>
         </tbody>
       </table>
-
+<!---------------------------CUSTOMER----------------------------------->
       <table class="table table-hover bordered" *ngIf="ordersArray && role === 'customer'">
         <thead class="black white-text">
           <tr>

@@ -69,7 +69,7 @@
 
         <!---------------IF CUSTOMER...------------------------>
         <div *ngIf="role === 'customer'">
-          <div class="md-form inpChangePrice">
+          <div *ngIf="element.status != 0" class="md-form inpChangePrice">
             <input mdbInput type="text" #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
                    (change)="changeSliderCustomer(inpChangePrice.value)">
             <label for="form1" class="">Change the price</label>
