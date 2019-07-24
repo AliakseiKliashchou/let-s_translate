@@ -76,7 +76,6 @@ router.get('/orders/unowned', async (req, res) => {
     let orders = await orderModel.findAll(
       {
         where: {
-          status: 0,
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }
@@ -148,10 +147,9 @@ router.delete('/order/:id', async (req, res) => {
 
 router.put('/order', async (req, res) => {
   let idOrder = req.body.id;
-  let progress = req.body.progress;
 
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-    if (progress === 100) {
+    if (order.progress === 100) {
       const status = order.additionalReview ? 2 : 3;
       order.update({progress: progress, status: status, date: new Date()});
     } else {
