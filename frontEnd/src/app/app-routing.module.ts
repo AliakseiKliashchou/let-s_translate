@@ -27,10 +27,10 @@ const appRoutes: Routes = [
     data: {state: 'dashboard'}
   },
   {
-    path: 'new_password',
+    path: 'reset-password/:email',
     component: NewPasswordComponent,
-    canActivate: [AuthGuard],
-    data: {state: 'new_password'}
+    // canActivate: [AuthGuard],
+    data: {state: 'reset-password'}
   },
   {
     path: 'new_texts',

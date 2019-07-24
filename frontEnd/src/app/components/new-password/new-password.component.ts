@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserInfoService} from './../../_shared/service/users/user-info.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-password',
@@ -12,7 +14,9 @@ export class NewPasswordComponent implements OnInit {
 
   constructor(
     private UserInfoService: UserInfoService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private _router: Router
     ) { }
 
   ngOnInit() {
@@ -40,12 +44,14 @@ getErrorMessage(control: string) {
 
   submit(){
     let newPassword = this.newPasswordForm.value.password_1;
+    const email = this.route.snapshot.params.email;
     console.log(newPassword);
-    this.UserInfoService.changePassword(newPassword).subscribe( (data) => {
+    this.UserInfoService.changePassword(newPassword, email).subscribe( (data) => {
       console.log(data);
       this._snackBar.open('The password was successfully changed', '', {
         duration: 2000,
       });
+      this._router.navigate(['/']);
     });
   }
 
