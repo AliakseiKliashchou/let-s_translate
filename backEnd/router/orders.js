@@ -71,10 +71,11 @@ router.get('/orders/unowned', async (req, res) => {
   try {
     let translator = await translatorModel.findOne({where: {id: idTranslator}});
     const languages = translator.languages;
+    const status = [0, 2];
     let orders = await orderModel.findAll(
       {
         where: {
-          status: 0,
+          status: {[Op.in]: status},
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }
