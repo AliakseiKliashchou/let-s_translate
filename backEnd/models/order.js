@@ -15,7 +15,7 @@ const Order = sequelize.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  email: {
+  email:{
     type: Sequelize.STRING,
     allowNull: false
   },
