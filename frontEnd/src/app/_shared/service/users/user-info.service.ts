@@ -29,8 +29,6 @@ export class UserInfoService {
 
   addMoney(money) {
     const idCustomer = this.authService.getUserId();
-    console.log(idCustomer)
-    this.http.put(`http://localhost:3000/secure/profile/customer/${idCustomer}/money`, {money})
-      .subscribe(res => console.log(res));
+    return this.http.put(`http://localhost:3000/secure/profile/customer/${idCustomer}/money`, {money});
   }
 }

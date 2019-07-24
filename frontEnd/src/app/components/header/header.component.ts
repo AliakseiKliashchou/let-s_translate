@@ -177,7 +177,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   addMoney(money) {
-    if (money) this.userInfoService.addMoney(money);
+    if (money) this.userInfoService.addMoney(money)
+      .subscribe((res: { msg: string; resultMoney: number }) => {
+        this.userProfile.coins = res.resultMoney;
+        this._snackBar.open('You get more coins!', '', {
+          duration: 2000,
+        });
+      });
   }
 
   getNewMoney(money, newMoneyInput) {

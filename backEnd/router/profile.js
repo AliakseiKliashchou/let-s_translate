@@ -64,7 +64,7 @@ router.put('/customer/:id/money', async (req, res) => {
     .then(user => {
       const resultMoney = user.coins + Number(money);
       user.update({coins: resultMoney})
-        .then(result => res.json({msg: 'You get you money'}))
+        .then(result => res.json({msg: 'You get you money', resultMoney}))
         .catch(err => res.json(err))
     }).catch(err => res.json(err));
 });
