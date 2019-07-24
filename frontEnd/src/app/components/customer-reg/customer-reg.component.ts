@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../_shared/service/users/auth.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -34,11 +34,11 @@ export class CustomerRegComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar,
-    private _router: Router) {
+    private _snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -95,10 +95,12 @@ export class CustomerRegComponent implements OnInit {
     user.photo = this.photoUrl;
     this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
-      this._snackBar.open('On your e-mail adress was send an activate link', '', {
-        duration: 2000,
-      });
-    this._router.navigate(['/']);  
+      this._snackBar.open(
+        'Registration is successful. Mail with the confirmation sent to your email',
+        '', {
+          duration: 2000,
+        });
+    this.router.navigate(['/']);  
     });
   }
 

@@ -101,6 +101,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
             });
         } else if (role === 'customer') {
+          this.ntfService.getNotifications()
+            .subscribe((res: any) => {
+              this.msgCounter = res.length;
+            });
           this.userInfoService.getCustomerProfile(userId)
             .subscribe((userData: UserProfileInterface) => {
 
@@ -129,11 +133,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.ntfService.getNotifications()
-      .subscribe((res: any) => {
-          this.msgCounter = res.length;
-        }
-      );
   }
 
   ngOnDestroy(): void {
@@ -153,7 +152,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userInput.password.hasError('minlength') ? 'The password is too short' :
         this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
   }
-  getRecoverEmailMessage(){
+
+  getRecoverEmailMessage() {
     return this.userInput.recoverEmail.hasError('required') ? 'You must enter a value' :
       this.userInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
   }
@@ -209,6 +209,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.authService.login(this.user);
         this.ngOnInit();
         frame.hide();
+        this.userInput.password.reset();
+        this.userInput.email.reset();
       }, (err) => {
         this.error = err.error.message;
         console.log(this.error);
@@ -281,9 +283,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  sendNewOptions(){
+  sendNewOptions() {
     let recoverEmail = this.userInput.recoverEmail.value;
-    this.authService.sendPasswordChange(recoverEmail).subscribe( (data) => {
+    this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
       console.log(data);
       this._snackBar.open('On your e-mail adress was send a recovery options', '', {
         duration: 2000,
