@@ -29,8 +29,8 @@ export class UserInfoService {
       .subscribe(res => console.log(res));
   }
 
-  changePassword(password) {
-    return this.http.put(`${this.URL}/secure/profile`, {password});
+  changePassword(password, email) {
+    return this.http.put(`${this.URL}/reset-password`, {password, email});
   }
 
   addMoney(money) {

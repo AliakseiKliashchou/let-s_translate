@@ -7,6 +7,7 @@ import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class CustomerRegComponent implements OnInit {
     private route: ActivatedRoute,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private _router: Router) {
   }
 
   ngOnInit() {
@@ -93,6 +95,10 @@ export class CustomerRegComponent implements OnInit {
     user.photo = this.photoUrl;
     this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
+      this._snackBar.open('On your e-mail adress was send an activate link', '', {
+        duration: 2000,
+      });
+    this._router.navigate(['/']);  
     });
   }
 
