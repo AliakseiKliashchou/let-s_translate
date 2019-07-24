@@ -11,7 +11,9 @@ export class UserInfoService {
     private http: HttpClient,
     private  authService: AuthService) {
   }
+
   private URL = 'http://localhost:3000';
+
   getCustomerProfile(id: number) {
     return this.http.get(`${this.URL}/secure/profile/customer/${id}`);
   }
@@ -27,7 +29,7 @@ export class UserInfoService {
       .subscribe(res => console.log(res));
   }
 
-  changePassword(password){
+  changePassword(password) {
     return this.http.put(`${this.URL}/secure/profile`, {password});
   }
 
