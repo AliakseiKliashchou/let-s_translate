@@ -76,7 +76,7 @@
           <button
             *ngIf="!isRole.auth"
             class="btn btn-outline-white btn-sm my-0"
-            routerLink="/new_translator_reg">
+            routerLink="/customerRegistration">
             Register
           </button>
         </div>
@@ -286,7 +286,7 @@
           mdbBtn color="success"
           mdbWavesEffect
           [disabled]="userInput.recoverEmail.invalid"
-          (click)="sendNewOptions()"
+          (click)="sendNewOptions(frame)"
         >Send new options
         </button>
       </div>

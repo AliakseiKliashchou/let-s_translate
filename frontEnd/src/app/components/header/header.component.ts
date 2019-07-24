@@ -283,13 +283,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  sendNewOptions() {
+  sendNewOptions(frame) {
     let recoverEmail = this.userInput.recoverEmail.value;
     this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
       console.log(data);
       this._snackBar.open('On your e-mail adress was send a recovery options', '', {
         duration: 2000,
       });
+      frame.hide();
     });
   }
 
