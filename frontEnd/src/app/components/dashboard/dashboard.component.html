@@ -41,6 +41,7 @@
 
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
+                <th scope="col">Cost</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -53,6 +54,7 @@
                   </td>
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
+                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
                   <td> <button (click)="getOrder(text.id, i)" type="button"
                       class="btn btn-outline-primary waves-effect">Get</button></td>
                 </ng-container>
@@ -67,6 +69,7 @@
               <th scope="col">Title</th>
               <th scope="col">Status</th>
               <th scope="col">Date</th>
+              <th scope="col">Cost</th>
               <th scope="col">Last comment</th>
             </tr>
             </thead>
@@ -84,6 +87,7 @@
                       'badge-success': status[text.status] === 'Complete'}">{{status[text.status]}}</span></h5>
                   </td>
                   <td><b>{{text.date | date}}</b></td>
+                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
                   <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last comment...</a>
                 </ng-container>
               </tr>
@@ -102,6 +106,7 @@
                 <th scope="col">Tags</th>
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
+                <th scope="col">Cost</th>
 
               </tr>
             </thead>
@@ -114,6 +119,7 @@
                   </td>
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
+                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
                 </ng-container>
               </tr>
             </tbody>
@@ -125,6 +131,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Status</th>
                 <th scope="col">Date</th>
+                <th scope="col">Cost</th>
               </tr>
             </thead>
             <tbody>
@@ -139,6 +146,7 @@
                         'badge-success': status[text.status] === 'Complete'}">{{status[text.status]}}</span></h5>
                   </td>
                   <td><b>{{text.date | date}}</b></td>
+                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
                 </ng-container>
               </tr>
             </tbody>
