@@ -14,7 +14,6 @@ router.post('/order', async (req, res) => {
   let ordersInfo = {
     idCustomer: req.body.idCustomer,
     name: req.body.name,
-    email: req.body.email,
     download: '',
     originalLanguage: req.body.initialLng,
     translateLanguage: req.body.finiteLng,
@@ -48,7 +47,6 @@ router.post('/order', async (req, res) => {
       ordersInfo.download = urls[0];
       let order = await orderModel.create(ordersInfo);
     }
-
     res.json({message: 'Orders is created!'})
   } catch (error) {
     res.status(400).json({message: 'Order is not created!', error})
@@ -76,11 +74,21 @@ router.get('/orders/unowned', async (req, res) => {
     let orders = await orderModel.findAll(
       {
         where: {
+          status: 0,
           originalLanguage: {[Op.in]: languages},
           translateLanguage: {[Op.in]: languages},
         }
-      }).then(response => res.json(response));
+      }).then(ordersArray => {
+      if (ordersArray) {
+        const newArray = ordersArray.filter(el => {
+          if (el.isCollections && el.oneTranslator) {
+          } else return el;
+        });
+        res.json(newArray);
+      } else res.json({msg: 'You don\'t have work'})
+    });
   } catch (error) {
+    console.log(error)
     res.json({message: error});
   }
 });
@@ -127,7 +135,7 @@ router.delete('/order/:id', async (req, res) => {
   let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then(customer => customer);
   let translator = await translatorModel.findOne({where: {id: order.translatorId}}).then(translator => translator);
 
-  if(order.status === 1) {
+  if (order.status === 1) {
     let halfPrice = order.price / 2;
 
     customerModel.update({coins: customer.coins + halfPrice}, {where: {id: order.idCustomer}});
@@ -135,7 +143,8 @@ router.delete('/order/:id', async (req, res) => {
 
     orderModel.destroy({where: {id: id}});
     aggregationModel.destroy({where: {idOrder: id}});
-  };
+  }
+  ;
 
   let notification = await notificationModel.create({
     idCustomer: order.idCustomer,
@@ -163,7 +172,7 @@ router.put('/order-review', async (req, res) => {
 router.put('/order', async (req, res) => {
   let idOrder = req.body.id;
   let progress = req.body.progress;
-  
+
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
     if (progress === 100) {
       order.update({progress: progress, status: 2, date: new Date()});
