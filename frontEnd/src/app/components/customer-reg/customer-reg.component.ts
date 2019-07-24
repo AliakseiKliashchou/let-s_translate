@@ -7,6 +7,7 @@ import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -94,12 +95,12 @@ export class CustomerRegComponent implements OnInit {
     user.photo = this.photoUrl;
     this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
-      this.router.navigate(['/']);
       this._snackBar.open(
         'Registration is successful. Mail with the confirmation sent to your email',
         '', {
           duration: 2000,
         });
+    this.router.navigate(['/']);  
     });
   }
 

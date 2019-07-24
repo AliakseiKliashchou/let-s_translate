@@ -151,11 +151,6 @@ router.put('/order-review', async (req, res) => {
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
     if (order.progress === 100) {
       let status = order.review ? 3 : 4;
-      // if(order.review) {
-      //   let status = 3;
-      // } else {
-      //   let status = 3;
-      // }
       order.update({status: status, date: new Date()});
       res.json({message: 'Review done'});
     } else {

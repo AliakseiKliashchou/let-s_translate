@@ -58,9 +58,9 @@ router.get('/reset-password', async(req, res) => {
 
 });
 
-router.put('/reset-password/:email', async(req, res) => {
+router.put('/reset-password', async(req, res) => {
   let password = req.body.password;
-  let emailCrypt = req.params.email;
+  let emailCrypt = req.body.email;
   let email = cryptr.decrypt(emailCrypt);
 
   let customer = await customerModel.findOne({where: {email: email}}).then((customer) => {
