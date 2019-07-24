@@ -23,7 +23,7 @@
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/my_translations">My
           translations</a>
       </li>
-      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active"  matBadge="{{msgCounter}}" matBadgePosition="after" matBadgeColor="accent">
+      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active"  matBadge="{{msgCounter}}" [matBadgeHidden]="msgCounter === 0" matBadgePosition="after" matBadgeColor="accent">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/messages">Messages</a>
       </li>
       <li class="nav-item" *ngIf="isRole.customer" routerLinkActive="active">
@@ -121,7 +121,11 @@
         </div>
         <div class="info">
           <p>Role: {{userProfile.role}}</p>
-          <p>Your money : {{userProfile.coins}} <mdb-icon fas style="color: #dcc721" icon="coins"></mdb-icon></p>
+          <p>Your money : {{userProfile.coins}}
+            <mdb-icon fas style="color: #dcc721" icon="coins"></mdb-icon>
+          </p>
+          <input type="number" mdbInput #money>
+          <button class="btn btn-outline-info" (click)="addMoney(money.value)">Add money</button>
         </div>
 
       </div>

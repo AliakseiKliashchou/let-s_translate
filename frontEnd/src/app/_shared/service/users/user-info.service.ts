@@ -26,7 +26,14 @@ export class UserInfoService {
     this.http.put(`${this.URL}/secure/profile/customer/${userId}`, data)
       .subscribe(res => console.log(res));
   }
+
   changePassword(password){
     return this.http.put(`${this.URL}/secure/profile`, {password});
+
+
+  addMoney(money) {
+    const idCustomer = this.authService.getUserId();
+    this.http.post(`http://localhost:3000/secure/profile/customer/${idCustomer}/money`, {money});
+
   }
 }

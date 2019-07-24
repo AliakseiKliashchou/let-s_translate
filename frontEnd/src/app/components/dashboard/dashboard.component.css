@@ -40,16 +40,22 @@ td {
     vertical-align: middle;
 }
 
-.filter{
+.filter {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
-.black{
+
+.black {
   background-color: #2e2e2e !important;
   text-align: center;
 }
+
+.container-width {
+    width: 60%;
+}
+
 .link{
     color: blue;
     text-decoration: underline; 
