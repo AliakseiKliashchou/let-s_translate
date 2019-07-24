@@ -44,7 +44,6 @@ router.get('/translator/:id', async (req, res) => {
 router.put('/customer/:id', async (req, res) => {
   res.json(req.body.photo);
 
-
   let id = req.params.id;
   try {
     let data = {
@@ -59,5 +58,10 @@ router.put('/customer/:id', async (req, res) => {
     res.json(error)
   }
 });
+
+router.put('/customer/:id/money', async (req, res) => {
+  res.json(req.body.photo);
+})
+
 
 module.exports = router;
