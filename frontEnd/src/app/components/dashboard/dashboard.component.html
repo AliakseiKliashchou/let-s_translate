@@ -198,7 +198,6 @@
           </td>
         </tr>
         </tbody>
-<<<<<<< HEAD
       </table>-->
 <!---------------------------CUSTOMER----------------------------------->
       <table class="table table-hover bordered" *ngIf="ordersArray && role === 'customer'">
@@ -215,30 +214,10 @@
           <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
           <td>
             <h5><span class="badge badge" [ngClass]="{
-=======
-      </table>
-      -->
-    < !---------------------------CUSTOMER----------------------------------->
-    <table class="table table-hover bordered" *ngIf="ordersArray && role === 'customer'">
-      <thead class="black white-text">
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Status</th>
-        <th scope="col">Date</th>
-        <th scope="col">Last comment</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let text of ordersArray">
-        <td><b><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></b></td>
-        <td>
-          <h5><span class="badge badge" [ngClass]="{
->>>>>>> master_UI
               'badge-danger': status[text.status] === 'Waiting translator',
               'badge-warning': status[text.status] === 'In progress',
               'badge-primary': status[text.status] === 'Ready for translator review',
               'badge-success': status[text.status] === 'Complete'}">{{status[text.status]}}</span>
-<<<<<<< HEAD
             </h5>
           </td>
           <td><b>{{text.date | date}}</b></td>
@@ -250,16 +229,3 @@
     
   </div>
 </div>
-=======
-          </h5>
-        </td>
-        <td><b>{{text.date | date}}</b></td>
-        <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last comment...</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-
->>>>>>> master_UI
