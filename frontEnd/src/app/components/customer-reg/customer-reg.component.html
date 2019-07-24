@@ -155,7 +155,7 @@
 
         <!-----------------------------------LICENCE-------------------------------------->
 
-        <mat-checkbox id="licence_check" #licenceCheck>Done</mat-checkbox>
+        <mat-checkbox id="licence_check" #licenceCheck>I have read the license agreement and agree with it</mat-checkbox>
         <p id="licence" (click)="basicModal.show()">Licence agreement</p>
         <div style="overflow-y: auto" mdbModal #basicModal="mdbModal" class="modal fade bottom" tabindex="-1"
              role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
@@ -204,7 +204,7 @@
       type="button"
       mdbBtn color="success"
       mdbWavesEffect
-      [disabled]="userInputForm.invalid"
+      [disabled]="userInputForm.invalid || !licenceCheck.checked"
       (click)="submit()"
     >Register
     </button>

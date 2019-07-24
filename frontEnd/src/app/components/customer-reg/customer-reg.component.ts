@@ -95,7 +95,7 @@ export class CustomerRegComponent implements OnInit {
     this.authService.customerRegistration(user).subscribe((data: any) => {
       console.log(data);
       this._snackBar.open(
-        'Registration is successful. Mail with the confirmation sent to your email',
+        `${data.message}`,
         '', {
           duration: 2000,
         });
