@@ -40,8 +40,8 @@ export class CollectionsComponent implements OnInit {
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
 
   findingParams = {
-    originalLanguage: '%%',
-    translateLanguage: '%%',
+    originalLanguage: '',
+    translateLanguage: '',
     tags: this.tags,
     review: false
   };

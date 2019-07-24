@@ -70,7 +70,7 @@
     <!------------------------------ADDITIONAL REVIEW-------------------------------------------->
     <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox>
     <!--------------------------------------------------------------------------------->
-    <button class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find</button>
+    <button [disabled] = "!findingParams.originalLanguage || !findingParams.translateLanguage" class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find</button>
 
   </div>
   <!--------------------------------------FILTERED COLLECTIONS------CREATE NEW COLLECTION--------------------------------------------->
