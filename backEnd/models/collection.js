@@ -14,8 +14,12 @@ const Collection = sequelize.define("collection", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  oneTranslator:{
+  oneTranslator: {
     type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
+  lng: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false,
   }
 });
