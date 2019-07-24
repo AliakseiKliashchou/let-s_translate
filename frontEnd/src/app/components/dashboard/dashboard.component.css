@@ -52,6 +52,10 @@ td {
   text-align: center;
 }
 
+.container-width {
+    width: 60%;
+}
+
 .link{
     color: blue;
     text-decoration: underline; 
