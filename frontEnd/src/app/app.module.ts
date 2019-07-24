@@ -57,7 +57,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+
+import { FragmentPolyfillModule } from "./_shared/fragment-polyfill";
+
 import {MatStepperModule} from '@angular/material/stepper';
+
 
 @NgModule({
   declarations: [
@@ -80,6 +84,9 @@ import {MatStepperModule} from '@angular/material/stepper';
     AdminPanelComponent
   ],
   imports: [
+    FragmentPolyfillModule.forRoot({
+      smooth: true
+    }),
     BrowserModule,
     AppRoutingModule,
     MDBBootstrapModule.forRoot(),

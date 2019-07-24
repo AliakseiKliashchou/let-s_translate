@@ -8,6 +8,7 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit {
     'Waiting translator',
     'In progress',
     'Ready for translator review',
-    'Ready for customer review'
+    'Ready for customer review',
+    'Complete'
   ];
   filteredTags: Observable<string[]>;
   tagCtrl = new FormControl();
@@ -28,7 +30,7 @@ export class DashboardComponent implements OnInit {
   role: string;
   tags: string[] = [];
   selectedLng: string;
-  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Sience'];
+  allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   selectable = true;
   removable = true;
@@ -37,7 +39,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private router: Router) {
   }
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
@@ -56,9 +59,12 @@ export class DashboardComponent implements OnInit {
           console.log(orders);
           this.ordersArray = orders;
         });
-    } else {
+    } else if (this.role === 'customer') {
       this.orderService.getOrders()
-        .subscribe((orders: OrderInterface[]) => this.ordersArray = orders);
+        .subscribe((orders: OrderInterface[]) => {
+          this.ordersArray = orders;
+          console.log(this.ordersArray);
+        });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -112,12 +118,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  anchor(id) {
+    this.router.navigate(['/text_details', id], {fragment: 'bottom'});
+  }
+
 // ***********************GET ORDER********************************* */
 
-  getOrder(idOrder: number, j) {
-    const id = this.authService.getUserId();
-    this.orderService.acceptOrder(idOrder, id);
-    this.ordersArray.splice(j, 1);
+  getOrder(idOrder: number, index) {
+    const idCustomer = this.authService.getUserId();
+    this.orderService.acceptOrder(idOrder, idCustomer);
+    this.ordersArray.splice(index, 1);
   }
 
 // ***********************Label********************************* */

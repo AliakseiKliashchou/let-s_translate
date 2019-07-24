@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <app-header></app-header>
   <div class="title anim">Text details</div>
   <div class="container">
     <div class="textDetail">
@@ -101,16 +100,27 @@
       </div>
     </div>
     <div class="create_comment">
-      <textarea class="md-textarea form-control " rows="3" #textArea id="input_text" type="text" length="120"
-                mdbCharCounter mdbInput placeholder="Enter your comment here..."></textarea>
-      <button mat-button id="createCommentBtn" (click)="sendComment(textArea.value)">Send comment</button>
-    </div>
-    <!-- <div class="type_msg container">
-      <div class="input_msg_write">
-        <input type="text" class="write_msg" placeholder="Enter your comment here..." rows="3" #textArea id="input_text" />
-        <button class="msg_send_btn" type="button" (click)="sendComment(textArea.value)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+      <div style="display: flex; width: 80%;margin: auto;">
+            <textarea
+              class="md-textarea form-control"
+              rows="3"
+              #textArea
+              id="input_text"
+              type="text"
+              length="120"
+              mdbCharCounter
+              mdbInput
+              placeholder="Enter your comment here..."
+              style="margin: 0; width: 95%"
+              [value]="textUrl? textUrl: ''">
+          </textarea>
+        <button class="btn" style="margin: 0" (click)="filePicker.click()">
+          <i class="fas fa-file" style="font-size: 1.5rem"></i>
+          <input type="file" hidden #filePicker (change)="upload($event)">
+        </button>
       </div>
-      </div> -->
+
+      <button mat-button id="createCommentBtn" (click)="sendComment(textArea)">Send comment</button>
+    </div>
   </div>
-  <app-footer></app-footer>
 </div>

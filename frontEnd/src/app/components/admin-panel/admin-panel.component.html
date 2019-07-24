@@ -1,87 +1,62 @@
 <div class="wrapper">
-  <app-header></app-header>
-  <div class="title anim">Admin panel</div>  
+  <div class="title anim">Admin panel</div>
 
-  <div class="tariffs">
+  <div class="tariffs" *ngIf="tariffArray" [formGroup]="tariffArray">
     <!-------------------SILVER---------------------------->
-    <div class="tariff">
-      <div class="tariff_title">Silver</div>
-      <div class="content">
+    <div formArrayName="items">
+      <div class="tariff" *ngFor="let tariff of tariffArray.get('items').controls; let i=index" [formGroupName]="i">
+        <div class="tariff_title">{{tariff.get('name').value | titlecase}}</div>
+        <div class="content">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Price"
+              type="number"
+              formControlName="cost">
+          </mat-form-field>
+
           <mat-form-field class="example-full-width">
-              <input  matInput placeholder="Price" #silver_price type="number" [value]="tariffsArray[2]?.cost" [disabled]="silverChangeDis">
-          </mat-form-field><br>
+            <input
+              matInput
+              placeholder="Coins"
+              type="number"
+              formControlName="coins">
+          </mat-form-field>
+
           <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coins" #silver_coins type="number" [value]="tariffsArray[2]?.coins" [disabled]="silverChangeDis">
-          </mat-form-field><br>
-          <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coefficient" #silver_coeff type="number" [value]="tariffsArray[2]?.coeff" [disabled]="silverChangeDis">
-          </mat-form-field><br>
-          <mat-divider></mat-divider>
-          <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="silverChangeDis = !silverChangeDis">Change tariff plan</button>
-          <button 
-            type="button" 
-            mdbBtn 
+            <input
+              matInput
+              placeholder="Coefficient"
+              type="number"
+              formControlName="coeff">
+          </mat-form-field>
+
+          <button
+            type="button"
+            mdbBtn
+            color="primary"
+            mdbWavesEffect
+            (click)="disabled(tariff); hide[i]=true">
+            Change tariff plan
+          </button>
+          <button
+            type="button"
+            mdbBtn
             color="success"
-            mdbWavesEffect 
-            *ngIf="!silverChangeDis" 
-            (click)="changeTariff('silver', silver_price.value, silver_coins.value, silver_coeff.value); silverChangeDis = !silverChangeDis"
-            >Save changes</button>
+            mdbWavesEffect
+            *ngIf="hide[i]"
+            (click)="changeTariff(tariff); hide[i]=false">
+            Save changes
+          </button>
+        </div>
       </div>
     </div>
-     <!-------------------GOLD---------------------------->
-    <div class="tariff">
-      <div class="tariff_title">Gold</div>
-      <div class="content">
-          <mat-form-field class="example-full-width">
-              <input  matInput placeholder="Price" #gold_price type="number" [value]="tariffsArray[0]?.cost" [disabled]="goldChangeDis">
-          </mat-form-field><br>
-          <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coins" #gold_coins type="number" [value]="tariffsArray[0]?.coins" [disabled]="goldChangeDis">
-          </mat-form-field><br>
-          <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coefficient" #gold_coeff type="number" [value]="tariffsArray[0]?.coeff" [disabled]="goldChangeDis">
-          </mat-form-field><br>
-          <mat-divider></mat-divider>
-          <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="goldChangeDis = !goldChangeDis">Change tariff plan</button>
-          <button 
-            type="button" 
-            mdbBtn 
-            color="success" 
-            mdbWavesEffect 
-            *ngIf="!goldChangeDis"
-            (click)="changeTariff('gold', gold_price.value, gold_coins.value, gold_coeff.value); goldChangeDis = !goldChangeDis"
-            >Save changes</button>
-      </div>
-    </div>
-     <!-------------------PLATINUM---------------------------->
-    <div class="tariff">
-      <div class="tariff_title">Platinum</div>
-      <div class="content">
-          <mat-form-field class="example-full-width">
-              <input  matInput placeholder="Price" #platinum_price type="number" [value]="tariffsArray[1]?.cost" [disabled]="platinumChangeDis">
-          </mat-form-field><br>
-          <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coins" #platinum_coins type="number" [value]="tariffsArray[1]?.coins" [disabled]="platinumChangeDis">
-          </mat-form-field><br>
-          <mat-form-field class="example-full-width">
-              <input matInput placeholder="Coefficient" #platinum_coeff type="number" [value]="tariffsArray[1]?.coeff" [disabled]="platinumChangeDis">
-          </mat-form-field><br>
-          <mat-divider></mat-divider>
-          <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="platinumChangeDis = !platinumChangeDis">Change tariff plan</button>
-          <button 
-            type="button" 
-            mdbBtn 
-            color="success" 
-            mdbWavesEffect 
-            *ngIf="!platinumChangeDis"
-            (click)="changeTariff('platinum', platinum_price.value, platinum_coins.value, platinum_coeff.value); platinumChangeDis = !platinumChangeDis"
-            >Save changes</button>
-      </div>
-    </div>
-    <div style="clear: both"></div>
   </div>
+<div style="clear: both"></div>
+  <button
+    class="btn btn-outline-success waves-effect createNewTransBtn"
+    [routerLink]="['/new_translator_reg']">
+    Create a new translator account
+  </button>
 
-  <button class="btn btn-outline-success  waves-effect large createNewTransBtn" [routerLink]="['/new_translator_reg']">Create a new translator account</button>
-
-  <app-footer></app-footer>
 </div>

@@ -20,7 +20,8 @@ h3 {
     background-color: rgba(255, 255, 255, 0.85);
 }
 
-h3 {
+h4 {
+  font-size: 2em;
     margin-top: 1em;
     color: #5c5d58;
     font-weight: 400;
@@ -35,13 +36,15 @@ h3 {
 }
 
 td {
-    text-align: center;
+    align-items: center;
+    vertical-align: middle;
 }
 
 .filter {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
 }
 
 .black {
@@ -49,6 +52,7 @@ td {
   text-align: center;
 }
 
-.container-width {
-    width: 80%;
+.link{
+    color: blue;
+    text-decoration: underline; 
 }

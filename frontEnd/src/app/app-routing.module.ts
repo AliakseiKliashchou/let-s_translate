@@ -14,8 +14,8 @@ import {
 } from './components';
 import {AuthGuard} from './_shared/Guard/auth.guard';
 import {CustomerRoleGuard} from './_shared/Guard/customer-role.guard';
-import {TranslatorRoleGuard} from "./_shared/Guard/translator-role.guard";
-import {AdminRoleGuard} from "./_shared/Guard/admin-role.guard";
+import {TranslatorRoleGuard} from './_shared/Guard/translator-role.guard';
+import {AdminRoleGuard} from './_shared/Guard/admin-role.guard';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, data: {state: ''}},
@@ -75,7 +75,13 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes, {
+    useHash: true,
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    scrollOffset: [0, 64],
+    enableTracing: false
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

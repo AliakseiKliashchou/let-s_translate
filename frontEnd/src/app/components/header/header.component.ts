@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {MatSnackBar} from '@angular/material';
-import {Observable, Subject} from 'rxjs';
-import {Router} from '@angular/router';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { MatSnackBar } from '@angular/material';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
-import {AuthService} from '../../_shared/service/users/auth.service';
-import {UserInfoService} from '../../_shared/service/users/user-info.service';
-import {OrderService} from "../../_shared/service/order/order.service";
+import { AuthService } from '../../_shared/service/users/auth.service';
+import { UserInfoService } from '../../_shared/service/users/user-info.service';
+import { OrderService } from "../../_shared/service/order/order.service";
+import { NotificationService } from 'src/app/_shared/service/users/notification.service';
 
 interface UserProfile {
   photo: string;
@@ -23,8 +24,8 @@ interface UserProfile {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
-  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?' ;
+export class HeaderComponent implements OnInit, OnDestroy {
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
     email: new FormControl('',
@@ -53,8 +54,8 @@ export class HeaderComponent implements OnInit {
   downloadURL: Observable<string>;
   downPhoto = new Subject();
   error: any;
-
-
+  msgCounter: number;
+  subscription: Subscription;
   constructor(
     private authService: AuthService,
     private userInfoService: UserInfoService,
@@ -63,41 +64,53 @@ export class HeaderComponent implements OnInit {
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
-    private router: Router) {
-  }
+    private router: Router,
+    private ntfService: NotificationService) {
 
-  ngOnInit() {
+    this.subscription = this.ntfService.getMessage().subscribe(message => { this.msgCounter = message; });
+
+
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isRole.auth = isAuth;
-    });
-    if (this.isRole.auth) {
-      const userId = this.authService.getUserId();
-      const role = this.authService.getRole();
-      if (role === 'translator') {
-        this.isRole.translator = true;
-        this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-        });
-      } else if (role === 'customer') {
-        this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-          this.isRole.customer = true;
-          this.userProfile = userData;
-          this.imageUrl = userData.photo;
-          this.userProfileForm = {
-            photo:
-              new FormControl(this.imageUrl || ''),
-            name:
-              new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
-            email:
-              new FormControl(userData.email, Validators.pattern(this.emailPattern))
-          };
-        });
+      if (this.isRole.auth) {
+        const userId = this.authService.getUserId();
+        const role = this.authService.getRole();
+        if (role === 'translator') {
+          this.isRole.translator = true;
+          this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
+          });
+        } else if (role === 'customer') {
+          this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+            this.isRole.customer = true;
+            this.userProfile = userData;
+            this.imageUrl = userData.photo;
+            this.userProfileForm = {
+              photo:
+                new FormControl(this.imageUrl || ''),
+              name:
+                new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+              email:
+                new FormControl(userData.email, Validators.pattern(this.emailPattern))
+            };
+          });
+        } else if (role === 'admin') this.isRole.admin = true;
       }
-      else if (role === 'admin') this.isRole.admin = true;
-
-    }
+    });
   }
 
+  ngOnInit() {
+    this.ntfService.getNotifications()
+      .subscribe((res: any) => {
+        this.msgCounter = res.length;
+      }
+      );
+  }
+  
+  ngOnDestroy(): void {
+    // нужно отписаться чтобы не выгружать память
+    this.subscription.unsubscribe();
+  }
   // --------VALIDATION------------------------------
 
   getErrorMessageEmail() {
@@ -144,6 +157,7 @@ export class HeaderComponent implements OnInit {
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
         this.authService.login(this.user);
+        this.ngOnInit();
         frame.hide();
       }, (err) => {
         this.error = err.error.message;
@@ -204,15 +218,15 @@ export class HeaderComponent implements OnInit {
     this.task = this.storage.upload(path, file);
     this.task.snapshotChanges().pipe(
       finalize(() => {
-          this.downloadURL = ref.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            this.photo = url;
-            this.downPhoto.next(url);
-            this._snackBar.open('The document was successfully uploaded', '', {
-              duration: 2000,
-            });
+        this.downloadURL = ref.getDownloadURL();
+        this.downloadURL.subscribe(url => {
+          this.photo = url;
+          this.downPhoto.next(url);
+          this._snackBar.open('The document was successfully uploaded', '', {
+            duration: 2000,
           });
-        }
+        });
+      }
       )
     ).subscribe();
   }
