@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {OrderService} from '../../_shared/service/order/order.service';
+import {NotificationService} from 'src/app/_shared/service/users/notification.service';
 import {AdminService} from '../../_shared/service/admin/admin.service';
 
 interface UserProfileInterface {
@@ -31,7 +32,7 @@ interface TariffsInterface {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
@@ -62,7 +63,8 @@ export class HeaderComponent implements OnInit {
   downloadURL: Observable<string>;
   downPhoto = new Subject();
   error: any;
-
+  msgCounter: number;
+  subscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -73,7 +75,13 @@ export class HeaderComponent implements OnInit {
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
-    private router: Router) {
+    private router: Router,
+    private ntfService: NotificationService) {
+
+    this.subscription = this.ntfService.getMessage().subscribe(message => {
+      this.msgCounter = message;
+    });
+
 
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
@@ -115,6 +123,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ntfService.getNotifications()
+      .subscribe((res: any) => {
+          this.msgCounter = res.length;
+        }
+      );
+  }
+
+  ngOnDestroy(): void {
+    // нужно отписаться чтобы не выгружать память
+    this.subscription.unsubscribe();
   }
 
   // --------VALIDATION------------------------------

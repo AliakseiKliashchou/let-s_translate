@@ -23,7 +23,7 @@
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/my_translations">My
           translations</a>
       </li>
-      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active">
+      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active"  matBadge="{{msgCounter}}" [matBadgeHidden]="msgCounter === 0" matBadgePosition="after" matBadgeColor="accent">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/messages">Messages</a>
       </li>
       <li class="nav-item" *ngIf="isRole.customer" routerLinkActive="active">
