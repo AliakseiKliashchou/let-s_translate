@@ -58,7 +58,7 @@ let resetPassword = (encrypt, email) => {
   });
 };
 
-let passwordChanged = (req, res) => {
+let passwordChanged = (email) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     secure: false,
@@ -71,7 +71,7 @@ let passwordChanged = (req, res) => {
 
   const mailOptions = {
     from: 'lets.translate.prod@gmail.com',
-    to: `${req.body.email}`,
+    to: `${email}`,
     subject: 'Password update',
     text: `Your password successfully updated`
   };
