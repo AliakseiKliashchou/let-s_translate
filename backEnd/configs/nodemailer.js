@@ -17,7 +17,7 @@ let sendEmail = (guid, id, email) => {
     from: 'Lets Translate',
     to: `${email}`,
     subject: 'You have successfully registered with the Let\'s translate site!',
-    text: `For confirm your account you need follow this link <a href = "${url}">Confirm account</a>`
+    html: `For confirm your account you need follow this link <a href = "${url}">Confirm account</a>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -46,7 +46,7 @@ let resetPassword = (encrypt, email) => {
     from: 'Lets Translate',
     to: `${email}`,
     subject: 'Reset password',
-    text: `Follow this link to reset your password <a href = "${url}">Reset password</a>`
+    html: `Follow this link to reset your password <a href = "${url}">Reset password</a>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
