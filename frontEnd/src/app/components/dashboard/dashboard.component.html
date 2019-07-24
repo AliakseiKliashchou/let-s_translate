@@ -71,6 +71,7 @@
               <th scope="col">Date</th>
               <th scope="col">Cost</th>
               <th scope="col">Last comment</th>
+              
             </tr>
             </thead>
             <tbody>
@@ -89,6 +90,7 @@
                   <td><b>{{text.date | date}}</b></td>
                   <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
                   <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last comment...</a>
+
                 </ng-container>
               </tr>
 
@@ -107,7 +109,7 @@
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
                 <th scope="col">Cost</th>
-
+               
               </tr>
             </thead>
             <tbody>
@@ -120,6 +122,7 @@
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
                   <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
+                  
                 </ng-container>
               </tr>
             </tbody>
