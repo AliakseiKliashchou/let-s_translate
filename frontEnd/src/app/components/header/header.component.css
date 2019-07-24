@@ -173,7 +173,12 @@ nav {
   margin-left: 20px;
   width: 60%;
 }
-
+.info{
+  margin: 10px;
+}
+.info p{
+  font-size: 1.2rem;
+}
 
 @media (max-width: 1650px) {
   .wrapper, .wrapper button {
@@ -190,4 +195,12 @@ nav {
     font-size: 14px;
   }
 
+}
+
+.nav-item{
+  margin: 10px;
+}
+
+li{
+  text-transform: uppercase;
 }

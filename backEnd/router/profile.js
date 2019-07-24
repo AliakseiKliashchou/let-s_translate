@@ -12,7 +12,8 @@ router.get('/customer/:id', async (req, res) => {
         email: customer.email,
         photo: customer.photo,
         coins: customer.coins,
-        role: customer.role
+        role: customer.role,
+        tariff: customer.tariff
       };
       res.json(data)
     });

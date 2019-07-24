@@ -4,8 +4,9 @@ const orderModel = require('../models/order');
 const customerModel = require('../models/customer');
 const tariffModel = require('../models/tariff');
 const translatorModel = require('../models/translator');
+const notificationModel = require('../models/notification');
 
-router.put('/', async(req, res) => {
+router.put('/', async (req, res) => {
   let id = req.body.id;
   let price = req.body.price;
 
@@ -16,8 +17,9 @@ router.put('/', async(req, res) => {
 
 });
 
-router.post('/pay', async(req, res) => {
-  let id = req.body.id, payment;
+router.post('/pay', async (req, res) => {
+  let id = req.body.id;
+  let payment;
 
   let order = await orderModel.findOne({where: {id: id}}).then((order) => {
     return order;
@@ -25,23 +27,27 @@ router.post('/pay', async(req, res) => {
 
   let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then((customer) => {
     return {
-      tariffName: customer.tariff, 
-      coins: customer.coins
+      tariffName: customer.tariff,
+      coins: customer.coins,
     };
   });
 
   let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
     let {coeff} = tariff;
-    payment = Math.floor(order.price * coeff);
+    if(order.urgency) {
+      payment = Math.floor(order.price * coeff * 1.2);
+    } else {
+      payment = Math.floor(order.price * coeff);
+    }
   });
 
-  let data = { coins: order.price - payment };
-  let find = { where: {id: order.idCustomer} }
+  let data = {coins: order.price - payment};
+  let find = {where: {id: order.idCustomer}};
 
   let updateCustomer = await customerModel.update(data, find);
 
   let translator = await translatorModel.findOne({where: {id: order.translatorId}}).then((translator) => {
-    if(translator === null) {
+    if (translator === null) {
       res.json({message: 'NO TRANSLATOR'})
     } else {
       let coins = translator.coins;
@@ -51,8 +57,13 @@ router.post('/pay', async(req, res) => {
     }
   });
 
+  let notification = await notificationModel.create({
+    idCustomer: order.idCustomer,
+    text: `paid,${order.title}`
+  });
+
   let destroy = await orderModel.destroy({where: {id: id}});
-  
+
   res.json({message: 'Transaction is successfully'})
 });
 

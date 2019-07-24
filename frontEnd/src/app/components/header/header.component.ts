@@ -10,6 +10,7 @@ import {finalize} from 'rxjs/operators';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {OrderService} from "../../_shared/service/order/order.service";
+import { NotificationService } from 'src/app/_shared/service/users/notification.service';
 
 interface UserProfile {
   photo: string;
@@ -24,6 +25,7 @@ interface UserProfile {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
     email: new FormControl('',
@@ -34,7 +36,8 @@ export class HeaderComponent implements OnInit {
   isRole = {
     auth: false,
     customer: false,
-    translator: false
+    translator: false,
+    admin: false
   };
   role = 'customer';
   user = {
@@ -51,7 +54,7 @@ export class HeaderComponent implements OnInit {
   downloadURL: Observable<string>;
   downPhoto = new Subject();
   error: any;
-
+  msgCounter: number;
 
   constructor(
     private authService: AuthService,
@@ -61,39 +64,44 @@ export class HeaderComponent implements OnInit {
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
-    private router: Router) {
-  }
+    private router: Router,
+    private ntfService: NotificationService) {
 
-  ngOnInit() {
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isRole.auth = isAuth;
-    });
-    if (this.isRole.auth) {
-      const userId = this.authService.getUserId();
-      const role = this.authService.getRole();
-      if (role === 'translator') {
-        this.isRole.translator = true;
-        this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-        });
-      } else {
-        this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-          console.log(userData)
-          this.isRole.customer = true;
-          this.userProfile = userData;
-          this.imageUrl = userData.photo;
-          this.userProfileForm = {
-            photo:
-              new FormControl(this.imageUrl || ''),
-            name:
-              new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
-            email:
-              new FormControl(userData.email, Validators.pattern(this.emailPattern))
-          };
-        });
+      if (this.isRole.auth) {
+        const userId = this.authService.getUserId();
+        const role = this.authService.getRole();
+        if (role === 'translator') {
+          this.isRole.translator = true;
+          this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
+          });
+        } else if (role === 'customer') {
+          this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
+            this.isRole.customer = true;
+            this.userProfile = userData;
+            this.imageUrl = userData.photo;
+            this.userProfileForm = {
+              photo:
+                new FormControl(this.imageUrl || ''),
+              name:
+                new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+              email:
+                new FormControl(userData.email, Validators.pattern(this.emailPattern))
+            };
+          });
+        } else if (role === 'admin') this.isRole.admin = true;
       }
+    });
+  }
 
-    }
+  ngOnInit() {
+    this.ntfService.getNotifications()
+    .subscribe((res: any) => {
+      this.msgCounter = res.length;
+      }
+    );
   }
 
   // --------VALIDATION------------------------------
@@ -142,6 +150,7 @@ export class HeaderComponent implements OnInit {
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
         this.authService.login(this.user);
+        this.ngOnInit();
         frame.hide();
       }, (err) => {
         this.error = err.error.message;
@@ -156,7 +165,8 @@ export class HeaderComponent implements OnInit {
     this.isRole = {
       auth: false,
       customer: false,
-      translator: false
+      translator: false,
+      admin: false
     };
   }
 

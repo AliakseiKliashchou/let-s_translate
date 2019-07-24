@@ -6,14 +6,11 @@ const Notification = sequelize.define("notification", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  read: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false
-  },
   idCustomer: {
     type: Sequelize.INTEGER,
     allowNull: false
   }
+
 });
 
 module.exports = Notification;

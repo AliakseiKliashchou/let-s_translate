@@ -10,3 +10,6 @@ mat-progress-bar{
   position: absolute;
   top: 80px;
 }
+.wrapper{
+  min-height: 95vh;
+}

@@ -101,7 +101,7 @@ router.get('/order/:id', async (req, res) => {
 router.delete('/order/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id)
-  let order = await orderModel.destroy({where: {id:id}}).then((result) => {
+  let order = await orderModel.destroy({where: {id: id}}).then((result) => {
     console.log(result)
     if (result === 1) {
       res.json({message: 'Deleted successfully!'});
@@ -116,9 +116,14 @@ router.put('/order', async (req, res) => {
   let progress = req.body.progress;
 
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-    order.update({progress: progress});
-  })
-  
+    if (progress === 100) {
+      const status = order.additionalReview ? 2 : 3;
+      order.update({progress: progress, status: status, date: new Date()});
+    } else {
+      order.update({progress: progress, date: new Date()});
+    }
+  });
+
   res.json({message: 'Progress was changed'});
 });
 
@@ -143,8 +148,9 @@ router.get('/orders/unowned', async (req, res) => {
 router.get('/orders/translate/:idTranslator', async (req, res) => {
   const idTranslator = req.params.idTranslator;
   try {
-    let orders = await orderModel.findAll({where: {translatorId: idTranslator}});
-    res.json(orders);
+    let orders = await orderModel.findAll(
+      {where: {translatorId: idTranslator}, order: [['date', 'DESC']]})
+      .then(order => res.json(order))
   } catch (error) {
     res.json({error, message: 'Can not find any order'});
   }

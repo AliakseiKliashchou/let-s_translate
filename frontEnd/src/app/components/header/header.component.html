@@ -2,7 +2,7 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
 
   <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: #ff3547">
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: white">
     <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a>
   </mdb-navbar-brand>
 
@@ -23,17 +23,17 @@
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/my_translations">My
           translations</a>
       </li>
-      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active">
+      <li class="nav-item" *ngIf="isRole.auth" routerLinkActive="active"  matBadge="{{msgCounter}}" matBadgePosition="after" matBadgeColor="accent">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/messages">Messages</a>
       </li>
       <li class="nav-item" *ngIf="isRole.customer" routerLinkActive="active">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/collections"
            routerLinkActive="active">Collections</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link waves-light" mdbWavesEffect routerLink="/admin_panel"
-             routerLinkActive="active">Administration panel</a>
-        </li>
+      <li class="nav-item" *ngIf="isRole.admin" routerLinkActive="active">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/admin_panel"
+           routerLinkActive="active">Administration panel</a>
+      </li>
     </ul>
 
 
@@ -42,7 +42,9 @@
 
         <div class="btn-group" mdbDropdown>
           <div *ngIf="userProfile" class="user-data">
-            <p>{{userProfile.coins}} <mdb-icon fas style="color: yellow" icon="coins"></mdb-icon></p>
+            <p>{{userProfile.coins}}
+              <mdb-icon fas style="color: #faff5e" icon="coins"></mdb-icon>
+            </p>
             <p> {{userProfile.name}}</p>
             <div class="user-photo" [style.backgroundImage]="'url(' + userProfile.photo + ')'"
                  (click)="basicModal.show()" mdbWavesEffect>
@@ -77,9 +79,9 @@
         </button>
         <h4 class="modal-title w-100" id="myModalLabel">Profile</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="userProfileForm && userProfile">
 
-        <div id="info-user-block" *ngIf="userProfileForm">
+        <div id="info-user-block">
 
           <img [src]="imageUrl " (click)="filePicker.click()">
           <input type="file" hidden #filePicker (change)="onImagePicked($event)">
@@ -116,6 +118,10 @@
               </mdb-success>
             </div>
           </div>
+        </div>
+        <div class="info">
+          <p>Role: {{userProfile.role}}</p>
+          <p>Your money : {{userProfile.coins}} <mdb-icon fas style="color: #dcc721" icon="coins"></mdb-icon></p>
         </div>
 
       </div>
