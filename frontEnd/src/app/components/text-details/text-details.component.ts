@@ -121,6 +121,25 @@ export class TextDetailsComponent implements OnInit {
     });
   }
 
+  reviewDone(){
+    console.log(this.id);
+    this.orderService.reviewDone(this.element.id).subscribe((data) => {
+      console.log(data);
+      this._snackBar.open('Additional review is done!', '', {
+        duration: 2000,
+      });
+    });
+  }
+
+  customerReviewDone(){
+    this.orderService.CustumerReviewDone(this.element.id).subscribe((data) => {
+      console.log(data);
+      this._snackBar.open('Customer review is done!', '', {
+        duration: 2000,
+      });
+    });
+  }
+
   deleteText() {
     const orderId = this.element.id;
     this.orderService.deleteOrder(orderId).subscribe(res => {

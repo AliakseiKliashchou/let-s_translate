@@ -60,3 +60,7 @@ td {
     color: blue;
     text-decoration: underline; 
 }
+
+mat-tab{
+    width: 50% !important;
+}
