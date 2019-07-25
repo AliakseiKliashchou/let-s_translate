@@ -14,4 +14,5 @@ export interface OrderInterface {
   urgency: number;
   idCustomer: number;
   price: number;
+  idOrders: [OrderInterface];
 }

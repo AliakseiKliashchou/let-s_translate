@@ -26,7 +26,7 @@
       <button mdbBtn color="info" block="true" class="my-4" (click)="filter()">Filter</button>
     </div>
 
-    <mat-tab-group mat-align-tabs="center" class="container-width" >
+    <mat-tab-group mat-align-tabs="center" class="container-width">
       <mat-tab label="Incomplete translations">
 
 
@@ -47,13 +47,49 @@
             <tbody>
               <tr *ngFor=" let text of ordersArray; let i=index">
                 <ng-container *ngIf="status[text.status] === 'Waiting translator'">
-                  <td><b> {{text.title}}</b></td>
+                  <td *ngIf="text.idOrders; else orders" colspan="5">
+
+
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          {{text.title}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <table class="table table-hover bordered">
+                        <tbody>
+                          <tr *ngFor="let order of ordersArray; let i=index">
+                            <td><b> {{order.title}}</b></td>
+                            <td>
+                              <p><b>{{order.tags}}</b></p>
+                            </td>
+                            <td><b>{{order.originalLanguage}} => {{order.translateLanguage}}</b></td>
+                            <td><b>{{order.date | date}}</b></td>
+                            <td><b>{{order.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </mat-expansion-panel>
+
+
+                  </td>
+                  <ng-template #orders>
+                    <td><b> {{text.title}}</b></td>
+                    <td>
+                      <p><b>{{text.tags}}</b></p>
+                    </td>
+                    <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
+                    <td><b>{{text.date | date}}</b></td>
+                    <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
+                  </ng-template>
+
+                  <!-- <td><b> {{text.title}}</b></td>
                   <td>
                     <p><b>{{text.tags}}</b></p>
                   </td>
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
-                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
+                  <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td> -->
                   <td> <button (click)="getOrder(text.id, i)" type="button"
                       class="btn btn-outline-primary waves-effect">Get</button></td>
                 </ng-container>
@@ -64,14 +100,14 @@
 
           <table class="table table-hover bordered" *ngIf="ordersArray && role === 'customer'">
             <thead class="black white-text">
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Status</th>
-              <th scope="col">Date</th>
-              <th scope="col">Cost</th>
-              <th scope="col">Last comment</th>
-              
-            </tr>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Last comment</th>
+
+              </tr>
             </thead>
             <tbody>
 
@@ -88,7 +124,8 @@
                   </td>
                   <td><b>{{text.date | date}}</b></td>
                   <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
-                  <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last comment...</a>
+                  <td><a class="link" [routerLink]="['/text_details',text.id]" fragment="bottom">Go to the last
+                      comment...</a>
 
                 </ng-container>
               </tr>
@@ -108,7 +145,7 @@
                 <th scope="col">From -> to</th>
                 <th scope="col">Date</th>
                 <th scope="col">Cost</th>
-               
+
               </tr>
             </thead>
             <tbody>
@@ -121,7 +158,7 @@
                   <td><b>{{text.originalLanguage}} => {{text.translateLanguage}}</b></td>
                   <td><b>{{text.date | date}}</b></td>
                   <td><b>{{text.price}} <mdb-icon fas style="color: black" icon="coins"></mdb-icon></b></td>
-                  
+
                 </ng-container>
               </tr>
             </tbody>
