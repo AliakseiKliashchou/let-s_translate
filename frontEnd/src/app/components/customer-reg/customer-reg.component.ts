@@ -93,7 +93,6 @@ export class CustomerRegComponent implements OnInit {
     user.role = 'customer';
     user.photo = this.photoUrl;
     this.authService.customerRegistration(user).subscribe((data: any) => {
-      console.log(data);
       this._snackBar.open(
         `${data.message}`,
         '', {

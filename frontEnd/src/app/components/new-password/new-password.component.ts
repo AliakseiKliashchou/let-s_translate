@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserInfoService} from './../../_shared/service/users/user-info.service';
+import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-new-password',
@@ -11,21 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-password.component.css', '../../app.component.css']
 })
 export class NewPasswordComponent implements OnInit {
-
-  constructor(
-    private UserInfoService: UserInfoService,
-    private _snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private _router: Router
-    ) { }
-
-  ngOnInit() {
-    this.newPasswordForm = new FormGroup({
-      password_1: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-      password_2: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
-    });
-  }
-  newPasswordForm : FormGroup;
+  newPasswordForm: FormGroup;
   error = {
     required: 'You must enter a value',
     minlength: 'The value is too short',
@@ -33,30 +19,39 @@ export class NewPasswordComponent implements OnInit {
     pattern: 'Not a valid'
   };
 
-getErrorMessage(control: string) {
-  console.log(control);
+  constructor(
+    private userInfoService: UserInfoService,
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router) {
+  }
+
+  ngOnInit() {
+    this.newPasswordForm = new FormGroup({
+      password_1: new FormControl('',
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+      password_2: new FormControl('',
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    });
+  }
+
+  getErrorMessage(control: string) {
     const err = this.newPasswordForm.get(control).errors;
-    console.log(err);
     const keyOfError = Object.keys(err)[0];
-    console.log(this.error[keyOfError]);
     return this.error[keyOfError];
   }
 
-  submit(){
-    let newPassword = this.newPasswordForm.value.password_1;
+  submit() {
+    const newPassword = this.newPasswordForm.value.password_1;
     const email = this.route.snapshot.params.email;
-    console.log(newPassword);
-    this.UserInfoService.changePassword(newPassword, email).subscribe( (data) => {
+    this.userInfoService.changePassword(newPassword, email).subscribe((data) => {
       console.log(data);
       this._snackBar.open('The password was successfully changed', '', {
         duration: 2000,
       });
-      this._router.navigate(['/']);
+      this.router.navigate(['/']);
     });
   }
-
-
-
 
 
 }

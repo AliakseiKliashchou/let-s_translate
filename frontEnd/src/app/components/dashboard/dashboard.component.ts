@@ -56,7 +56,6 @@ export class DashboardComponent implements OnInit {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
-          console.log(orders)
         });
     } else if (this.role === 'customer') {
       this.orderService.getOrders()
