@@ -211,9 +211,13 @@ router.put('/order', async (req, res) => {
 
 router.get('/orders/translate/:idTranslator', async (req, res) => {
   const idTranslator = req.params.idTranslator;
+  const status = [1, 2, 3];
   try {
-    let orders = await orderModel.findAll(
-      {where: {translatorId: idTranslator}, order: [['date', 'DESC']]})
+    orderModel.findAll(
+      {
+        where: {translatorId: idTranslator, status: {[Op.in]: status}},
+        order: [['date', 'DESC']]
+      })
       .then(order => res.json(order))
   } catch (error) {
     res.json({error, message: 'Can not find any order'});

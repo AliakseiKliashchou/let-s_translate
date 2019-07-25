@@ -172,7 +172,6 @@ export class CollectionsComponent implements OnInit {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
-    console.log(this.newCollectionArray);
     let tagsArray = this.newCollectionArray.tags;
     tagsArray = tagsArray[0].concat(...tagsArray);
     const uniqTags = new Set(tagsArray);

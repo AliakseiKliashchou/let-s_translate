@@ -59,7 +59,6 @@ export class TextDetailsComponent implements OnInit {
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
       this.element = order;
-      console.log(this.element);
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
@@ -68,7 +67,6 @@ export class TextDetailsComponent implements OnInit {
         } else console.log('empty db');
       });
     });
-    // console.log(Date.now() - this.incomingComments[0].);
     this.progressBar = false;
   }
 
@@ -106,7 +104,6 @@ export class TextDetailsComponent implements OnInit {
   }
 
   changeSliderCustomer(val) {
-  
     this.element.price = val;
     this.saveProgressBtn = true;
   }
@@ -131,9 +128,8 @@ export class TextDetailsComponent implements OnInit {
     this.progressBar = false;
   }
 
-  reviewDone(){
+  reviewDone() {
     this.progressBar = true;
-    console.log(this.id);
     this.orderService.reviewDone(this.element.id).subscribe((data) => {
       console.log(data);
       this._snackBar.open('Additional review is done!', '', {
@@ -143,7 +139,7 @@ export class TextDetailsComponent implements OnInit {
     this.progressBar = false;
   }
 
-  customerReviewDone(){
+  customerReviewDone() {
     this.progressBar = true;
     this.orderService.CustumerReviewDone(this.element.id).subscribe((data) => {
       console.log(data);
@@ -158,7 +154,6 @@ export class TextDetailsComponent implements OnInit {
     this.progressBar = true;
     const orderId = this.element.id;
     this.orderService.deleteOrder(orderId).subscribe(res => {
-      console.log(res);
       this.router.navigate(['dashboard']);
     });
     this.progressBar = false;
@@ -185,7 +180,7 @@ export class TextDetailsComponent implements OnInit {
     this.progressBar = false;
   }
 
-  getRightNumber(event){
+  getRightNumber(event) {
     return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 
