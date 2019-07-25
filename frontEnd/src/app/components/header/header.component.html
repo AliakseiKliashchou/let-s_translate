@@ -188,37 +188,39 @@
         </button>
       </div>
       <div class="modal-body mx-3">
-        <mat-tab-group>
-          <mat-tab label="Customer">
+        <!------------------------sign in customer-------------------------------->
+        <mat-tab-group (selectedTabChange)="tabs($event)">
+          <mat-tab label="Customer" >
             <div class="md-form mb-3">
               <i class="fas fa-envelope prefix grey-text"></i>
               <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
-                     id="defaultForm-email" [formControl]="userInput.email" class="form-control validate" mdbInput
+                     id="defaultForm-email" [formControl]="customerInput.email" class="form-control validate" mdbInput
                      mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-              <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">
-                {{getErrorMessageEmail()}}
+              <mdb-error *ngIf="customerInput.email.invalid && (customerInput.email.dirty || customerInput.email.touched)">
+                {{getErrorMessageEmailCustomer()}}
               </mdb-error>
-              <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
+              <mdb-success *ngIf="customerInput.email.valid && (customerInput.email.dirty || customerInput.email.touched)">Ok!
               </mdb-success>
             </div>
             <div class="md-form mb-4">
               <i class="fas fa-lock prefix grey-text"></i>
               <input (change)="checkInp('customer', customer_password.value, 'password')" #customer_password
-                     type="password" id="defaultForm-pass" [formControl]="userInput.password"
+                     type="password" id="defaultForm-pass" [formControl]="customerInput.password"
                      class="form-control validate"
                      mdbInput mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
               <mdb-error
-                *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">
-                {{getErrorMessagePassword()}}
+                *ngIf="customerInput.password.invalid && (customerInput.password.dirty || customerInput.password.touched)">
+                {{getErrorMessagePasswordCustomer()}}
               </mdb-error>
               <mdb-success
-                *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
+                *ngIf="customerInput.password.valid && (customerInput.password.dirty || customerInput.password.touched)">Ok!
               </mdb-success>
             </div>
           </mat-tab>
-          <mat-tab label="Translator">
+          <!------------------------sign in translator-------------------------------->
+          <mat-tab label="Translator" >
             <div class="md-form mb-3">
               <i class="fas fa-envelope prefix grey-text"></i>
               <input
@@ -226,14 +228,14 @@
                 (change)="checkInp('translator', translator_email.value, 'email')"
                 #translator_email
                 id="defaultForm-email"
-                [formControl]="userInput.email"
+                [formControl]="translatorInput.email"
                 class="form-control validate"
                 mdbInput mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-              <mdb-error *ngIf="userInput.email.invalid && (userInput.email.dirty || userInput.email.touched)">
-                {{getErrorMessageEmail()}}
+              <mdb-error *ngIf="translatorInput.email.invalid && (translatorInput.email.dirty || translatorInput.email.touched)">
+                {{getErrorMessageEmailTranslator()}}
               </mdb-error>
-              <mdb-success *ngIf="userInput.email.valid && (userInput.email.dirty || userInput.email.touched)">Ok!
+              <mdb-success *ngIf="translatorInput.email.valid && (translatorInput.email.dirty || translatorInput.email.touched)">Ok!
               </mdb-success>
             </div>
             <div class="md-form mb-4">
@@ -243,20 +245,21 @@
                 (change)="checkInp('translator', translator_password.value, 'password')"
                 #translator_password
                 id="defaultForm-pass"
-                [formControl]="userInput.password"
+                [formControl]="translatorInput.password"
                 class="form-control validate"
                 mdbInput mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
               <mdb-error
-                *ngIf="userInput.password.invalid && (userInput.password.dirty || userInput.password.touched)">
-                {{getErrorMessagePassword()}}
+                *ngIf="translatorInput.password.invalid && (translatorInput.password.dirty || translatorInput.password.touched)">
+                {{getErrorMessagePasswordTranslator()}}
               </mdb-error>
               <mdb-success
-                *ngIf="userInput.password.valid && (userInput.password.dirty || userInput.password.touched)">Ok!
+                *ngIf="translatorInput.password.valid && (translatorInput.password.dirty || translatorInput.password.touched)">Ok!
               </mdb-success>
             </div>
           </mat-tab>
         </mat-tab-group>
+
         <div *ngIf="error" [(ngModel)]="error" class="alert alert-danger" role="alert">
           <b>{{error}}</b>
         </div>
