@@ -15,18 +15,20 @@ import {TariffInterface} from '../../_shared/interface/tariff.interface';
 })
 export class HomeComponent implements OnInit {
   tariffsArray: TariffInterface[] = [];
-
+  progressBar = false;
   constructor(
     private router: Router,
     private adminService: AdminService) {
   }
 
   ngOnInit() {
+    this.progressBar = true;
     this.adminService.getTariffs().subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
         this.tariffsArray.push(data[i]);
       }
     });
+    this.progressBar = false;
   }
 
   goToCustomerReg() {

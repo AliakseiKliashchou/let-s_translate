@@ -32,7 +32,8 @@ interface TariffsInterface {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {  
+  progressBar = false;
   namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   userInput = {
@@ -187,6 +188,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   addMoney(money) {
+    this.progressBar = true;
     if (money) this.userInfoService.addMoney(money)
       .subscribe((res: { msg: string; resultMoney: number }) => {
         this.userProfile.coins = res.resultMoney;
@@ -194,6 +196,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           duration: 2000,
         });
       });
+    this.progressBar = false;
   }
 
   getNewMoney(money, newMoneyInput) {
@@ -203,6 +206,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login(frame) {
+    this.progressBar = true;
     if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
@@ -211,11 +215,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         frame.hide();
         this.userInput.password.reset();
         this.userInput.email.reset();
+        this.progressBar = false;
       }, (err) => {
         this.error = err.error.message;
         console.log(this.error);
+        this.progressBar = false;
       });
-    } else return;
+    } else {
+      this.error = 'Invalid login or password';
+      this.progressBar = false;
+    }
+    
   }
 
   logout() {
@@ -230,6 +240,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onImagePicked(event: Event) {
+    this.progressBar = true;
     const file = (event.target as HTMLInputElement).files[0];
     this.userProfileForm.photo.patchValue(file);
     this.userProfileForm.photo.updateValueAndValidity();
@@ -238,9 +249,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.imageUrl = reader.result;
     };
     reader.readAsDataURL(file);
+    this.progressBar = false;
   }
 
   updateProfile(frame) {
+    this.progressBar = true;
     this.photo = this.userProfileForm.photo.value;
     const email = this.userProfileForm.email.value;
     const name = this.userProfileForm.name.value;
@@ -262,9 +275,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._snackBar.open('Your information was successfully updated', '', {
       duration: 2000,
     });
+    this.progressBar = false;
   }
 
   private uploadPhoto(file) {
+    this.progressBar = true;
     const path = `photos/${Date.now()}_${file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, file);
@@ -281,9 +296,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       )
     ).subscribe();
+    this.progressBar = false;
   }
 
   sendNewOptions(frame) {
+    this.progressBar = true;
     let recoverEmail = this.userInput.recoverEmail.value;
     this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
       console.log(data);
@@ -292,6 +309,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
       frame.hide();
     });
+    this.progressBar = false;
   }
 
 }

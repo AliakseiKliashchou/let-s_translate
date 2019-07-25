@@ -39,3 +39,6 @@ progress::-webkit-progress-value {
 .title-input{
   width: 100%;
 }
+.label{
+  margin: 10px;
+}

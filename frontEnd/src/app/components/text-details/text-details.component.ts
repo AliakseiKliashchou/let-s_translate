@@ -19,6 +19,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
   styleUrls: ['./text-details.component.css', '../../app.component.css']
 })
 export class TextDetailsComponent implements OnInit {
+  progressBar = false;
   private id: number;
   private routeSubscription: Subscription;
   element: OrderInterface;
@@ -53,6 +54,7 @@ export class TextDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.progressBar = true;
     this.role = this.authService.getRole();
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
@@ -67,6 +69,7 @@ export class TextDetailsComponent implements OnInit {
       });
     });
     // console.log(Date.now() - this.incomingComments[0].);
+    this.progressBar = false;
   }
 
   getRelativeDate(i) {
@@ -75,6 +78,7 @@ export class TextDetailsComponent implements OnInit {
   }
 
   sendComment(textarea) {
+    this.progressBar = true;
     // const id = this.au
     const text = textarea.value;
     const message = {
@@ -93,6 +97,7 @@ export class TextDetailsComponent implements OnInit {
       });
     });
     textarea.value = '';
+    this.progressBar = false;
   }
 
   changeSliderTranslator(val) {
@@ -101,27 +106,33 @@ export class TextDetailsComponent implements OnInit {
   }
 
   changeSliderCustomer(val) {
+  
     this.element.price = val;
     this.saveProgressBtn = true;
   }
 
   savePrice() {
+    this.progressBar = true;
     this.orderService.changePrice(this.element.id, this.element.price).subscribe((data) => {
       this._snackBar.open('The price was successfully changed', '', {
         duration: 2000,
       });
     });
+    this.progressBar = false;
   }
 
   saveProgress() {
+    this.progressBar = true;
     this.orderService.changeProgress(this.element.id, this.element.progress).subscribe((data) => {
       this._snackBar.open('The progress was successfully changed', '', {
         duration: 2000,
       });
     });
+    this.progressBar = false;
   }
 
   reviewDone(){
+    this.progressBar = true;
     console.log(this.id);
     this.orderService.reviewDone(this.element.id).subscribe((data) => {
       console.log(data);
@@ -129,26 +140,32 @@ export class TextDetailsComponent implements OnInit {
         duration: 2000,
       });
     });
+    this.progressBar = false;
   }
 
   customerReviewDone(){
+    this.progressBar = true;
     this.orderService.CustumerReviewDone(this.element.id).subscribe((data) => {
       console.log(data);
       this._snackBar.open('Customer review is done!', '', {
         duration: 2000,
       });
     });
+    this.progressBar = false;
   }
 
   deleteText() {
+    this.progressBar = true;
     const orderId = this.element.id;
     this.orderService.deleteOrder(orderId).subscribe(res => {
       console.log(res);
       this.router.navigate(['dashboard']);
     });
+    this.progressBar = false;
   }
 
   upload(event: Event) {
+    this.progressBar = true;
     const file = (event.target as HTMLInputElement).files[0];
     const path = `photos/${Date.now()}_${file.name}`;
     const ref = this.storage.ref(path);
@@ -165,6 +182,11 @@ export class TextDetailsComponent implements OnInit {
         }
       )
     ).subscribe();
+    this.progressBar = false;
+  }
+
+  getRightNumber(event){
+    return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 
 }

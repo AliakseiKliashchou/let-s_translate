@@ -16,6 +16,7 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
   styleUrls: ['./dashboard.component.css', '../../app.component.css']
 })
 export class DashboardComponent implements OnInit {
+  progressBar = false;
   status = [
     'Waiting translator',
     'In progress',
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.progressBar = true;
     this.role = this.authService.getRole();
     if (this.role === 'translator') {
       this.orderService.getUnownedOrders()
@@ -65,6 +67,7 @@ export class DashboardComponent implements OnInit {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
+      this.progressBar = false;
   }
 
   add(event: MatChipInputEvent): void {
@@ -95,17 +98,21 @@ export class DashboardComponent implements OnInit {
   }
 
   filter() {
+    this.progressBar = true;
     this.orderService.getFilteredOrder(this.tags)
       .subscribe((orders: OrderInterface[]) => {
         this.ordersArray = orders;
       });
+      this.progressBar = false;  
   }
 
 // ***********************GET ORDER********************************* */
 
   getOrder(idOrder: number, index) {
+    this.progressBar = true;
     const idCustomer = this.authService.getUserId();
     this.orderService.acceptOrder(idOrder, idCustomer);
     this.ordersArray.splice(index, 1);
+    this.progressBar = false;
   }
 }
