@@ -54,9 +54,9 @@ router.post('/order', async (req, res) => {
       });
     } else {
       ordersInfo.download = urls[0];
-      let order = await orderModel.create(ordersInfo);
+      var order = await orderModel.create(ordersInfo);
     }
-    res.json({message: 'Orders is created!'})
+    res.json({id: order.id})
   } catch (error) {
     res.status(400).json({message: 'Order is not created!', error})
   }
