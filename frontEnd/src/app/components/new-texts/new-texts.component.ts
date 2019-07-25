@@ -12,6 +12,7 @@ import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {MatStepperModule} from '@angular/material/stepper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-texts',
@@ -54,6 +55,7 @@ export class NewTextsComponent implements OnInit {
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  id: any;
 
   constructor(
     private storage: AngularFireStorage,
@@ -61,7 +63,8 @@ export class NewTextsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private http: OrderService,
     private authService: AuthService,
-    private userProfile: UserInfoService) {
+    private userProfile: UserInfoService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -184,7 +187,9 @@ export class NewTextsComponent implements OnInit {
         this.order.name = res.name;
         this.order.email = res.email;
         this.http.createOrder(this.order).subscribe((data) => {
-          console.log(data);
+          this.id = data;
+          console.log(this.id.id);
+          this.router.navigateByUrl(`/text_details/${this.id.id}`); 
         });
       }
     );
