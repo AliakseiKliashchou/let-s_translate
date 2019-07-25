@@ -108,4 +108,5 @@ export class DashboardComponent implements OnInit {
     this.orderService.acceptOrder(idOrder, idCustomer);
     this.ordersArray.splice(index, 1);
   }
+
 }

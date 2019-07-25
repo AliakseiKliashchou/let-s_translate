@@ -35,11 +35,12 @@ export class CollectionsService {
   }
 
 
-  createCollection(idOrders: number[], tittle: string, oneTranslator: boolean, lng: string[]) {
+  createCollection(idOrders: number[], tittle: string, oneTranslator: boolean, lng: string[], tags) {
+    const arrayTags = Array.from(tags);
     const idCustomer = this.authService.getUserId();
     return this.http.post(
       `${this.URL}/secure/collections/create`,
-      {idCustomer, idOrders, tittle, oneTranslator, lng}
+      {idCustomer, idOrders, tittle, oneTranslator, lng, arrayTags}
     );
   }
 

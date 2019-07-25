@@ -47,8 +47,10 @@ router.post('/order', async (req, res) => {
         idOrders: ordersArray,
         title: title,
         idCustomer: idCustomer,
+        lng: lng,
+        status: 0,
         oneTranslator: false,
-        lng: lng
+        date: new Date()
       });
     } else {
       ordersInfo.download = urls[0];
@@ -79,6 +81,13 @@ router.get('/orders/unowned', async (req, res) => {
     let translator = await translatorModel.findOne({where: {id: idTranslator}});
     const languages = translator.languages;
     const status = [0, 2];
+    let collections = await collectionModel.findAll({
+      where: {
+        status: {[Op.in]: status},
+        // lng: {[Op.in]: languages},
+        oneTranslator: true
+      }
+    });
     let orders = await orderModel.findAll(
       {
         where: {
@@ -89,11 +98,11 @@ router.get('/orders/unowned', async (req, res) => {
       }).then(ordersArray => {
       if (ordersArray) {
         const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
-        res.json(newArray);
+        const newSmth = newArray.concat(collections);
+        res.json(newSmth);
       } else res.json({msg: 'You don\'t have work'})
     });
   } catch (error) {
-    console.log(error)
     res.json({message: error});
   }
 });
@@ -107,6 +116,14 @@ router.get('/order/filter', async (req, res) => {
   let translator = await translatorModel.findOne({where: {id: idTranslator}});
   const languages = translator.languages;
   try {
+    let collections = await collectionModel.findAll({
+      where: {
+        status: 0,
+        lng: {[Op.in]: languages},
+        oneTranslator: true
+      }
+    });
+
     let orders = await orderModel.findAll({
       where:
         {
@@ -116,7 +133,11 @@ router.get('/order/filter', async (req, res) => {
           tags: {[Op.contains]: tagsArray}
         }
     }).then(ordersArray => {
-      res.json(ordersArray)
+      if (ordersArray) {
+        const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
+        const newSmth = newArray.concat(collections);
+        res.json(newSmth);
+      }
     });
   } catch (error) {
     res.status(400).json({error, message: 'Can not find any order'});
@@ -149,7 +170,6 @@ router.delete('/order/:id', async (req, res) => {
     orderModel.destroy({where: {id: id}});
     aggregationModel.destroy({where: {idOrder: id}});
   }
-  ;
 
   let notification = await notificationModel.create({
     idCustomer: order.idCustomer,

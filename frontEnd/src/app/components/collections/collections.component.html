@@ -85,7 +85,7 @@
           </thead>
           <tbody>
             <tr mdbTableColclass="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
-              (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j)"
+              (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j, collection.tags)"
               [ngClass]="check_FC?.checked ? 'checked' : 'unChecked'">
               <th scope="row">
                 <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>

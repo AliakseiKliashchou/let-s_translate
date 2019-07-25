@@ -45,18 +45,19 @@ router.get('/by-params', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const {idOrders, tittle, idCustomer, oneTranslator, lng} = req.body;
+  const {idOrders, tittle, idCustomer, oneTranslator, lng, arrayTags: tags} = req.body;
   orderModel.findAll({where: {id: idOrders}}).then(orders => {
-    orders.forEach(el => {
-      el.update({isCollections: true, oneTranslator: oneTranslator})
-    });
+    orders.forEach(el => el.update({isCollections: true, oneTranslator: oneTranslator}));
   });
   collectionModel.create({
     idOrders: idOrders,
     title: tittle,
     idCustomer: idCustomer,
     oneTranslator: oneTranslator,
-    lng: lng
+    status: 0,
+    lng: lng,
+    tags: tags,
+    date: new Date()
   }).then(result => res.json(result));
 });
 
@@ -67,7 +68,7 @@ router.delete('/delete/:idCollection', async (req, res) => {
         const idOrders = collection.idOrders;
         orderModel.findAll({where: {id: idOrders}})
           .then(result => {
-            result.forEach(el => el.update({isCollections: false}))
+            result.forEach(el => el.update({isCollections: false, oneTranslator: false}))
           });
       }
     );
