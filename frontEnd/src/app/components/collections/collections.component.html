@@ -3,7 +3,7 @@
   <div class="title anim">Collections</div>
 
   <button id="isShowCollections_btn" type="button" class="btn btn-primary large"
-    (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
+          (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
 
   <div class="collections" *ngIf="isShowCollections">
     <div class="collection" *ngFor="let coll of collectionsArray; let i = index">
@@ -15,29 +15,36 @@
         </mat-expansion-panel-header>
         <table class="table table-hover bordered">
           <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Date</th>
-              <th scope="col">Tags</th>
-              <th scope="col">Details</th>
-              <th scope="col">Download text</th>
-            </tr>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Date</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Details</th>
+            <th scope="col">Download text</th>
+          </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of coll.idOrders; let j = index">
-              <td><b> {{order.title}}</b></td>
-              <td>
-                <p><b>{{order.date | date}}</b></p>
-              </td>
-              <td><b>{{order.tags}}</b></td>
-              <td> <button class="btn btn-outline-primary waves-effect"
-                  [routerLink]="['/text_details',order.id]">Details</button></td>
-              <td><a href="{{order.download}}" target="_blank"><i class="fas fa-cloud-download-alt fa-lg"></i></a></td>
-            </tr>
+          <tr *ngFor="let order of coll.idOrders; let j = index">
+            <td><b> {{order.title}}</b></td>
+            <td>
+              <p><b>{{order.date | date}}</b></p>
+            </td>
+            <td><b>{{order.tags}}</b></td>
+            <td>
+              <button class="btn btn-outline-primary waves-effect"
+                      [routerLink]="['/text_details',order.id]">Details
+              </button>
+            </td>
+            <td><a href="{{order.download}}" target="_blank"><i class="fas fa-cloud-download-alt fa-lg"></i></a></td>
+          </tr>
           </tbody>
         </table>
-        <button class="btn btn-outline-danger  waves-effect large" (click)="deleteCollection(coll.id, i)">Delete
-          collection</button>
+        <button
+          class="btn btn-outline-danger waves-effect"
+          (click)="deleteCollection(coll.id, i)"
+          *ngIf="coll.status===0">
+          Delete collection
+        </button>
       </mat-expansion-panel>
     </div>
   </div>
@@ -51,8 +58,8 @@
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input placeholder="New tag..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
-          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
@@ -70,7 +77,9 @@
     <!------------------------------ADDITIONAL REVIEW-------------------------------------------->
     <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox>
     <!--------------------------------------------------------------------------------->
-    <button [disabled] = "!findingParams.originalLanguage || !findingParams.translateLanguage" class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find</button>
+    <button [disabled]="!findingParams.originalLanguage || !findingParams.translateLanguage"
+            class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find
+    </button>
 
   </div>
   <!--------------------------------------FILTERED COLLECTIONS------CREATE NEW COLLECTION--------------------------------------------->
@@ -79,25 +88,25 @@
       <div class="table">
         <table mdbTable [style.background-color]="check_FC?.checked ? 'rgba(82, 214, 29)' : 'white'">
           <thead>
-            <tr>
-              <th *ngFor="let head of headElements" scope="col">{{head}}</th>
-            </tr>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}}</th>
+          </tr>
           </thead>
           <tbody>
-            <tr mdbTableColclass="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
+          <tr mdbTableColclass="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
               (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j, collection.tags)"
               [ngClass]="check_FC?.checked ? 'checked' : 'unChecked'">
-              <th scope="row">
-                <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>
-              </th>
-              <td>{{collection.name}}</td>
-              <td>{{collection.title}}</td>
-              <td>{{collection.date | date}}</td>
-              <td><a [href]="collection.download" target="_blank">Download text</a></td>
-              <td>{{collection.originalLanguage}}</td>
-              <td>{{collection.translateLanguage}}</td>
-              <td>{{collection.email}}</td>
-            </tr>
+            <th scope="row">
+              <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>
+            </th>
+            <td>{{collection.name}}</td>
+            <td>{{collection.title}}</td>
+            <td>{{collection.date | date}}</td>
+            <td><a [href]="collection.download" target="_blank">Download text</a></td>
+            <td>{{collection.originalLanguage}}</td>
+            <td>{{collection.translateLanguage}}</td>
+            <td>{{collection.email}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -109,7 +118,8 @@
       <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
     </div>
     <button class="btn btn-outline-success  waves-effect large"
-      [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
-      (click)="createNewCollection(newCollectionName.value, isOneTranslator)">Create new collection</button>
+            [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
+            (click)="createNewCollection(newCollectionName.value, isOneTranslator)">Create new collection
+    </button>
   </div>
 </div>

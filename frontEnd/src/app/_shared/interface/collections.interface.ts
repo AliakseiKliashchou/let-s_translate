@@ -5,4 +5,5 @@ export interface CollectionsInterface {
   idCustomer: number;
   idOrders: OrderInterface[];
   title: string;
+  status: number;
 }
