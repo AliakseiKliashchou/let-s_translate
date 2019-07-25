@@ -171,8 +171,12 @@ mat-slider {
   padding: 30px 15px 0 25px;
   width: 75%;
   box-shadow: 0 0 5px gray;
+ 
 }
-
+.msg_history{
+  overflow: scroll;
+  min-height: 500px;
+}
 .sent_msg p {
   background: #0465ac;
   border-radius: 12px 15px 15px 0;
