@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
-      this.progressBar = false;
+    this.progressBar = false;
   }
 
   add(event: MatChipInputEvent): void {
@@ -103,15 +103,16 @@ export class DashboardComponent implements OnInit {
       .subscribe((orders: OrderInterface[]) => {
         this.ordersArray = orders;
       });
-      this.progressBar = false;  
+    this.progressBar = false;
   }
 
 // ***********************GET ORDER********************************* */
 
-  getOrder(idOrder: number, index) {
+  getOrder(idOrder: number, index, collection) {
     this.progressBar = true;
-    const idCustomer = this.authService.getUserId();
-    this.orderService.acceptOrder(idOrder, idCustomer);
+    const idTranslators = this.authService.getUserId();
+    const isCollection = Boolean(collection);
+    this.orderService.acceptOrder(idOrder, idTranslators, isCollection);
     this.ordersArray.splice(index, 1);
     this.progressBar = false;
   }

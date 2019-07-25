@@ -49,9 +49,9 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/orders/translate/` + idTranslator);
   }
 
-  acceptOrder(idOrder: number, idTranslators: number) {
+  acceptOrder(idOrder: number, idTranslator: number, isCollection: boolean) {
     this.http.post(`${this.URL}/secure/accept`,
-      {idOrder, idTranslators})
+      {idOrder, idTranslator, isCollection})
       .subscribe(res => console.log(res));
   }
 
