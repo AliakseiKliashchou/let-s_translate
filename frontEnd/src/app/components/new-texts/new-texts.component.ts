@@ -19,6 +19,7 @@ import {MatStepperModule} from '@angular/material/stepper';
   styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
+  progressBar = false;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -117,6 +118,7 @@ export class NewTextsComponent implements OnInit {
   }
 
   onFileDrop(event: Event) {
+    this.progressBar = true;
     const file = (event.target as HTMLInputElement).files[0];
     if (file.size > this.maxSize) {
       this.isHasError.size = true;
@@ -134,9 +136,11 @@ export class NewTextsComponent implements OnInit {
         duration: 3000,
       });
     }
+    this.progressBar = false;
   }
 
   uploadText(text) {
+    this.progressBar = true;
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     ref.putString(text).then((snapshot) => {
@@ -149,6 +153,7 @@ export class NewTextsComponent implements OnInit {
     }).catch(error => {
       console.log(error);
     });
+    this.progressBar = false;
   }
 
   getURL(url) {
@@ -170,6 +175,7 @@ export class NewTextsComponent implements OnInit {
   }
 
   makeOrder(additionalReview, urgency) {
+    this.progressBar = true;
     this.order.additionalReview = additionalReview.checked;
     this.order.urgency = urgency.checked;
     this.order.tags = this.tags;
@@ -182,5 +188,6 @@ export class NewTextsComponent implements OnInit {
         });
       }
     );
+    this.progressBar = false;
   }
 }

@@ -1,8 +1,11 @@
+
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
   <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" routerLink="/" style="color: white">
-    <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a>
+  <mdb-navbar-brand>
+    <!-- <a class="navbar-brand" routerLink="/" style="color: white">
+    <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a> -->
+    <img id="logo" src="../../../assets/logo.png" alt="" routerLink="/">
   </mdb-navbar-brand>
   <!-- Collapsible content -->
   <links>
@@ -294,3 +297,4 @@
   </div>
 </div>
 <!--/.Navbar-->
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>

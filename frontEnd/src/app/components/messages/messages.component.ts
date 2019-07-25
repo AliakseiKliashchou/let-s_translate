@@ -18,7 +18,7 @@ interface Msg {
 export class MessagesComponent implements OnInit {
 // accepted paid
   msgArray = [];
-
+  progressBar = false;
   constructor(
     private orderService: OrderService,
     private authService: AuthService,
@@ -26,6 +26,7 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.progressBar = true;
     this.ntfService.getNotifications()
       .subscribe((res: Msg[]) => {
           res.forEach(el => {
@@ -40,9 +41,11 @@ export class MessagesComponent implements OnInit {
           });
         }
       );
+    this.progressBar = false;
   }
 
   readMsg(indexOfMsg) {
+    this.progressBar = true;
     const idNtf = this.msgArray[indexOfMsg].id;
     this.ntfService.readNotification(idNtf)
       .subscribe(res => {
@@ -50,6 +53,7 @@ export class MessagesComponent implements OnInit {
         console.log(this.msgArray.length);
         this.ntfService.sendMessage(this.msgArray.length);
       });
+    this.progressBar = false;
   }
 
 }

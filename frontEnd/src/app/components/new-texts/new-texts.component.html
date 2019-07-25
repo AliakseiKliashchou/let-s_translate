@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
 <div class="title anim">New texts</div>
 <div class="container">
   <mat-vertical-stepper>
@@ -75,7 +76,7 @@
             mdbCharCounter
             mdbInput>
           </textarea>
-        <label for="input_text" class="label">Type your text</label>
+        <label for="input_text" class="label">Insert text here...</label>
         <button class="upload_btn" (click)="uploadText(inputTxt.value)" mat-button>Upload text</button>
       </div>
 

@@ -20,21 +20,21 @@ nav {
   align-items: center;
 }
 
-.logo {
+/* .logo {
   width: 20em;
   height: 3.2em;
   background-image: url('../../../assets/logo.png');
   background-size: 100% 100%;
   margin: 10px 10px;
   display: block;
-}
+} */
 
-.logo:hover {
+/* .logo:hover {
   cursor: pointer;
   border: 2px solid rgb(196, 194, 194);
   border-radius: 5px;
   box-shadow: 10px 5px 5px red;
-}
+} */
 
 .right-block button {
   background-color: rgba(255, 255, 255, 0.65);
@@ -197,9 +197,9 @@ nav {
     font-size: 15px;
   }
 
-  .logo {
+  /* .logo {
     margin: 1.2em 0.4em;
-  }
+  } */
 }
 
 @media (max-width: 1550px) {
@@ -224,5 +224,12 @@ li{
 #forgotPassword:hover{
   color: red;
   text-decoration: none;
+  cursor: pointer;
+}
+#logo{
+  width: 220px;
+  height: 30px;
+}
+#logo:hover{
   cursor: pointer;
 }
