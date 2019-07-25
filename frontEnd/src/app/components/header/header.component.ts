@@ -36,13 +36,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   progressBar = false;
   namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  userInput = {
+
+  customerInput = {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('',
       [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
     recoverEmail: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)])
   };
+
+  translatorInput = {
+    email: new FormControl('',
+      [Validators.required, Validators.pattern(this.emailPattern)]),
+    password: new FormControl('',
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+  };
+
   isRole = {
     auth: false,
     customer: false,
@@ -54,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user = {
     email: '',
     password: '',
-    role: ''
+    role: 'customer'
   };
   tariffs = {};
   userProfile: UserProfileInterface;
@@ -143,20 +152,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // --------VALIDATION------------------------------
 
-  getErrorMessageEmail() {
-    return this.userInput.email.hasError('required') ? 'You must enter a value' :
-      this.userInput.email.hasError('pattern') ? 'Not a valid email' : '';
+  getErrorMessageEmailCustomer() {
+    return this.customerInput.email.hasError('required') ? 'You must enter a value' :
+      this.customerInput.email.hasError('pattern') ? 'Not a valid email' : '';
+  }
+  getErrorMessageEmailTranslator() {
+    return this.translatorInput.email.hasError('required') ? 'You must enter a value' :
+      this.translatorInput.email.hasError('pattern') ? 'Not a valid email' : '';
   }
 
-  getErrorMessagePassword() {
-    return this.userInput.password.hasError('required') ? 'You must enter a value' :
-      this.userInput.password.hasError('minlength') ? 'The password is too short' :
-        this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  getErrorMessagePasswordCustomer() {
+    return this.customerInput.password.hasError('required') ? 'You must enter a value' :
+      this.customerInput.password.hasError('minlength') ? 'The password is too short' :
+        this.customerInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  }
+  getErrorMessagePasswordTranslator() {
+    return this.translatorInput.password.hasError('required') ? 'You must enter a value' :
+      this.translatorInput.password.hasError('minlength') ? 'The password is too short' :
+        this.translatorInput.password.hasError('maxlength') ? 'The password is too long' : '';
   }
 
   getRecoverEmailMessage() {
-    return this.userInput.recoverEmail.hasError('required') ? 'You must enter a value' :
-      this.userInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
+    return this.customerInput.recoverEmail.hasError('required') ? 'You must enter a value' :
+      this.customerInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
   }
 
   // --------------------------------------------------
@@ -206,25 +224,68 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login(frame) {
-    this.progressBar = true;
-    if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
-      this.authService.log(this.user).subscribe(() => {
+     this.progressBar = true;
+     if(this.user.role === 'customer'){
+       if ((this.customerInput.email.valid || this.customerInput.email.value === 'admin') && this.customerInput.password.valid) {
+          this.authService.log(this.user).subscribe(() => {
+          console.log('Success');
+          this.authService.login(this.user);
+          this.ngOnInit();
+          frame.hide();
+          this.customerInput.password.reset();
+          this.customerInput.email.reset();
+          this.translatorInput.password.reset();
+          this.translatorInput.email.reset();
+          this.progressBar = false;
+          }, (err) => {
+            this.error = err.error.message;
+            console.log(this.error);
+            this.progressBar = false;
+          });
+        } else {
+          this.error = 'Invalid login or password';
+          this.progressBar = false;
+        }
+     }else if(this.user.role === 'translator'){
+      if ((this.translatorInput.email.valid || this.translatorInput.email.value === 'admin') && this.translatorInput.password.valid) {
+        this.authService.log(this.user).subscribe(() => {
         console.log('Success');
         this.authService.login(this.user);
         this.ngOnInit();
         frame.hide();
-        this.userInput.password.reset();
-        this.userInput.email.reset();
+        this.customerInput.password.reset();
+        this.customerInput.email.reset();
+        this.translatorInput.password.reset();
+        this.translatorInput.email.reset();
         this.progressBar = false;
-      }, (err) => {
-        this.error = err.error.message;
-        console.log(this.error);
+        }, (err) => {
+          this.error = err.error.message;
+          console.log(this.error);
+          this.progressBar = false;
+        });
+      } else {
+        this.error = 'Invalid login or password';
         this.progressBar = false;
-      });
-    } else {
-      this.error = 'Invalid login or password';
-      this.progressBar = false;
-    }
+      }
+     }
+    // if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
+    //   this.authService.log(this.user).subscribe(() => {
+    //     console.log('Success');
+    //     this.authService.login(this.user);
+    //     this.ngOnInit();
+    //     frame.hide();
+    //     this.userInput.password.reset();
+    //     this.userInput.email.reset();
+    //     this.progressBar = false;
+    //   }, (err) => {
+    //     this.error = err.error.message;
+    //     console.log(this.error);
+    //     this.progressBar = false;
+    //   });
+    // } else {
+    //   this.error = 'Invalid login or password';
+    //   this.progressBar = false;
+    // }
     
   }
 
@@ -237,6 +298,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       translator: false,
       admin: false
     };
+    this.error = '';
+
   }
 
   onImagePicked(event: Event) {
@@ -301,7 +364,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   sendNewOptions(frame) {
     this.progressBar = true;
-    let recoverEmail = this.userInput.recoverEmail.value;
+    let recoverEmail = this.customerInput.recoverEmail.value;
     this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
       console.log(data);
       this._snackBar.open('On your e-mail adress was send a recovery options', '', {
@@ -310,6 +373,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       frame.hide();
     });
     this.progressBar = false;
+  }
+
+  tabs(event){
+    if(event.index === 0){
+      this.user.role = 'customer';
+    }else if(event.index === 1){
+      this.user.role = 'translator';
+    }
+    console.log(event.index);
   }
 
 }
