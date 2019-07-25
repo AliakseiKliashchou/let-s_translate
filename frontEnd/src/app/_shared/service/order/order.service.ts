@@ -63,7 +63,7 @@ export class OrderService {
     return this.http.put(`${this.URL}/secure/order-review/`, {id});
   }
 
-  CustumerReviewDone(id) {
+  customerReviewDone(id) {
     return this.http.post(`${this.URL}/secure/review/done/`, {id});
   }
 
