@@ -105,7 +105,10 @@ router.get('/orders/unowned', async (req, res) => {
         }
       }).then(ordersArray => {
       if (ordersArray) {
-        const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
+        const newArray = ordersArray.filter(el => {
+          if (el.status === 2 && el.isCollections && el.oneTranslator) return el;
+          else if (!(el.isCollections && el.oneTranslator)) return el;
+        });
         const newSmth = newArray.concat(collections);
         res.json(newSmth);
       } else res.json({msg: 'You don\'t have work'})
@@ -207,8 +210,9 @@ router.put('/order', async (req, res) => {
   let progress = req.body.progress;
 
   let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+    let status = (order.review) ? 2 : 3;
     if (progress === 100) {
-      order.update({progress: progress, status: 2, date: new Date()});
+      order.update({progress: progress, status: status, date: new Date()});
     } else {
       order.update({progress: progress, date: new Date()});
     }

@@ -16,7 +16,7 @@ router.post('/accept', async (req, res) => {
     if (isCollection) {
       let idOrdersInColl;
       let collection = await collectionModel.findOne({where: {id: idOrder}}).then((order) => {
-        // order.update({status: 1, translatorId: idTranslator});
+        order.update({status: 1, translatorId: idTranslator});
         idOrderFetch = order.idOrders;
         idCustomer = order.idCustomer;
       }).catch(err => res.json({msg: 'collection', err}));
@@ -82,13 +82,15 @@ router.post('/accept', async (req, res) => {
           coins: el.price,
           translatorId: idTranslator
         });
-      })
+      });
+      res.json({msg: 'you get this work, nice'})
     } else {
-      aggregationModel.create({
+      await aggregationModel.create({
         idOrder: idOrder,
         coins: currentCount,
         translatorId: idTranslator
       });
+      res.json({msg: 'you get this work, nice'})
     }
   } catch (error) {
     res.status(401).json({message: 'Something was wrong!', error})
