@@ -49,7 +49,8 @@ export class CollectionsComponent implements OnInit {
   newCollectionArray = {
     title: '',
     id: [],
-    isOneTranslator: false
+    isOneTranslator: false,
+    tags: []
   };
   indexArray = [];
 
@@ -140,9 +141,10 @@ export class CollectionsComponent implements OnInit {
   }
 
 // **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
-  click_check(check, idOrder, i) {
+  click_check(check, idOrder, i, tags) {
     if (check.checked) {
       this.newCollectionArray.id[i] = idOrder;
+      this.newCollectionArray.tags[i] = tags;
       this.indexArray.push(i);
     }
     if (!check.checked) {
@@ -170,9 +172,13 @@ export class CollectionsComponent implements OnInit {
         this.newCollectionArray.id.splice(j, 1);
       }
     }
+    console.log(this.newCollectionArray);
+    let tagsArray = this.newCollectionArray.tags;
+    tagsArray = tagsArray[0].concat(...tagsArray);
+    const uniqTags = new Set(tagsArray);
     const lng = [this.findingParams.originalLanguage, this.findingParams.translateLanguage];
     const {id, isOneTranslator} = this.newCollectionArray;
-    this.collectionsService.createCollection(id, title, isOneTranslator, lng)
+    this.collectionsService.createCollection(id, title, isOneTranslator, lng, uniqTags)
       .subscribe((data) => {
         this.ngOnInit();
         this._snackBar.open('Collection was successfully created', '', {

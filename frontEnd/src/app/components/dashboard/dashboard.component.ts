@@ -115,4 +115,5 @@ export class DashboardComponent implements OnInit {
     this.ordersArray.splice(index, 1);
     this.progressBar = false;
   }
+
 }
