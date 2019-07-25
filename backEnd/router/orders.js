@@ -87,6 +87,14 @@ router.get('/orders/unowned', async (req, res) => {
         // lng: {[Op.in]: languages},
         oneTranslator: true
       }
+    }).then(colls => {
+      for (let i = 0; i < colls.length; i++) {
+        const idOrders = colls[i].idOrders;
+        orderModel.findAll({where: {id: idOrders}}).then(order => {
+          colls[i].idOrders = order;
+        })
+      }
+      return colls;
     });
     let orders = await orderModel.findAll(
       {
