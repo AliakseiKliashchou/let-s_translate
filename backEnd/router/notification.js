@@ -3,60 +3,95 @@ const router = express.Router();
 const orderModel = require('../models/order');
 const notificationModel = require('../models/notification');
 const customerModel = require('../models/customer');
+const collectionModel = require('../models/collection');
 const tariffModel = require('../models/tariff');
 const aggregationModel = require('../models/aggregation');
 
 router.post('/accept', async (req, res) => {
-  let idOrder = req.body.idOrder;
-  let idTranslator = req.body.idTranslators;
+  let {idOrder, idTranslator, isCollection} = req.body;
   try {
-    let order = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
-      order.update({status: 1, translatorId: idTranslator});
-      return order;
-    });
+    let idCustomer;
+    let idOrderFetch;
+    let orderForSmth;
+    if (isCollection) {
+      let idOrdersInColl;
+      let collection = await collectionModel.findOne({where: {id: idOrder}}).then((order) => {
+        // order.update({status: 1, translatorId: idTranslator});
+        idOrderFetch = order.idOrders;
+        idCustomer = order.idCustomer;
+      }).catch(err => res.json({msg: 'collection', err}));
 
-    let createAggregation = await aggregationModel.create({
-      idOrder: order.id,
-      coins: 0,
-      translatorId: order.translatorId
-    });
+      let smth = await orderModel
+        .update({status: 1, translatorId: idTranslator}, {where: {id: idOrderFetch}})
+        .catch(err => res.json({msg: 'orders', err}))
+      orderForSmth = await orderModel.findAll({where: {id: idOrderFetch}})
 
-    let customer = await customerModel.findOne({where: {id: order.idCustomer}}).then((customer) => {
+    } else {
+
+      orderForSmth = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
+        order.update({status: 1, translatorId: idTranslator});
+        idCustomer = order.idCustomer;
+      }).catch(err => res.json({msg: 'order', err}))
+
+    }
+
+    let customer = await customerModel.findOne({where: {id: idCustomer}}).then((customer) => {
       return {
         tariffName: customer.tariff,
         coins: customer.coins,
       };
     });
+    let payment = [];
 
     let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
       let {coeff} = tariff;
-      if (order.urgency) {
-        payment = Math.floor(order.price * coeff * 1.2);
+
+      if (typeof orderForSmth == 'object') {
+        orderForSmth.forEach(el => {
+          let money = (el.urgency) ?
+            Math.floor(el.price * coeff * 1.2) :
+            Math.floor(el.price * coeff);
+          payment.push(money);
+        })
       } else {
-        payment = Math.floor(order.price * coeff);
+        payment = (orderForSmth.urgency) ?
+          Math.floor(orderForSmth.price * coeff * 1.2) :
+          Math.floor(orderForSmth.price * coeff);
       }
+
       return tariff
     });
+    let currentPayment = payment.reduce((sum, el) => sum + el, 0);
+    let currentCount = orderForSmth.reduce((sum, el) => {
+      return (el.urgency) ? (sum + el.price * 1.2) : (sum + el.price)
+    }, 0);
+    let data = {coins: customer.coins - currentPayment};
+    let find = {where: {id: idCustomer}};
 
-    let data = {coins: customer.coins - (order.price - payment)};
-    let find = {where: {id: order.idCustomer}};
-    let updateCustomer = await customerModel.update(data, find);
+    await customerModel.update(data, find);
 
-    let aggregation = await aggregationModel.findOne({where: {idOrder: order.id}}).then((aggregation) => {
-      let coins = aggregation.coins;
-      let price = order.price;
-      console.log(aggregation)
-      aggregation.update({coins: coins + price});
+    await notificationModel.create({
+      idCustomer: idCustomer,
+      text: `accepted,${orderForSmth[0].title},${idOrder}`
     });
 
-    let notification = await notificationModel.create({
-      idCustomer: order.idCustomer,
-      text: `accepted,${order.title},${order.id}`
-    });
-
-    res.json({message: 'Translator appointed!'});
+    if (typeof orderForSmth == 'object') {
+      await orderForSmth.forEach(el => {
+        aggregationModel.create({
+          idOrder: el.id,
+          coins: el.price,
+          translatorId: idTranslator
+        });
+      })
+    } else {
+      aggregationModel.create({
+        idOrder: idOrder,
+        coins: currentCount,
+        translatorId: idTranslator
+      });
+    }
   } catch (error) {
-    res.satus(401).json({message: 'Something was wrong!', error})
+    res.status(401).json({message: 'Something was wrong!', error})
   }
 });
 
