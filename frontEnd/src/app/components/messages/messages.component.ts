@@ -50,7 +50,6 @@ export class MessagesComponent implements OnInit {
     this.ntfService.readNotification(idNtf)
       .subscribe(res => {
         this.msgArray.splice(indexOfMsg, 1);
-        console.log(this.msgArray.length);
         this.ntfService.sendMessage(this.msgArray.length);
       });
     this.progressBar = false;

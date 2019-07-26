@@ -49,7 +49,6 @@
               <ng-container *ngIf="status[text.status] === 'Waiting translator'">
                 <td *ngIf="text.idOrders; else orders" colspan="5">
 
-
                   <mat-expansion-panel>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -72,7 +71,6 @@
                       </tbody>
                     </table>
                   </mat-expansion-panel>
-
 
                 </td>
                 <ng-template #orders>

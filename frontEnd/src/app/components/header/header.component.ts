@@ -330,10 +330,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }).then(res => {
         this.downPhoto.subscribe(() => {
           this.userInfoService.updateUserProfile(this.photo, email, name);
+          this.userProfile.photo = this.photo;
         });
       });
     } else {
       this.userInfoService.updateUserProfile(this.photo, email, name);
+      this.userProfile.name = name;
     }
     frame.hide();
     this._snackBar.open('Your information was successfully updated', '', {
@@ -367,7 +369,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.progressBar = true;
     const recoverEmail = this.customerInput.recoverEmail.value;
     this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('On your e-mail adress was send a recovery options', '', {
         duration: 2000,
       });
@@ -382,7 +383,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else if (event.index === 1) {
       this.user.role = 'translator';
     }
-    console.log(event.index);
   }
 
 }

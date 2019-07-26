@@ -45,7 +45,6 @@ export class NewPasswordComponent implements OnInit {
     const newPassword = this.newPasswordForm.value.password_1;
     const email = this.route.snapshot.params.email;
     this.userInfoService.changePassword(newPassword, email).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('The password was successfully changed', '', {
         duration: 2000,
       });

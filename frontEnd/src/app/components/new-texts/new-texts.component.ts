@@ -65,8 +65,7 @@ export class NewTextsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private http: OrderService,
     private authService: AuthService,
-    private userProfile: UserInfoService,
-    private router: Router) {
+    private userProfile: UserInfoService) {
   }
 
   ngOnInit() {
@@ -189,9 +188,7 @@ export class NewTextsComponent implements OnInit {
         this.order.name = res.name;
         this.order.email = res.email;
         this.http.createOrder(this.order).subscribe((data) => {
-          this.id = data;
-          console.log(this.id.id);
-          this.router.navigateByUrl(`/text_details/${this.id.id}`); 
+          this.router.navigate(['/dashboard']);
         });
       }
     );

@@ -11,6 +11,7 @@ const Op = Sequelize.Op;
 
 router.post('/order', async (req, res) => {
   let urls = req.body.url;
+  let order;
   const {
     idCustomer, name, email, additionalReview: review, title, urgency,
     finiteLng: translateLanguage, initialLng: originalLanguage, tags
@@ -54,10 +55,11 @@ router.post('/order', async (req, res) => {
       });
     } else {
       ordersInfo.download = urls[0];
-      var order = await orderModel.create(ordersInfo);
+      order = await orderModel.create(ordersInfo);
     }
-    res.json({id: order.id})
+    res.json({message: 'Order is created!'})
   } catch (error) {
+    console.log('error')
     res.status(400).json({message: 'Order is not created!', error})
   }
 });

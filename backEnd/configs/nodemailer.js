@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 let sendEmail = (guid, id, email) => {
-  let url = `http://localhost:3000/confirm?code=${guid}&id=${id}`;
+  let url = `http://lets-translate-api.herokuapp.com/confirm?code=${guid}&id=${id}`;
   console.log(url);
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -30,7 +30,7 @@ let sendEmail = (guid, id, email) => {
 };
 
 let resetPassword = (encrypt, email) => {
-  let url = `http://localhost:3000/reset-password?crypt=${encrypt}`;
+  let url = `http://lets-translate-api.herokuapp.com/reset-password?crypt=${encrypt}`;
 
   let transporter = nodemailer.createTransport({
     service: 'gmail',
