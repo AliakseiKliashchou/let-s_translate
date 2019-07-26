@@ -76,7 +76,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   downPhoto = new Subject();
   error: any;
   msgCounter: number;
-
+  coinsTransaltor;
+  nameTRanslator;
 
   isShowRecoverPanel = false;
 
@@ -110,6 +111,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.isRole.translator = true;
           this.userInfoService.getTranslatorProfile(userId)
             .subscribe((res: any) => {
+              this.nameTRanslator = res.name;
+              this.coinsTransaltor = res.coins;
             });
         } else if (role === 'customer') {
           this.ntfService.getNotifications()
@@ -293,6 +296,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.authService.logout();
     this.userProfile = null;
+    this.coinsTransaltor = null;
+    this.nameTRanslator = '';
     this.isRole = {
       auth: false,
       customer: false,

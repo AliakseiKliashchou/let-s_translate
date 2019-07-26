@@ -32,7 +32,7 @@ router.get('/translator/:id', async (req, res) => {
         email: translator.email,
         languages: translator.languages,
         photo: translator.photo,
-        coins: customer.coins,
+        coins: translator.coins,
       };
       res.json(data)
     });
