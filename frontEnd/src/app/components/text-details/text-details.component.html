@@ -58,8 +58,10 @@
             Save
             changes
           </button>
-          <button *ngIf="element.review === true" class="btn btn-outline-primary  waves-effect large"
-                  (click)="reviewDone()">
+          <button
+            *ngIf="element.review === true && element.status ===2"
+            class="btn btn-outline-primary  waves-effect large"
+            (click)="reviewDone()">
             Review done
           </button>
           <mat-divider></mat-divider>
@@ -89,7 +91,7 @@
       </div>
     </div>
     <button
-      *ngIf="element && (element.status !== 2) && (element.status !== 3)"
+      *ngIf="role === 'customer' && (element.status !== 2) && (element.status !== 3)"
       class="btn btn-outline-danger  waves-effect large"
       (click)="deleteText()">
       Delete text

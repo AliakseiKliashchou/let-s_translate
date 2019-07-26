@@ -1,4 +1,3 @@
-
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
   <!-- Navbar brand -->
@@ -51,6 +50,13 @@
       <li class="nav-item">
 
         <div class="btn-group" mdbDropdown>
+          <div class="user-data" *ngIf="nameTRanslator" style="margin: auto; margin-right: 10px; color: white">
+            <p class="user-data" >{{coinsTransaltor}}
+              <mdb-icon fas style="color: #faff5e" icon="coins"></mdb-icon>
+            </p>
+            <p> {{nameTRanslator}}</p>
+          </div>
+
           <div *ngIf="userProfile" class="user-data">
             <p>{{userProfile.coins}}
               <mdb-icon fas style="color: #faff5e" icon="coins"></mdb-icon>
@@ -189,18 +195,20 @@
       </div>
       <div class="modal-body mx-3">
         <!------------------------sign in customer-------------------------------->
-        <mat-tab-group mat-align-tabs="center"  (selectedTabChange)="tabs($event)">
-          <mat-tab label="Customer" >
+        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabs($event)">
+          <mat-tab label="Customer">
             <div class="md-form mb-3">
               <i class="fas fa-envelope prefix grey-text"></i>
               <input (change)="checkInp('customer', customer_email.value, 'email')" #customer_email type="email"
                      id="defaultForm-email" [formControl]="customerInput.email" class="form-control validate" mdbInput
                      mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-              <mdb-error *ngIf="customerInput.email.invalid && (customerInput.email.dirty || customerInput.email.touched)">
+              <mdb-error
+                *ngIf="customerInput.email.invalid && (customerInput.email.dirty || customerInput.email.touched)">
                 {{getErrorMessageEmailCustomer()}}
               </mdb-error>
-              <mdb-success *ngIf="customerInput.email.valid && (customerInput.email.dirty || customerInput.email.touched)">Ok!
+              <mdb-success
+                *ngIf="customerInput.email.valid && (customerInput.email.dirty || customerInput.email.touched)">Ok!
               </mdb-success>
             </div>
             <div class="md-form mb-4">
@@ -215,12 +223,13 @@
                 {{getErrorMessagePasswordCustomer()}}
               </mdb-error>
               <mdb-success
-                *ngIf="customerInput.password.valid && (customerInput.password.dirty || customerInput.password.touched)">Ok!
+                *ngIf="customerInput.password.valid && (customerInput.password.dirty || customerInput.password.touched)">
+                Ok!
               </mdb-success>
             </div>
           </mat-tab>
           <!------------------------sign in translator-------------------------------->
-          <mat-tab label="Translator" >
+          <mat-tab label="Translator">
             <div class="md-form mb-3">
               <i class="fas fa-envelope prefix grey-text"></i>
               <input
@@ -232,10 +241,13 @@
                 class="form-control validate"
                 mdbInput mdbValidate>
               <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-              <mdb-error *ngIf="translatorInput.email.invalid && (translatorInput.email.dirty || translatorInput.email.touched)">
+              <mdb-error
+                *ngIf="translatorInput.email.invalid && (translatorInput.email.dirty || translatorInput.email.touched)">
                 {{getErrorMessageEmailTranslator()}}
               </mdb-error>
-              <mdb-success *ngIf="translatorInput.email.valid && (translatorInput.email.dirty || translatorInput.email.touched)">Ok!
+              <mdb-success
+                *ngIf="translatorInput.email.valid && (translatorInput.email.dirty || translatorInput.email.touched)">
+                Ok!
               </mdb-success>
             </div>
             <div class="md-form mb-4">
@@ -254,7 +266,8 @@
                 {{getErrorMessagePasswordTranslator()}}
               </mdb-error>
               <mdb-success
-                *ngIf="translatorInput.password.valid && (translatorInput.password.dirty || translatorInput.password.touched)">Ok!
+                *ngIf="translatorInput.password.valid && (translatorInput.password.dirty || translatorInput.password.touched)">
+                Ok!
               </mdb-success>
             </div>
           </mat-tab>
@@ -285,7 +298,8 @@
           {{getRecoverEmailMessage()}}
         </mdb-error>
         <mdb-success
-          *ngIf="customerInput.recoverEmail.valid && (customerInput.recoverEmail.dirty || customerInput.recoverEmail.touched)">Ok!
+          *ngIf="customerInput.recoverEmail.valid && (customerInput.recoverEmail.dirty || customerInput.recoverEmail.touched)">
+          Ok!
         </mdb-success>
         <button
           type="button"
