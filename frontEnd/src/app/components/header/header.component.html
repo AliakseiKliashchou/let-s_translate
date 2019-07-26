@@ -275,23 +275,23 @@
         <input
           #recoverEmail type="email"
           id="recoverEmail"
-          [formControl]="userInput.recoverEmail"
+          [formControl]="customerInput.recoverEmail"
           class="form-control validate"
           mdbInput
           mdbValidate>
         <label data-error="wrong" data-success="right" for="recoverEmail">Enter e-mail for recovery password</label>
         <mdb-error
-          *ngIf="userInput.recoverEmail.invalid && (userInput.recoverEmail.dirty || userInput.recoverEmail.touched)">
+          *ngIf="customerInput.recoverEmail.invalid && (customerInput.recoverEmail.dirty || customerInput.recoverEmail.touched)">
           {{getRecoverEmailMessage()}}
         </mdb-error>
         <mdb-success
-          *ngIf="userInput.recoverEmail.valid && (userInput.recoverEmail.dirty || userInput.recoverEmail.touched)">Ok!
+          *ngIf="customerInput.recoverEmail.valid && (customerInput.recoverEmail.dirty || customerInput.recoverEmail.touched)">Ok!
         </mdb-success>
         <button
           type="button"
           mdbBtn color="success"
           mdbWavesEffect
-          [disabled]="userInput.recoverEmail.invalid"
+          [disabled]="customerInput.recoverEmail.invalid"
           (click)="sendNewOptions(frame)"
         >Send new options
         </button>
