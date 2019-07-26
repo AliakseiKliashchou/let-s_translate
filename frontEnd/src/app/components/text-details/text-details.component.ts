@@ -77,12 +77,12 @@ export class TextDetailsComponent implements OnInit {
 
   sendComment(textarea) {
     this.progressBar = true;
-    // const id = this.au
     const text = textarea.value;
+    const role = this.authService.getRole();
     const message = {
       senderEmail: JSON.parse(localStorage.getItem('currentUser')).email,
-      role: JSON.parse(localStorage.getItem('currentUser')).role,
-      idCommentator: JSON.parse(localStorage.getItem('currentUser')).id,
+      role,
+      idCommentator: this.authService.getUserId(),
       idOrder: this.element.id,
       name: JSON.parse(localStorage.getItem('currentUser')).name,
       message: text,
@@ -131,7 +131,6 @@ export class TextDetailsComponent implements OnInit {
   reviewDone() {
     this.progressBar = true;
     this.orderService.reviewDone(this.element.id).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('Additional review is done!', '', {
         duration: 2000,
       });
@@ -142,7 +141,6 @@ export class TextDetailsComponent implements OnInit {
   customerReviewDone() {
     this.progressBar = true;
     this.orderService.customerReviewDone(this.element.id).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('Customer review is done!', '', {
         duration: 2000,
       });

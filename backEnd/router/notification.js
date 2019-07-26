@@ -31,6 +31,7 @@ router.post('/accept', async (req, res) => {
       orderForSmth = await orderModel.findOne({where: {id: idOrder}}).then((order) => {
         order.update({status: 1, translatorId: idTranslator});
         idCustomer = order.idCustomer;
+        return order;
       }).catch(err => res.json({msg: 'order', err}))
 
     }
@@ -41,12 +42,14 @@ router.post('/accept', async (req, res) => {
         coins: customer.coins,
       };
     });
+
     let payment = [];
 
     let tariff = await tariffModel.findOne({where: {name: customer.tariffName}}).then((tariff) => {
       let {coeff} = tariff;
 
-      if (typeof orderForSmth == 'object') {
+      if (Array.isArray(orderForSmth)) {
+
         orderForSmth.forEach(el => {
           let money = (el.urgency) ?
             Math.floor(el.price * coeff * 1.2) :
@@ -54,17 +57,30 @@ router.post('/accept', async (req, res) => {
           payment.push(money);
         })
       } else {
+
         payment = (orderForSmth.urgency) ?
           Math.floor(orderForSmth.price * coeff * 1.2) :
           Math.floor(orderForSmth.price * coeff);
-      }
 
+      }
       return tariff
     });
-    let currentPayment = payment.reduce((sum, el) => sum + el, 0);
-    let currentCount = orderForSmth.reduce((sum, el) => {
-      return (el.urgency) ? (sum + el.price * 1.2) : (sum + el.price)
-    }, 0);
+
+
+    let currentPayment = payment;
+    let currentCount = [];
+    let title;
+    if (Array.isArray(orderForSmth)) {
+      title = orderForSmth[0].title;
+      currentPayment = payment.reduce((sum, el) => sum + el, 0);
+      currentCount = orderForSmth.reduce((sum, el) => {
+        return (el.urgency) ? (sum + el.price * 1.2) : (sum + el.price)
+      }, 0);
+    } else {
+      title = orderForSmth.title;
+      currentCount = orderForSmth.price
+    }
+
     let data = {coins: customer.coins - currentPayment};
     let find = {where: {id: idCustomer}};
 
@@ -72,10 +88,10 @@ router.post('/accept', async (req, res) => {
 
     await notificationModel.create({
       idCustomer: idCustomer,
-      text: `accepted,${orderForSmth[0].title},${idOrder}`
+      text: `accepted,${title},${idOrder}`
     });
 
-    if (typeof orderForSmth == 'object') {
+    if (Array.isArray(orderForSmth)) {
       await orderForSmth.forEach(el => {
         aggregationModel.create({
           idOrder: el.id,
@@ -93,7 +109,7 @@ router.post('/accept', async (req, res) => {
       res.json({msg: 'you get this work, nice'})
     }
   } catch (error) {
-    res.status(401).json({message: 'Something was wrong!', error})
+    res.status(400).json({message: 'Something was wrong!', error})
   }
 });
 
