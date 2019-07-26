@@ -8,8 +8,8 @@ import {AuthService} from '../../_shared/service/users/auth.service';
   styleUrls: ['./reg-new-translator.component.css', '../../app.component.css']
 })
 export class RegNewTranslatorComponent implements OnInit {
-namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
-  emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
+  emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
   hide_1 = true;
   hide_2 = true;
 
@@ -56,10 +56,12 @@ namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
   }
 
 // --------------------------------------------------------------------------------
-lngArray = [];
-getLng(lng) { 
-  this.lngArray = lng;
-}
+  lngArray = [];
+
+  getLng(lng) {
+    this.lngArray = lng;
+  }
+
   register() {
     if (this.userInput.name.valid && this.userInput.email.valid
       && (this.userInput.password.value === this.userInput.passwordSubmitted.value)) {
