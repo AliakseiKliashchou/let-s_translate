@@ -12,6 +12,7 @@ import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
 import {MatStepperModule} from '@angular/material/stepper';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-texts',
@@ -57,6 +58,7 @@ export class NewTextsComponent implements OnInit {
 
   constructor(
     private storage: AngularFireStorage,
+    private router: Router,
     private db: AngularFirestore,
     private _snackBar: MatSnackBar,
     private http: OrderService,
@@ -185,6 +187,7 @@ export class NewTextsComponent implements OnInit {
         this.order.email = res.email;
         this.http.createOrder(this.order).subscribe((data) => {
           console.log(data);
+          this.router.navigate(['/dashboard']);
         });
       }
     );
