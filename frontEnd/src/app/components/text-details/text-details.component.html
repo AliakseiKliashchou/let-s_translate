@@ -91,7 +91,7 @@
       </div>
     </div>
     <button
-      *ngIf="role === 'customer' && (element.status !== 2) && (element.status !== 3)"
+      *ngIf="role === 'customer'&& element && (element.status !== 2) && (element.status !== 3)"
       class="btn btn-outline-danger  waves-effect large"
       (click)="deleteText()">
       Delete text

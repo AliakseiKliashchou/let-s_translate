@@ -141,6 +141,7 @@ export class TextDetailsComponent implements OnInit {
   customerReviewDone() {
     this.progressBar = true;
     this.orderService.customerReviewDone(this.element.id).subscribe((data) => {
+      console.log(data)
       this._snackBar.open('Customer review is done!', '', {
         duration: 2000,
       });
