@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 })
 export class NewPasswordComponent implements OnInit {
   newPasswordForm: FormGroup;
+  passwordPattern = /^[a-zA-Z]\w{2,14}$/;
   error = {
     required: 'You must enter a value',
     minlength: 'The value is too short',
@@ -29,9 +30,9 @@ export class NewPasswordComponent implements OnInit {
   ngOnInit() {
     this.newPasswordForm = new FormGroup({
       password_1: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
       password_2: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
     });
   }
 

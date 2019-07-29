@@ -32,7 +32,7 @@ router.post('/order', async (req, res) => {
     date: new Date(),
     isCollections: false,
     oneTranslator: false,
-    price: 0
+    price: 100
   };
   try {
     if (urls.length > 1) {
@@ -232,7 +232,7 @@ router.get('/orders/translate/:idTranslator', async (req, res) => {
     orderModel.findAll(
       {
         where: {translatorId: idTranslator, status: {[Op.in]: status}},
-        order: [['date', 'DESC']]
+        order: [['date', 'ASC']]
       })
       .then(order => res.json(order))
   } catch (error) {

@@ -20,6 +20,7 @@ export class CustomerRegComponent implements OnInit {
   photoStatus = false;
   // userInput: any;
   userInputForm: FormGroup;
+  passwordPattern = /^[a-zA-Z]\w{2,14}$/;
   emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
   task: AngularFireUploadTask;
   downloadURL: Observable<string>;
@@ -43,16 +44,16 @@ export class CustomerRegComponent implements OnInit {
   ngOnInit() {
     const tariff = this.route.snapshot.fragment;
     this.userInputForm = new FormGroup({
-      email: new FormControl('test@mail.ru',
+      email: new FormControl('',
         [Validators.required, Validators.pattern(this.emailPattern)]),
-      name: new FormControl('fruit',
+      name: new FormControl('',
         [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')]),
       creditCard: new FormControl('',
         [Validators.required, Validators.minLength(16)]),
       tariff: new FormControl(tariff || 'gold',
         [Validators.required]),
       password: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
       passwordSubmitted: new FormControl('',
         [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
     });
