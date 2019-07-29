@@ -1,15 +1,20 @@
-.textDetail {
-  width: 95%;
+.text-detail {
+  width: 75%;
   border: 2px solid white;
   border-radius: 5px;
   min-height: 80px;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   margin: 20px auto;
   padding: 20px;
   display: flex;
-  justify-content: space-evenly
+  justify-content: space-between;
 }
 
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 a {
   color: blue !important;
@@ -37,15 +42,20 @@ progressbar {
 
 /*******Comments from DB*********/
 .comments_wrapper,
-.create_comment {
+.create-comment-container {
   border: 2px solid white;
   border-radius: 5px;
-  width: 95%;
+  width: 100%;
   min-height: 50px;
   margin: 15px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.create-comment-container {
+  width: 75%;
+  box-sizing: content-box;
 }
 
 .comments {
@@ -171,12 +181,21 @@ mat-slider {
   padding: 30px 15px 0 25px;
   width: 75%;
   box-shadow: 0 0 5px gray;
- 
+  box-sizing: border-box;
 }
-.msg_history{
+
+.msg_history {
   overflow: scroll;
+  overflow-x: auto;
   min-height: 500px;
 }
+
+.input-msg-container {
+  display: flex;
+  width: 100%;
+  margin: auto;
+}
+
 .sent_msg p {
   background: #0465ac;
   border-radius: 12px 15px 15px 0;
@@ -188,6 +207,7 @@ mat-slider {
 }
 
 .msg_history {
+  overflow-x: auto;
   height: 516px;
   overflow-y: auto;
 }

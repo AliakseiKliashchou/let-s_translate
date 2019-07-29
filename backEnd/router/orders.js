@@ -79,33 +79,37 @@ router.get('/orders', async (req, res) => {
 //translator STATUS
 router.get('/orders/unowned', async (req, res) => {
   const idTranslator = req.query.idTranslator;
-  try {
-    let translator = await translatorModel.findOne({where: {id: idTranslator}});
-    const languages = translator.languages;
-    const status = [0, 2];
-    let collections = await collectionModel.findAll({
+
+  let translator = await translatorModel.findOne({where: {id: idTranslator}});
+  const languages = translator.languages;
+  const status = [0, 2];
+  let collections = await collectionModel.findAll({
+    where: {
+      status: {[Op.in]: status},
+      lng: {[Op.contains]: languages},
+      oneTranslator: true
+    }
+  }).then(colls => {
+    for (let i = 0; i < colls.length; i++) {
+      const idOrders = colls[i].idOrders;
+      orderModel.findAll({where: {id: idOrders}}).then(order => {
+        colls[i].idOrders = order;
+      })
+    }
+
+    return colls;
+  }).catch(err => res.json({msg: 'error with finding collections', err}));
+
+  let orders = await orderModel.findAll(
+    {
       where: {
         status: {[Op.in]: status},
-        // lng: {[Op.in]: languages},
-        oneTranslator: true
+        originalLanguage: {[Op.in]: languages},
+        translateLanguage: {[Op.in]: languages},
       }
-    }).then(colls => {
-      for (let i = 0; i < colls.length; i++) {
-        const idOrders = colls[i].idOrders;
-        orderModel.findAll({where: {id: idOrders}}).then(order => {
-          colls[i].idOrders = order;
-        })
-      }
-      return colls;
-    });
-    let orders = await orderModel.findAll(
-      {
-        where: {
-          status: {[Op.in]: status},
-          originalLanguage: {[Op.in]: languages},
-          translateLanguage: {[Op.in]: languages},
-        }
-      }).then(ordersArray => {
+    })
+    .then(ordersArray => {
+
       if (ordersArray) {
         const newArray = ordersArray.filter(el => {
           if (el.status === 2 && el.isCollections && el.oneTranslator) return el;
@@ -113,11 +117,9 @@ router.get('/orders/unowned', async (req, res) => {
         });
         const newSmth = newArray.concat(collections);
         res.json(newSmth);
-      } else res.json({msg: 'You don\'t have work'})
-    });
-  } catch (error) {
-    res.json({message: error});
-  }
+      }
+    })
+    .catch(err => res.json({msg: 'err with finding orders', err}));
 });
 
 //translator
