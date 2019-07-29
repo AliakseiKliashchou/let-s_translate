@@ -23,24 +23,11 @@ export class TextDetailsComponent implements OnInit {
   private id: number;
   private routeSubscription: Subscription;
   element: OrderInterface;
-  headElements = [
-    'order ID',
-    'Title',
-    'Date',
-    'Download URL',
-    'Name of customer',
-    'Customer E-mail',
-    'Initial language',
-    'Finite language',
-    'Review',
-    'Tags',
-    'Urgency',
-    'Price'
-  ];
-  incomingComments: CommentsInterface[] = [];
+  incomingComments: CommentsInterface[];
   role: string;
   saveProgressBtn = false;
   textUrl: string;
+  myId:number;
 
   constructor(
     private router: Router,
@@ -56,14 +43,17 @@ export class TextDetailsComponent implements OnInit {
   ngOnInit() {
     this.progressBar = true;
     this.role = this.authService.getRole();
+    this.myId =  this.authService.getUserId();
     this.routeSubscription = this.route.params.subscribe(params => this.id = params.id);
     this.orderService.getOrder(this.id).subscribe((order: OrderInterface) => {
       this.element = order;
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
-        if (data) {
+        if (data.length) {
+          this.incomingComments = [];
           for (let i = 0; i < data.length; i++) {
             this.incomingComments.push(data[i]);
           }
+          console.log(this.incomingComments)
         } else console.log('empty db');
       });
     });
@@ -91,6 +81,7 @@ export class TextDetailsComponent implements OnInit {
     this.messagesService.createMessage(message).subscribe(() => {
       this.messagesService.getMessages(this.element.id).subscribe((data: any) => {
         const item = data.length - 1;
+        if (!this.incomingComments) this.incomingComments = [];
         this.incomingComments.push(data[item]);
       });
     });
@@ -141,7 +132,7 @@ export class TextDetailsComponent implements OnInit {
   customerReviewDone() {
     this.progressBar = true;
     this.orderService.customerReviewDone(this.element.id).subscribe((data) => {
-      console.log(data)
+      console.log(data);
       this._snackBar.open('Customer review is done!', '', {
         duration: 2000,
       });
@@ -177,10 +168,6 @@ export class TextDetailsComponent implements OnInit {
       )
     ).subscribe();
     this.progressBar = false;
-  }
-
-  getRightNumber(event) {
-    return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 
 }

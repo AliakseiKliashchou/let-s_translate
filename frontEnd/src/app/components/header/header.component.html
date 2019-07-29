@@ -2,8 +2,6 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark elegant-color" [containerInside]="false">
   <!-- Navbar brand -->
   <mdb-navbar-brand>
-    <!-- <a class="navbar-brand" routerLink="/" style="color: white">
-    <b style="letter-spacing: 2px; font-size: larger">LETS</b> translate</a> -->
     <img id="logo" src="../../../assets/logo.png" alt="" routerLink="/">
   </mdb-navbar-brand>
   <!-- Collapsible content -->
@@ -51,7 +49,7 @@
 
         <div class="btn-group" mdbDropdown>
           <div class="user-data" *ngIf="nameTRanslator" style="margin: auto; margin-right: 10px; color: white">
-            <p class="user-data" >{{coinsTransaltor}}
+            <p class="user-data">{{coinsTransaltor}}
               <mdb-icon fas style="color: #faff5e" icon="coins"></mdb-icon>
             </p>
             <p> {{nameTRanslator}}</p>
@@ -155,8 +153,9 @@
           </p>
           <p>Do you wanna add money?</p>
           <input
-            type="number"
+            type="text"
             class="money" mdbInput
+            mask='0000'
             #money
             (input)="getNewMoney(money.value,newMoney)"> =
           <input
@@ -166,7 +165,7 @@
             readonly
             placeholder="coins">
           <mdb-icon fas style="color: #dcc721; margin: 0 5px" icon="coins"></mdb-icon>
-          <button class="btn btn-outline-info" mdbWavesEffect (click)="addMoney(newMoney.value)">Add money</button>
+          <button class="btn btn-outline-info" mdbWavesEffect (click)="addMoney(money.value)">Add money</button>
         </div>
 
       </div>

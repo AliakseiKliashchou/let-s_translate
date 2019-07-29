@@ -61,6 +61,8 @@ export class DashboardComponent implements OnInit {
       this.orderService.getOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
+          console.log(orders)
+
         });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(

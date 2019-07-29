@@ -44,7 +44,7 @@
               <th scope="col">Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="ordersArray">
             <tr *ngFor=" let text of ordersArray; let i=index">
               <ng-container *ngIf="status[text.status] === 'Waiting translator'">
                 <td *ngIf="text.idOrders; else orders" colspan="5">
