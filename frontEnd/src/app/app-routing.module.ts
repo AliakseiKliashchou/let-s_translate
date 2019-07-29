@@ -64,6 +64,7 @@ const appRoutes: Routes = [
   {
     path: 'new_translator_reg',
     component: RegNewTranslatorComponent,
+    canActivate: [AdminRoleGuard],
     data: {state: 'new_translator_reg'}
   },
   {
