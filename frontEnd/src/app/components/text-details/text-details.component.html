@@ -120,7 +120,7 @@
           </textarea>
         <button class="btn" style="margin: 0" (click)="filePicker.click()">
           <i class="fas fa-file" style="font-size: 1.5rem"></i>
-          <input type="file" hidden #filePicker (change)="upload($event)">
+          <input type="file" hidden #filePicker accept=".txt, .pdf, .doc, image/*" (change)="upload($event)">
         </button>
       </div>
 

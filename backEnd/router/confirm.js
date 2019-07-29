@@ -16,7 +16,7 @@ router.get('/confirm', async(req, res) => {
     }
   });
 
-  res.redirect('http://localhost:4200');
+  res.redirect('http://lets-translate.herokuapp.com/');
 });
 
 router.post('/forgot-password', async(req, res) => {
@@ -50,7 +50,7 @@ router.get('/reset-password', async(req, res) => {
 
   let customer = await customerModel.findOne({where: {id: data.id}}).then((customer) => {
     if(customer.guid === data.guid && (data.date < new Date() + 1)) { 
-      res.redirect(`http://localhost:4200/reset-password/${email}`)
+      res.redirect(`http://lets-translate.herokuapp.com/reset-password/${email}`)
     } else {
       res.json({message: 'Link is not available!'})
     }

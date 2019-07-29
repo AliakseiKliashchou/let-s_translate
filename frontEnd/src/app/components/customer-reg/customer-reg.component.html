@@ -52,7 +52,7 @@
              [ngClass]="userInputForm.get('creditCard').valid ? 'green-text' : 'red-text'"></i>
           <input type="text" mask='0000-0000-0000-0000' #creditCard id="cardNumber_reg"
                  formControlName="creditCard" class="form-control validate" mdbInput mdbValidate>
-          <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>
+          <label data-error="wrong" data-success="right" for="cardNumber_reg">Credit card</label>
           <mdb-error
             *ngIf="userInputForm.get('creditCard').invalid &&
             (userInputForm.get('creditCard').dirty || userInputForm.get('creditCard').touched)">
@@ -120,7 +120,7 @@
 
         <div class="md-form mb-5" id="photo">
           <i class="fas fa-camera prefix" [ngClass]="photoStatus ? 'green-text' : 'red-text'"></i>
-          <input type="file" (change)="uploadPhoto($event)">
+          <input class="upload-photo" type="file" accept='image/*' (change)="uploadPhoto($event)">
         </div>
 
         <!-----------------------------------TARIFF-------------------------------------->

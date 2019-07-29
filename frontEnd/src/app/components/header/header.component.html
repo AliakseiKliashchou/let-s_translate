@@ -74,7 +74,7 @@
             (click)="frame.show()"
             *ngIf="!isRole.auth"
             mdbWavesEffect>
-            Login
+            Sign in
           </button>
           <button
             class="btn btn-outline-danger btn-sm"
@@ -86,7 +86,7 @@
             *ngIf="!isRole.auth"
             class="btn btn-outline-white btn-sm my-0"
             routerLink="/customerRegistration">
-            Register
+            Sign up
           </button>
         </div>
 
@@ -279,7 +279,7 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Login</button>
+        <button (click)="login(frame)" mdbBtn color="default" class="waves-light" mdbWavesEffect>Sign in</button>
       </div>
       <!---------------------------------------FORGET PASSWORD---------------------------------------------------------------->
       <p id="forgotPassword" (click)="isShowRecoverPanel = !isShowRecoverPanel">Forgot password?</p>
