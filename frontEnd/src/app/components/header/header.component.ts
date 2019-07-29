@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -80,8 +80,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   nameTRanslator;
 
   isShowRecoverPanel = false;
-
-
   subscription: Subscription;
 
   constructor(
@@ -99,7 +97,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.ntfService.getMessage().subscribe(message => {
       this.msgCounter = message;
     });
-
 
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
@@ -224,73 +221,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getNewMoney(money, newMoneyInput) {
-    const tariff = this.userProfile.tariff
-    const internalMoney = money * this.tariffs[tariff];
-    newMoneyInput.value = internalMoney;
+    const tariff = this.userProfile.tariff;
+    newMoneyInput.value = money * this.tariffs[tariff];
   }
 
   login(frame) {
     this.progressBar = true;
-    if (this.user.role === 'customer') {
-      if ((this.customerInput.email.valid || this.customerInput.email.value === 'admin') && this.customerInput.password.valid) {
-        this.authService.log(this.user).subscribe(() => {
-          console.log('Success');
-          this.authService.login(this.user);
-          this.ngOnInit();
-          frame.hide();
-          this.customerInput.password.reset();
-          this.customerInput.email.reset();
-          this.translatorInput.password.reset();
-          this.translatorInput.email.reset();
-          this.progressBar = false;
-        }, (err) => {
-          this.error = err.error.message;
-          this.progressBar = false;
-        });
-      } else {
-        this.error = 'Invalid login or password';
+    console.log(this)
+    if (((this.customerInput.email.valid || this.customerInput.email.value === 'admin')
+      && this.customerInput.password.valid) ||
+      ((this.translatorInput.email.valid || this.translatorInput.email.value === 'admin')
+        && this.translatorInput.password.valid)) {
+      console.log(this.user)
+      this.authService.log(this.user).subscribe(() => {
+        console.log('Success');
+        this.customerInput.password.reset();
+        this.customerInput.email.reset();
+        this.translatorInput.password.reset();
+        this.translatorInput.email.reset();
+        this.authService.login(this.user);
+        this.ngOnInit();
+        frame.hide();
         this.progressBar = false;
-      }
-    } else if (this.user.role === 'translator') {
-      if ((this.translatorInput.email.valid || this.translatorInput.email.value === 'admin') && this.translatorInput.password.valid) {
-        this.authService.log(this.user).subscribe(() => {
-          console.log('Success');
-          this.authService.login(this.user);
-          this.ngOnInit();
-          frame.hide();
-          this.customerInput.password.reset();
-          this.customerInput.email.reset();
-          this.translatorInput.password.reset();
-          this.translatorInput.email.reset();
-          this.progressBar = false;
-        }, (err) => {
-          this.error = err.error.message;
-          this.progressBar = false;
-        });
-      } else {
-        this.error = 'Invalid login or password';
+      }, (err) => {
+        console.log(err);
+        this.error = err.error.message;
         this.progressBar = false;
-      }
+      });
+    } else {
+      this.error = 'Invalid login or password';
+      this.progressBar = false;
     }
-    // if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
-    //   this.authService.log(this.user).subscribe(() => {
-    //     console.log('Success');
-    //     this.authService.login(this.user);
-    //     this.ngOnInit();
-    //     frame.hide();
-    //     this.userInput.password.reset();
-    //     this.userInput.email.reset();
-    //     this.progressBar = false;
-    //   }, (err) => {
-    //     this.error = err.error.message;
-    //     console.log(this.error);
-    //     this.progressBar = false;
-    //   });
-    // } else {
-    //   this.error = 'Invalid login or password';
-    //   this.progressBar = false;
-    // }
-
   }
 
   logout() {
@@ -305,7 +266,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       admin: false
     };
     this.error = '';
-
   }
 
   onImagePicked(event: Event) {
@@ -383,11 +343,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   tabs(event) {
-    if (event.index === 0) {
-      this.user.role = 'customer';
-    } else if (event.index === 1) {
-      this.user.role = 'translator';
-    }
+    this.user.role = (event.index === 0) ? 'customer' : 'translator';
   }
 
 }

@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const customerModel = require('../models/customer');
 const translatorModel = require('../models/translator');
+const tariffCoeff = {
+  'platinum': 1.5 * 100,
+  'gold': 1.3 * 100,
+  'silver': 1.1 * 100
+};
 
 router.get('/customer/:id', async (req, res) => {
   let id = req.params.id;
@@ -51,7 +56,7 @@ router.put('/customer/:id', async (req, res) => {
     };
 
     let profile = await customerModel.update(data, {returning: true, where: {id}});
-    res.json({message: 'OK', profile})
+    res.json({message: 'OK'})
   } catch (error) {
     res.json(error)
   }
@@ -62,11 +67,13 @@ router.put('/customer/:id/money', async (req, res) => {
   const id = req.params.id;
   customerModel.findOne({where: {id: id}})
     .then(user => {
-      const resultMoney = user.coins + Number(money);
+      const tariff = user.tariff;
+      const currentMoney = money * tariffCoeff[tariff];
+      const resultMoney = user.coins + currentMoney;
       user.update({coins: resultMoney})
-        .then(result => res.json({msg: 'You get you money', resultMoney}))
-        .catch(err => res.json(err))
-    }).catch(err => res.json(err));
+        .then(() => res.json({msg: 'You get your money', resultMoney}))
+        .catch(err => res.json({msg: 'money doesn\'t update ', err}))
+    }).catch(err => res.json({msg: 'User doesn\'t exist', err}));
 });
 
 
