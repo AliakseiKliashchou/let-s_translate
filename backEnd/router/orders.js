@@ -124,21 +124,25 @@ router.get('/orders/unowned', async (req, res) => {
 
 //translator
 router.get('/order/filter', async (req, res) => {
+  
   const tags = req.query.tags;
   let tagsArray = [];
   if (tags.length) tagsArray = tags.split(',');
+  
   const idTranslator = req.query.idTranslator;
+  
   let translator = await translatorModel.findOne({where: {id: idTranslator}});
+  
   const languages = translator.languages;
   try {
     let collections = await collectionModel.findAll({
       where: {
         status: 0,
         lng: {[Op.in]: languages},
-        oneTranslator: true
+        // oneTranslator: true
       }
     });
-
+    console.log(collections);
     let orders = await orderModel.findAll({
       where:
         {
@@ -148,9 +152,11 @@ router.get('/order/filter', async (req, res) => {
           tags: {[Op.contains]: tagsArray}
         }
     }).then(ordersArray => {
+     
       if (ordersArray) {
         const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
         const newSmth = newArray.concat(collections);
+        
         res.json(newSmth);
       }
     });
