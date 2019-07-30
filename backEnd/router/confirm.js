@@ -1,5 +1,5 @@
 const Cryptr = require('cryptr');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 const cryptr = new Cryptr('myTotalySecretKey');
@@ -16,7 +16,7 @@ router.get('/confirm', async(req, res) => {
     }
   });
 
-  res.redirect('http://localhost:4200');
+  res.redirect('http://lets-translate.herokuapp.com/');
 });
 
 router.post('/forgot-password', async(req, res) => {
@@ -29,7 +29,7 @@ router.post('/forgot-password', async(req, res) => {
         id: customer.id,
         guid: customer.guid,
         date: new Date()
-      }
+      };
   
       let jsonInfo = JSON.stringify(info);
       let encrypt = cryptr.encrypt(jsonInfo);
@@ -40,7 +40,7 @@ router.post('/forgot-password', async(req, res) => {
   } catch(error) {
     res.status(400).json({message: 'This email not found!'})
   }
-})
+});
 
 router.get('/reset-password', async(req, res) => {
   let crypt = req.query.crypt;
@@ -50,7 +50,7 @@ router.get('/reset-password', async(req, res) => {
 
   let customer = await customerModel.findOne({where: {id: data.id}}).then((customer) => {
     if(customer.guid === data.guid && (data.date < new Date() + 1)) { 
-      res.redirect(`http://localhost:4200/reset-password/${email}`)
+      res.redirect(`http://lets-translate.herokuapp.com/reset-password/${email}`)
     } else {
       res.json({message: 'Link is not available!'})
     }
