@@ -55,7 +55,7 @@ export class CustomerRegComponent implements OnInit {
       password: new FormControl('',
         [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
       passwordSubmitted: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)])
     });
   }
 

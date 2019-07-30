@@ -98,18 +98,19 @@
             Ok!
           </mdb-success>
         </div>
+
         <div class="md-form mb-3 password" style="margin-bottom: 0 !important;">
           <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg
                  formControlName="passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
           <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
           <label data-error="wrong" data-success="right" for="password2_reg">Repeat your password</label>
           <mdb-error
-            *ngIf="userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
+            *ngIf="(password1_reg.value !== password2_reg.value) && userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             {{getErrorMessage('passwordSubmitted')}}
           </mdb-error>
           <mdb-success
-            *ngIf="userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
+            *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             Ok!
           </mdb-success>

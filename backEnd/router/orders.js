@@ -124,23 +124,35 @@ router.get('/orders/unowned', async (req, res) => {
 
 //translator
 router.get('/order/filter', async (req, res) => {
+
+  
+
   const status = [0, 2];
+
   const tags = req.query.tags;
   let tagsArray = [];
   if (tags.length) tagsArray = tags.split(',');
+  
   const idTranslator = req.query.idTranslator;
+
   let translator = await translatorModel.findOne({where: {id: idTranslator}})
     .catch(err => res.status(400).json({msg: 'user doesn\'t found', err}));
+
   const languages = translator.languages;
 
   try {
     let collections = await collectionModel.findAll({
       where: {
-        status: {[Op.in]: status},
-        lng: {[Op.contains]: languages},
-        oneTranslator: true
+
+        status: 0,
+        lng: {[Op.in]: languages},
+        // oneTranslator: true
       }
+    });
+    console.log(collections);
+
     }).catch(err => res.status(400).json({msg: 'collections error',err}));
+
 
     let orders = await orderModel.findAll({
       where:
@@ -151,9 +163,11 @@ router.get('/order/filter', async (req, res) => {
           tags: {[Op.contains]: tagsArray}
         }
     }).then(ordersArray => {
+     
       if (ordersArray) {
         const newArray = ordersArray.filter(el => !(el.isCollections && el.oneTranslator));
         const newSmth = newArray.concat(collections);
+        
         res.json(newSmth);
       }
     }).catch(err => res.status(400).json({msg: 'orders error',err}))
