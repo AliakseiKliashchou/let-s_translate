@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import {Component, OnInit, EventEmitter, Output} from '@angular/core';
+import {arrayLanguage} from '../languages';
 
 @Component({
   selector: 'app-lng-checkboxes',
@@ -6,13 +7,15 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./lng-checkboxes.component.css']
 })
 export class LngCheckboxesComponent implements OnInit {
+  arrayLanguage = arrayLanguage;
+  @Output() LanguageArray: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  @Output() LanguageArray: EventEmitter<any> = new EventEmitter();
 
   getLang(sel) {
     this.LanguageArray.emit(sel);
