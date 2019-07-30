@@ -122,8 +122,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               this.adminService.getTariffs().subscribe((tariffs: TariffsInterface[]) => {
                   tariffs.forEach(el => {
                     const name = el.name;
-                    this.tariffs[name] = (2 - el.coeff) * 100;
+                    this.tariffs[name] = ((2 - el.coeff) * 100) | 0;
                   });
+                  console.log(this.tariffs)
                 }
               );
               this.isRole.customer = true;
