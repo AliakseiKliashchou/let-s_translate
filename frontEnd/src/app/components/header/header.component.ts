@@ -124,7 +124,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     const name = el.name;
                     this.tariffs[name] = ((2 - el.coeff) * 100) | 0;
                   });
-                  console.log(this.tariffs)
                 }
               );
               this.isRole.customer = true;
@@ -228,12 +227,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   login(frame) {
     this.progressBar = true;
-    console.log(this)
     if (((this.customerInput.email.valid || this.customerInput.email.value === 'admin')
       && this.customerInput.password.valid) ||
       ((this.translatorInput.email.valid || this.translatorInput.email.value === 'admin')
         && this.translatorInput.password.valid)) {
-      console.log(this.user)
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
         this.customerInput.password.reset();
@@ -245,7 +242,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         frame.hide();
         this.progressBar = false;
       }, (err) => {
-        console.log(err);
         this.error = err.error.message;
         this.progressBar = false;
       });

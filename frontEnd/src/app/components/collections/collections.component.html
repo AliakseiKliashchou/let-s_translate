@@ -118,8 +118,8 @@
       <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
     </div>
     <button class="btn btn-outline-success  waves-effect large"
-            [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
-            (click)="createNewCollection(newCollectionName.value, isOneTranslator)">Create new collection
+            [disabled]="!(indexArray.length && newCollectionName.value)"
+            (click)="createNewCollection(newCollectionName, isOneTranslator)">Create new collection
     </button>
   </div>
 </div>
