@@ -11,7 +11,7 @@ import { ModalModule, TooltipModule, PopoverModule, ButtonsModule } from 'angula
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsModule } from 'angular-bootstrap-md';
 import { MatTabsModule } from '@angular/material/tabs';
-import { InputsModule, InputUtilitiesModule, WavesModule } from 'angular-bootstrap-md';
+import { InputsModule, InputUtilitiesModule, WavesModule, CarouselModule } from 'angular-bootstrap-md';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -57,11 +57,12 @@ import { NgxMaskModule } from 'ngx-mask';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
-import { NgCircleProgressModule } from 'ng-circle-progress';
+import { NgCircleProgressModule } from 'ng-circle-progress'; 
 
 import { FragmentPolyfillModule } from "./_shared/fragment-polyfill";
 
 import {MatStepperModule} from '@angular/material/stepper';
+
 
 
 @NgModule({
@@ -129,8 +130,9 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatProgressBarModule,
     MatExpansionModule,
     MatSliderModule,
+    CarouselModule,
     NgCircleProgressModule.forRoot({
-      backgroundPadding: 7,
+      backgroundPadding: 7, 
       space: -2,
       outerStrokeWidth: 2,
       outerStrokeColor: '#808080',

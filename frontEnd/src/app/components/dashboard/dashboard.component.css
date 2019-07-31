@@ -39,6 +39,9 @@ td {
   align-items: center;
   vertical-align: middle;
 }
+table.table th, table.table td{
+  text-align: center !important;
+}
 
 .filter {
   display: flex;
