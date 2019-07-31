@@ -53,7 +53,6 @@ export class TextDetailsComponent implements OnInit {
           for (let i = 0; i < data.length; i++) {
             this.incomingComments.push(data[i]);
           }
-          console.log(this.incomingComments)
         } else console.log('empty db');
       });
     });
@@ -132,7 +131,6 @@ export class TextDetailsComponent implements OnInit {
   customerReviewDone() {
     this.progressBar = true;
     this.orderService.customerReviewDone(this.element.id).subscribe((data) => {
-      console.log(data);
       this._snackBar.open('Customer review is done!', '', {
         duration: 2000,
       });

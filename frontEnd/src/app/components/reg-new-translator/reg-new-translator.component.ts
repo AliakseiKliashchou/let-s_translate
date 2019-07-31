@@ -79,7 +79,6 @@ export class RegNewTranslatorComponent implements OnInit {
         languages: this.lngArray,
       };
       this.authService.translatorRegistration(user).subscribe(res => {
-        console.log(res);
         this.router.navigate(['/admin_panel']);
       });
     }

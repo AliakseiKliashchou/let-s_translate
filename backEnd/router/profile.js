@@ -2,11 +2,6 @@ const express = require('express');
 const router = express.Router();
 const customerModel = require('../models/customer');
 const translatorModel = require('../models/translator');
-const tariffCoeff = {
-  'platinum': 1.5 * 100,
-  'gold': 1.3 * 100,
-  'silver': 1.1 * 100
-};
 
 router.get('/customer/:id', async (req, res) => {
   let id = req.params.id;
@@ -75,6 +70,5 @@ router.put('/customer/:id/money', async (req, res) => {
         .catch(err => res.json({msg: 'money doesn\'t update ', err}))
     }).catch(err => res.json({msg: 'User doesn\'t exist', err}));
 });
-
 
 module.exports = router;

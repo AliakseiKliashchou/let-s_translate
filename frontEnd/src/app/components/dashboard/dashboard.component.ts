@@ -56,13 +56,12 @@ export class DashboardComponent implements OnInit {
       this.orderService.getUnownedOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
-          console.log(orders);
+          console.log(orders)
         });
     } else if (this.role === 'customer') {
       this.orderService.getOrders()
         .subscribe((orders: OrderInterface[]) => {
           this.ordersArray = orders;
-          console.log(orders);
         });
     }
     this.filteredTags = this.tagCtrl.valueChanges.pipe(

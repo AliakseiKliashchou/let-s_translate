@@ -86,7 +86,7 @@ router.get('/orders/unowned', async (req, res) => {
   let collections = await collectionModel.findAll({
     where: {
       status: {[Op.in]: status},
-      lng: {[Op.contains]: languages},
+      lng: {[Op.overlap]: languages},
       oneTranslator: true
     }
   }).then(colls => {
@@ -96,7 +96,6 @@ router.get('/orders/unowned', async (req, res) => {
         colls[i].idOrders = order;
       })
     }
-
     return colls;
   }).catch(err => res.json({msg: 'error with finding collections', err}));
 
@@ -137,7 +136,7 @@ router.get('/order/filter', async (req, res) => {
     let collections = await collectionModel.findAll({
       where: {
         status: {[Op.in]: status},
-        lng: {[Op.contains]: languages},
+        lng: {[Op.overlap]: languages},
         oneTranslator: true
       }
     }).catch(err => res.status(400).json({msg: 'collections error',err}));
