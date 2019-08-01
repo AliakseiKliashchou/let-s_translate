@@ -12,12 +12,12 @@ import {Router} from '@angular/router';
 })
 export class NewPasswordComponent implements OnInit {
   newPasswordForm: FormGroup;
-  passwordPattern = /^[a-zA-Z]\w{2,14}$/;
+  passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,64}$/;
   error = {
     required: 'You must enter a value',
     minlength: 'The value is too short',
     maxlength: 'The value is too long',
-    pattern: 'Not a valid'
+    pattern: 'Your password must contain at least one lower case, upper case, digit'
   };
 
   constructor(
@@ -30,9 +30,9 @@ export class NewPasswordComponent implements OnInit {
   ngOnInit() {
     this.newPasswordForm = new FormGroup({
       password_1: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
+        [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
       password_2: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
+        [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
     });
   }
 
