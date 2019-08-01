@@ -52,7 +52,7 @@ router.put('/customer/:id', async (req, res) => {
     };
 
     let profile = await customerModel.update(data, {returning: true, where: {id}});
-    res.json({message: 'OK', profile})
+    res.json({message: 'OK'})
   } catch (error) {
     res.json(error)
   }
@@ -76,6 +76,5 @@ router.put('/customer/:id/money', async (req, res) => {
     }
   }); 
 });
-
 
 module.exports = router;

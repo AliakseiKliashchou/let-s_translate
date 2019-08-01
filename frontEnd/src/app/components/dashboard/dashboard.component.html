@@ -44,7 +44,7 @@
               <th scope="col">Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="ordersArray">
             <tr *ngFor=" let text of ordersArray; let i=index">
               <ng-container *ngIf="status[text.status] === 'Waiting translator'">
                 <td *ngIf="text.idOrders; else orders" colspan="5">
@@ -57,8 +57,8 @@
                     </mat-expansion-panel-header>
                     <table class="table table-hover bordered">
                       <tbody>
-                      <tr *ngFor="let order of ordersArray; let i=index">
-                        <td><b> {{order.title}}</b></td>
+                      <tr *ngFor="let order of text.idOrders; let i=index">
+                        <td><a [routerLink]="['/text_details',order.id]"> {{order.title}}</a></td>
                         <td>
                           <p><b>{{order.tags}}</b></p>
                         </td>
@@ -74,7 +74,7 @@
 
                 </td>
                 <ng-template #orders>
-                  <td><b> {{text.title}}</b></td>
+                  <td><a [routerLink]="['/text_details',text.id]"> {{text.title}}</a></td>
                   <td>
                     <p><b>{{text.tags}}</b></p>
                   </td>

@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CarouselConfig} from 'ngx-bootstrap/carousel';
 import {Router} from '@angular/router';
-import {AdminService} from '../../_shared/service/admin/admin.service';
+
 import {TariffInterface} from '../../_shared/interface/tariff.interface';
+import {AdminService} from '../../_shared/service/admin/admin.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
 
 
 @Component({
@@ -16,13 +18,18 @@ import {TariffInterface} from '../../_shared/interface/tariff.interface';
 export class HomeComponent implements OnInit {
   tariffsArray: TariffInterface[] = [];
   progressBar = false;
+  auth = false;
+
   constructor(
     private router: Router,
-    private adminService: AdminService) {
+    private adminService: AdminService,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
     this.progressBar = true;
+    this.auth = this.authService.getIsAuth();
+    this.authService.getIsAuthStatus().subscribe((status: boolean) => this.auth = status);
     this.adminService.getTariffs().subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
         this.tariffsArray.push(data[i]);
@@ -30,10 +37,5 @@ export class HomeComponent implements OnInit {
     });
     this.progressBar = false;
   }
-
-  goToCustomerReg() {
-    this.router.navigate(['customerRegistration']);
-  }
-
 
 }

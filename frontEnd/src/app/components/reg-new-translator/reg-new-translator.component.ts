@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+
 import {AuthService} from '../../_shared/service/users/auth.service';
+
 
 @Component({
   selector: 'app-reg-new-translator',
@@ -9,11 +12,12 @@ import {AuthService} from '../../_shared/service/users/auth.service';
 })
 export class RegNewTranslatorComponent implements OnInit {
   namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
+
   passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,64}$/;
   emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
   hide_1 = true;
   hide_2 = true;
-
+  lngArray = [];
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
   userInput = {
@@ -27,7 +31,9 @@ export class RegNewTranslatorComponent implements OnInit {
       [Validators.required, Validators.pattern(this.namePattern)]),
   };
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -59,7 +65,6 @@ export class RegNewTranslatorComponent implements OnInit {
   }
 
 // --------------------------------------------------------------------------------
-  lngArray = [];
 
   getLng(lng) {
     this.lngArray = lng;
@@ -75,8 +80,10 @@ export class RegNewTranslatorComponent implements OnInit {
         password: this.userInput.password.value,
         languages: this.lngArray,
       };
-      this.authService.translatorRegistration(user).subscribe(res => console.log(res));
-    } else return;
+      this.authService.translatorRegistration(user).subscribe(res => {
+        this.router.navigate(['/admin_panel']);
+      });
+    }
   }
 
 }

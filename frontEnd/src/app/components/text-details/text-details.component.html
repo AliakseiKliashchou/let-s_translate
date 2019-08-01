@@ -1,9 +1,10 @@
 <mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
 <div class="wrapper">
   <div class="title anim">Text details</div>
-  <div class="container">
-    <div class="textDetail">
-      <div class="p-4" *ngIf="element">
+  <div class="container" *ngIf="element">
+
+    <div class="text-detail">
+      <div class="p-4">
         <p class="lead">Title:
           <span class="lead font-weight-bold">{{element.title}}</span>
         </p>
@@ -54,13 +55,13 @@
           <mat-slider #slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="100"
                       [value]="element.progress" (change)="changeSliderTranslator(slider.value)">
           </mat-slider>
-          <button *ngIf="saveProgressBtn" class="btn btn-outline-success  waves-effect large" (click)="saveProgress()">
+          <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect" (click)="saveProgress()">
             Save
             changes
           </button>
           <button
             *ngIf="element.review === true && element.status ===2"
-            class="btn btn-outline-primary  waves-effect large"
+            class="btn btn-outline-primary waves-effect"
             (click)="reviewDone()">
             Review done
           </button>
@@ -70,15 +71,19 @@
 
         <!---------------IF CUSTOMER...------------------------>
         <div *ngIf="role === 'customer'">
-          <div *ngIf="element.status === 0" class="md-form inpChangePrice">
-            <input mdbInput #inpChangePrice id="form1" class="form-control changePriceInp" type="number"
-                   (keypress)="getRightNumber($event)"
-                   (input)="changeSliderCustomer(inpChangePrice.value)">
-            <label for="form1" class="">Change the price</label>
-            <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect large" (click)="savePrice()">
+          <div *ngIf="element.status === 0" class="md-form changePriceInp">
+            <input
+              mdbInput
+              mask='000000'
+              #inpChangePrice
+              id="form1"
+              class="form-control "
+              type="text"
+              (input)="changeSliderCustomer(inpChangePrice.value)">
+            <label for="form1">Change the price</label>
+            <button *ngIf="saveProgressBtn" class="btn btn-outline-success waves-effect" (click)="savePrice()">
               Save changes
             </button>
-            <div style="clear: both"></div>
           </div>
           <button
             *ngIf="element.status === 3"
@@ -90,41 +95,49 @@
 
       </div>
     </div>
-    <button
-      *ngIf="role === 'customer'&& element && (element.status !== 2) && (element.status !== 3)"
-      class="btn btn-outline-danger  waves-effect large"
-      (click)="deleteText()">
-      Delete text
-    </button>
-  </div>
-  <div class="comments_wrapper">
-    <div class="mesgs">
-      <div class="msg_history">
-        <div class="incoming_msg" *ngFor="let incomingComment of incomingComments; let i = index;">
-          <div class="incoming_msg_img"><img src="{{incomingComment.photo}}" alt="sunil"></div>
-          <div class="received_msg">
-            <div class="received_withd_msg">
-              <p>{{incomingComment.message}}</p>
-              <span class="time_date">{{incomingComment.date | date:'medium'}} , {{getRelativeDate(i)}}</span>
+
+    <div class="button-container">
+      <button
+        *ngIf="role === 'customer'&& element && (element.status !== 2) && (element.status !== 3)"
+        class="btn btn-outline-danger waves-effect"
+        style="width: 75%"
+        (click)="deleteText()">
+        Delete text
+      </button>
+    </div>
+
+    <div class="comments_wrapper">
+      <div class="mesgs" *ngIf="incomingComments">
+        <div class="msg_history">
+          <div
+            class="incoming_msg"
+            *ngFor="let incomingComment of incomingComments; let i = index;"
+            [style.float]="(incomingComment.idCommentator === myId)? 'left' : 'right'">
+            <div class="incoming_msg_img"><img src="{{incomingComment.photo}}" alt="sunil"></div>
+            <div class="received_msg">
+              <div class="received_withd_msg">
+                <p>{{incomingComment.message}} {{myId}} {{incomingComment.idCommentator}}</p>
+                <span class="time_date">{{incomingComment.date | date:'medium'}} , {{getRelativeDate(i)}}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="create_comment">
-      <p id="bottom"></p>
-      <div style="display: flex; width: 80%;margin: auto;">
+
+      <div class="create-comment-container">
+        <div class="input-msg-container">
         <textarea class="md-textarea form-control" rows="3" #textArea id="input_text" type="text" length="120"
                   mdbCharCounter mdbInput placeholder="Enter your comment here..." style="margin: 0; width: 95%"
                   [value]="textUrl? textUrl: ''">
-          </textarea>
+        </textarea>
         <button class="btn" style="margin: 0" (click)="filePicker.click()">
           <i class="fas fa-file" style="font-size: 1.5rem"></i>
           <input type="file" hidden #filePicker accept=".txt, .pdf, .doc, image/*" (change)="upload($event)">
         </button>
       </div>
 
-      <button mat-button id="createCommentBtn" (click)="sendComment(textArea)">Send comment</button>
+        <button mat-button id="createCommentBtn" (click)="sendComment(textArea)">Send comment</button>
+      </div>
     </div>
   </div>
 </div>

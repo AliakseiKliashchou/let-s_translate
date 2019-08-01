@@ -18,6 +18,9 @@ export class CustomerRegComponent implements OnInit {
   hide_1 = true;
   hide_2 = true;
   photoStatus = false;
+  photo = 'https://firebasestorage.googleapis.com/v0/b/letstranslate-ca941.appspot.com' +
+    '/o/toTranslate%2F1564131873490_Google-Noto-Emoji-Animals-Nature-22235-pig-face.ico?' +
+    'alt=media&token=cb0f0124-5e18-4039-97af-5ad8256b4776';
   // userInput: any;
   userInputForm: FormGroup;
   passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,64}$/;
@@ -55,7 +58,7 @@ export class CustomerRegComponent implements OnInit {
       password: new FormControl('',
         [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
       passwordSubmitted: new FormControl('',
-        [Validators.required, Validators.maxLength(64), Validators.minLength(8)])
+        [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)])
     });
   }
 
@@ -92,7 +95,7 @@ export class CustomerRegComponent implements OnInit {
   submit() {
     const user = this.userInputForm.value;
     user.role = 'customer';
-    user.photo = this.photoUrl;
+    user.photo = this.photoUrl || this.photo;
     this.authService.customerRegistration(user).subscribe((data: any) => {
       this._snackBar.open(
         `${data.message}`,

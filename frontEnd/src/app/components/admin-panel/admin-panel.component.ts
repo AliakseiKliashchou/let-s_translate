@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AdminService} from '../../_shared/service/admin/admin.service';
-import {TariffInterface} from '../../_shared/interface/tariff.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
+
+import {AdminService} from '../../_shared/service/admin/admin.service';
+import {TariffInterface} from '../../_shared/interface/tariff.interface';
 
 @Component({
   selector: 'app-admin-panel',

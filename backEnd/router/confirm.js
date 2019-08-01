@@ -1,5 +1,5 @@
 const Cryptr = require('cryptr');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 const cryptr = new Cryptr('myTotalySecretKey');
@@ -29,7 +29,7 @@ router.post('/forgot-password', async(req, res) => {
         id: customer.id,
         guid: customer.guid,
         date: new Date()
-      }
+      };
   
       let jsonInfo = JSON.stringify(info);
       let encrypt = cryptr.encrypt(jsonInfo);
@@ -40,7 +40,7 @@ router.post('/forgot-password', async(req, res) => {
   } catch(error) {
     res.status(400).json({message: 'This email not found!'})
   }
-})
+});
 
 router.get('/reset-password', async(req, res) => {
   let crypt = req.query.crypt;
