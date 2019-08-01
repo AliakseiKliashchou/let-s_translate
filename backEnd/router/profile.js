@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const customerModel = require('../models/customer');
 const translatorModel = require('../models/translator');
+const tariffModel = require('../models/tariff');
 
 router.get('/customer/:id', async (req, res) => {
   let id = req.params.id;
@@ -58,15 +59,22 @@ router.put('/customer/:id', async (req, res) => {
 });
 
 router.put('/customer/:id/money', async (req, res) => {
-  const {money} = req.body;
+  const { money, coins } = req.body;
   const id = req.params.id;
-  customerModel.findOne({where: {id: id}})
-    .then(user => {
-      const resultMoney = user.coins + Number(money);
-      user.update({coins: resultMoney})
-        .then(result => res.json({msg: 'You get you money', resultMoney}))
-        .catch(err => res.json(err))
-    }).catch(err => res.json(err));
+
+  let customer = await customerModel.findOne({where: {id: id}}).then(customer => customer); 
+
+  let tariff = await tariffModel.findOne({where: {name: customer.tariff}}).then(tariff => {
+    let currentCoins = money * (2 - tariff.coeff) * 100;
+    let resultMoney = customer.coins + currentCoins;
+
+    if(currentCoins === coins) {
+      customerModel.update({coins: resultMoney}, {where: {id: id}});
+      res.json({msg: 'You get your money', resultMoney});
+    } else {
+      res.json({msg: 'money doesn\'t update '});
+    }
+  }); 
 });
 
 

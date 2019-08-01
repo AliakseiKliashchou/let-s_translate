@@ -20,7 +20,7 @@ export class CustomerRegComponent implements OnInit {
   photoStatus = false;
   // userInput: any;
   userInputForm: FormGroup;
-  passwordPattern = /^[a-zA-Z]\w{2,14}$/;
+  passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,64}$/;
   emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
   task: AngularFireUploadTask;
   downloadURL: Observable<string>;
@@ -29,7 +29,7 @@ export class CustomerRegComponent implements OnInit {
     required: 'You must enter a value',
     minlength: 'The value is too short',
     maxlength: 'The value is too long',
-    pattern: 'Not a valid'
+    pattern: 'Your password must contain at least one lower case, upper case, digit'
   };
 
   constructor(
@@ -53,9 +53,9 @@ export class CustomerRegComponent implements OnInit {
       tariff: new FormControl(tariff || 'gold',
         [Validators.required]),
       password: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
+        [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
       passwordSubmitted: new FormControl('',
-        [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+        [Validators.required, Validators.maxLength(64), Validators.minLength(8)])
     });
   }
 

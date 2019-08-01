@@ -9,7 +9,7 @@ import {AuthService} from '../../_shared/service/users/auth.service';
 })
 export class RegNewTranslatorComponent implements OnInit {
   namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
-  passwordPattern = /^[a-zA-Z]\w{2,14}$/;
+  passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,64}$/;
   emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
   hide_1 = true;
   hide_2 = true;
@@ -20,9 +20,9 @@ export class RegNewTranslatorComponent implements OnInit {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('',
-      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+      [Validators.required, Validators.maxLength(64), Validators.minLength(8)]),
     passwordSubmitted: new FormControl('',
-      [Validators.required, Validators.maxLength(10), Validators.minLength(2), Validators.pattern(this.passwordPattern)]),
+      [Validators.required, Validators.maxLength(64), Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
     name: new FormControl('',
       [Validators.required, Validators.pattern(this.namePattern)]),
   };
@@ -41,13 +41,15 @@ export class RegNewTranslatorComponent implements OnInit {
   getErrorMessagePassword_1() {
     return this.userInput.password.hasError('required') ? 'You must enter a value' :
       this.userInput.password.hasError('minlength') ? 'The password is too short' :
-        this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
+      this.userInput.password.hasError('maxlength') ? 'The password is too long' : 
+      this.userInput.password.hasError('pattern') ? 'Your password must contain at least one lower case, upper case, digit' : '';
   }
 
   getErrorMessagePassword_2() {
     return this.userInput.passwordSubmitted.hasError('required') ? 'You must enter a value' :
       this.userInput.passwordSubmitted.hasError('minlength') ? 'The password is too short' :
-        this.userInput.passwordSubmitted.hasError('maxlength') ? 'The password is too long' : '';
+      this.userInput.passwordSubmitted.hasError('maxlength') ? 'The password is too long' :
+      this.userInput.password.hasError('pattern') ? 'Your password must contain at least one lower case, upper case, digit' : '';
   }
 
   getErrorMessageName() {
