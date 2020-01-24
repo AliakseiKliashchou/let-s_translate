@@ -1,0 +1,125 @@
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+<div class="container">
+  <div class="title anim">Collections</div>
+
+  <button id="isShowCollections_btn" type="button" class="btn btn-primary large"
+          (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
+
+  <div class="collections" *ngIf="isShowCollections">
+    <div class="collection" *ngFor="let coll of collectionsArray; let i = index">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{coll.title}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table class="table table-hover bordered">
+          <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Date</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Details</th>
+            <th scope="col">Download text</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let order of coll.idOrders; let j = index">
+            <td><b> {{order.title}}</b></td>
+            <td>
+              <p><b>{{order.date | date}}</b></p>
+            </td>
+            <td><b>{{order.tags}}</b></td>
+            <td>
+              <button class="btn btn-outline-primary waves-effect"
+                      [routerLink]="['/text_details',order.id]">Details
+              </button>
+            </td>
+            <td><a href="{{order.download}}" target="_blank"><i class="fas fa-cloud-download-alt fa-lg"></i></a></td>
+          </tr>
+          </tbody>
+        </table>
+        <button
+          class="btn btn-outline-danger waves-effect"
+          (click)="deleteCollection(coll.id, i)"
+          *ngIf="coll.status===0">
+          Delete collection
+        </button>
+      </mat-expansion-panel>
+    </div>
+  </div>
+
+  <div class="find_wrapper">
+    <!------------------------------TAGS-------------------------------------------->
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList aria-label="Tag selection">
+        <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
+          {{tag}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New tag..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!------------------------------INIT LNG-------------------------------------------->
+
+    <app-languages [placeholder]="initial" #initLng (selectValue)="getInitLng($event)"></app-languages>
+    <!------------------------------FINIT LNG-------------------------------------------->
+
+    <app-languages [placeholder]="finite" #finitLng (selectValue)="getFinitLng($event)"></app-languages>
+    <!------------------------------ADDITIONAL REVIEW-------------------------------------------->
+    <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox>
+    <!--------------------------------------------------------------------------------->
+    <button [disabled]="!findingParams.originalLanguage || !findingParams.translateLanguage"
+            class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find
+    </button>
+
+  </div>
+  <!--------------------------------------FILTERED COLLECTIONS------CREATE NEW COLLECTION--------------------------------------------->
+  <div class="filteredCollections" *ngIf="filteredCollections.length > 0">
+    <div>
+      <div class="table">
+        <table mdbTable [style.background-color]="check_FC?.checked ? 'rgba(82, 214, 29)' : 'white'">
+          <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr mdbTableColclass="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
+              (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j, collection.tags)"
+              [ngClass]="check_FC?.checked ? 'checked' : 'unChecked'">
+            <th scope="row">
+              <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>
+            </th>
+            <td>{{collection.name}}</td>
+            <td>{{collection.title}}</td>
+            <td>{{collection.date | date}}</td>
+            <td><a [href]="collection.download" target="_blank">Download text</a></td>
+            <td>{{collection.originalLanguage}}</td>
+            <td>{{collection.translateLanguage}}</td>
+            <td>{{collection.email}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <mat-form-field class="collection_name">
+      <input matInput #newCollectionName placeholder="New collection name">
+    </mat-form-field>
+    <div>
+      <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
+    </div>
+    <button class="btn btn-outline-success  waves-effect large"
+            [disabled]="!(indexArray.length && newCollectionName.value)"
+            (click)="createNewCollection(newCollectionName, isOneTranslator)">Create new collection
+    </button>
+  </div>
+</div>

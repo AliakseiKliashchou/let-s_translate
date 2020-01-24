@@ -1,0 +1,214 @@
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+<div class="wrapper">
+
+  <div class="block">
+
+    <div class="filter" *ngIf="ordersArray && role === 'translator'">
+      <div>
+        <mat-form-field class="tags">
+          <mat-chip-list #chipList aria-label="tags">
+            <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)"
+              color="accent">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Select some tags" #fruitInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <button mdbBtn color="info" block="true" class="my-4" (click)="filter()">Filter</button>
+    </div>
+
+    <mat-tab-group (selectedTabChange)="onTabClick($event)" mat-align-tabs="center" class="container-width">
+      <mat-tab label="Collections" *ngIf="role === 'translator'">
+        <div *ngFor="let text of collectionsTranslatorArray; let indexColl = index" style="width: 100%;">
+          <div *ngIf="text.idOrders" class="collectionPanel" style=" display: flex">
+            <mat-expansion-panel style="width: 100%">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{text.title}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <table class="table table-hover bordered">
+                <tbody>
+                  <tr *ngFor="let order of text.idOrders; let i=index">
+                    <td><a [routerLink]="['/text_details',order.id]"> {{order.title}}</a></td>
+                    <td>
+                      <p><b>{{order.tags}}</b></p>
+                    </td>
+                    <td><b>{{order.originalLanguage}} => {{order.translateLanguage}}</b></td>
+                    <td><b>{{order.date | date}}</b></td>
+                    <td><b>{{order.price}}
+                        <mdb-icon fas style="color: black" icon="coins"></mdb-icon>
+                      </b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-expansion-panel>
+          </div>
+          <button *ngIf="role === 'translator'" (click)="getOrder(text.id,indexColl,true)" type="button"
+            class="getBtn btn btn-outline-primary waves-effect" style=" min-width: fit-content">Get
+          </button>
+          <div style="clear: both"></div>
+        </div>
+        <mat-paginator [length]="collectionsTranslatorArray?.length" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </mat-tab>
+
+
+      <mat-tab [label]="(role === 'customer')? 'Incomplete translations' :'Orders'">
+        <div class="container">
+          <!-- -----------------NEW TABLE--------------- -->
+
+          <table class="data-table" mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container class="table-content" matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>
+              <td mat-cell *matCellDef="let row">
+                <b><a [routerLink]="['/text_details',row.id]"> {{row.title}}</a></b>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+              <td mat-cell *matCellDef="let row">
+                <h5><span class="badge badge" [ngClass]="{
+                  'badge-danger': status[row.status] === 'Waiting translator',
+                  'badge-info': status[row.status] === 'Ready for customer review',
+                  'badge-warning': status[row.status] === 'In progress',
+                  'badge-primary': status[row.status] === 'Ready for translator review',
+                  'badge-success': status[row.status] === 'Complete'}">{{status[row.status]}}</span></h5>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="tags">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tags</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-chip *ngFor="let tag of row.tags" [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(tag)" color="accent">
+                  {{tag}}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            
+            <ng-container class="table-content" matColumnDef="options">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> language options </th>
+              <td mat-cell *matCellDef="let row"> {{row.originalLanguage}} => {{row.translateLanguage}} </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
+              <td mat-cell *matCellDef="let row"> {{row.date | date}} </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>
+              <td mat-cell *matCellDef="let row"> {{row.price}}
+                <mdb-icon fas style="color: black" icon="coins">
+                </mdb-icon>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="lastComment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <a *ngIf="role === 'customer'" class="link" [routerLink]="['/text_details',row.id]" fragment="bottom">
+                  Go to the last comment...</a>
+                <button *ngIf="role === 'translator'" (click)="getOrder(row.id, i,false)" type="button"
+                  class="btn btn-outline-primary waves-effect">
+                  Get
+                </button>
+              </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]">
+          </mat-paginator>
+
+        </div>
+
+      </mat-tab>
+      <mat-tab [label]="(role === 'customer')? 'Сompleted translations' :'Review'">
+        <div class="container">
+
+          <table class="data-table" mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container class="table-content" matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>
+              <td mat-cell *matCellDef="let row"><b><a [routerLink]="['/text_details',row.id]"> {{row.title}}</a></b>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+              <td mat-cell *matCellDef="let row">
+                <h5><span class="badge badge" [ngClass]="{
+                  'badge-danger': status[row.status] === 'Waiting translator',
+                  'badge-info': status[row.status] === 'Ready for customer review',
+                  'badge-warning': status[row.status] === 'In progress',
+                  'badge-primary': status[row.status] === 'Ready for translator review',
+                  'badge-success': status[row.status] === 'Complete'}">{{status[row.status]}}</span></h5>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="tags">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tags</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-chip *ngFor="let tag of row.tags" [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(tag)" color="accent">
+                  {{tag}}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="options">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> language options </th>
+              <td mat-cell *matCellDef="let row"> {{row.originalLanguage}} => {{row.translateLanguage}} </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
+              <td mat-cell *matCellDef="let row"> {{row.date | date}} </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>
+              <td mat-cell *matCellDef="let row"> {{row.price}}
+                <mdb-icon fas style="color: black" icon="coins">
+                </mdb-icon>
+              </td>
+            </ng-container>
+
+            <ng-container class="table-content" matColumnDef="lastComment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> last comment</th>
+              <td mat-cell *matCellDef="let row"><a class="link" [routerLink]="['/text_details',row.id]"
+                  fragment="bottom">Go to the last
+                  comment...</a></td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+          </table>
+
+          <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

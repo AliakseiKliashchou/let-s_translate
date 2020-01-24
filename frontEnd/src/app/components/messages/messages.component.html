@@ -1,0 +1,19 @@
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+<div class="wrapper">
+  <div class="title anim">Messages</div>
+
+  <div class="block" *ngIf="msgArray">
+    <div class="msg-container" *ngFor="let msg of msgArray; let index = index">
+      <p *ngIf="msg.status === 'accepted'">
+        Your text
+        <a [routerLink]="['/text_details',msg.textId]"> {{msg.textName}}</a>
+        has moved to the translation state</p>
+      <p *ngIf="msg.status === 'payed'">
+        Your text <a style="color: #3b99e0">{{msg.textName}} </a>has been translating and deleting</p>
+      <button class="btn btn-outline-success waves-effect btn-outline" style="float: right" (click)="readMsg(index)">
+        &#10003;Ok
+      </button>
+    </div>
+  </div>
+
+</div>

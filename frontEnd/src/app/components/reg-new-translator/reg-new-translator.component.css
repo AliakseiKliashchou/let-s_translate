@@ -1,0 +1,32 @@
+.inputs{
+    width: 90%;
+    margin: 15px auto;
+    min-height: 100px; 
+}
+.inputs_wrapper{
+    width: 90%;
+    min-height: 200px;
+    border: 2px solid white;
+    border-radius: 5px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.856);
+    margin-bottom: 160px;
+}
+mat-icon{
+  float: right;
+  position: relative;
+  top: -67px;
+}
+
+.password{
+  float: left;
+  width: 40%;
+  margin-right: 20px;
+}
+
+#submit_btn{
+  text-align: center;
+  display: inherit;
+  margin: 10px auto;
+} 
+

@@ -1,0 +1,91 @@
+.inputs {
+    width: 90%;
+    margin: 15px auto;
+    min-height: 100px; 
+}
+
+.upload-photo {
+  width: 210px !important;
+}
+
+.inputs_wrapper {
+    width: 90%;
+    min-height: 200px;
+    border: 2px solid white;
+    border-radius: 5px;
+    margin: 10px auto;
+    background-color: rgba(255, 255, 255, 0.856);
+}
+mat-icon {
+  float: right;
+  position: relative;
+  top: -67px;
+}
+#card_number {
+  width: 35%;  
+}
+
+.password {
+  float: left;
+  width: 40%;
+  margin-right: 20px;
+}
+#licence_check {
+  display: block;
+  margin-top: 15px;
+}
+#licence:hover {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+#submit_btn {
+  text-align: center;
+  display: inherit;
+  margin: 10px auto;
+} 
+.tariff_icon {  
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+.select_tariff {
+  float: left;
+}
+
+.md-form {
+  margin-top: 0 !important;
+}
+
+/* ---------- */
+.divider-text {
+  position: relative;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.divider-text span {
+  padding: 7px;
+  font-size: 12px;
+  position: relative;   
+  z-index: 2;
+}
+.divider-text:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  top: 55%;
+  left: 0;
+  z-index: 1;
+}
+
+.btn-facebook {
+  background-color: #405D9D;
+  color: #fff;
+}
+.btn-twitter {
+  background-color: #42AEEC;
+  color: #fff;
+}
