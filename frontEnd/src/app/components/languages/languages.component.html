@@ -1,6 +1,0 @@
-<mat-form-field>
-  <mat-label>Choose {{placeholder}} language:</mat-label>
-  <mat-select #lang (focus)="getLang(lang.value)" id="select">
-    <mat-option *ngFor="let lng of arrayLanguage" [value]="lng.value">{{lng.lng}}</mat-option>
-  </mat-select>
-</mat-form-field>
