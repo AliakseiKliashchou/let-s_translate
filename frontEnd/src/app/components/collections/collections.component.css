@@ -10,3 +10,18 @@ td {
     text-align: center;
     vertical-align: middle;
 }
+.example-chip-list{
+    width: 100%;
+}
+.checked{
+    background-color: rgba(144, 255, 100, 0.5);
+    transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1)
+}
+
+.unChecked{
+    background-color: white;
+    transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.filteredCollections{
+    margin: 20px 0 20px 0;
+}

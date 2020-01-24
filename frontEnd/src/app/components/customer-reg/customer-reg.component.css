@@ -1,52 +1,61 @@
-.inputs{
+.inputs {
     width: 90%;
     margin: 15px auto;
     min-height: 100px; 
 }
-.inputs_wrapper{
+
+.upload-photo {
+  width: 210px !important;
+}
+
+.inputs_wrapper {
     width: 90%;
     min-height: 200px;
     border: 2px solid white;
     border-radius: 5px;
-    margin: 20px auto;
+    margin: 10px auto;
     background-color: rgba(255, 255, 255, 0.856);
 }
-mat-icon{
+mat-icon {
   float: right;
   position: relative;
   top: -67px;
 }
-#card_number{
+#card_number {
   width: 35%;  
 }
 
-.password{
+.password {
   float: left;
   width: 40%;
   margin-right: 20px;
 }
-#licence_check{
+#licence_check {
   display: block;
   margin-top: 15px;
 }
-#licence:hover{
+#licence:hover {
   color: blue;
   cursor: pointer;
   text-decoration: underline;
 }
-#submit_btn{
+#submit_btn {
   text-align: center;
   display: inherit;
   margin: 10px auto;
 } 
-.tariff_icon{  
+.tariff_icon {  
   margin-right: 20px;
   width: 20px;
   height: 20px;
   float: left;
 }
-.select_tariff{
+.select_tariff {
   float: left;
+}
+
+.md-form {
+  margin-top: 0 !important;
 }
 
 /* ---------- */

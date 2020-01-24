@@ -1,12 +1,9 @@
-<app-header></app-header>
 <mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
-
 <div class="container">
-
   <div class="title anim">Collections</div>
 
   <button id="isShowCollections_btn" type="button" class="btn btn-primary large"
-    (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
+          (click)="isShowCollections = !isShowCollections">{{!isShowCollections ? 'Show existing collections' : 'Hide collections' }}</button>
 
   <div class="collections" *ngIf="isShowCollections">
     <div class="collection" *ngFor="let coll of collectionsArray; let i = index">
@@ -17,29 +14,37 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <table class="table table-hover bordered">
-          <thead class="black white-text">
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Date</th>
-              <th scope="col">Tags</th>
-              <th scope="col">Details</th>
-              <th scope="col">Download text</th>
-            </tr>
+          <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Date</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Details</th>
+            <th scope="col">Download text</th>
+          </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of coll.idOrders; let j = index">
-              <td><b> {{order.title}}</b></td>
-              <td>
-                <p><b>{{order.date | date}}</b></p>
-              </td>
-              <td><b>{{order.tags}}</b></td>
-              <td> <button class="btn btn-outline-primary waves-effect" [routerLink]="['/text_details',order.id]">Details</button></td>
-              <td><a href="{{order.download}}" target="_blank"><i class="fas fa-cloud-download-alt fa-lg"></i></a></td>
-            </tr>
+          <tr *ngFor="let order of coll.idOrders; let j = index">
+            <td><b> {{order.title}}</b></td>
+            <td>
+              <p><b>{{order.date | date}}</b></p>
+            </td>
+            <td><b>{{order.tags}}</b></td>
+            <td>
+              <button class="btn btn-outline-primary waves-effect"
+                      [routerLink]="['/text_details',order.id]">Details
+              </button>
+            </td>
+            <td><a href="{{order.download}}" target="_blank"><i class="fas fa-cloud-download-alt fa-lg"></i></a></td>
+          </tr>
           </tbody>
         </table>
-        <button class="btn btn-outline-danger  waves-effect large" (click)="deleteCollection(coll.id, j)">Delete
-          collection</button>
+        <button
+          class="btn btn-outline-danger waves-effect"
+          (click)="deleteCollection(coll.id, i)"
+          *ngIf="coll.status===0">
+          Delete collection
+        </button>
       </mat-expansion-panel>
     </div>
   </div>
@@ -53,8 +58,8 @@
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input placeholder="New tag..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
-          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
@@ -62,57 +67,59 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <mat-divider></mat-divider>
+
+    <!------------------------------INIT LNG-------------------------------------------->
+
+    <app-languages [placeholder]="initial" #initLng (selectValue)="getInitLng($event)"></app-languages>
+    <!------------------------------FINIT LNG-------------------------------------------->
+
+    <app-languages [placeholder]="finite" #finitLng (selectValue)="getFinitLng($event)"></app-languages>
     <!------------------------------ADDITIONAL REVIEW-------------------------------------------->
     <mat-checkbox #addReview class="checkboxes">Additional review</mat-checkbox>
-    <mat-divider></mat-divider>
-    <!------------------------------INIT LNG-------------------------------------------->
-    <p class="titles">Choose initial language:</p>
-    <app-languages #initLng (selectValue)="getInitLng($event)"></app-languages>
-    <mat-divider></mat-divider>
-    <!------------------------------FINIT LNG-------------------------------------------->
-    <p class="titles">Choose finite language:</p>
-    <app-languages #finitLng (selectValue)="getFinitLng($event)"></app-languages>
-    <mat-divider></mat-divider>
     <!--------------------------------------------------------------------------------->
-    <button class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find</button>
+    <button [disabled]="!findingParams.originalLanguage || !findingParams.translateLanguage"
+            class="btn btn-outline-primary  waves-effect large" (click)="findOrders(addReview)">Find
+    </button>
 
   </div>
   <!--------------------------------------FILTERED COLLECTIONS------CREATE NEW COLLECTION--------------------------------------------->
   <div class="filteredCollections" *ngIf="filteredCollections.length > 0">
-    <mat-form-field class="collection_name">
-      <input matInput #newCollectionName placeholder="New collection name">
-    </mat-form-field>
-    <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
-    <button class="create_btn" mat-button [disabled]="!(newCollectionArray.id.length && newCollectionName.value)"
-      (click)="createNewCollection(newCollectionName.value, isOneTranslator)">Create new collection</button>
-    <div class="filteredCollection" *ngFor="let collection of filteredCollections; let i = index"
-      (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, i)"
-      [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
+    <div>
       <div class="table">
-        <table mdbTable [style.background-color]="check_FC.checked ? 'rgba(82, 214, 29)' : 'white'">
+        <table mdbTable [style.background-color]="check_FC?.checked ? 'rgba(82, 214, 29)' : 'white'">
           <thead>
-            <tr>
-              <th *ngFor="let head of headElements" scope="col">{{head}}</th>
-            </tr>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}}</th>
+          </tr>
           </thead>
           <tbody>
-            <tr mdbTableCol>
-              <th scope="row">
-                <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>
-              </th>
-              <td>{{collection.name}}</td>
-              <td>{{collection.title}}</td>
-              <td>{{collection.date | date}}</td>
-              <td><a [href]="collection.download" target="_blank">Download text</a></td>
-              <td>{{collection.originalLanguage}}</td>
-              <td>{{collection.translateLanguage}}</td>
-              <td>{{collection.email}}</td>
-            </tr>
+          <tr mdbTableColclass="filteredCollection" *ngFor="let collection of filteredCollections; let j = index"
+              (click)="check_FC._checked = !check_FC._checked; click_check(check_FC, collection.id, j, collection.tags)"
+              [ngClass]="check_FC?.checked ? 'checked' : 'unChecked'">
+            <th scope="row">
+              <mat-checkbox #check_FC class="checkbox_FC" hidden="true"></mat-checkbox>
+            </th>
+            <td>{{collection.name}}</td>
+            <td>{{collection.title}}</td>
+            <td>{{collection.date | date}}</td>
+            <td><a [href]="collection.download" target="_blank">Download text</a></td>
+            <td>{{collection.originalLanguage}}</td>
+            <td>{{collection.translateLanguage}}</td>
+            <td>{{collection.email}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <mat-form-field class="collection_name">
+      <input matInput #newCollectionName placeholder="New collection name">
+    </mat-form-field>
+    <div>
+      <mat-checkbox #isOneTranslator class="isOneTransCheck">Only one translator</mat-checkbox>
+    </div>
+    <button class="btn btn-outline-success  waves-effect large"
+            [disabled]="!(indexArray.length && newCollectionName.value)"
+            (click)="createNewCollection(newCollectionName, isOneTranslator)">Create new collection
+    </button>
   </div>
 </div>
-<app-footer></app-footer>

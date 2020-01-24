@@ -1,0 +1,33 @@
+image: node:latest
+
+stages:
+  - production-api
+  - production-client
+
+production-api:
+  type: deploy
+  stage: production-api
+  image: ruby:latest
+  script:
+    - cd backEnd
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=lets-translate-api --api-key=$HEROKU_API_KEY
+  only:
+    - master
+
+production-client:
+  type: deploy
+  stage: production-client
+  image: ruby:latest
+  script:
+    - cd frontEnd
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=lets-translate --api-key=$HEROKU_API_KEY
+  only:
+    - master
+
+

@@ -8,4 +8,5 @@ export interface CommentsInterface {
   photo: string;
   role: string;
   senderEmail: string;
+  isFile?: boolean;
 }

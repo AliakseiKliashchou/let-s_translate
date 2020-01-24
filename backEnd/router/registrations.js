@@ -23,13 +23,14 @@ router.post('/translator', valid.checkValid, async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      languages: req.body.languages
+      languages: req.body.languages,
+      coins: 0
     });
 
     bcrypt.hash(translator.password, 10).then((hash) => {
       translator.password = hash;
       translator.save().then((data) => {
-        res.json({"translator": data});
+        res.json({message: 'You are registrated!'});
       });
     });
   } catch (error) {
@@ -68,11 +69,11 @@ router.post('/customer', valid.checkValid, async (req, res) => {
     bcrypt.hash(customer.password, 10).then((hash) => {
       customer.password = hash;
       customer.save().then((data) => {
-        res.json({"customer": data, message: 'Settings sent to e-mail'});
+        res.json({message: 'Settings sent to e-mail'});
       });
     });
 
-    nodemailer.sendEmail(customer.guid, customer.id);
+    nodemailer.sendEmail(customer.guid, customer.id, customer.email);
   } catch (error) {
     res.status(400).json(error);
   }

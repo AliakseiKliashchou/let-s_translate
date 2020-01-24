@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
-let sendEmail = (guid, id) => {
-  let url = `http://localhost:3000/confirm?code=${guid}&id=${id}`;
+let sendEmail = (guid, id, email) => {
+  let url = `http://lets-translate-api.herokuapp.com/confirm?code=${guid}&id=${id}`;
   console.log(url);
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -14,10 +14,10 @@ let sendEmail = (guid, id) => {
   });
 
   const mailOptions = {
-    from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    from: 'Lets Translate',
+    to: `${email}`,
     subject: 'You have successfully registered with the Let\'s translate site!',
-    text: `For confirm your account you need follow this link ${url}`
+    html: `For confirm your account you need follow this link <a href = "${url}">Confirm account</a>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -29,8 +29,8 @@ let sendEmail = (guid, id) => {
   });
 };
 
-let resetPassword = (encrypt) => {
-  let url = `http://localhost:3000/reset-password?crypt=${encrypt}`;
+let resetPassword = (encrypt, email) => {
+  let url = `http://lets-translate-api.herokuapp.com/reset-password?crypt=${encrypt}`;
 
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -43,10 +43,10 @@ let resetPassword = (encrypt) => {
   });
 
   const mailOptions = {
-    from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    from: 'Lets Translate',
+    to: `${email}`,
     subject: 'Reset password',
-    text: `Follow this link to reset your password ${url}`
+    html: `Follow this link to reset your password <a href = "${url}">Reset password</a>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -58,7 +58,7 @@ let resetPassword = (encrypt) => {
   });
 };
 
-let passwordChanged = (req, res) => {
+let passwordChanged = (email) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     secure: false,
@@ -70,8 +70,8 @@ let passwordChanged = (req, res) => {
   });
 
   const mailOptions = {
-    from: 'lets.translate.prod@gmail.com',
-    to: 'lets.translate.prod@gmail.com',
+    from: 'Lets Translate',
+    to: `${email}`,
     subject: 'Password update',
     text: `Your password successfully updated`
   };

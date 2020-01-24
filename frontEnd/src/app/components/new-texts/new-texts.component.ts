@@ -11,6 +11,8 @@ import {map, startWith} from 'rxjs/operators';
 import {OrderService} from '../../_shared/service/order/order.service';
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
+import {MatStepperModule} from '@angular/material/stepper';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,6 +21,7 @@ import {UserInfoService} from '../../_shared/service/users/user-info.service';
   styleUrls: ['./new-texts.component.css', '../../app.component.css']
 })
 export class NewTextsComponent implements OnInit {
+  progressBar = false;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -27,7 +30,8 @@ export class NewTextsComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
-
+  initial = 'initial';
+  finite = 'finite';
   isHovering: boolean;
   files: File[] = [];
   maxSize = 20 * (10 ** 6);
@@ -52,9 +56,11 @@ export class NewTextsComponent implements OnInit {
 
   @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  id: any;
 
   constructor(
     private storage: AngularFireStorage,
+    private router: Router,
     private db: AngularFirestore,
     private _snackBar: MatSnackBar,
     private http: OrderService,
@@ -116,6 +122,7 @@ export class NewTextsComponent implements OnInit {
   }
 
   onFileDrop(event: Event) {
+    this.progressBar = true;
     const file = (event.target as HTMLInputElement).files[0];
     if (file.size > this.maxSize) {
       this.isHasError.size = true;
@@ -133,14 +140,15 @@ export class NewTextsComponent implements OnInit {
         duration: 3000,
       });
     }
+    this.progressBar = false;
   }
 
   uploadText(text) {
+    this.progressBar = true;
     const path = `toTranslate/${Date.now()}_aaaaa1.txt`;
     const ref = this.storage.ref(path);
     ref.putString(text).then((snapshot) => {
-      snapshot.ref.getDownloadURL().then( url => {
-        console.log(url);
+      snapshot.ref.getDownloadURL().then(url => {
         this.order.url.push(url);
       });
       this._snackBar.open('The text was successfully uploaded', '', {
@@ -149,6 +157,7 @@ export class NewTextsComponent implements OnInit {
     }).catch(error => {
       console.log(error);
     });
+    this.progressBar = false;
   }
 
   getURL(url) {
@@ -165,27 +174,24 @@ export class NewTextsComponent implements OnInit {
     this.order.finiteLng = lng;
   }
 
-  getUrgency(urgency) {
-    this.order.urgency = Number(urgency);
-  }
-
   getTitle(title) {
     this.order.title = title;
   }
 
-  makeOrder(additionalReview) {
-    if (additionalReview.checked) {
-      this.order.additionalReview = true;
-    }
+  makeOrder(additionalReview, urgency) {
+    this.progressBar = true;
+    this.order.additionalReview = additionalReview.checked;
+    this.order.urgency = urgency.checked;
     this.order.tags = this.tags;
     this.userProfile.getCustomerProfile(this.order.idCustomer).subscribe(
       (res: { name, email }) => {
         this.order.name = res.name;
         this.order.email = res.email;
         this.http.createOrder(this.order).subscribe((data) => {
-          console.log(data);
+          this.router.navigate(['/dashboard']);
         });
       }
     );
+    this.progressBar = false;
   }
 }

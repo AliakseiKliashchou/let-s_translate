@@ -1,21 +1,30 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 
 import {AuthService} from '../../_shared/service/users/auth.service';
 import {UserInfoService} from '../../_shared/service/users/user-info.service';
-import {OrderService} from "../../_shared/service/order/order.service";
+import {OrderService} from '../../_shared/service/order/order.service';
+import {NotificationService} from 'src/app/_shared/service/users/notification.service';
+import {AdminService} from '../../_shared/service/admin/admin.service';
 
-interface UserProfile {
+interface UserProfileInterface {
   photo: string;
+  role: string;
   name: string;
   email: string;
   coins: number;
+  tariff: string;
+}
+
+interface TariffsInterface {
+  name: string;
+  coeff: number;
 }
 
 @Component({
@@ -23,27 +32,42 @@ interface UserProfile {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
-  emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  userInput = {
+export class HeaderComponent implements OnInit, OnDestroy {
+  progressBar = false;
+  namePattern = '[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?';
+  // tslint:disable-next-line:max-line-length
+  emailPattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/;
+
+  customerInput = {
     email: new FormControl('',
       [Validators.required, Validators.pattern(this.emailPattern)]),
     password: new FormControl('',
-      [Validators.required, Validators.maxLength(10), Validators.minLength(2)])
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+    recoverEmail: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)])
   };
+
+  translatorInput = {
+    email: new FormControl('',
+      [Validators.required, Validators.pattern(this.emailPattern)]),
+    password: new FormControl('',
+      [Validators.required, Validators.maxLength(10), Validators.minLength(2)]),
+  };
+
   isRole = {
     auth: false,
     customer: false,
-    translator: false
+    translator: false,
+    admin: false
   };
+
   role = 'customer';
   user = {
     email: '',
     password: '',
-    role: ''
+    role: 'customer'
   };
-
-  userProfile;
+  tariffs = {};
+  userProfile: UserProfileInterface;
   userProfileForm;
   imageUrl;
   photo;
@@ -51,62 +75,109 @@ export class HeaderComponent implements OnInit {
   downloadURL: Observable<string>;
   downPhoto = new Subject();
   error: any;
+  msgCounter: number;
+  coinsTransaltor;
+  nameTRanslator;
 
+  isShowRecoverPanel = false;
+  subscription: Subscription;
 
   constructor(
     private authService: AuthService,
     private userInfoService: UserInfoService,
     private orderService: OrderService,
+    private adminService: AdminService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
-    private router: Router) {
-  }
+    private router: Router,
+    private ntfService: NotificationService) {
 
-  ngOnInit() {
+    this.subscription = this.ntfService.getMessage().subscribe(message => {
+      this.msgCounter = message;
+    });
+
     this.isRole.auth = this.authService.getIsAuth();
     this.authService.getIsAuthStatus().subscribe((isAuth: boolean) => {
       this.isRole.auth = isAuth;
-    });
-    if (this.isRole.auth) {
-      const userId = this.authService.getUserId();
-      const role = this.authService.getRole();
-      if (role === 'translator') {
-        this.isRole.translator = true;
-        this.userInfoService.getTranslatorProfile(userId).subscribe((res: any) => {
-        });
-      } else {
-        this.userInfoService.getCustomerProfile(userId).subscribe((userData: UserProfile) => {
-          console.log(userData)
-          this.isRole.customer = true;
-          this.userProfile = userData;
-          this.imageUrl = userData.photo;
-          this.userProfileForm = {
-            photo:
-              new FormControl(this.imageUrl || ''),
-            name:
-              new FormControl(userData.name || '', Validators.pattern('[A-Za-zА-Яа-яЁё]+(\s+[A-Za-zА-Яа-яЁё]+)?')),
-            email:
-              new FormControl(userData.email, Validators.pattern(this.emailPattern))
-          };
-        });
-      }
+      if (this.isRole.auth) {
+        const userId = this.authService.getUserId();
+        const role = this.authService.getRole();
+        if (role === 'translator') {
+          this.isRole.translator = true;
+          this.userInfoService.getTranslatorProfile(userId)
+            .subscribe((res: any) => {
+              this.nameTRanslator = res.name;
+              this.coinsTransaltor = res.coins;
+            });
+        } else if (role === 'customer') {
+          this.ntfService.getNotifications()
+            .subscribe((res: any) => {
+              this.msgCounter = res.length;
+            });
+          this.userInfoService.getCustomerProfile(userId)
+            .subscribe((userData: UserProfileInterface) => {
 
-    }
+              this.adminService.getTariffs().subscribe((tariffs: TariffsInterface[]) => {
+                  tariffs.forEach(el => {
+                    const name = el.name;
+                    this.tariffs[name] = ((2 - el.coeff) * 100) | 0;
+                  });
+                }
+              );
+              this.isRole.customer = true;
+              this.userProfile = userData;
+              this.imageUrl = userData.photo;
+              this.userProfileForm = {
+                photo:
+                  new FormControl(this.imageUrl || ''),
+                name:
+                  new FormControl(userData.name || '', Validators.pattern(this.namePattern)),
+                email:
+                  new FormControl(userData.email, Validators.pattern(this.emailPattern))
+              };
+            });
+        } else if (role === 'admin') this.isRole.admin = true;
+      }
+    });
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    // нужно отписаться чтобы не выгружать память
+    this.subscription.unsubscribe();
   }
 
   // --------VALIDATION------------------------------
 
-  getErrorMessageEmail() {
-    return this.userInput.email.hasError('required') ? 'You must enter a value' :
-      this.userInput.email.hasError('pattern') ? 'Not a valid email' : '';
+  getErrorMessageEmailCustomer() {
+    return this.customerInput.email.hasError('required') ? 'You must enter a value' :
+      this.customerInput.email.hasError('pattern') ? 'Not a valid email' : '';
   }
 
-  getErrorMessagePassword() {
-    return this.userInput.password.hasError('required') ? 'You must enter a value' :
-      this.userInput.password.hasError('minlength') ? 'The password is too short' :
-        this.userInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  getErrorMessageEmailTranslator() {
+    return this.translatorInput.email.hasError('required') ? 'You must enter a value' :
+      this.translatorInput.email.hasError('pattern') ? 'Not a valid email' : '';
+  }
+
+  getErrorMessagePasswordCustomer() {
+    return this.customerInput.password.hasError('required') ? 'You must enter a value' :
+      this.customerInput.password.hasError('minlength') ? 'The password is too short' :
+        this.customerInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  }
+
+  getErrorMessagePasswordTranslator() {
+    return this.translatorInput.password.hasError('required') ? 'You must enter a value' :
+      this.translatorInput.password.hasError('minlength') ? 'The password is too short' :
+        this.translatorInput.password.hasError('maxlength') ? 'The password is too long' : '';
+  }
+
+  getRecoverEmailMessage() {
+    return this.customerInput.recoverEmail.hasError('required') ? 'You must enter a value' :
+      this.customerInput.recoverEmail.hasError('pattern') ? 'Not a valid email' : '';
   }
 
   // --------------------------------------------------
@@ -137,30 +208,66 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  addMoney(money, coins) {
+    this.progressBar = true;
+    if (money) this.userInfoService.addMoney(money, coins)
+      .subscribe((res: { msg: string; resultMoney: number }) => {
+        console.log(res)
+        this.userProfile.coins = res.resultMoney;
+        this._snackBar.open('You get more coins!', '', {
+          duration: 2000,
+        });
+      });
+    this.progressBar = false;
+  }
+
+  getNewMoney(money, newMoneyInput) {
+    const tariff = this.userProfile.tariff;
+    newMoneyInput.value = money * this.tariffs[tariff];
+  }
+
   login(frame) {
-    if ((this.userInput.email.valid || this.userInput.email.value === 'admin') && this.userInput.password.valid) {
+    this.progressBar = true;
+    if (((this.customerInput.email.valid || this.customerInput.email.value === 'admin')
+      && this.customerInput.password.valid) ||
+      ((this.translatorInput.email.valid || this.translatorInput.email.value === 'admin')
+        && this.translatorInput.password.valid)) {
       this.authService.log(this.user).subscribe(() => {
         console.log('Success');
+        this.customerInput.password.reset();
+        this.customerInput.email.reset();
+        this.translatorInput.password.reset();
+        this.translatorInput.email.reset();
         this.authService.login(this.user);
+        this.ngOnInit();
         frame.hide();
+        this.progressBar = false;
       }, (err) => {
         this.error = err.error.message;
-        console.log(this.error);
+        this.progressBar = false;
       });
-    } else return;
+    } else {
+      this.error = 'Invalid login or password';
+      this.progressBar = false;
+    }
   }
 
   logout() {
     this.authService.logout();
     this.userProfile = null;
+    this.coinsTransaltor = null;
+    this.nameTRanslator = '';
     this.isRole = {
       auth: false,
       customer: false,
-      translator: false
+      translator: false,
+      admin: false
     };
+    this.error = '';
   }
 
   onImagePicked(event: Event) {
+    this.progressBar = true;
     const file = (event.target as HTMLInputElement).files[0];
     this.userProfileForm.photo.patchValue(file);
     this.userProfileForm.photo.updateValueAndValidity();
@@ -169,9 +276,11 @@ export class HeaderComponent implements OnInit {
       this.imageUrl = reader.result;
     };
     reader.readAsDataURL(file);
+    this.progressBar = false;
   }
 
   updateProfile(frame) {
+    this.progressBar = true;
     this.photo = this.userProfileForm.photo.value;
     const email = this.userProfileForm.email.value;
     const name = this.userProfileForm.name.value;
@@ -184,18 +293,22 @@ export class HeaderComponent implements OnInit {
       }).then(res => {
         this.downPhoto.subscribe(() => {
           this.userInfoService.updateUserProfile(this.photo, email, name);
+          this.userProfile.photo = this.photo;
         });
       });
     } else {
       this.userInfoService.updateUserProfile(this.photo, email, name);
+      this.userProfile.name = name;
     }
     frame.hide();
     this._snackBar.open('Your information was successfully updated', '', {
       duration: 2000,
     });
+    this.progressBar = false;
   }
 
   private uploadPhoto(file) {
+    this.progressBar = true;
     const path = `photos/${Date.now()}_${file.name}`;
     const ref = this.storage.ref(path);
     this.task = this.storage.upload(path, file);
@@ -212,6 +325,23 @@ export class HeaderComponent implements OnInit {
         }
       )
     ).subscribe();
+    this.progressBar = false;
+  }
+
+  sendNewOptions(frame) {
+    this.progressBar = true;
+    const recoverEmail = this.customerInput.recoverEmail.value;
+    this.authService.sendPasswordChange(recoverEmail).subscribe((data) => {
+      this._snackBar.open('On your e-mail adress was send a recovery options', '', {
+        duration: 2000,
+      });
+      frame.hide();
+    });
+    this.progressBar = false;
+  }
+
+  tabs(event) {
+    this.user.role = (event.index === 0) ? 'customer' : 'translator';
   }
 
 }

@@ -12,11 +12,26 @@ const Collection = sequelize.define("collection", {
   },
   title: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: false
   },
-  oneTranslator:{
+  oneTranslator: {
     type: Sequelize.BOOLEAN,
-    allowNull: false,
+    allowNull: false
+  },
+  lng: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    allowNull: false
+  },
+  status:{
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  tags: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+  },
+  date: {
+    type: Sequelize.DATE,
+    allowNull: false
   }
 });
 

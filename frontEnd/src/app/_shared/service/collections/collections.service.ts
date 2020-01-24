@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthService} from '../users/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import {AuthService} from '../users/auth.service';
 })
 export class CollectionsService {
 
-  private URL = 'http://localhost:3000';
+  private URL = environment.apiURI;
 
   constructor(
     private http: HttpClient,
@@ -35,11 +36,12 @@ export class CollectionsService {
   }
 
 
-  createCollection(idOrders: number[], tittle: string, oneTranslator: boolean) {
+  createCollection(idOrders: number[], tittle: string, oneTranslator: boolean, lng: string[], tags) {
+    const arrayTags = Array.from(tags);
     const idCustomer = this.authService.getUserId();
     return this.http.post(
       `${this.URL}/secure/collections/create`,
-      {idCustomer, idOrders, tittle, oneTranslator}
+      {idCustomer, idOrders, tittle, oneTranslator, lng, arrayTags}
     );
   }
 

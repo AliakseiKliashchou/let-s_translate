@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <app-header></app-header>
   <div class="title anim"><h2>Customer registration</h2></div>
   <div class="inputs_wrapper anim" *ngIf="userInputForm">
     <form [formGroup]="userInputForm">
@@ -10,7 +9,7 @@
         <div class="md-form mb-5">
           <i class="fas fa-envelope prefix"
              [ngClass]="userInputForm.get('email').valid ? 'green-text' : 'red-text'"></i>
-          <input type="email"
+          <input type="text"
                  id="email_reg"
                  #email
                  formControlName="email"
@@ -28,7 +27,6 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------NAME-------------------------------------->
 
@@ -46,7 +44,6 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------CREDIT CARD-------------------------------------->
 
@@ -55,7 +52,7 @@
              [ngClass]="userInputForm.get('creditCard').valid ? 'green-text' : 'red-text'"></i>
           <input type="text" mask='0000-0000-0000-0000' #creditCard id="cardNumber_reg"
                  formControlName="creditCard" class="form-control validate" mdbInput mdbValidate>
-          <label data-error="wrong" data-success="right" for="cardNumber_reg">Number</label>
+          <label data-error="wrong" data-success="right" for="cardNumber_reg">Credit card</label>
           <mdb-error
             *ngIf="userInputForm.get('creditCard').invalid &&
             (userInputForm.get('creditCard').dirty || userInputForm.get('creditCard').touched)">
@@ -68,11 +65,10 @@
           </mdb-success>
           <div style="clear: both"></div>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------PASSWORD-------------------------------------->
 
-        <div class="md-form mb-5 password">
+        <div class="md-form mb-2 password" style="margin-bottom: 0 !important;">
           <i class="fas fa-lock prefix"
              [ngClass]="userInputForm.get('password').valid && userInputForm.get('passwordSubmitted').valid &&
              (password1_reg.value == password2_reg.value) ? 'green-text' : 'red-text'">
@@ -102,32 +98,39 @@
             Ok!
           </mdb-success>
         </div>
-        <div class="md-form mb-5 password">
+
+        <div class="md-form mb-3 password" style="margin-bottom: 0 !important;">
           <input [type]="hide_2 ? 'password' : 'text'" id="password2_reg" #password2_reg
                  formControlName="passwordSubmitted" class="form-control validate" mdbInput mdbValidate>
           <mat-icon matSuffix (click)="hide_2 = !hide_2">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
           <label data-error="wrong" data-success="right" for="password2_reg">Repeat your password</label>
           <mdb-error
-            *ngIf="userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
+            *ngIf="(password1_reg.value !== password2_reg.value) && userInputForm.get('passwordSubmitted').invalid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             {{getErrorMessage('passwordSubmitted')}}
           </mdb-error>
           <mdb-success
-            *ngIf="userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
+            *ngIf="(password1_reg.value == password2_reg.value) && userInputForm.get('passwordSubmitted').valid && (userInputForm.get('passwordSubmitted').dirty ||
             userInputForm.get('passwordSubmitted').touched)">
             Ok!
           </mdb-success>
         </div>
         <div style="clear: both"></div>
-        <mat-divider></mat-divider>
 
         <!-------------------------------------PHOTO------------------------------------------>
-
+        <label data-error="wrong" data-success="right" class="label-photo" for="photo">Your photo</label>
         <div class="md-form mb-5" id="photo">
           <i class="fas fa-camera prefix" [ngClass]="photoStatus ? 'green-text' : 'red-text'"></i>
-          <input type="file" (change)="uploadPhoto($event)">
+          <input #upload_photo class="upload-photo" type="file" accept='image/*' (change)="uploadPhoto($event)">
+          <button
+            *ngIf="deletePhoto_btn"
+            type="button"
+            mdbBtn color="danger"
+            mdbWavesEffect            
+            (click)="deletePhoto(upload_photo)"
+          >Delete photo
+    </button>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------TARIFF-------------------------------------->
 
@@ -158,13 +161,12 @@
             Ok!
           </mdb-success>
         </div>
-        <mat-divider></mat-divider>
 
         <!-----------------------------------LICENCE-------------------------------------->
 
-        <mat-checkbox id="licence_check" #licenceCheck>Done</mat-checkbox>
-        <p id="licence" (click)="basicModal.show()">Licence agreement</p>
-        <div style="overflow-y: auto" mdbModal #basicModal="mdbModal" class="modal fade bottom" tabindex="-1"
+        <mat-checkbox id="licence_check" #licenceCheck>I have read the license agreement and agree with it</mat-checkbox>
+        <button mdbBtn color="info" id="licence" (click)="basicModal.show()">Licence agreement</button>
+        <div style="overflow-y: auto" mdbModal #basicModal="mdbModal" class="modal fade bottom" tabindex="1"
              role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -203,7 +205,6 @@
             </div>
           </div>
         </div>
-        <mat-divider></mat-divider>
       </div>
     </form>
 
@@ -212,10 +213,9 @@
       type="button"
       mdbBtn color="success"
       mdbWavesEffect
-      [disabled]="userInputForm.invalid"
+      [disabled]="userInputForm.invalid || !licenceCheck.checked"
       (click)="submit()"
     >Register
     </button>
   </div>
-  <app-footer></app-footer>
 </div>

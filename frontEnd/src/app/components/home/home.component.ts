@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CarouselConfig} from 'ngx-bootstrap/carousel';
 import {Router} from '@angular/router';
-import { AdminService } from './../../_shared/service/admin/admin.service';
-import { TariffInterface } from './../../_shared/interface/tariff.interface';
 
-
+import {TariffInterface} from '../../_shared/interface/tariff.interface';
+import {AdminService} from '../../_shared/service/admin/admin.service';
+import {AuthService} from '../../_shared/service/users/auth.service';
 
 
 @Component({
@@ -16,26 +16,26 @@ import { TariffInterface } from './../../_shared/interface/tariff.interface';
   ],
 })
 export class HomeComponent implements OnInit {
+  tariffsArray: TariffInterface[] = [];
+  progressBar = false;
+  auth = false;
 
   constructor(
     private router: Router,
-    private AdminService: AdminService) {
+    private adminService: AdminService,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.AdminService.getAdminData().subscribe( (data: any) => {
-      for(let i = 0; i < data.length; i++){
+    this.progressBar = true;
+    this.auth = this.authService.getIsAuth();
+    this.authService.getIsAuthStatus().subscribe((status: boolean) => this.auth = status);
+    this.adminService.getTariffs().subscribe((data: any) => {
+      for (let i = 0; i < data.length; i++) {
         this.tariffsArray.push(data[i]);
       }
-    });   
-    console.log(this.tariffsArray);
+    });
+    this.progressBar = false;
   }
-
-  tariffsArray: TariffInterface[] = [];
-
-  goToCustomerReg() {
-    this.router.navigate(['customerRegistration']);
-  }
-
 
 }

@@ -15,7 +15,7 @@ const Order = sequelize.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  email: {
+  email:{
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -32,7 +32,7 @@ const Order = sequelize.define('order', {
     allowNull: false
   },
   urgency: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BOOLEAN,
     allowNull: true
   },
   review: {
@@ -64,7 +64,7 @@ const Order = sequelize.define('order', {
   },
   price: {
     type: Sequelize.INTEGER,
-    // allowNull: false
+    allowNull: false
   }
 });
 

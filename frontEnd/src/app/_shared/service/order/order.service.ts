@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthService} from '../users/auth.service';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class OrderService {
     private authService: AuthService) {
   }
 
-  private URL = 'http://localhost:3000';
+  private URL = environment.apiURI;
 
   deleteOrder(orderId: number) {
     return this.http.delete(`${this.URL}/secure/order/${orderId}`);
@@ -49,16 +50,24 @@ export class OrderService {
     return this.http.get(`${this.URL}/secure/orders/translate/` + idTranslator);
   }
 
-  acceptOrder(idOrder: number, idTranslators: number) {
-    this.http.post(`${this.URL}/secure/notification/accept`,
-      {idOrder, idTranslators})
-      .subscribe(res => console.log(res));
+  acceptOrder(idOrder: number, idTranslator: number, isCollection: boolean) {
+    return this.http.post(`${this.URL}/secure/accept`,
+      {idOrder, idTranslator, isCollection});
   }
 
   changeProgress(id, progress) {
     return this.http.put(`${this.URL}/secure/order/`, {id, progress});
   }
-  changePrice(id, price){
+
+  reviewDone(id) {
+    return this.http.put(`${this.URL}/secure/order-review/`, {id});
+  }
+
+  customerReviewDone(id) {
+    return this.http.post(`${this.URL}/secure/review/done/`, {id});
+  }
+
+  changePrice(id, price) {
     return this.http.put(`${this.URL}/secure/price/`, {id, price});
   }
 

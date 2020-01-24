@@ -1,95 +1,113 @@
-<div class="wrapper">
-  <app-header></app-header>
-  <div class="title anim">New texts</div>
-<!---------------------------------------PROPERTIES-------------------------------------------------------------->
-  <div class="order_properties">
-    <h4>Enter the title:</h4>
-    <mat-form-field class="input_title">
-      <input class="input_title_field" matInput #titleVal (change)="getTitle(titleVal.value)" value="">
-    </mat-form-field>
-    <h4>Choose initial language:</h4>
-    <app-languages  #initLng (selectValue)="getInitLng($event)"></app-languages>
-    <h4>Choose finite language:</h4>
-    <app-languages (selectValue)="getFinitLng($event)"></app-languages> 
-    <div class="additional_properties">
-      <h5>Additional options</h5>
-      <mat-checkbox #additional_review class="add_check">Additional review</mat-checkbox> 
-      <h6>The standard transfer duration takes up to a week. If you want to set the required transfer time for an additional fee, select the item below.</h6>
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+<div class="title anim">New texts</div>
+<div class="container">
+  <mat-vertical-stepper>
+    <mat-step>
+      <ng-template matStepLabel>General options</ng-template>
+      <mat-form-field class="title-input">
+        <input
+          placeholder="Enter the title"
+          matInput #titleVal
+          (change)="getTitle(titleVal.value)">
+      </mat-form-field>
+      <mat-form-field class="tags">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip
+            *ngFor="let tag of tags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(tag)"
+            color="accent">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Select some tags"
+            #fruitInput
+            [formControl]="tagCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+            {{tag}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div>
+        <app-languages [placeholder]="initial" (selectValue)="getInitLng($event)"></app-languages>
+        <app-languages [placeholder]="finite" (selectValue)="getFinitLng($event)"></app-languages>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Text/File with text</ng-template>
+
+      <h4>
+        <b>You can drop your file below in txt/pdf/doc/docx formats. Max size 20 Mb</b>
+      </h4>
+
+      <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+           [class.hovering]="isHovering" (click)="filePicker.click()">
+        <input type="file" hidden #filePicker (change)="onFileDrop($event)">
+        <h3>Drag and Drop a File right here</h3>
+      </div>
+
+      <div *ngFor="let file of files">
+        <app-upload-task (downloadURLonDrop)="getURL($event)" [file]="file"></app-upload-task>
+      </div>
+
+      <h4>
+        <b>Or you can enter/paste your text in the field below</b>
+      </h4>
+
+      <div class="md-form text_input">
+          <textarea
+            class="md-textarea form-control"
+            rows="3"
+            #inputTxt
+            id="input_text"
+            type="text"
+            length="120"
+            mdbCharCounter
+            mdbInput>
+          </textarea>
+        <label for="input_text" class="label">Insert text here...</label>
+        <button class="upload_btn" (click)="uploadText(inputTxt.value)" accept=".txt, .pdf, .doc, image/*" mat-button>Upload text</button>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Additional options</ng-template>
+
+      <mat-checkbox
+        #additional_review
+        class="add_check">
+        Additional review
+      </mat-checkbox>
+      <h6>The standard translation duration takes up to a week.
+        If you want to set the required translation time for an
+        additional fee, select the item below.</h6>
       <mat-checkbox #urgency class="add_check">Urgency</mat-checkbox>
       <div *ngIf="urgency.checked" class="urgency">
-        <h5 class="attention">ATTENTION! Urgent transfers are paid at an additional rate.</h5>
-        <mat-form-field class="urgency_select">
-          <mat-label>Select urgency:</mat-label>
-          <mat-select #urgency_val (focus)="getUrgency(urgency_val.value)">
-            <mat-option value="1">1</mat-option>
-            <mat-option value="2">2</mat-option>
-            <mat-option value="3">3</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="alert alert-warning" role="alert">
+          <h5>ATTENTION! Urgent translations are paid at an additional rate.</h5>
+        </div>
       </div>
-      <!---------------TAGS---------------------> 
-      <mat-form-field class="tags">
-          <mat-chip-list #chipList aria-label="Fruit selection" >
-            <mat-chip 
-              *ngFor="let tag of tags"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(tag)"
-              color="accent">
-              {{tag}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input
-              placeholder="Select some several tags"
-              #fruitInput
-              [formControl]="tagCtrl"
-              [matAutocomplete]="auto"
-              [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              [matChipInputAddOnBlur]="addOnBlur"
-              (matChipInputTokenEnd)="add($event)" >
-          </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" >
-            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag" >
-              {{tag}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-    </div>
-  </div>
-  <!----------------------------------UPLOAD------------------------------------------>  
-  <h4>
-    <bold>You can drop your file below in txt/pdf/doc/docx formats. Max size 20 Mb</bold>
-  </h4>
 
-  <div class="dropzone"
-       appDropzone
-       (hovered)="toggleHover($event)"
-       (dropped)="onDrop($event)"
-       [class.hovering]="isHovering"
-       (click)="filePicker.click()">
-    <input
-      type="file"
-      hidden
-      #filePicker
-      (change)="onFileDrop($event)">
-    <h3>Drag and Drop a File right here</h3>
-  </div>
-
-  <div *ngFor="let file of files">
-    <app-upload-task (downloadURLonDrop)="getURL($event)" [file]="file"></app-upload-task>
-  </div>
-
-  <h4>
-    <bold>Or you can put your text in the field below</bold>
-  </h4>
-
-  
-<div class="md-form text_input">
-  <textarea class="md-textarea form-control " rows="3" #inputTxt id="input_text" type="text" length="120" mdbCharCounter mdbInput></textarea>
-  <label for="input_text" class="label">Type your text</label>  
-  <button class="upload_btn" (click)="uploadText(inputTxt.value)" mat-button>Upload text</button>
-</div>
-<button class="order_btn" (click)="makeOrder(additional_review)"  mat-button>Create order</button>
-<app-footer></app-footer>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="makeOrder(additional_review,urgency)">Create order</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>

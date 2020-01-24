@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LngCheckboxesComponent } from './lng-checkboxes.component';
+import { NewPasswordComponent } from './new-password.component';
 
-describe('LngCheckboxesComponent', () => {
-  let component: LngCheckboxesComponent;
-  let fixture: ComponentFixture<LngCheckboxesComponent>;
+describe('NewPasswordComponent', () => {
+  let component: NewPasswordComponent;
+  let fixture: ComponentFixture<NewPasswordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LngCheckboxesComponent ]
+      declarations: [ NewPasswordComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LngCheckboxesComponent);
+    fixture = TestBed.createComponent(NewPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

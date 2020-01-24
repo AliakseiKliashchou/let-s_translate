@@ -22,6 +22,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
+  initial = 'initial';
+  finite = 'finite';
   isShowCollections = false;
   progressBar = false;
   collectionsArray: CollectionsInterface[] = [];
@@ -38,17 +40,13 @@ export class CollectionsComponent implements OnInit {
   allTags: string[] = ['Architecture', 'Music', 'Art', 'Technical', 'Food', 'Travels', 'Fashion', 'Science'];
 
   findingParams = {
-    originalLanguage: '%%',
-    translateLanguage: '%%',
+    originalLanguage: '',
+    translateLanguage: '',
     tags: this.tags,
     review: false
   };
-
-  newCollectionArray = {
-    title: '',
-    id: [],
-    isOneTranslator: false
-  };
+  ordersToCollectionTags = {};
+  ordersToCollection = {};
   indexArray = [];
 
 
@@ -69,7 +67,6 @@ export class CollectionsComponent implements OnInit {
       this.progressBar = false;
     });
   }
-
 
   // ************************************TAGS************************* */
 
@@ -119,10 +116,11 @@ export class CollectionsComponent implements OnInit {
   findOrders(review) {
     this.progressBar = true;
     this.findingParams.review = !!review.checked;
-    this.collectionsService.getFindingCollections(this.findingParams).subscribe((data: FilteredCollectionsInterface[]) => {
-      this.filteredCollections = data;
-      this.progressBar = false;
-    });
+    this.collectionsService.getFindingCollections(this.findingParams)
+      .subscribe((data: FilteredCollectionsInterface[]) => {
+        this.filteredCollections = data;
+        this.progressBar = false;
+      });
   }
 
   // *****************************DELETE EXISTING COLLECTION****************************************** */
@@ -138,44 +136,57 @@ export class CollectionsComponent implements OnInit {
   }
 
 // **************************CHOOSE ITEMS AND CREATE NEW COLLECTION**************************************** */
-  click_check(check, idOrder, i){
-    if(check.checked){
-      this.newCollectionArray.id[i] = idOrder; 
-      this.indexArray.push(i); 
+  click_check(check, idOrder, i, tags) {
+    if (check.checked) {
+      this.ordersToCollection[i] = idOrder;
+      this.ordersToCollectionTags[i] = tags;
+      this.indexArray.push(i);
     }
     if (!check.checked) {
-      delete this.newCollectionArray.id[i];
-      let ind = this.indexArray.indexOf(i);
+      delete this.ordersToCollection[i];
+      delete this.ordersToCollectionTags[i];
+      const ind = this.indexArray.indexOf(i);
       this.indexArray.splice(ind, 1);
-    } 
+    }
   }
-  createNewCollection(title, isOneTranslator){ 
-    this.progressBar = true; 
-    this.indexArray.sort().reverse();  
-    for(let k = 0; k < this.indexArray.length; k ++){  
-        this.filteredCollections.splice(this.indexArray[k] , 1);
+
+  createNewCollection(title, isOneTranslatorChecked) {
+    const titleName = title.value;
+    let tagsArray = [];
+    const ordersIdArray = [];
+    const isOneTranslator = (isOneTranslatorChecked.checked);
+    this.progressBar = true;
+    for (const key in this.ordersToCollectionTags) {
+      tagsArray.push(this.ordersToCollectionTags[key]);
     }
-    this.indexArray = [];
-    if(isOneTranslator.checked){
-     this.newCollectionArray.isOneTranslator = true;
-    }else  this.newCollectionArray.isOneTranslator = false;
-    this.newCollectionArray.title = title;    
-    for (let j = 0; j < this.newCollectionArray.id.length; j++) {
-      if (this.newCollectionArray.id[j] == undefined) {
-        this.newCollectionArray.id.splice(j, 1);
-      }
+    for (const key in this.ordersToCollection) {
+      ordersIdArray.push(this.ordersToCollection[key]);
     }
-    this.collectionsService.createCollection(this.newCollectionArray.id, this.newCollectionArray.title, this.newCollectionArray.isOneTranslator)
+    tagsArray = tagsArray[0].concat(...tagsArray);
+    const uniqTags = new Set(tagsArray);
+    const lng = [this.findingParams.originalLanguage, this.findingParams.translateLanguage];
+
+    this.collectionsService.createCollection(ordersIdArray, titleName, isOneTranslator, lng, uniqTags)
       .subscribe((data) => {
         this.ngOnInit();
         this._snackBar.open('Collection was successfully created', '', {
           duration: 2000,
         });
-      this.newCollectionArray.id = []; 
+        title.value = '';
+        const tempOrdersOfCollections = Object.assign({}, this.filteredCollections);
+        const newArrayForCollections = [];
+        this.indexArray.forEach(el => {
+          delete tempOrdersOfCollections[el];
+        });
+        for (let key in tempOrdersOfCollections) {
+          newArrayForCollections.push(tempOrdersOfCollections[key]);
+        }
+        this.filteredCollections = newArrayForCollections;
+        this.ordersToCollection = {};
+        this.ordersToCollectionTags = {};
       });
     this.progressBar = false;
   }
-
 
 
 }

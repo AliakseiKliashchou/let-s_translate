@@ -4,20 +4,19 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatIconModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { ModalModule, TooltipModule, PopoverModule, ButtonsModule } from 'angular-bootstrap-md';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsModule } from 'angular-bootstrap-md';
 import { MatTabsModule } from '@angular/material/tabs';
-import { InputsModule, InputUtilitiesModule, WavesModule } from 'angular-bootstrap-md';
+import { InputsModule, InputUtilitiesModule, WavesModule, CarouselModule } from 'angular-bootstrap-md';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AngularFireModule } from 'angularfire2';
-import * as firebase from 'firebase/app';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -29,6 +28,7 @@ import { TableModule } from 'angular-bootstrap-md';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
+
 import {
   HeaderComponent,
   HomeComponent,
@@ -44,7 +44,8 @@ import {
   TextDetailsComponent,
   CollectionsComponent,
   LngCheckboxesComponent,
-  AdminPanelComponent
+  AdminPanelComponent,
+  NewPasswordComponent
 } from './components';
 import { DropzoneDirective } from './_shared/directive/dropzone.directive';
 import { AuthService } from './_shared/service/users/auth.service';
@@ -58,6 +59,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { MatTableModule } from '@angular/material';
+
+import { FragmentPolyfillModule } from './_shared/fragment-polyfill';
+
+import { MatStepperModule } from '@angular/material/stepper';
+
+
 
 @NgModule({
   declarations: [
@@ -78,19 +86,26 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     CollectionsComponent,
     LngCheckboxesComponent,
     AdminPanelComponent,
-
+    NewPasswordComponent
   ],
   imports: [
+    FragmentPolyfillModule.forRoot({
+      smooth: true
+    }),
     BrowserModule,
     AppRoutingModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatPaginatorModule,
+    MatSortModule,
     MatGridListModule,
+    MatStepperModule,
     MatDividerModule,
     ModalModule,
     TooltipModule,
+    MatTableModule,
     PopoverModule,
     ButtonsModule,
     FormsModule,
@@ -120,8 +135,9 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MatProgressBarModule,
     MatExpansionModule,
     MatSliderModule,
+    CarouselModule,
     NgCircleProgressModule.forRoot({
-      backgroundPadding: 7,
+      backgroundPadding: 7, 
       space: -2,
       outerStrokeWidth: 2,
       outerStrokeColor: '#808080',
@@ -135,6 +151,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
       showUnits: false
     })
   ],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

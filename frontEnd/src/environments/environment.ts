@@ -12,7 +12,9 @@ export const environment = {
     storageBucket: "letstranslate-ca941.appspot.com",
     messagingSenderId: "1028863616644",
     appId: "1:1028863616644:web:68ef98a8b1d25b3d"
-  }
+  },
+  apiURI: 'https://lets-translate-api.herokuapp.com'
+  // apiURI: 'http://localhost:3000'
 };
 
 /*

@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
+import { environment } from 'src/environments/environment';
+import * as jwt_decode from "jwt-decode";
 
 interface UserDataBack {
   isFind: boolean;
@@ -27,7 +29,7 @@ export class AuthService {
               private router: Router) {
   }
 
-  private URL = 'http://localhost:3000';
+  private URL = environment.apiURI;
 
   customerRegistration(user): Observable<any> {
     return this.http.post(`${this.URL}/create/customer`, user);
@@ -37,28 +39,22 @@ export class AuthService {
     return this.http.post(`${this.URL}/create/translator`, user);
   }
 
-  log(user){
-    return this.http.post(`${this.URL}/login`, user)
+  log(user) {
+    return this.http.post(`${this.URL}/login`, user);
   }
 
   login(user) {
     this.http.post(`${this.URL}/login`, user).subscribe((data: UserDataBack) => {
-      if (data.isFind) {
-        const backendFakeResult = {
-          name: data.name,
-          email: data.email,
-          isFind: data.isFind,
-          id: data.id,
-          token: data.token,
-          role: data.role
-        };
+      if (data) {
+        let token = data.token;
+        const backendFakeResult = { token: data.token, name: data.name };
+        let decode = jwt_decode(token);
         this.token = data.token;
-        this.role = data.role;
-        this.id = data.id;
+        this.role = decode.role;
+        this.id = decode.id;
         localStorage.setItem('currentUser', JSON.stringify(backendFakeResult));
         this.isAuth = true;
         this.isAuthStatus.next(true);
-        console.log(data)
         this.router.navigate(['/dashboard']);
       }
     });
@@ -71,8 +67,9 @@ export class AuthService {
     }
     const parsedInfo = JSON.parse(authInformation.data);
     this.token = parsedInfo.token;
-    this.id = parsedInfo.id;
-    this.role = parsedInfo.role;
+    let decode = jwt_decode(this.token);
+    this.id = decode.id;
+    this.role = decode.role;
     this.isAuth = true;
     this.isAuthStatus.next(true);
   }
@@ -112,5 +109,9 @@ export class AuthService {
       return;
     }
     return {data};
+  }
+
+  sendPasswordChange(email) {
+    return this.http.post(`${this.URL}/forgot-password`, {email});
   }
 }

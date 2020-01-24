@@ -10,11 +10,13 @@ import {
   RegNewTranslatorComponent,
   TextDetailsComponent,
   CollectionsComponent,
-  AdminPanelComponent
+  AdminPanelComponent,
+  NewPasswordComponent
 } from './components';
 import {AuthGuard} from './_shared/Guard/auth.guard';
 import {CustomerRoleGuard} from './_shared/Guard/customer-role.guard';
-import {TranslatorRoleGuard} from "./_shared/Guard/translator-role.guard";
+import {TranslatorRoleGuard} from './_shared/Guard/translator-role.guard';
+import {AdminRoleGuard} from './_shared/Guard/admin-role.guard';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, data: {state: ''}},
@@ -25,6 +27,12 @@ const appRoutes: Routes = [
     data: {state: 'dashboard'}
   },
   {
+    path: 'reset-password/:email',
+    component: NewPasswordComponent,
+    // canActivate: [AuthGuard],
+    data: {state: 'reset-password'}
+  },
+  {
     path: 'new_texts',
     component: NewTextsComponent,
     canActivate: [CustomerRoleGuard],
@@ -33,7 +41,7 @@ const appRoutes: Routes = [
   {
     path: 'admin_panel',
     component: AdminPanelComponent,
-    //canActivate: [CustomerRoleGuard],
+    canActivate: [AdminRoleGuard],
     data: {state: 'admin_panel'}
   },
   {
@@ -56,6 +64,7 @@ const appRoutes: Routes = [
   {
     path: 'new_translator_reg',
     component: RegNewTranslatorComponent,
+    canActivate: [AdminRoleGuard],
     data: {state: 'new_translator_reg'}
   },
   {
@@ -74,7 +83,13 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes, {
+    useHash: false,
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    scrollOffset: [0, 64],
+    enableTracing: false
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

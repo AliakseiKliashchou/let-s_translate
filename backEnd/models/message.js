@@ -33,7 +33,12 @@ const Message = sequelize.define("message", {
   date: {
     type: Sequelize.DATE,
     allowNull: false
+  },
+  isFile: {
+    type: Sequelize.BOOLEAN,
   }
 });
+
+// Message.sync({force:true});
 
 module.exports = Message;

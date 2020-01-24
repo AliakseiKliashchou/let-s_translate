@@ -20,22 +20,6 @@ nav {
   align-items: center;
 }
 
-.logo {
-  width: 20em;
-  height: 3.2em;
-  background-image: url('../../../assets/logo.png');
-  background-size: 100% 100%;
-  margin: 10px 10px;
-  display: block;
-}
-
-.logo:hover {
-  cursor: pointer;
-  border: 2px solid rgb(196, 194, 194);
-  border-radius: 5px;
-  box-shadow: 10px 5px 5px red;
-}
-
 .right-block button {
   background-color: rgba(255, 255, 255, 0.65);
   margin-right: 15px;
@@ -67,15 +51,18 @@ nav {
   height: 50px;
   font-size: 20px;
 }
-.user-data{
+
+.user-data {
   display: flex;
   align-items: center;
   color: white;
 }
+
 .user-data p {
   font-size: 1.2em;
   margin: 0 0.5rem;
 }
+
 .name {
   background-color: #c7331d;
   color: white;
@@ -96,15 +83,17 @@ nav {
   cursor: pointer;
 }
 
-.btn-group{
+.btn-group {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.badge{
+
+.badge {
   display: flex;
   align-items: center;
 }
+
 .sub-menu {
   font-weight: 300;
   list-style-type: none;
@@ -174,14 +163,22 @@ nav {
   width: 60%;
 }
 
+.info {
+  margin: 10px;
+}
+
+.info p {
+  font-size: 1.2rem;
+}
+
+.info .money {
+  width: 6rem;
+  padding-left: 5px;
+}
 
 @media (max-width: 1650px) {
   .wrapper, .wrapper button {
     font-size: 15px;
-  }
-
-  .logo {
-    margin: 1.2em 0.4em;
   }
 }
 
@@ -189,5 +186,21 @@ nav {
   .wrapper, .wrapper button {
     font-size: 14px;
   }
+}
 
+.nav-item{
+  margin: 3px;
+}
+
+#forgotPassword{
+  text-align: center;
+  color: white;
+}
+
+#logo{
+  width: 220px;
+  height: 30px;
+}
+#logo:hover{
+  cursor: pointer;
 }
